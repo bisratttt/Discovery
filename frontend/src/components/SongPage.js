@@ -1,0 +1,179 @@
+import { Container, Col, Row, Image } from "react-bootstrap";
+import Chat from "./Chat";
+import albumArt from "album-art";
+import { useEffect, useState } from "react";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import BootstrapSwitchButton from "bootstrap-switch-button-react";
+import SharePlay from "./SongButtons";
+import FloatingComment from "./FloatingComment";
+
+const song = {
+  artist: "Steve Lacy",
+  album: "Gemini Rights",
+  title: "Static",
+};
+
+function SongPage() {
+  const [albumImg, setAlbumImg] = useState("");
+  const [openChat, setOpenChat] = useState(false);
+  const [openFloatingComments, setOpenFloatingComments] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width:850px)");
+  const isPhoneScreen = useMediaQuery("(max-width:630px");
+  const isBigScreen = useMediaQuery("(min-width:850px");
+  const isLargeScreen = useMediaQuery("min-width:1200px");
+
+  // change the height to full screen if the elements aren't fullscreen
+  useEffect(() => {
+    albumArt(song.artist, {
+      album: song.album,
+      size: "large",
+    }).then((album) => setAlbumImg(album));
+  }, []);
+  // sets the image size of the album art for specific screen/width
+  return (
+    <Container
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        margin: 0,
+        backgroundColor: "transparent",
+        minHeight: "100vh",
+      }}
+      fluid
+      className={`d-flex flex-column justify-content-start`}
+    >
+      {/* background image and blur effect for background */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          zIndex: -1,
+          filter: "blur(15px)",
+          backgroundImage: `url(${albumImg})`,
+          backgroundSize: "cover",
+          transform: "scale(1.1)",
+        }}
+      />
+      {/* darker background */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          zIndex: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.4)",
+        }}
+      />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        {/* <Row className="justify-content-end m-3">
+          <Col className="d-flex justify-content-end">
+            <BootstrapSwitchButton
+              checked={false}
+              onlabel="Chat"
+              offlabel="Chat"
+              onChange={() => setOpenChat(!openChat)}
+              width={100}
+              onstyle="success"
+              offstyle="dark"
+              style={{ borderRadius: "2" }}
+            />
+          </Col>
+        </Row> */}
+        {/* this is after we open the chat, we need another display for the song alone */}
+        <Row>
+          <Col xs={12} sm={openChat ? 6 : 12} className="shrink-grow">
+            <Row
+              className={`justify-content-${
+                openFloatingComments ? "end" : "center"
+              }`}
+            >
+              {/* {!isPhoneScreen && !openChat && <Col></Col>} */}
+
+              <Col xs={12} sm={isBigScreen && !openChat ? 6 : 12}>
+                <Image
+                  fluid
+                  src={albumImg}
+                  className={`mt-2 mb-2 h-auto image-container`}
+                />
+                <Row>
+                  <p
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "1.5em",
+                      marginBottom: 0,
+                    }}
+                    className="text-white"
+                  >
+                    {song.title}
+                  </p>
+                </Row>
+
+                <Row>
+                  <p
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: "1.5em",
+                      color: "#ccc",
+                      marginBottom: 0,
+                    }}
+                  >
+                    {song.artist}
+                  </p>
+                </Row>
+
+                <Row className="mb-3">
+                  <SharePlay setFloatingComments={setOpenFloatingComments} />
+                </Row>
+              </Col>
+              {openFloatingComments && (
+                <Col
+                  xs={12}
+                  sm={isBigScreen ? 3 : 12}
+                  className="d-flex align-items-end"
+                >
+                  <FloatingComment />
+                </Col>
+              )}
+
+              {/* {!openChat && (
+                <Col>
+                  <Button
+                    size={isSmallScreen ? "sm" : "lg"}
+                    variant="dark"
+                    className="rounded-4 pe-5 ps-5 mt-3 mb-3 opacity-75"
+                    onClick={() => {
+                      setOpenChat(true);
+                    }}
+                  >
+                    Chat
+                  </Button>
+                </Col>
+              )} */}
+            </Row>
+          </Col>
+          {openChat && (
+            <Col
+              xs={12}
+              sm={6}
+              className={`chat-col ${openChat ? "active" : ""}`}
+            >
+              <Chat setOpenChat={setOpenChat} />
+            </Col>
+          )}
+        </Row>
+      </div>
+    </Container>
+  );
+}
+
+export default SongPage;

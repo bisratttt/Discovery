@@ -1,0 +1,9 @@
+{
+  "app_id": "discovery-kdqhu",
+  "config_version": 20210101,
+  "name": "Discovery",
+  "location": "US-VA",
+  "provider_region": "aws-us-east-1",
+  "deployment_model": "LOCAL",
+  "environment": "development"
+}
