@@ -82,7 +82,13 @@ function LandingDetails() {
                   </Form.Control.Feedback>
                 </InputGroup>
               </Col>
-              <Col xs={12} sm={3} className="d-flex justify-content-start mb-2">
+              <Col
+                xs={12}
+                sm={3}
+                className={`d-flex justify-content-${
+                  isSmallScreen ? "center" : "start"
+                } mb-2`}
+              >
                 <Button size={componentSize} variant="dark" type="submit">
                   <FontAwesomeIcon icon={faVolumeHigh} /> Tune In
                 </Button>

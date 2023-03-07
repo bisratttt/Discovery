@@ -6,12 +6,12 @@ import NavBar from "./components/NavBar";
 import appConfig from "./realm.json";
 import { RealmAppProvider, useRealmApp } from "./components/RealmApp";
 
-const { appId } = appConfig;
+const { app_id } = appConfig;
 
 function App() {
   return (
     <div className="App">
-      <RealmAppProvider appId={appId}>
+      <RealmAppProvider appId={app_id}>
         <NavBar />
         <Landing />
         <SongPage />
