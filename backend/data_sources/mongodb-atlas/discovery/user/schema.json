@@ -1,6 +1,21 @@
 {
     "bsonType": "object",
     "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
         "name": {
             "bsonType": "string"
         },

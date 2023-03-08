@@ -1,6 +1,21 @@
 {
     "bsonType": "object",
     "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
         "album_name": {
             "bsonType": "string"
         },
@@ -19,6 +34,8 @@
     },
     "required": [
         "song_name",
-        "artist"
-    ]
+        "artist",
+        "_id"
+    ],
+    "title": "song"
 }
