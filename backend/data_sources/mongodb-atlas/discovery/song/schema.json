@@ -50,7 +50,8 @@
     "required": [
         "song_name",
         "artist",
-        "_id"
+        "_id",
+        "is_visible"
     ],
     "title": "song"
 }
