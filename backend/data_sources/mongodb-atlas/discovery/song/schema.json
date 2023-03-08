@@ -25,6 +25,21 @@
         "artist": {
             "bsonType": "string"
         },
+        "is_visible": {
+            "bsonType": "bool",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
         "song_name": {
             "bsonType": "string"
         },
