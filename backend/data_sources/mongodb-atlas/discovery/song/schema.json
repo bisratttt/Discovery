@@ -1,0 +1,24 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "album_name": {
+            "bsonType": "string"
+        },
+        "apple_music_link": {
+            "bsonType": "string"
+        },
+        "artist": {
+            "bsonType": "string"
+        },
+        "song_name": {
+            "bsonType": "string"
+        },
+        "spotify_link": {
+            "bsonType": "string"
+        }
+    },
+    "required": [
+        "song_name",
+        "artist"
+    ]
+}
