@@ -24,10 +24,16 @@ exports = async function() {
 
   // Update these to reflect your db/collection
   var dbName = "discovery";
-  var collName = "user";
-  const collection = context.services.get(serviceName).db(dbName).collection(collName);
+  var songCollName = "song";
+  var commentCollName = "comment";
+  const db = context.services.get(serviceName).db(dbName);
+  const songCollection = db.collection(songCollName);
+  const commentCollection = db.collection(commentCollName);
   try {
-    await collection.updateMany({"is_visible": false}, {"is_visible": true});
+    // make previous day album invisible
+    await songCollection.updateMany({"is_visible": false}, {"is_visible": true});
+    // deletes all the comments in the db (for a specific song)
+    await commentCollection.deleteMany({});
   } catch(err) {
     return {newSong: false, error: err.message}
   }
