@@ -1,0 +1,39 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "body": {
+            "bsonType": "string"
+        },
+        "song": {
+            "bsonType": "objectId"
+        },
+        "time": {
+            "bsonType": "timestamp"
+        },
+        "user": {
+            "bsonType": "objectId"
+        }
+    },
+    "required": [
+        "user",
+        "body",
+        "_id",
+        "time"
+    ],
+    "title": "comment"
+}
