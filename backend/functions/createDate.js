@@ -40,8 +40,6 @@ exports = function(changeEvent) {
   */
   
   const doc = changeEvent.fullDocument;
-  if (!doc.time) {
-    doc.time = new Date();
-  }
+  doc.time = new Date();
   return doc;
 };
