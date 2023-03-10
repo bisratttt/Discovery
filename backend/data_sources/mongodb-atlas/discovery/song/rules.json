@@ -1,6 +1,15 @@
 {
     "collection": "song",
     "database": "discovery",
+    "filters": [
+        {
+            "name": "queryVisibleDoc",
+            "query": {
+                "is_visible": true
+            },
+            "apply_when": {}
+        }
+    ],
     "roles": [
         {
             "name": "readAll",
