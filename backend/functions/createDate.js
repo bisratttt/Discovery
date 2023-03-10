@@ -40,7 +40,8 @@ exports = function(changeEvent) {
   */
   
   const doc = changeEvent.fullDocument;
-  doc.time = new Date();
-  console.log(doc.time)
+  if (!doc.time) {
+    doc.time = new Date();
+  }
   return doc;
 };
