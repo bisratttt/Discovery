@@ -43,7 +43,9 @@ exports = function(changeEvent) {
   collection.updateOne({ _id: docId }, { $set: 
                                                     {time: new Date(), 
                                                     user: changeEvent.fullDocument.user, 
-                                                    body: changeEvent.fullDocument.body}});
+                                                    body: changeEvent.fullDocument.body,
+                                                    song: changeEvent.fullDocument.song,
+                                                    }});
   // const doc = await collection.findOne({_id: docId});
   // return doc;
 };
