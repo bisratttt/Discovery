@@ -32,8 +32,7 @@
     "required": [
         "user",
         "body",
-        "_id",
-        "time"
+        "_id"
     ],
     "title": "comment"
 }
