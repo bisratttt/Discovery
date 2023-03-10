@@ -16,5 +16,9 @@
         "name": "createComment",
         "private": false,
         "disable_arg_logs": true
+    },
+    {
+        "name": "createDate",
+        "private": true
     }
 ]
