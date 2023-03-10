@@ -4,22 +4,20 @@
     "type": "DATABASE",
     "config": {
         "operation_types": [
-            "INSERT",
-            "UPDATE",
-            "REPLACE"
+            "INSERT"
         ],
         "database": "discovery",
         "collection": "comment",
         "service_name": "mongodb-atlas",
         "match": {},
         "project": {},
-        "full_document": true,
+        "full_document": false,
         "full_document_before_change": false,
         "unordered": false,
         "skip_catchup_events": false,
         "tolerate_resume_errors": false
     },
-    "disabled": true,
+    "disabled": false,
     "event_processors": {
         "FUNCTION": {
             "config": {

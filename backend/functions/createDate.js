@@ -1,4 +1,4 @@
-exports = function(changeEvent) {
+exports = async function(changeEvent) {
   /*
     A Database Trigger will always call a function with a changeEvent.
     Documentation on ChangeEvents: https://www.mongodb.com/docs/manual/reference/change-events
@@ -38,14 +38,16 @@ exports = function(changeEvent) {
 
     Learn more about http client here: https://www.mongodb.com/docs/atlas/app-services/functions/context/#context-http
   */
-  const docId = changeEvent.fullDocument._id;
+  const docId = changeEvent.documentKey._id;
   const collection = context.services.get("mongodb-atlas").db("discovery").collection("comment");
-  collection.updateOne({ _id: docId }, { $set: 
-                                                    {time: new Date(), 
-                                                    user: changeEvent.fullDocument.user, 
-                                                    body: changeEvent.fullDocument.body,
-                                                    song: changeEvent.fullDocument.song,
-                                                    }});
+  try {
+      await collection.updateOne({ _id: docId }, { $currentDate: {time: {$type: "timestamp"}}});
+      console.log("successfully added/updated the current time")
+  } catch(err) {
+    console.error("There was an error adding/updating the time", err)
+    
+  }
+
   // const doc = await collection.findOne({_id: docId});
   // return doc;
 };
