@@ -1,4 +1,4 @@
-exports = async function(changeEvent) {
+exports = function(changeEvent) {
   /*
     A Database Trigger will always call a function with a changeEvent.
     Documentation on ChangeEvents: https://www.mongodb.com/docs/manual/reference/change-events
@@ -40,7 +40,10 @@ exports = async function(changeEvent) {
   */
   const docId = changeEvent.fullDocument._id;
   const collection = context.services.get("mongodb-atlas").db("discovery").collection("comment");
-  await collection.updateOne({ _id: docId }, {time: new Date()});
-  const doc = await collection.findOne({_id: docId});
-  return doc;
+  collection.updateOne({ _id: docId }, { $set: 
+                                                    {time: new Date(), 
+                                                    user: changeEvent.fullDocument.user, 
+                                                    body: changeEvent.fullDocument.body}});
+  // const doc = await collection.findOne({_id: docId});
+  // return doc;
 };
