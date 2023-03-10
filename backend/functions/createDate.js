@@ -41,7 +41,7 @@ exports = async function(changeEvent) {
   const docId = changeEvent.documentKey._id;
   const collection = context.services.get("mongodb-atlas").db("discovery").collection("comment");
   try {
-      await collection.updateOne({ _id: docId }, { $currentDate: {time: {$type: "timestamp"}}});
+      await collection.updateOne({ _id: docId }, { $currentDate: {time: new Date()}});
       console.log("successfully added/updated the current time")
   } catch(err) {
     console.error("There was an error adding/updating the time", err)
