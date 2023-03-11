@@ -4,20 +4,6 @@
         "private": true
     },
     {
-        "name": "checkAndAddUsername",
-        "private": false
-    },
-    {
-        "name": "checkAndRemoveUsername",
-        "private": false,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "createComment",
-        "private": false,
-        "disable_arg_logs": true
-    },
-    {
         "name": "createDate",
         "private": true
     }
