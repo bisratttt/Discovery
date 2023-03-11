@@ -23,6 +23,7 @@
             "bsonType": "string",
             "exclusiveMinimum": false,
             "minimum": 5,
+            "unique": true,
             "validate": {
                 "%or": [
                     {
