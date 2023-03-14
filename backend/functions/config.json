@@ -4,7 +4,11 @@
         "private": true
     },
     {
-        "name": "createDate",
+        "name": "createDateTrigger",
+        "private": true
+    },
+    {
+        "name": "resetPassFunc",
         "private": true
     }
 ]
