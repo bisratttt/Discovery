@@ -18,7 +18,7 @@ export function handleAuthenticationError(err, setError) {
       case "invalid username":
         setError((prevError) => ({
           ...prevError,
-          email: "Invalid email address.",
+          username: "Invalid username.",
         }));
         break;
       case "invalid username/password":
@@ -33,7 +33,7 @@ export function handleAuthenticationError(err, setError) {
       case 409:
         setError((prevError) => ({
           ...prevError,
-          email: "Email is already registered.",
+          username: "username is already registered.",
         }));
         break;
       case "password must be between 6 and 128 characters":

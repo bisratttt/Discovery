@@ -1,10 +1,11 @@
 import { Container, Image, Nav, Navbar } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { useRealmApp } from "../contexts/RealmApp";
 
 function NavBar() {
   const [scrollY, setScrollY] = useState(0);
   const [showComponent, setShowComponent] = useState(true);
-
+  const { currentUser, logOut } = useRealmApp();
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
@@ -56,6 +57,19 @@ function NavBar() {
                 >
                   What is this?
                 </Nav.Link>
+                {currentUser && (
+                  <Nav.Link
+                    style={{
+                      color: "rgb(111, 27, 6)",
+                      fontWeight: "bold",
+                      fontSize: "1.5em",
+                    }}
+                    href="#"
+                    onClick={async () => await logOut()}
+                  >
+                    Log Out
+                  </Nav.Link>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Container>

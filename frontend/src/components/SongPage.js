@@ -1,4 +1,4 @@
-import { Container, Col, Row, Image } from "react-bootstrap";
+import { Container, Col, Row, Image, Spinner } from "react-bootstrap";
 import Chat from "./Chat";
 import albumArt from "album-art";
 import { useEffect, useState } from "react";
@@ -6,30 +6,11 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import SharePlay from "./SongButtons";
 import FloatingComment from "./FloatingComment";
+import { useQuery } from "@apollo/client";
+import { QUERY_SONG } from "../queries/SongQuery";
 
-const song = {
-  artist: "Steve Lacy",
-  album: "Gemini Rights",
-  title: "Static",
-};
-
-function SongPage() {
-  const [albumImg, setAlbumImg] = useState("");
-  const [openChat, setOpenChat] = useState(false);
-  const [openFloatingComments, setOpenFloatingComments] = useState(false);
-  const isSmallScreen = useMediaQuery("(max-width:850px)");
-  const isPhoneScreen = useMediaQuery("(max-width:630px");
-  const isBigScreen = useMediaQuery("(min-width:850px");
-  const isLargeScreen = useMediaQuery("min-width:1200px");
-
-  // change the height to full screen if the elements aren't fullscreen
-  useEffect(() => {
-    albumArt(song.artist, {
-      album: song.album,
-      size: "large",
-    }).then((album) => setAlbumImg(album));
-  }, []);
-  // sets the image size of the album art for specific screen/width
+export default function SongPageFetch() {
+  const { loading, error, data } = useQuery(QUERY_SONG);
   return (
     <Container
       style={{
@@ -42,6 +23,38 @@ function SongPage() {
       fluid
       className={`d-flex flex-column justify-content-start`}
     >
+      {loading ? (
+        <Row
+          style={{ minHeight: "100vh" }}
+          className="justify-content-center align-items-center"
+        >
+          <Spinner animation="border" variant="dark" />
+        </Row>
+      ) : (
+        <SongPage data={data} />
+      )}
+    </Container>
+  );
+}
+
+function SongPage({ data }) {
+  const [albumImg, setAlbumImg] = useState("");
+  const [openChat, setOpenChat] = useState(false);
+  const [openFloatingComments, setOpenFloatingComments] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width:850px)");
+  const isPhoneScreen = useMediaQuery("(max-width:630px");
+  const isBigScreen = useMediaQuery("(min-width:850px");
+  const isLargeScreen = useMediaQuery("min-width:1200px");
+  // change the height to full screen if the elements aren't fullscreen
+  useEffect(() => {
+    albumArt(data.song.artist ?? "", {
+      album: data.song.album_name ?? "",
+      size: "large",
+    }).then((album) => setAlbumImg(album));
+  }, []);
+  // sets the image size of the album art for specific screen/width
+  return (
+    <>
       {/* background image and blur effect for background */}
       <div
         style={{
@@ -114,7 +127,7 @@ function SongPage() {
                     }}
                     className="text-white"
                   >
-                    {song.title}
+                    {data.song.song_name ?? ""}
                   </p>
                 </Row>
 
@@ -127,7 +140,7 @@ function SongPage() {
                       marginBottom: 0,
                     }}
                   >
-                    {song.artist}
+                    {data.song.artist ?? ""}
                   </p>
                 </Row>
 
@@ -172,8 +185,6 @@ function SongPage() {
           )}
         </Row>
       </div>
-    </Container>
+    </>
   );
 }
-
-export default SongPage;

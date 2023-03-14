@@ -1,23 +1,27 @@
 import "./App.css";
-import Landing from "./components/Landing";
-import SongPage from "./components/SongPage";
+import LogIn from "./components/LogIn";
 import "bootstrap/dist/css/bootstrap.css";
 import NavBar from "./components/NavBar";
 import appConfig from "./realm.json";
-import { RealmAppProvider, useRealmApp } from "./components/RealmApp";
+import { RealmAppProvider, useRealmApp } from "./contexts/RealmApp";
+import Details from "./components/Details";
 
 const { app_id } = appConfig;
 
+export default function AppWithRealm() {
+  return (
+    <RealmAppProvider appId={app_id}>
+      <App />
+    </RealmAppProvider>
+  );
+}
 function App() {
+  const { currentUser } = useRealmApp();
   return (
     <div className="App">
-      <RealmAppProvider appId={app_id}>
-        <NavBar />
-        <Landing />
-        <SongPage />
-      </RealmAppProvider>
+      <NavBar />
+      <LogIn />
+      {currentUser && <Details />}
     </div>
   );
 }
-
-export default App;
