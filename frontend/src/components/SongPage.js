@@ -24,8 +24,7 @@ export default function SongPageFetch() {
       fluid
       className={`d-flex flex-column justify-content-start`}
     >
-      <SongIntroLargeScreen />
-      {/* {loading ? (
+      {loading ? (
         <Row
           style={{ minHeight: "100vh" }}
           className="justify-content-center align-items-center"
@@ -34,7 +33,7 @@ export default function SongPageFetch() {
         </Row>
       ) : (
         <SongPage data={data} />
-      )} */}
+      )}
     </Container>
   );
 }
@@ -84,6 +83,8 @@ function SongPage({ data }) {
           backgroundColor: "rgba(0, 0, 0, 0.4)",
         }}
       />
+      <SongIntroLargeScreen />
+
       <div
         style={{
           position: "relative",

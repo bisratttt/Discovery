@@ -20,6 +20,7 @@ import { useRealmApp } from "../contexts/RealmApp";
 import { handleAuthenticationError } from "../hooks/handleAuthError";
 import React, { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
+
 function LandingDetails() {
   const isSmallScreen = useMediaQuery("(max-width:950px)");
   const isPhoneScreen = useMediaQuery("(max-width:630px");
@@ -45,7 +46,6 @@ function LandingDetails() {
   const onFormSubmit = async ({ email, password }) => {
     clearErrors();
     try {
-      // await realmApp.emailPasswordAuth.registerUser({ username, password });
       setIsLoadingUser(true);
       await realmApp.logIn(Realm.Credentials.emailPassword(email, password));
     } catch (err) {
@@ -85,6 +85,7 @@ function LandingDetails() {
               style={{ paddingLeft: inputPadding, paddingRight: inputPadding }}
             >
               <Col xs={12} className="d-flex justify-content-start">
+                {/* username */}
                 <InputGroup className="mb-2" size={componentSize}>
                   <Form.Control
                     required
