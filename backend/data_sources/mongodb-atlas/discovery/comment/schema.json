@@ -25,12 +25,12 @@
         "time": {
             "bsonType": "timestamp"
         },
-        "user": {
-            "bsonType": "objectId"
+        "username": {
+            "bsonType": "string"
         }
     },
     "required": [
-        "user",
+        "username",
         "body",
         "_id"
     ],
