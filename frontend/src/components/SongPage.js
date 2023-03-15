@@ -83,12 +83,14 @@ function SongPage({ data }) {
           backgroundColor: "rgba(0, 0, 0, 0.4)",
         }}
       />
+      {/* add the intro animation */}
       <SongIntroLargeScreen />
 
       <div
         style={{
           position: "relative",
           zIndex: 1,
+          minHeight: "100vh",
         }}
       >
         {/* <Row className="justify-content-end m-3">
@@ -106,7 +108,7 @@ function SongPage({ data }) {
           </Col>
         </Row> */}
         {/* this is after we open the chat, we need another display for the song alone */}
-        <Row>
+        <Row className="vh-100 justify-content-center align-items-center">
           <Col xs={12} sm={openChat ? 6 : 12} className="shrink-grow">
             <Row
               className={`justify-content-${
