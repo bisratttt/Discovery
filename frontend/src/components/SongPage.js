@@ -8,6 +8,7 @@ import SharePlay from "./SongButtons";
 import FloatingComment from "./FloatingComment";
 import { useQuery } from "@apollo/client";
 import { QUERY_SONG } from "../queries/SongQuery";
+import SongIntroLargeScreen from "./SongIntroLargeScreen";
 
 export default function SongPageFetch() {
   const { loading, error, data } = useQuery(QUERY_SONG);
@@ -23,7 +24,8 @@ export default function SongPageFetch() {
       fluid
       className={`d-flex flex-column justify-content-start`}
     >
-      {loading ? (
+      <SongIntroLargeScreen />
+      {/* {loading ? (
         <Row
           style={{ minHeight: "100vh" }}
           className="justify-content-center align-items-center"
@@ -32,7 +34,7 @@ export default function SongPageFetch() {
         </Row>
       ) : (
         <SongPage data={data} />
-      )}
+      )} */}
     </Container>
   );
 }
@@ -157,21 +159,6 @@ function SongPage({ data }) {
                   <FloatingComment />
                 </Col>
               )}
-
-              {/* {!openChat && (
-                <Col>
-                  <Button
-                    size={isSmallScreen ? "sm" : "lg"}
-                    variant="dark"
-                    className="rounded-4 pe-5 ps-5 mt-3 mb-3 opacity-75"
-                    onClick={() => {
-                      setOpenChat(true);
-                    }}
-                  >
-                    Chat
-                  </Button>
-                </Col>
-              )} */}
             </Row>
           </Col>
           {openChat && (

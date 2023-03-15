@@ -6,21 +6,21 @@ function NavBar() {
   const [scrollY, setScrollY] = useState(0);
   const [showComponent, setShowComponent] = useState(true);
   const { currentUser, logOut } = useRealmApp();
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setScrollY(window.scrollY);
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("scroll", handleScroll);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    setShowComponent(scrollY < 200); // remove component when user has scrolled down 500 pixels
-  }, [scrollY]);
+  // useEffect(() => {
+  //   setShowComponent(scrollY < 200); // remove component when user has scrolled down 500 pixels
+  // }, [scrollY]);
 
   return (
     <>
