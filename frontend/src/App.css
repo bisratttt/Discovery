@@ -69,6 +69,7 @@
 .modal-link {
   text-decoration: none;
   color: black;
+  font-weight: 600;
 }
 
 .modal-link:hover {

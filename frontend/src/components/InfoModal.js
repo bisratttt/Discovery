@@ -29,9 +29,7 @@ export default function InfoModal(props) {
             }}
           >
             Welcome to{" "}
-            <span style={{ color: "black", fontWeight: "bold" }}>
-              Discovery
-            </span>
+            <span style={{ color: "black", fontWeight: "bold" }}>Disc.</span>
           </Modal.Title>
         </Container>
       </Modal.Header>
@@ -83,7 +81,7 @@ export default function InfoModal(props) {
             BeReal and Kiwi
           </h3>
           <p>
-            We got the idea for Discovery from two popular apps -{" "}
+            We got the idea for Discover from two popular apps -{" "}
             <a
               href="https://bereal.com/en"
               target="_blank"
