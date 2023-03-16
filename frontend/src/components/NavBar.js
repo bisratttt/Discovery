@@ -20,8 +20,10 @@ function NavBar() {
   const [showNav, setShowNav] = useState(false);
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUser !== null) {
       setTimeout(() => setShowNav(true), 1000);
+    } else {
+      setShowNav(false);
     }
   }, [currentUser]);
 
