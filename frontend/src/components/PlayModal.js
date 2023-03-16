@@ -34,7 +34,7 @@ function Spotify({ srcUrl }) {
 }
 function PlayModal(props) {
   return (
-    <Modal {...props}>
+    <Modal {...props} centered>
       <Modal.Header closeButton>
         <Modal.Title className="text-center">Play on</Modal.Title>
       </Modal.Header>

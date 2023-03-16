@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bangers&display=swap");
 .App {
   text-align: center;
 }
@@ -51,8 +53,8 @@
 }
 
 .text {
-  font-family: "Arial", sans-serif;
-  font-size: clamp(3rem, 10vw, 5rem);
+  font-family: "Bebas Neue", sans-serif;
+  font-size: clamp(3rem, 10vw, 10rem);
   font-weight: bold;
   color: white;
   text-transform: uppercase;
@@ -64,6 +66,15 @@
   text-overflow: ellipsis;
 }
 
+.modal-link {
+  text-decoration: none;
+  color: black;
+}
+
+.modal-link:hover {
+  text-decoration: underline;
+  color: black;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

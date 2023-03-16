@@ -42,7 +42,7 @@ const SongInfoLargeScreen = () => {
           exit="hidden"
           variants={containerVaraints}
           className="animation-container"
-          style={{ zIndex: 50 }}
+          style={{ zIndex: 999 }}
         >
           <AnimatePresence>
             {showText && (
