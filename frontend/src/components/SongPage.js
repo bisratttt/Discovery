@@ -150,7 +150,11 @@ function SongPage({ data }) {
                 </Row>
 
                 <Row className="mb-3">
-                  <SharePlay setFloatingComments={setOpenFloatingComments} />
+                  <SharePlay
+                    setFloatingComments={setOpenFloatingComments}
+                    spotify_link={data.song.spotify_link}
+                    apple_music_link={data.song.apple_music_link}
+                  />
                 </Row>
               </Col>
               {openFloatingComments && (

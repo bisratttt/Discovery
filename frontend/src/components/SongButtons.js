@@ -9,7 +9,7 @@ import { Button, Col } from "react-bootstrap";
 import PlayModal from "./PlayModal";
 import ShareModal from "./ShareModal";
 // buttons underneath the album (Share, Play, Comments)
-function SharePlay({ setFloatingComments }) {
+function SharePlay({ setFloatingComments, spotify_link, apple_music_link }) {
   const [playModal, setPlayModal] = useState(false);
   const [shareModal, setShareModal] = useState(false);
   return (
@@ -40,7 +40,12 @@ function SharePlay({ setFloatingComments }) {
         >
           <FontAwesomeIcon icon={faPlay} size="2xl" />
         </Button>
-        <PlayModal show={playModal} onHide={() => setPlayModal(false)} />
+        <PlayModal
+          show={playModal}
+          onHide={() => setPlayModal(false)}
+          spotify_link={spotify_link}
+          apple_music_link={apple_music_link}
+        />
       </Col>
 
       <Col className="d-flex justify-content-center">

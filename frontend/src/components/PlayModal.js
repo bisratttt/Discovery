@@ -1,6 +1,7 @@
 import { Col, Modal, Row } from "react-bootstrap";
 
 function AppleMusic({ srcUrl }) {
+  const url = new URL(srcUrl);
   return (
     <iframe
       allow="autoplay *; encrypted-media *;"
@@ -13,7 +14,7 @@ function AppleMusic({ srcUrl }) {
         background: "transparent",
       }}
       sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-      src={`https://embed.${srcUrl}`}
+      src={`https://embed.music.apple.com${url.pathname}`}
     />
   );
 }
@@ -41,10 +42,10 @@ function PlayModal(props) {
       <Modal.Body style={{ background: "rgba(255,255,255,0.6)" }}>
         <Row>
           <Col xs={12} sm={6}>
-            <Spotify srcUrl="https://open.spotify.com/track/4OmfWzukSVD140NiAIEjem?si=e65b2dac2cbc4c9d" />
+            <Spotify srcUrl={props.spotify_link} />
           </Col>
           <Col xs={12} sm={6}>
-            <AppleMusic srcUrl="music.apple.com/us/album/static/1631909576?i=1631909578" />
+            <AppleMusic srcUrl={props.apple_music_link} />
           </Col>
         </Row>
       </Modal.Body>

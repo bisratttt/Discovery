@@ -14,7 +14,7 @@ export default function InfoModal(props) {
     >
       <Modal.Header
         style={{
-          backgroundColor: "#FFEFD3",
+          backgroundColor: "#f0d9c2",
           border: "none",
           textAlign: "center",
         }}
@@ -26,16 +26,18 @@ export default function InfoModal(props) {
               color: "rgb(111, 27, 6)",
               fontSize: "clamp(2rem, 5vw, 3rem)",
               padding: 0,
-              fontWeight: "bold",
             }}
           >
-            Welcome to Discovery
+            Welcome to{" "}
+            <span style={{ color: "black", fontWeight: "bold" }}>
+              Discovery
+            </span>
           </Modal.Title>
         </Container>
       </Modal.Header>
       <Modal.Body
         style={{
-          backgroundColor: "#FFEFD3",
+          backgroundColor: "#f0d9c2",
           paddingBottom: "0",
           paddingTop: "0",
         }}
@@ -109,7 +111,7 @@ export default function InfoModal(props) {
       </Modal.Body>
       <Modal.Footer
         style={{
-          backgroundColor: "#FFEFD3",
+          backgroundColor: "#f0d9c2",
           border: "none",
           marginTop: 0,
           paddingTop: 0,

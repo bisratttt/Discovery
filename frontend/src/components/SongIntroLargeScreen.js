@@ -9,7 +9,7 @@ const SongInfoLargeScreen = () => {
     hidden: { scale: 0 },
     visible: (index) => ({
       scale: 1,
-      transition: { duration: 0.15, delay: (index + 3) * 0.3 },
+      transition: { duration: 0.1, delay: (index + 2) * 0.25 },
     }),
   };
 
@@ -25,7 +25,7 @@ const SongInfoLargeScreen = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowText(false);
-    }, textSequence.length * 500);
+    }, textSequence.length * 450);
 
     return () => clearTimeout(timeout);
   }, [textSequence]);
