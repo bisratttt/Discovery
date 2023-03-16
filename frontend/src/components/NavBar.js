@@ -17,6 +17,13 @@ function NavBar() {
   const [showInfoModal, setShowInfoModal] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const avatarSize = isSmallScreen ? 40 : 45;
+  const [showNav, setShowNav] = useState(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      setTimeout(() => setShowNav(true), 1000);
+    }
+  }, [currentUser]);
 
   function SelfAvatar({ children, onClick }) {
     return (
@@ -43,7 +50,7 @@ function NavBar() {
         }}
       >
         <Container fluid className="justify-content-start align-items-start">
-          {currentUser && (
+          {currentUser && showNav && (
             <Navbar.Brand className="m-0 p-0">
               <Image
                 src="/Logo.png"
@@ -73,7 +80,7 @@ function NavBar() {
                 show={showInfoModal}
                 onHide={() => setShowInfoModal(false)}
               />
-              {currentUser && (
+              {currentUser && showNav && (
                 <Dropdown align="end">
                   <Dropdown.Toggle as={SelfAvatar} />
                   <Dropdown.Menu
