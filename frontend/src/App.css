@@ -8,7 +8,7 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+/* login page css */
 .fullscreen {
   min-height: 100vh;
 }
@@ -18,6 +18,49 @@
   border: 0.5rem solid;
   border-color: rgb(111, 27, 6, 0.7);
   backdrop-filter: blur(5px);
+}
+/* song page css */
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: -1;
+  filter: blur(15px);
+  background-size: cover;
+  transform: scale(1.1);
+}
+
+.background-darker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.relative-container {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
+.song-title {
+  font-weight: bold;
+  font-size: 1.5em;
+  margin-bottom: 0;
+  color: white;
+}
+
+.artist-name {
+  font-weight: bold;
+  font-size: 1.5em;
+  color: #ccc;
+  margin-bottom: 0;
 }
 
 .shrink-grow {

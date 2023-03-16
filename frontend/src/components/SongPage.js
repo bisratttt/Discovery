@@ -10,6 +10,7 @@ import { useQuery } from "@apollo/client";
 import { QUERY_SONG } from "../queries/SongQuery";
 import SongIntroLargeScreen from "./SongIntroLargeScreen";
 
+// create a loading screen if the song hasn't fetched yet
 export default function SongPageFetch() {
   const { loading, error, data } = useQuery(QUERY_SONG);
   return (
@@ -56,58 +57,13 @@ function SongPage({ data }) {
   // sets the image size of the album art for specific screen/width
   return (
     <>
-      {/* background image and blur effect for background */}
       <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          zIndex: -1,
-          filter: "blur(15px)",
-          backgroundImage: `url(${albumImg})`,
-          backgroundSize: "cover",
-          transform: "scale(1.1)",
-        }}
+        className="background-image"
+        style={{ backgroundImage: `url(${albumImg})` }}
       />
-      {/* darker background */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          zIndex: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.4)",
-        }}
-      />
-      {/* add the intro animation */}
+      <div className="background-darker" />
       <SongIntroLargeScreen />
-
-      <div
-        style={{
-          position: "relative",
-          zIndex: 1,
-          minHeight: "100vh",
-        }}
-      >
-        {/* <Row className="justify-content-end m-3">
-          <Col className="d-flex justify-content-end">
-            <BootstrapSwitchButton
-              checked={false}
-              onlabel="Chat"
-              offlabel="Chat"
-              onChange={() => setOpenChat(!openChat)}
-              width={100}
-              onstyle="success"
-              offstyle="dark"
-              style={{ borderRadius: "2" }}
-            />
-          </Col>
-        </Row> */}
-        {/* this is after we open the chat, we need another display for the song alone */}
+      <div className="relative-container">
         <Row className="vh-100 justify-content-center align-items-center">
           <Col xs={12} sm={openChat ? 6 : 12} className="shrink-grow">
             <Row
@@ -115,40 +71,14 @@ function SongPage({ data }) {
                 openFloatingComments ? "end" : "center"
               }`}
             >
-              {/* {!isPhoneScreen && !openChat && <Col></Col>} */}
-
               <Col xs={12} sm={isBigScreen && !openChat ? 6 : 12}>
-                <Image
-                  fluid
-                  src={albumImg}
-                  className={`mt-2 mb-2 h-auto image-container`}
-                />
+                <Image fluid src={albumImg} className={`mt-2 mb-2 h-auto`} />
                 <Row>
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "1.5em",
-                      marginBottom: 0,
-                    }}
-                    className="text-white"
-                  >
-                    {data.song.song_name ?? ""}
-                  </p>
+                  <p className="song-title">{data.song.song_name ?? ""}</p>
                 </Row>
-
                 <Row>
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "1.5em",
-                      color: "#ccc",
-                      marginBottom: 0,
-                    }}
-                  >
-                    {data.song.artist ?? ""}
-                  </p>
+                  <p className="artist-name">{data.song.artist ?? ""}</p>
                 </Row>
-
                 <Row className="mb-3">
                   <SharePlay
                     setFloatingComments={setOpenFloatingComments}
