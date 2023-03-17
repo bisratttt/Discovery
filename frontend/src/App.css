@@ -67,6 +67,17 @@
   border: none !important;
   box-shadow: none !important;
 }
+/* intro animation css */
+.animation-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #000;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
 
 .word-container {
   display: flex;
@@ -90,7 +101,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
+/* about modal css */
 .modal-link {
   text-decoration: none;
   color: black;
