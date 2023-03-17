@@ -9,7 +9,7 @@ import FloatingComment from "./FloatingComment";
 import { useQuery } from "@apollo/client";
 import { QUERY_SONG } from "../queries/SongQuery";
 import SongIntroLargeScreen from "./SongIntroLargeScreen";
-
+import { AnimatePresence, motion } from "framer-motion";
 // create a loading screen if the song hasn't fetched yet
 export default function SongPageFetch() {
   const { loading, error, data } = useQuery(QUERY_SONG);
@@ -44,9 +44,9 @@ function SongPage({ data }) {
   const [openChat, setOpenChat] = useState(false);
   const [openFloatingComments, setOpenFloatingComments] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-  const isPhoneScreen = useMediaQuery("(max-width:630px");
-  const isBigScreen = useMediaQuery("(min-width:850px");
-  const isLargeScreen = useMediaQuery("min-width:1200px");
+  const isPhoneScreen = useMediaQuery("(max-width:630px)");
+  const isBigScreen = useMediaQuery("(min-width:850px)");
+  const isLargeScreen = useMediaQuery("(min-width:1200px)");
   // change the height to full screen if the elements aren't fullscreen
   useEffect(() => {
     albumArt(data.song.artist ?? "", {
@@ -64,49 +64,53 @@ function SongPage({ data }) {
       <div className="background-darker" />
       <SongIntroLargeScreen />
       <div className="relative-container">
-        <Row className="vh-100 justify-content-center align-items-center">
-          <Col xs={12} sm={openChat ? 6 : 12} className="shrink-grow">
-            <Row
-              className={`justify-content-${
-                openFloatingComments ? "end" : "center"
-              }`}
+        <Row
+          className="justify-content-around align-items-center"
+          style={{
+            marginTop: !isPhoneScreen ? "8vh" : 0,
+            minHeight: "92vh",
+          }}
+        >
+          <AnimatePresence mode="sync">
+            <motion.div
+              layout
+              className={`col-xs-12 col-sm-9 col-md-5 col-lg-5`}
             >
-              <Col xs={12} sm={isBigScreen && !openChat ? 6 : 12}>
-                <Image fluid src={albumImg} className={`mt-2 mb-2 h-auto`} />
-                <Row>
-                  <p className="song-title">{data.song.song_name ?? ""}</p>
-                </Row>
-                <Row>
-                  <p className="artist-name">{data.song.artist ?? ""}</p>
-                </Row>
-                <Row className="mb-3">
-                  <SharePlay
-                    setFloatingComments={setOpenFloatingComments}
-                    spotify_link={data.song.spotify_link}
-                    apple_music_link={data.song.apple_music_link}
-                  />
-                </Row>
-              </Col>
-              {openFloatingComments && (
-                <Col
-                  xs={12}
-                  sm={isBigScreen ? 3 : 12}
-                  className="d-flex align-items-end"
-                >
-                  <FloatingComment />
-                </Col>
-              )}
-            </Row>
-          </Col>
-          {openChat && (
-            <Col
-              xs={12}
-              sm={6}
-              className={`chat-col ${openChat ? "active" : ""}`}
-            >
-              <Chat setOpenChat={setOpenChat} />
-            </Col>
-          )}
+              <Row className="justify-content-center">
+                <Image
+                  fluid
+                  src={albumImg}
+                  className={`mt-2 mb-2`}
+                  style={{ maxWidth: "95%" }}
+                />
+              </Row>
+              <Row>
+                <p className="song-title">{data.song.song_name ?? ""}</p>
+              </Row>
+              <Row>
+                <p className="artist-name">{data.song.artist ?? ""}</p>
+              </Row>
+              <Row>
+                <SharePlay
+                  setFloatingComments={setOpenChat}
+                  spotify_link={data.song.spotify_link}
+                  apple_music_link={data.song.apple_music_link}
+                />
+              </Row>
+            </motion.div>
+            {openChat && (
+              <motion.div
+                className="col-xs-12 col-md-6"
+                initial={{ x: "100%" }} // Start from the left side, out of the viewport
+                animate={{ x: "0%" }} // Move to the original position
+                exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
+                transition={{ duration: 0.3 }} // Animation duration (optional)
+              >
+                {/* Your new column content */}
+                <p>New column content</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Row>
       </div>
     </>
