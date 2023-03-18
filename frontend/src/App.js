@@ -6,6 +6,7 @@ import appConfig from "./realm.json";
 import { RealmAppProvider, useRealmApp } from "./contexts/RealmApp";
 import Details from "./components/Details";
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 const { app_id } = appConfig;
 
 export default function AppWithRealm() {
@@ -17,13 +18,14 @@ export default function AppWithRealm() {
 }
 function App() {
   const { currentUser } = useRealmApp();
+  const [showNav, setShowNav] = useState(false);
   const containerVariants = {
     visible: { opacity: 1, y: 0 },
     hidden: { opacity: 0, y: "-100%" },
   };
   return (
     <div className="App">
-      <NavBar />
+      <NavBar showNav={showNav} />
       <AnimatePresence>
         {!currentUser && (
           <motion.div
@@ -39,7 +41,7 @@ function App() {
       </AnimatePresence>
       {currentUser && (
         <motion.div>
-          <Details />
+          <Details setShowNav={setShowNav} />
         </motion.div>
       )}
     </div>

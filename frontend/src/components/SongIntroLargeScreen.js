@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const SongInfoLargeScreen = () => {
+const SongInfoLargeScreen = ({ setShowNav }) => {
   const textSequence = ["The", "Song", "of", "The", "Day", "is"];
   const [showText, setShowText] = useState(true);
   const [showComponent, setShowComponent] = useState(true);
@@ -40,6 +40,7 @@ const SongInfoLargeScreen = () => {
         <motion.div
           initial="visible"
           exit="hidden"
+          onAnimationComplete={() => setShowNav(true)}
           variants={containerVaraints}
           className="animation-container"
           style={{ zIndex: 999 }}

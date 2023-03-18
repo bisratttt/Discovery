@@ -10,8 +10,9 @@ import { useQuery } from "@apollo/client";
 import { QUERY_SONG } from "../queries/SongQuery";
 import SongIntroLargeScreen from "./SongIntroLargeScreen";
 import { AnimatePresence, motion } from "framer-motion";
+import ReactionBanner from "./ReactionBanner";
 // create a loading screen if the song hasn't fetched yet
-export default function SongPageFetch() {
+export default function SongPageFetch({ setShowNav }) {
   const { loading, error, data } = useQuery(QUERY_SONG);
   return (
     <Container
@@ -33,13 +34,13 @@ export default function SongPageFetch() {
           <Spinner animation="border" variant="dark" />
         </Row>
       ) : (
-        <SongPage data={data} />
+        <SongPage data={data} setShowNav={setShowNav} />
       )}
     </Container>
   );
 }
 
-function SongPage({ data }) {
+function SongPage({ data, setShowNav }) {
   const [albumImg, setAlbumImg] = useState("");
   const [openChat, setOpenChat] = useState(false);
   const [openFloatingComments, setOpenFloatingComments] = useState(false);
@@ -62,7 +63,7 @@ function SongPage({ data }) {
         style={{ backgroundImage: `url(${albumImg})` }}
       />
       <div className="background-darker" />
-      <SongIntroLargeScreen />
+      <SongIntroLargeScreen setShowNav={setShowNav} />
       <div className="relative-container">
         <Row
           className="justify-content-around align-items-center"
@@ -107,7 +108,7 @@ function SongPage({ data }) {
                 transition={{ duration: 0.3 }} // Animation duration (optional)
               >
                 {/* Your new column content */}
-                <p>New column content</p>
+                <ReactionBanner albumImage={albumImg} />
               </motion.div>
             )}
           </AnimatePresence>

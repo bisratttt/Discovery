@@ -3,12 +3,12 @@ import React from "react";
 import { useApolloClient } from "../hooks/useApolloClient";
 import SongPage from "./SongPage";
 
-export default function Details() {
+export default function Details({ setShowNav }) {
   const client = useApolloClient();
 
   return (
     <ApolloProvider client={client}>
-      <SongPage />
+      <SongPage setShowNav={setShowNav} />
     </ApolloProvider>
   );
 }

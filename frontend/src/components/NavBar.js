@@ -12,20 +12,11 @@ import InfoModal from "./InfoModal";
 import Avatar from "react-avatar";
 import { useMediaQuery } from "@mui/material";
 
-function NavBar() {
+function NavBar({ showNav }) {
   const { currentUser, logOut } = useRealmApp();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const avatarSize = isSmallScreen ? 40 : 45;
-  const [showNav, setShowNav] = useState(false);
-
-  useEffect(() => {
-    if (currentUser !== null) {
-      setTimeout(() => setShowNav(true), 1000);
-    } else {
-      setShowNav(false);
-    }
-  }, [currentUser]);
 
   function SelfAvatar({ children, onClick }) {
     return (
