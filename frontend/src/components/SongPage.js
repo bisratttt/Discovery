@@ -11,6 +11,7 @@ import { QUERY_SONG } from "../queries/SongQuery";
 import SongIntroLargeScreen from "./SongIntroLargeScreen";
 import { AnimatePresence, motion } from "framer-motion";
 import ReactionBanner from "./ReactionBanner";
+import CommentCardB from "./CommentCardB";
 // create a loading screen if the song hasn't fetched yet
 export default function SongPageFetch({ setShowNav }) {
   const { loading, error, data } = useQuery(QUERY_SONG);
@@ -109,6 +110,7 @@ function SongPage({ data, setShowNav }) {
               >
                 {/* Your new column content */}
                 <ReactionBanner albumImage={albumImg} />
+                <CommentCardB />
               </motion.div>
             )}
           </AnimatePresence>

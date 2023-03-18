@@ -13,7 +13,7 @@
   min-height: 100vh;
 }
 .landing {
-  background-image: url("http://localhost:3000/wallpaper.jpg");
+  background-image: url("../public/wallpaper.jpg");
   background-size: cover;
   border: 0.5rem solid;
   border-color: rgb(111, 27, 6, 0.7);
@@ -74,6 +74,34 @@
 #reaction-card {
   background-color: rgba(0, 0, 0, 0.3) !important;
 }
+/* comment */
+#comment-card {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+#comment-body {
+  height: calc(75vh - 60px);
+  overflow-y: scroll;
+}
+
+#comment-footer .form-control {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border: none;
+  border-radius: 0;
+  color: #fff;
+}
+
+#comment-footer .input-group-text {
+  background-color: transparent;
+}
+#comment-footer .input-group-text:first-of-type {
+  border: none;
+  color: white;
+}
+.comment-btn {
+  background-color: transparent !important;
+  border: none;
+}
+
 /* intro animation css */
 .animation-container {
   display: flex;
