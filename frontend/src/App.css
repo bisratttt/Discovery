@@ -71,7 +71,9 @@
 .reaction-button {
   text-decoration: none !important;
 }
-
+#reaction-card {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
 /* intro animation css */
 .animation-container {
   display: flex;

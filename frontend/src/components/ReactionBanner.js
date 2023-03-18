@@ -16,7 +16,7 @@ export default function ReactionBanner({ albumImage }) {
   const handleAngryClick = () => setAngryCount(angryCount + 1);
 
   return (
-    <Card bg="dark" text="white" style={{ backgroundColor: "rgba(0,0,0,0.3)" }}>
+    <Card bg="dark" text="white" id="reaction-card">
       <Row>
         <Col xs={2}>
           <Card.Img variant="top" className="rounded-0" src={albumImage} />
