@@ -110,7 +110,6 @@ function SongPage({ data, setShowNav }) {
               >
                 {/* Your new column content */}
                 <ReactionBanner albumImage={albumImg} />
-                <CommentCardB />
               </motion.div>
             )}
           </AnimatePresence>
