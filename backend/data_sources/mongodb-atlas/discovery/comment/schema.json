@@ -35,7 +35,8 @@
     "required": [
         "username",
         "body",
-        "_id"
+        "_id",
+        "owner_id"
     ],
     "title": "comment"
 }
