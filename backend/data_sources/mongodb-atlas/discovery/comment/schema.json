@@ -19,6 +19,9 @@
         "body": {
             "bsonType": "string"
         },
+        "owner_id": {
+            "bsonType": "objectId"
+        },
         "song": {
             "bsonType": "objectId"
         },
