@@ -23,7 +23,7 @@
             "bsonType": "objectId"
         },
         "time": {
-            "bsonType": "timestamp"
+            "bsonType": "date"
         },
         "username": {
             "bsonType": "string"
