@@ -14,7 +14,7 @@ function SharePlay({ setFloatingComments, spotify_link, apple_music_link }) {
   const [shareModal, setShareModal] = useState(false);
   return (
     <>
-      <Col className="d-flex justify-content-center">
+      <Col className="d-flex justify-content-start">
         <Button
           style={{
             background: "transparent",
@@ -48,7 +48,7 @@ function SharePlay({ setFloatingComments, spotify_link, apple_music_link }) {
         />
       </Col>
 
-      <Col className="d-flex justify-content-center">
+      <Col className="d-flex justify-content-end">
         <Button
           style={{ background: "transparent", borderColor: "transparent" }}
           onClick={() =>

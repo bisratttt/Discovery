@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bangers&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap");
+
 .App {
   text-align: center;
 }
@@ -42,7 +44,9 @@
   z-index: 0;
   background-color: rgba(0, 0, 0, 0.4);
 }
-
+.song-card {
+  font-family: "Raleway", sans-serif;
+}
 .relative-container {
   position: relative;
   z-index: 1;
@@ -71,20 +75,34 @@
 .reaction-button {
   text-decoration: none !important;
 }
+.reaction-badge {
+  font-size: clamp(0.45rem, 2vw, 0.75rem) !important;
+  background-color: rgb(27, 111, 6);
+  display: inline-block;
+  padding: 0.25rem 0.4rem;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  border: 1px solid white;
+}
 #reaction-card {
-  background-color: rgba(0, 0, 0, 0.3) !important;
+  background-color: transparent !important;
+  border: none;
 }
 /* comment */
 #comment-card {
-  background-color: rgba(0, 0, 0, 0.3) !important;
+  background-color: transparent !important;
 }
 #comment-body {
-  height: calc(75vh - 60px);
+  height: calc(78vh - 60px);
   overflow-y: scroll;
 }
 
 #comment-footer .form-control {
-  background-color: rgba(0, 0, 0, 0.3) !important;
+  background-color: transparent !important;
   border: none;
   border-radius: 0;
   color: #fff;

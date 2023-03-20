@@ -2,6 +2,44 @@ import React from "react";
 import { Card, Col, Row, Badge, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
+import { motion } from "framer-motion";
+
+const ReactionButton = ({ emoji, count, handleClick }) => {
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsAnimating(true);
+    handleClick();
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 200);
+  };
+
+  return (
+    <motion.div
+      className="d-flex flex-column position-relative"
+      initial={{ scale: 1 }}
+      animate={isAnimating ? { scale: 1.1 } : { scale: 1 }}
+    >
+      <Button
+        variant="link"
+        onClick={handleButtonClick}
+        className="p-0 reaction-button"
+      >
+        <span
+          role="img"
+          aria-label={emoji}
+          style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
+        >
+          {emoji}
+        </span>
+      </Button>
+      <div className="position-absolute bottom-0 end-0 reaction-badge">
+        {count}
+      </div>
+    </motion.div>
+  );
+};
 
 export default function ReactionBanner({ albumImage }) {
   const [heartCount, setHeartCount] = useState(10);
@@ -20,131 +58,48 @@ export default function ReactionBanner({ albumImage }) {
   return (
     <Card bg="dark" text="white" id="reaction-card" className="mb-2">
       <Row>
-        <Col xs={3} sm={2} className="me-0 pe-0">
-          <Card.Img
-            variant="top"
-            src={albumImage}
-            style={{
-              borderRadius: "0.25rem 0 0 0.25rem",
-            }}
-          />
-        </Col>
+        {isSmallScreen && (
+          <Col xs={3} sm={2} className="me-0 pe-0">
+            <Card.Img
+              variant="top"
+              src={albumImage}
+              style={{
+                borderRadius: "0.25rem 0 0 0.25rem",
+              }}
+            />
+          </Col>
+        )}
         <Col
           xs={9}
           sm={10}
+          md={12}
           className="d-flex align-items-center justify-content-around"
         >
-          <div className="d-flex flex-column position-relative">
-            <Button
-              variant="link"
-              onClick={handleHeartClick}
-              className="p-0 reaction-button"
-              size="lg"
-            >
-              <span
-                role="img"
-                aria-label="heart"
-                style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
-              >
-                ❤️
-              </span>
-            </Button>
-            <Badge
-              bg="success"
-              style={{ fontSize: "clamp(0.55rem, 2vw, 0.75rem" }}
-              className="position-absolute bottom-0 end-0 reaction-badge"
-            >
-              {heartCount}
-            </Badge>
-          </div>
-          <div className="d-flex flex-column position-relative">
-            <Button
-              variant="link"
-              onClick={handleFireClick}
-              className="p-0 reaction-button"
-            >
-              <span
-                role="img"
-                aria-label="fire"
-                style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
-              >
-                🔥
-              </span>
-            </Button>
-            <Badge
-              bg="success"
-              style={{ fontSize: "clamp(0.55rem, 2vw, 0.75rem" }}
-              className="position-absolute bottom-0 end-0 reaction-badge"
-            >
-              {fireCount}
-            </Badge>
-          </div>
-          <div className="d-flex flex-column position-relative">
-            <Button
-              variant="link"
-              onClick={handleThumbsUpClick}
-              className="p-0 reaction-button"
-            >
-              <span
-                role="img"
-                aria-label="thumbs up"
-                style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
-              >
-                👍
-              </span>
-            </Button>
-            <Badge
-              bg="success"
-              style={{ fontSize: "clamp(0.55rem, 2vw, 0.75rem" }}
-              className="position-absolute bottom-0 end-0 reaction-badge"
-            >
-              {thumbsUpCount}
-            </Badge>
-          </div>
-          <div className="d-flex flex-column position-relative">
-            <Button
-              variant="link"
-              onClick={handleThumbsDownClick}
-              className="p-0 reaction-button"
-            >
-              <span
-                role="img"
-                aria-label="thumbs down"
-                style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
-              >
-                👎
-              </span>
-            </Button>
-            <Badge
-              style={{ fontSize: "clamp(0.55rem, 2vw, 0.75rem" }}
-              bg="success"
-              className="position-absolute bottom-0 end-0"
-            >
-              {thumbsDownCount}
-            </Badge>
-          </div>
-          <div className={`d-flex flex-column position-relative`}>
-            <Button
-              variant="link"
-              onClick={handleAngryClick}
-              className="p-0 reaction-button"
-            >
-              <span
-                role="img"
-                aria-label="angry"
-                style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
-              >
-                😠
-              </span>
-            </Button>
-            <Badge
-              bg="success"
-              className="position-absolute bottom-0 end-0 reaction-badge"
-              style={{ fontSize: "clamp(0.55rem, 2vw, 0.75rem" }}
-            >
-              {angryCount}
-            </Badge>
-          </div>
+          <ReactionButton
+            emoji="❤️"
+            count={heartCount}
+            handleClick={handleHeartClick}
+          />
+          <ReactionButton
+            emoji="🔥"
+            count={fireCount}
+            handleClick={handleFireClick}
+          />
+          <ReactionButton
+            emoji="👍"
+            count={thumbsUpCount}
+            handleClick={handleThumbsUpClick}
+          />
+          <ReactionButton
+            emoji="👎"
+            count={thumbsDownCount}
+            handleClick={handleThumbsDownClick}
+          />
+          <ReactionButton
+            emoji="😠"
+            count={angryCount}
+            handleClick={handleAngryClick}
+          />
         </Col>
       </Row>
     </Card>

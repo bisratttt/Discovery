@@ -67,17 +67,17 @@ function SongPage({ data, setShowNav }) {
       <SongIntroLargeScreen setShowNav={setShowNav} />
       <div className="relative-container">
         <Row
-          className="justify-content-around align-items-center"
+          className="justify-content-center align-items-center"
           style={{
-            marginTop: !isPhoneScreen ? "8vh" : 0,
+            marginTop: "8vh",
             minHeight: "92vh",
           }}
         >
           <AnimatePresence mode="sync">
             <motion.div
               layout
-              className={`col-xs-12 col-sm-9 col-md-5 col-lg-5 d-flex flex-column justify-content-center`}
-              style={{ minHeight: "92vh" }}
+              className={`col-xs-12 col-sm-9 col-md-5 col-lg-5 d-flex flex-column justify-content-center me-0 song-card`}
+              style={{ minHeight: "92vh", backgroundColor: "rgba(0,0,0,0.5)" }}
             >
               <Row className="justify-content-center">
                 <Image
@@ -93,7 +93,7 @@ function SongPage({ data, setShowNav }) {
               <Row>
                 <p className="artist-name">{data.song.artist ?? ""}</p>
               </Row>
-              <Row>
+              <Row className="me-3 ms-3 mt-1">
                 <SharePlay
                   setFloatingComments={setOpenChat}
                   spotify_link={data.song.spotify_link}
@@ -103,7 +103,11 @@ function SongPage({ data, setShowNav }) {
             </motion.div>
             {openChat && (
               <motion.div
-                className="col-xs-12 col-md-5"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.5)",
+                  minHeight: "92vh",
+                }}
+                className="col-xs-12 col-md-5 ms-0"
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
@@ -111,7 +115,6 @@ function SongPage({ data, setShowNav }) {
               >
                 {/* Your new column content */}
                 <ReactionBanner albumImage={albumImg} />
-                <CommentCardB songId={data.song._id} />
               </motion.div>
             )}
           </AnimatePresence>
