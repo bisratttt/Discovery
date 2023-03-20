@@ -76,7 +76,8 @@ function SongPage({ data, setShowNav }) {
           <AnimatePresence mode="sync">
             <motion.div
               layout
-              className={`col-xs-12 col-sm-9 col-md-5 col-lg-5`}
+              className={`col-xs-12 col-sm-9 col-md-5 col-lg-5 d-flex flex-column justify-content-center`}
+              style={{ minHeight: "92vh" }}
             >
               <Row className="justify-content-center">
                 <Image
@@ -102,7 +103,7 @@ function SongPage({ data, setShowNav }) {
             </motion.div>
             {openChat && (
               <motion.div
-                className="col-xs-12 col-md-6"
+                className="col-xs-12 col-md-5"
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
@@ -110,6 +111,7 @@ function SongPage({ data, setShowNav }) {
               >
                 {/* Your new column content */}
                 <ReactionBanner albumImage={albumImg} />
+                <CommentCardB songId={data.song._id} />
               </motion.div>
             )}
           </AnimatePresence>

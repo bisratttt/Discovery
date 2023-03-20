@@ -21,7 +21,13 @@ export default function ReactionBanner({ albumImage }) {
     <Card bg="dark" text="white" id="reaction-card" className="mb-2">
       <Row>
         <Col xs={3} sm={2} className="me-0 pe-0">
-          <Card.Img variant="top" src={albumImage} />
+          <Card.Img
+            variant="top"
+            src={albumImage}
+            style={{
+              borderRadius: "0.25rem 0 0 0.25rem",
+            }}
+          />
         </Col>
         <Col
           xs={9}

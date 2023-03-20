@@ -93,7 +93,7 @@
 #comment-footer .input-group-text {
   background-color: transparent;
 }
-#comment-footer .input-group-text:first-of-type {
+.white-icon {
   border: none;
   color: white;
 }
@@ -102,6 +102,17 @@
   border: none;
 }
 
+.col.focused .fa-ellipsis {
+  opacity: 1;
+}
+
+.fa-ellipsis {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+.fa-ellipsis.visible {
+  opacity: 1;
+}
 /* intro animation css */
 .animation-container {
   display: flex;
