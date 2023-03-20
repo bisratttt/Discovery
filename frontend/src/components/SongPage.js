@@ -115,6 +115,7 @@ function SongPage({ data, setShowNav }) {
               >
                 {/* Your new column content */}
                 <ReactionBanner albumImage={albumImg} />
+                <CommentCardB songId={data.song._id} />
               </motion.div>
             )}
           </AnimatePresence>
