@@ -20,6 +20,7 @@ import { useRealmApp } from "../contexts/RealmApp";
 import { handleAuthenticationError } from "../hooks/handleAuthError";
 import React, { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
+import LogoAnimation from "./LogoAnimation";
 
 function LandingDetails() {
   const isSmallScreen = useMediaQuery("(max-width:950px)");
