@@ -24,11 +24,11 @@
 
 /* song page css */
 
-.underline_link:hover {
-  text-decoration: underline;
+.underline-link:hover {
+  text-decoration: underline !important;
 }
-.underline_link {
-  text-decoration: none;
+.underline-link {
+  text-decoration: none !important;
 }
 
 .background-image {
