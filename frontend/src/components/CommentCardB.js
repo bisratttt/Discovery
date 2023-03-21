@@ -50,6 +50,27 @@ export default function CommentCardB({ songId }) {
     setComment(comment + emojiChar); // Add the emoji character to the comment state
   };
 
+  const handleEnterKey = (event) => {
+    if (event.key === 'Enter')
+    {
+      addComment({
+        variables: {
+          username: currentUser.profile.email,
+          owner_id: new BSON.ObjectId(currentUser.id),
+          body: comment,
+          song: new BSON.ObjectId(songId),
+        },
+        onCompleted: () => {
+          setComment("");
+          refetch({
+            limit: limit,
+            lastTIme: lastTime,
+          });
+        },
+      });
+    }
+  }
+
   // // periodically refetch the comments
   // useEffect(() => {
   //   // Start polling the server every 5 seconds
@@ -129,29 +150,29 @@ export default function CommentCardB({ songId }) {
                 onChange={(event) => setComment(event.target.value)}
                 placeholder="Enter your comment"
                 className="col-xs-10"
+                onKeyDown={(event) => handleEnterKey(event)}
               />
               <InputGroup.Text className="rounded-0">
                 <Button
                   variant="transparent"
                   className="comment-btn text-white"
                   disabled={mutationLoading}
-                  onClick={() => {
-                    addComment({
-                      variables: {
-                        username: currentUser.profile.email,
-                        owner_id: new BSON.ObjectId(currentUser.id),
-                        body: comment,
-                        song: new BSON.ObjectId(songId),
-                      },
-                      onCompleted: () => {
-                        setComment("");
-                        refetch({
-                          limit: limit,
-                          lastTIme: lastTime,
-                        });
-                      },
-                    });
-                  }}
+                  onClick={() => addComment({
+                    variables: {
+                      username: currentUser.profile.email,
+                      owner_id: new BSON.ObjectId(currentUser.id),
+                      body: comment,
+                      song: new BSON.ObjectId(songId),
+                    },
+                    onCompleted: () => {
+                      setComment("");
+                      refetch({
+                        limit: limit,
+                        lastTIme: lastTime,
+                      });
+                    },
+                  })
+                }
                 >
                   Post
                 </Button>
@@ -164,3 +185,5 @@ export default function CommentCardB({ songId }) {
     </Card>
   );
 }
+
+
