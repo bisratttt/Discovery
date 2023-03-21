@@ -9,6 +9,7 @@ export default function CommentB({ avatar, username, body, time }) {
   const [isTruncated, setIsTruncated] = useState(false);
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   useEffect(() => {
     setIsTruncated(
       commentRef.current.scrollWidth > commentRef.current.clientWidth
@@ -21,12 +22,14 @@ export default function CommentB({ avatar, username, body, time }) {
   });
   return (
     <ListGroup.Item
-      className="d-flex align-items-start justify-content-between text-white m-0 p-0 pt-2"
+      className={`${isHidden ? "hidden" : "visible"} d-flex align-items-start
+      justify-content-between text-white m-0 p-0 pt-2`}
       style={{ backgroundColor: "rgba(0,0,0,0.2)" }}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       onMouseEnter={() => setIsFocused(true)}
       onMouseLeave={() => setIsFocused(false)}
+    //   onHide={() => setIsHidden(true)}
     >
       <Col xs={2} sm={1} className="d-flex justify-content-end">
         <Avatar
@@ -62,20 +65,29 @@ export default function CommentB({ avatar, username, body, time }) {
           style={{ fontSize: "clamp(0.5rem, 5vw, 0.75rem)" }}
         >
           <small className="text-muted">{dateTime}</small>
-          {isTruncated && (
+          {isTruncated && truncateComment ? (
             <button
               style={{
                 backgroundColor: "transparent",
+                textDecoration: "underline"
               }}
               className="border-0 text-white"
-              onClick={() => {
-                setTruncateComment(!truncateComment);
-                setIsTruncated(false);
-              }}
+              onClick={() => {setTruncateComment(!truncateComment);}}
             >
               read more
             </button>
-          )}
+          ) : (isTruncated && !truncateComment && (
+            <button
+              style={{
+                backgroundColor: "transparent",
+                textDecoration: "underline"
+              }}
+              className="border-0 text-white"
+              onClick={() => {setTruncateComment(!truncateComment);}}
+            >
+              see less
+            </button>
+          ))}
         </Col>
       </Col>
       <Col>
