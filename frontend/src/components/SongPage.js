@@ -81,10 +81,9 @@ function SongPage({ data, setShowNav }) {
             >
               <Row className="justify-content-center">
                 <Image
-                  fluid
                   src={albumImg}
                   className={`mt-2 mb-2`}
-                  style={{ maxWidth: "95%" }}
+                  style={{ maxWidth: "95%", maxHeight: "70vh" }}
                 />
               </Row>
               <Row>
