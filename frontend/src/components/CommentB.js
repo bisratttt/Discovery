@@ -2,7 +2,7 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
-import { Col, ListGroup } from "react-bootstrap";
+import { Col, Dropdown, ListGroup } from "react-bootstrap";
 
 export default function CommentB({ avatar, username, body, time }) {
   const [truncateComment, setTruncateComment] = useState(true);
@@ -79,11 +79,19 @@ export default function CommentB({ avatar, username, body, time }) {
         </Col>
       </Col>
       <Col>
-        <FontAwesomeIcon
-          flip="horizontal"
-          icon={faEllipsis}
-          className={`${isFocused ? "visible" : "hidden"}`}
-        />
+        <Dropdown>
+          <Dropdown.Toggle id="dropdown-basic" bsPrefix="p-0"
+          style={{backgroundColor: "rgba(0, 0, 0, 0.0)", border: "0"}}>
+            <FontAwesomeIcon
+            flip="horizontal"
+            icon={faEllipsis}
+            className={`${isFocused ? "visible" : "hidden"}`}/>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <Dropdown.Item style={{fontSize: "clamp(0.65rem, 7vw, 0.85rem"}}>Hide</Dropdown.Item>
+            <Dropdown.Item style={{fontSize: "clamp(0.65rem, 7vw, 0.85rem"}}>Report</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </Col>
     </ListGroup.Item>
   );
