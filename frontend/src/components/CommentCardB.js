@@ -97,7 +97,8 @@ export default function CommentCardB({ songId }) {
         ) : (
           <ListGroup className="m-0">
             {data.comments.map((com) => {
-              return <CommentB key={com._id} {...com} />;
+
+              return <CommentB key={com._id} {...com} setComment={setComment}/>;
             })}
             {data.comments.length === limit && (
               <ListGroup.Item>

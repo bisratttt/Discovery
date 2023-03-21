@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
 import { Col, Dropdown, ListGroup } from "react-bootstrap";
 
-export default function CommentB({ avatar, username, body, time }) {
+export default function CommentB({ avatar, username, body, time, setComment }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
   const commentRef = useRef(null);
@@ -45,7 +45,8 @@ export default function CommentB({ avatar, username, body, time }) {
           className="d-flex justify-content-start mb-0 pb-0"
           style={{ fontSize: "clamp(0.7rem, 5vw, 0.9rem)", fontWeight: "600" }}
         >
-          {username}
+          <a className="underline-link" href="#" onClick={()=>setComment((comment)=>comment + " @" + username)} style={{ color: "inherit" }}>{username}</a>
+
         </Col>
         <Col
           style={{ fontSize: "clamp(0.55rem, 5vw, 0.8rem)" }}
