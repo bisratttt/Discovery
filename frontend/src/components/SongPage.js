@@ -49,6 +49,20 @@ function SongPage({ data, setShowNav }) {
   const isPhoneScreen = useMediaQuery("(max-width:630px)");
   const isBigScreen = useMediaQuery("(min-width:850px)");
   const isLargeScreen = useMediaQuery("(min-width:1200px)");
+  const [aspectRatio, setAspectRatio] = useState(null);
+
+  useEffect(() => {
+    const updateAspectRatio = () => {
+      setAspectRatio(window.innerWidth / window.innerHeight);
+    };
+
+    window.addEventListener("resize", updateAspectRatio);
+    updateAspectRatio(); // Call the function initially to set the initial aspect ratio
+
+    return () => {
+      window.removeEventListener("resize", updateAspectRatio);
+    };
+  }, []);
   // change the height to full screen if the elements aren't fullscreen
   useEffect(() => {
     albumArt(data.song.artist ?? "", {
@@ -76,14 +90,16 @@ function SongPage({ data, setShowNav }) {
           <AnimatePresence mode="sync">
             <motion.div
               layout
-              className={`col-xs-12 col-sm-9 col-md-5 col-lg-5 d-flex flex-column justify-content-center me-0 song-card`}
+              className={`col-xs-12 col-sm-9 col-md-5 col-lg-${
+                aspectRatio > 1.9 ? "4" : "5"
+              } d-flex flex-column justify-content-center me-0 song-card`}
               style={{ minHeight: "92vh", backgroundColor: "rgba(0,0,0,0.5)" }}
             >
               <Row className="justify-content-center">
                 <Image
                   src={albumImg}
                   className={`mt-2 mb-2`}
-                  style={{ maxWidth: "95%", maxHeight: "70vh" }}
+                  style={{ maxWidth: "95%" }}
                 />
               </Row>
               <Row>
