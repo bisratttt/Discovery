@@ -6,9 +6,9 @@ function Comment() {
     let menu = document.getElementById("menu");
     
     return (
-        <ul className="list-group list-group-horizontal list-group-flush">
+        <ul className="list-group list-group-horizontal d-flex justify-content-center">
             {/* profile pic of commenting user */}
-            <li className="list-group-item bg-transparent border-0 d-flex justify-content align-items-center">
+            <li className="list-group-item bg-transparent border-0">
             <Avatar
                 name={"test_username1"}
                 round
@@ -19,19 +19,20 @@ function Comment() {
             </li>
             {/* username, time, and content of the comment */}
             <li className="list-group-item bg-transparent border-0">
-                <p
-                style={{ fontStyle: "oblique 70deg" }}
-                className="font-italic d-flex justify-content-start m-0 text-muted"
-                    >
-                        <small className="text-white" style={{fontWeight: "bold"}}>test_username1</small>
-                        <small style={{color: "#c9c9c9"}}>&nbsp;&nbsp;3h</small>
-                        </p>
-                        <p
-                        className="small mb-1 me-1 p-2 text-white"
-                        >
-                            {"This is a test comment that has random words in it."}
-                        </p>
+                <ul className="list-group d-flex align-items-start">
+                    <li className="list-group-item bg-transparent border-0">
+                    <small className="text-white" style={{fontWeight: "bold"}}>
+                        test_username1
+                    </small>
+                    <small style={{color: "#c9c9c9"}}>&nbsp;&nbsp;5:06 PM</small>
                     </li>
+                    <li className="list-group-item bg-transparent border-0">
+                    <small className="text-white">
+                        This is a test comment that has random words in it.
+                    </small>
+                    </li>
+                </ul>
+            </li>
             {/* 3-dot menu */}
             <li className="list-group-item bg-transparent border-0">
             <button className="bg-transparent border-0" id="menu">
