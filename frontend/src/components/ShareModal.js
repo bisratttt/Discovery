@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,7 +8,32 @@ import {
   faInstagram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+function TweetButton() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://platform.twitter.com/widgets.js";
+    document.body.appendChild(script);
 
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  return (
+    <a
+      href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+      className="twitter-share-button"
+      data-size="large"
+      data-text="Did you #DISCover today&#39;s song of the day?"
+      data-url="https://discmusic.netlify.com"
+      data-show-count="false"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Tweet
+    </a>
+  );
+}
 function ShareModal(props) {
   return (
     <Modal onHide={props.onHide} show={props.show}>
@@ -30,9 +55,7 @@ function ShareModal(props) {
             </a>
           </Col>
           <Col className="d-flex justify-content-center mt-2 mb-2">
-            <a href={props.shareLink} style={{ color: "blue" }}>
-              <FontAwesomeIcon icon={faTwitter} size="2xl" />
-            </a>
+            <TweetButton />
           </Col>
           <Col className="d-flex justify-content-center mt-2 mb-2">
             <a href={props.shareLink}>
