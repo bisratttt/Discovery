@@ -9,16 +9,22 @@ import {
   Col,
   InputGroup,
   ListGroup,
+  ButtonGroup,
 } from "react-bootstrap";
 import { useMediaQuery } from "@mui/material";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import CommentB from "./CommentB";
-import { faCirclePlus, faSpinner } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCirclePlus,
+  faPenFancy,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 import { ADD_COMMENT, FETCH_COMMENTS } from "../queries/CommentQuery";
 import { useMutation, useQuery } from "@apollo/client";
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
 import { useErrorAlert } from "../hooks/useErrorAlert";
+import ReviewWriteModal from "./ReviewWriteModal";
 
 export default function CommentCardB({ songId }) {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
@@ -27,6 +33,7 @@ export default function CommentCardB({ songId }) {
   const [lastTime, setLastTime] = useState(new Date(0));
   const [limit, setLimit] = useState(100);
   const [intervalId, setIntervalId] = useState(null);
+  const [reviewWriteModal, setReviewWriteModal] = useState(false);
 
   const { currentUser } = useRealmApp();
   const { loading, error, data, fetchMore, refetch } = useQuery(
@@ -51,8 +58,7 @@ export default function CommentCardB({ songId }) {
   };
 
   const handleEnterKey = (event) => {
-    if (event.key === 'Enter')
-    {
+    if (event.key === "Enter") {
       addComment({
         variables: {
           username: currentUser.profile.email,
@@ -69,7 +75,7 @@ export default function CommentCardB({ songId }) {
         },
       });
     }
-  }
+  };
 
   // // periodically refetch the comments
   // useEffect(() => {
@@ -90,15 +96,16 @@ export default function CommentCardB({ songId }) {
   // }, []);
 
   return (
-    <Card id="comment-card" className={`${isSmallScreen && "mb-2"}`}>
+    <Card id="comment-card" className={`${isSmallScreen && "mb-2"} rounded-3`}>
       <Card.Body id="comment-body" className="p-0">
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
           <ListGroup className="m-0">
             {data.comments.map((com) => {
-
-              return <CommentB key={com._id} {...com} setComment={setComment}/>;
+              return (
+                <CommentB key={com._id} {...com} setComment={setComment} />
+              );
             })}
             {data.comments.length === limit && (
               <ListGroup.Item>
@@ -123,68 +130,23 @@ export default function CommentCardB({ songId }) {
       </Card.Body>
       <Card.Footer id="comment-footer">
         <Row>
-          <Col className="pe-0 ps-0">
-            {openEmoji && (
-              <div style={{ position: "absolute", top: "150px", zIndex: 999 }}>
-                <EmojiPicker
-                  height={400}
-                  width={300}
-                  onEmojiClick={handleEmojiClick}
-                  theme={Theme.AUTO}
-                  previewConfig={{ showPreview: false }}
-                />
-              </div>
-            )}
-            <InputGroup>
-              <InputGroup.Text>
-                <FontAwesomeIcon
-                  className="white-icon"
-                  onClick={() => setOpenEmoji(!openEmoji)}
-                  icon={faFaceSmile}
-                  size="lg"
-                />
-              </InputGroup.Text>
-              <Form.Control
-                type="text"
-                disabled={mutationLoading}
-                value={comment}
-                onChange={(event) => setComment(event.target.value)}
-                placeholder="Enter your comment"
-                className="col-xs-10"
-                onKeyDown={(event) => handleEnterKey(event)}
-              />
-              <InputGroup.Text className="rounded-0">
-                <Button
-                  variant="transparent"
-                  className="comment-btn text-white"
-                  disabled={mutationLoading}
-                  onClick={() => addComment({
-                    variables: {
-                      username: currentUser.profile.email,
-                      owner_id: new BSON.ObjectId(currentUser.id),
-                      body: comment,
-                      song: new BSON.ObjectId(songId),
-                    },
-                    onCompleted: () => {
-                      setComment("");
-                      refetch({
-                        limit: limit,
-                        lastTIme: lastTime,
-                      });
-                    },
-                  })
-                }
-                >
-                  Post
-                </Button>
-              </InputGroup.Text>
-            </InputGroup>
-            {mutationError && <NoPostErrorAlert />}
-          </Col>
+          <ButtonGroup>
+            <Button
+              variant="link"
+              size="lg"
+              className="text-white text-decoration-none ps-0 pe-5"
+              onClick={() => setReviewWriteModal((reviewModal) => !reviewModal)}
+            >
+              <FontAwesomeIcon icon={faPenFancy} className="pe-3" />
+              Review this song
+            </Button>
+          </ButtonGroup>
+          <ReviewWriteModal
+            show={reviewWriteModal}
+            onHide={() => setReviewWriteModal((reviewModal) => !reviewModal)}
+          />
         </Row>
       </Card.Footer>
     </Card>
   );
 }
-
-

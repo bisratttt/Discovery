@@ -111,7 +111,7 @@
   background-color: transparent !important;
 }
 #comment-body {
-  height: calc(78vh - 60px);
+  height: calc(74vh - 60px);
   overflow-y: scroll;
 }
 

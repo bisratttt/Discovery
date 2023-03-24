@@ -63,30 +63,6 @@ function SharePlay({ setFloatingComments, spotify_link, apple_music_link }) {
           <FontAwesomeIcon icon={faCommentDots} size="2xl" />
         </Button>
       </Col>
-      <Col className="d-flex justify-content-end">
-        <Button
-          variant="link"
-          onClick={() => setReviewReadModal((reviewModal) => !reviewModal)}
-        >
-          <FontAwesomeIcon icon={faCommentDots} size="2xl" type="regular" />
-        </Button>
-        <ReviewReadModal
-          show={reviewReadModal}
-          onHide={() => setReviewReadModal((reviewModal) => !reviewModal)}
-        />
-      </Col>
-      <Col className="d-flex justify-content-end">
-        <Button
-          variant="link"
-          onClick={() => setReviewWriteModal((reviewModal) => !reviewModal)}
-        >
-          <FontAwesomeIcon icon={faPen} size="2xl" type="regular" />
-        </Button>
-        <ReviewWriteModal
-          show={reviewWriteModal}
-          onHide={() => setReviewWriteModal((reviewModal) => !reviewModal)}
-        />
-      </Col>
     </>
   );
 }

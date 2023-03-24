@@ -81,25 +81,28 @@ function SongPage({ data, setShowNav }) {
       <SongIntroLargeScreen setShowNav={setShowNav} />
       <div className="relative-container">
         <Row
-          className="justify-content-center align-items-center"
+          className="justify-content-around align-items-center"
           style={{
-            marginTop: "8vh",
-            minHeight: "92vh",
+            marginTop: "9vh",
+            minHeight: "91vh",
           }}
         >
           <AnimatePresence mode="sync">
             <motion.div
               layout
-              className={`col-xs-12 col-sm-9 col-md-5 col-lg-${
-                aspectRatio > 1.9 ? "4" : "5"
-              } d-flex flex-column justify-content-center me-0 song-card`}
-              style={{ minHeight: "92vh", backgroundColor: "rgba(0,0,0,0.5)" }}
+              className={`col-xs-12 col-sm-9 col-md-4 d-flex flex-column justify-content-center me-0 song-card rounded-3`}
+              style={{
+                minHeight: "85vh",
+                backgroundColor: "rgba(0,0,0,0.5)",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 1)", // add a box shadow to create an elevated effect
+              }}
             >
               <Row className="justify-content-center">
                 <Image
                   src={albumImg}
                   className={`mt-2 mb-2`}
                   style={{ maxWidth: "95%" }}
+                  fluid
                 />
               </Row>
               <Row>
@@ -120,9 +123,10 @@ function SongPage({ data, setShowNav }) {
               <motion.div
                 style={{
                   backgroundColor: "rgba(0,0,0,0.5)",
-                  minHeight: "92vh",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 1)", // add a box shadow to create an elevated effect
+                  minHeight: isSmallScreen ? "91vh" : "85vh",
                 }}
-                className="col-xs-12 col-md-5 ms-0"
+                className="col-xs-12 col-md-7 rounded-3"
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
