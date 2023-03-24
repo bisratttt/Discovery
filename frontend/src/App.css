@@ -10,6 +10,12 @@
   height: 40vmin;
   pointer-events: none;
 }
+/* navbar */
+.dropdown-item:hover {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  border-radius: 0.4rem !important;
+}
+
 /* login page css */
 .fullscreen {
   min-height: 100vh;

@@ -5,37 +5,71 @@ import {
   Nav,
   Navbar,
   NavDropdown,
+  Row,
+  Col,
 } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRealmApp } from "../contexts/RealmApp";
 import InfoModal from "./InfoModal";
 import Avatar from "react-avatar";
 import { useMediaQuery } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+
+const PillAvatar = ({ email, isSmallScreen }) => {
+  const avatarSize = isSmallScreen ? 30 : 40;
+
+  const [jumping, setJumping] = useState(false);
+  const handleJump = () => {
+    setJumping(true);
+    setTimeout(() => setJumping(false), 500);
+  };
+  return (
+    <Row
+      className="align-items-center justify-content-center"
+      onClick={handleJump}
+    >
+      <Col>
+        <Avatar name={email} round size={avatarSize} textSizeRatio={2} />
+      </Col>
+      {!isSmallScreen && (
+        <Col className="d-flex justify-content-center align-items-center px-0">
+          <p className="text-white mb-0">{email}</p>
+        </Col>
+      )}
+
+      <Col className="pe-3">
+        <FontAwesomeIcon
+          icon={faAngleDown}
+          style={{ color: "white" }}
+          size={isSmallScreen ? "sm" : "lg"}
+          bounce={jumping}
+        />
+      </Col>
+    </Row>
+  );
+};
 
 function NavBar({ showNav }) {
   const { currentUser, logOut } = useRealmApp();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-  const avatarSize = isSmallScreen ? 40 : 45;
 
-  function SelfAvatar({ children, onClick }) {
-    return (
-      <a href="#" onClick={onClick}>
-        <Avatar
-          name={currentUser.profile.email}
-          round
-          size={avatarSize}
-          textSizeRatio={2}
-        />
-      </a>
-    );
-  }
+  const customDropdownPill = React.forwardRef(({ children, onClick }, ref) => (
+    <div // wrap the component inside a container with round borders and a down arrow icon
+      className="d-flex align-items-center rounded-pill px-2 py-2"
+      style={{ cursor: "pointer", backgroundColor: "rgba(0,0,0,0.5)" }}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  ));
+
   return (
     <>
       <Navbar
         expand={true}
         style={{
-          background: "transparent",
           position: "fixed",
           top: 0,
           zIndex: 888,
@@ -54,7 +88,9 @@ function NavBar({ showNav }) {
             </Navbar.Brand>
           )}
 
-          <Navbar.Collapse className="justify-content-end mt-1">
+          <Navbar.Collapse
+            className={`justify-content-end mt-1 ${!isSmallScreen && "me-3"}`}
+          >
             <Nav>
               {!currentUser && (
                 <Nav.Link
@@ -75,19 +111,23 @@ function NavBar({ showNav }) {
               />
               {currentUser && showNav && (
                 <Dropdown align="end">
-                  <Dropdown.Toggle as={SelfAvatar} />
+                  <Dropdown.Toggle as={customDropdownPill}>
+                    <PillAvatar
+                      email={currentUser.profile.email}
+                      isSmallScreen={isSmallScreen}
+                    />
+                  </Dropdown.Toggle>
                   <Dropdown.Menu
-                    style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
-                    className="rounded-1"
+                    style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+                    className="rounded-3 py-0"
                   >
-                    <NavDropdown.Item className="mt-0 pt-0 mb-0 pb-0 ps-0">
+                    <NavDropdown.Item className="ps-0 py-2">
                       <Nav.Link
                         style={{
-                          color: "black",
                           fontSize: "clamp(0.8rem,2vw,1rem)",
                           fontWeight: "bold",
                         }}
-                        className="mt-0 mb-0 pt-0 pb-0"
+                        className="mt-0 mb-0 pt-0 pb-0 text-white"
                         href="#"
                         onClick={async () => await logOut()}
                       >

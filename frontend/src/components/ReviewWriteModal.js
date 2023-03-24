@@ -11,10 +11,15 @@ export default function ReviewModal(props) {
       show={props.show}
       size="lg"
       className="transparent-modal"
+      centered
+      animation={false}
     >
       <Modal.Header
         className="text-white"
-        style={{ backgroundColor: "rgba(0,0,0,0.8)" }}
+        style={{
+          backgroundColor: "rgba(0,0,0,0.5)",
+          backdropFilter: "blur(2rem)",
+        }}
       >
         <Modal.Title className="text-white">Review this song</Modal.Title>
         <FontAwesomeIcon
@@ -24,7 +29,12 @@ export default function ReviewModal(props) {
           onClick={props.onHide}
         />
       </Modal.Header>
-      <Modal.Body style={{ backgroundColor: "rgba(0,0,0,0.8)" }}>
+      <Modal.Body
+        style={{
+          backgroundColor: "rgba(0,0,0,0.5)",
+          backdropFilter: "blur(2rem)",
+        }}
+      >
         <ReviewEditor />
       </Modal.Body>
     </Modal>

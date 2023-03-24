@@ -14,10 +14,20 @@ export default function ReviewReadModal({
   show,
 }) {
   return (
-    <Modal onHide={onHide} show={show} size="lg" className="transparent-modal">
+    <Modal
+      onHide={onHide}
+      show={show}
+      size="lg"
+      className="transparent-modal"
+      centered
+      animation={false}
+    >
       <Modal.Header
         className="text-white"
-        style={{ backgroundColor: "rgba(0,0,0,0.8)" }}
+        style={{
+          backgroundColor: "rgba(0,0,0,0.5)",
+          backdropFilter: "blur(2rem)",
+        }}
       >
         <Row>
           <Col className="text-muted d-flex justify-content-start align-items-center">
@@ -26,7 +36,7 @@ export default function ReviewReadModal({
               name={username}
               size="40"
               round
-              className="me-1"
+              className="me-3"
             />
             {`reviewed at ${time}`}
           </Col>
@@ -41,7 +51,10 @@ export default function ReviewReadModal({
         </Col>
       </Modal.Header>
       <Modal.Body
-        style={{ backgroundColor: "rgba(0,0,0,0.8)" }}
+        style={{
+          backgroundColor: "rgba(0,0,0,0.5)",
+          backdropFilter: "blur(2rem)",
+        }}
         className="text-white"
       >
         <h1>{title}</h1>
