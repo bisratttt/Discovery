@@ -173,6 +173,40 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+/* review model */
+[contenteditable="true"]:empty:before {
+  content: attr(placeholder);
+  display: inline;
+  opacity: 0.6;
+  cursor: text;
+}
+
+.review-title {
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  border: none !important;
+  margin-bottom: 1rem;
+}
+
+.review-body {
+  font-size: 1.2rem !important;
+  border: none !important;
+  line-height: 1.5;
+}
+
+.transparent-modal .modal-content {
+  background-color: transparent;
+}
+
+.white-close-button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0;
+  top: 0;
+  right: 0;
+}
+
 /* about modal css */
 .modal-link {
   text-decoration: none;
