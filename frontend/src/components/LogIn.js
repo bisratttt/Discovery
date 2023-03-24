@@ -17,7 +17,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import * as Realm from "realm-web";
 import { useRealmApp } from "../contexts/RealmApp";
-import { handleAuthenticationError } from "../hooks/handleAuthError";
+import { handleAuthenticationError } from "../hooks/handleError";
 import React, { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
 

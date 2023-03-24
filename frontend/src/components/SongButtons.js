@@ -1,5 +1,6 @@
 import {
   faCommentDots,
+  faPen,
   faPlay,
   faShareNodes,
 } from "@fortawesome/free-solid-svg-icons";
@@ -7,13 +8,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { Button, Col, Image } from "react-bootstrap";
 import PlayModal from "./PlayModal";
-import ReviewModal from "./ReviewModal";
+import ReviewReadModal from "./ReviewReadModal";
+import ReviewWriteModal from "./ReviewWriteModal";
 import ShareModal from "./ShareModal";
 // buttons underneath the album (Share, Play, Comments)
 function SharePlay({ setFloatingComments, spotify_link, apple_music_link }) {
   const [playModal, setPlayModal] = useState(false);
   const [shareModal, setShareModal] = useState(false);
-  const [reviewModal, setReviewModal] = useState(false);
+  const [reviewWriteModal, setReviewWriteModal] = useState(false);
+  const [reviewReadModal, setReviewReadModal] = useState(false);
   return (
     <>
       <Col className="d-flex justify-content-start">
@@ -63,18 +66,25 @@ function SharePlay({ setFloatingComments, spotify_link, apple_music_link }) {
       <Col className="d-flex justify-content-end">
         <Button
           variant="link"
-          onClick={() => setReviewModal((reviewModal) => !reviewModal)}
+          onClick={() => setReviewReadModal((reviewModal) => !reviewModal)}
         >
-          <FontAwesomeIcon
-            icon={faCommentDots}
-            beat={reviewModal}
-            size="2xl"
-            type="regular"
-          />
+          <FontAwesomeIcon icon={faCommentDots} size="2xl" type="regular" />
         </Button>
-        <ReviewModal
-          show={reviewModal}
-          onHide={() => setReviewModal((reviewModal) => !reviewModal)}
+        <ReviewReadModal
+          show={reviewReadModal}
+          onHide={() => setReviewReadModal((reviewModal) => !reviewModal)}
+        />
+      </Col>
+      <Col className="d-flex justify-content-end">
+        <Button
+          variant="link"
+          onClick={() => setReviewWriteModal((reviewModal) => !reviewModal)}
+        >
+          <FontAwesomeIcon icon={faPen} size="2xl" type="regular" />
+        </Button>
+        <ReviewWriteModal
+          show={reviewWriteModal}
+          onHide={() => setReviewWriteModal((reviewModal) => !reviewModal)}
         />
       </Col>
     </>

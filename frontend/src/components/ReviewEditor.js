@@ -1,15 +1,23 @@
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useState } from "react";
+import { useErrorAlert } from "../hooks/useErrorAlert";
+import { checkReviewForError } from "../hooks/handleError";
 
 export default function ReviewEditor() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [lastUpdated, setLastUpdated] = useState(null);
   const wordCount = body.trim() ? body.trim().split(/\s+/).length : 0;
+  const [error, setError] = useState("");
+  const ErrorAlert = useErrorAlert({
+    error: error,
+    clearError: () => setError(""),
+  });
   const handleSave = () => {
     // Save the review data here
     // ...
-
+    checkReviewForError(null, setError, wordCount, title.trim().length > 0);
+    console.log(title.trim().length);
     // Update the last updated timestamp
     setLastUpdated(new Date());
   };
@@ -37,6 +45,7 @@ export default function ReviewEditor() {
           style={{ backgroundColor: "transparent" }}
         />
         <Form.Text className="text-muted">{wordCount} words</Form.Text>
+        <ErrorAlert />
       </Form.Group>
       <Row>
         <Col sm={6} className="d-flex justify-content-start align-items-end">
