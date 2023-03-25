@@ -97,6 +97,39 @@ export default function CommentCardB({ songId }) {
 
   return (
     <Card id="comment-card" className={`${isSmallScreen && "mb-2"} rounded-3`}>
+      <Card.Header id="comment-footer">
+        {" "}
+        <Row>
+          <Col className="d-flex justify-content-start">
+            <ButtonGroup>
+              <Button
+                size={isSmallScreen ? "sm" : "lg"}
+                className="text-white text-decoration-none rounded-3 border-white"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.5)",
+                  padding: isSmallScreen
+                    ? "0.8rem 0.9rem 0.8rem"
+                    : "0.8rem 1rem 0.8rem",
+                }}
+                onClick={() =>
+                  setReviewWriteModal((reviewModal) => !reviewModal)
+                }
+              >
+                <FontAwesomeIcon
+                  icon={faPenFancy}
+                  className={!isSmallScreen ? "pe-3" : "pe-0"}
+                />
+                {!isSmallScreen && "Review this song"}
+              </Button>
+            </ButtonGroup>
+          </Col>
+
+          <ReviewWriteModal
+            show={reviewWriteModal}
+            onHide={() => setReviewWriteModal((reviewModal) => !reviewModal)}
+          />
+        </Row>
+      </Card.Header>
       <Card.Body id="comment-body" className="p-0">
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
@@ -128,25 +161,6 @@ export default function CommentCardB({ songId }) {
           </ListGroup>
         )}
       </Card.Body>
-      <Card.Footer id="comment-footer">
-        <Row>
-          <ButtonGroup>
-            <Button
-              variant="link"
-              size="lg"
-              className="text-white text-decoration-none ps-0 pe-5"
-              onClick={() => setReviewWriteModal((reviewModal) => !reviewModal)}
-            >
-              <FontAwesomeIcon icon={faPenFancy} className="pe-3" />
-              Review this song
-            </Button>
-          </ButtonGroup>
-          <ReviewWriteModal
-            show={reviewWriteModal}
-            onHide={() => setReviewWriteModal((reviewModal) => !reviewModal)}
-          />
-        </Row>
-      </Card.Footer>
     </Card>
   );
 }

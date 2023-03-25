@@ -7,6 +7,7 @@ import {
   NavDropdown,
   Row,
   Col,
+  Button,
 } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import { useRealmApp } from "../contexts/RealmApp";
@@ -15,6 +16,7 @@ import Avatar from "react-avatar";
 import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
+import RadarIcon from "@mui/icons-material/Radar";
 
 const PillAvatar = ({ email, isSmallScreen }) => {
   const avatarSize = isSmallScreen ? 30 : 40;
@@ -110,32 +112,47 @@ function NavBar({ showNav }) {
                 onHide={() => setShowInfoModal(false)}
               />
               {currentUser && showNav && (
-                <Dropdown align="end">
-                  <Dropdown.Toggle as={customDropdownPill}>
-                    <PillAvatar
-                      email={currentUser.profile.email}
-                      isSmallScreen={isSmallScreen}
-                    />
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu
-                    style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
-                    className="rounded-3 py-0"
+                <>
+                  <Button
+                    size={isSmallScreen ? "sm" : "lg"}
+                    className="text-white text-decoration-none rounded-pill border-white me-3 py-0"
+                    style={{
+                      backgroundColor: "rgba(0,0,0,0.5)",
+                      padding: isSmallScreen
+                        ? "0.8rem 0.9rem 0.8rem"
+                        : "0.8rem 1rem 0.8rem",
+                    }}
                   >
-                    <NavDropdown.Item className="ps-0 py-2">
-                      <Nav.Link
-                        style={{
-                          fontSize: "clamp(0.8rem,2vw,1rem)",
-                          fontWeight: "bold",
-                        }}
-                        className="mt-0 mb-0 pt-0 pb-0 text-white"
-                        href="#"
-                        onClick={async () => await logOut()}
-                      >
-                        Log Out
-                      </Nav.Link>
-                    </NavDropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
+                    <RadarIcon className=" pb-1 me-2" />
+                    {!isSmallScreen && "Discover from others"}
+                  </Button>
+                  <Dropdown align="end">
+                    <Dropdown.Toggle as={customDropdownPill}>
+                      <PillAvatar
+                        email={currentUser.profile.email}
+                        isSmallScreen={isSmallScreen}
+                      />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu
+                      style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+                      className="rounded-3 py-0"
+                    >
+                      <NavDropdown.Item className="ps-0 py-2">
+                        <Nav.Link
+                          style={{
+                            fontSize: "clamp(0.8rem,2vw,1rem)",
+                            fontWeight: "bold",
+                          }}
+                          className="mt-0 mb-0 pt-0 pb-0 text-white"
+                          href="#"
+                          onClick={async () => await logOut()}
+                        >
+                          Log Out
+                        </Nav.Link>
+                      </NavDropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </>
               )}
             </Nav>
           </Navbar.Collapse>

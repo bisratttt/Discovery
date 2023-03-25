@@ -29,7 +29,7 @@ const ReactionButton = ({ emoji, count, handleClick }) => {
         <span
           role="img"
           aria-label={emoji}
-          style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
+          style={{ fontSize: "clamp(2rem, 5vw, 2.5rem)" }}
         >
           {emoji}
         </span>
@@ -58,21 +58,8 @@ export default function ReactionBanner({ albumImage }) {
   return (
     <Card bg="dark" text="white" id="reaction-card" className="mb-2">
       <Row>
-        {isSmallScreen && (
-          <Col xs={3} sm={2} className="me-0 pe-0">
-            <Card.Img
-              variant="top"
-              src={albumImage}
-              style={{
-                borderRadius: "0.25rem 0 0 0.25rem",
-              }}
-            />
-          </Col>
-        )}
         <Col
-          xs={9}
-          sm={10}
-          md={12}
+          xs={12}
           className="d-flex align-items-center justify-content-around"
         >
           <ReactionButton

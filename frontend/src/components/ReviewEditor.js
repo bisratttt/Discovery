@@ -38,7 +38,7 @@ export default function ReviewEditor() {
         <Form.Control
           className="review-body text-white"
           as="textarea"
-          rows={10}
+          rows={15}
           placeholder="Body of your review"
           value={body}
           onChange={(e) => setBody(e.target.value)}

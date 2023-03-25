@@ -1,3 +1,4 @@
+import { faHeart, faSmile } from "@fortawesome/free-regular-svg-icons";
 import {
   faCommentDots,
   faPen,
@@ -12,11 +13,14 @@ import ReviewReadModal from "./ReviewReadModal";
 import ReviewWriteModal from "./ReviewWriteModal";
 import ShareModal from "./ShareModal";
 // buttons underneath the album (Share, Play, Comments)
-function SharePlay({ setFloatingComments, spotify_link, apple_music_link }) {
+function SharePlay({
+  setOpenChat,
+  setOpenReact,
+  spotify_link,
+  apple_music_link,
+}) {
   const [playModal, setPlayModal] = useState(false);
   const [shareModal, setShareModal] = useState(false);
-  const [reviewWriteModal, setReviewWriteModal] = useState(false);
-  const [reviewReadModal, setReviewReadModal] = useState(false);
   return (
     <>
       <Col className="d-flex justify-content-start">
@@ -52,13 +56,20 @@ function SharePlay({ setFloatingComments, spotify_link, apple_music_link }) {
           apple_music_link={apple_music_link}
         />
       </Col>
-
-      <Col className="d-flex justify-content-end">
+      <Col>
+        <Button
+          className="d-flex align-items-center justify-content-center text-decoration-none border-0 py-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.2)" }}
+          onClick={() => setOpenReact((react) => !react)}
+        >
+          <FontAwesomeIcon size="2xl" icon={faSmile} className="me-1" />
+          <h2 className="mb-0">+</h2>
+        </Button>
+      </Col>
+      <Col>
         <Button
           style={{ background: "transparent", borderColor: "transparent" }}
-          onClick={() =>
-            setFloatingComments((floatingComment) => !floatingComment)
-          }
+          onClick={() => setOpenChat((openChat) => !openChat)}
         >
           <FontAwesomeIcon icon={faCommentDots} size="2xl" />
         </Button>
