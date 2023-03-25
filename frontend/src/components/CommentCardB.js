@@ -115,11 +115,8 @@ export default function CommentCardB({ songId }) {
                   setReviewWriteModal((reviewModal) => !reviewModal)
                 }
               >
-                <FontAwesomeIcon
-                  icon={faPenFancy}
-                  className={!isSmallScreen ? "pe-3" : "pe-0"}
-                />
-                {!isSmallScreen && "Review this song"}
+                <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
+                Review this song
               </Button>
             </ButtonGroup>
           </Col>

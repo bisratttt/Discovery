@@ -115,7 +115,7 @@ function NavBar({ showNav }) {
                 <>
                   <Button
                     size={isSmallScreen ? "sm" : "lg"}
-                    className="text-white text-decoration-none rounded-pill border-white me-3 py-0"
+                    className="text-white text-decoration-none rounded-pill border-white me-3 py-0 d-flex align-items-center justify-content-center"
                     style={{
                       backgroundColor: "rgba(0,0,0,0.5)",
                       padding: isSmallScreen
@@ -123,7 +123,7 @@ function NavBar({ showNav }) {
                         : "0.8rem 1rem 0.8rem",
                     }}
                   >
-                    <RadarIcon className=" pb-1 me-2" />
+                    <RadarIcon className={`p-0 ${!isSmallScreen && "me-2"}`} />
                     {!isSmallScreen && "Discover from others"}
                   </Button>
                   <Dropdown align="end">
