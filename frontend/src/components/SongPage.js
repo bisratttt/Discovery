@@ -83,8 +83,8 @@ function SongPage({ data, setShowNav }) {
   }, []);
   // change the height to full screen if the elements aren't fullscreen
   useEffect(() => {
-    albumArt("Miley Cirus" ?? "", {
-      album: "Endless Summer Vacation" ?? "",
+    albumArt(data.song.artist ?? "", {
+      album: data.song.album_name ?? "",
       size: "large",
     }).then((album) => setAlbumImg(album));
   }, []);
