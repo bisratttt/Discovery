@@ -65,7 +65,7 @@ function YoutubeEmbed({ srcUrl }) {
 }
 function SongPage({ data, setShowNav }) {
   const [albumImg, setAlbumImg] = useState("");
-  const { openReview, openSongSubmissionList, openSongInfo } =
+  const { openReview, openSongSubmissionList, openSongInfo, setOpenSongInfo } =
     useToggleComponents();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const isPhoneScreen = useMediaQuery("(max-width:630px)");
@@ -112,6 +112,31 @@ function SongPage({ data, setShowNav }) {
           }}
         >
           <AnimatePresence mode="sync" initial={false}>
+            {openSongInfo && (
+              <motion.div
+                key="info-card"
+                className={`col-xs-12 col-sm-9 ${
+                  isBigScreen && "col-md-5"
+                } col-lg-4 d-flex flex-column justify-content-center song-card rounded-3
+                ${
+                  // hides song for smaller screen sizes
+                  isSmallScreen &&
+                  (openReview || openSongSubmissionList || openSongInfo) &&
+                  "hide-song"
+                }`}
+                style={{
+                  minHeight: isSmallScreen ? "60vh" : "85vh",
+                  marginBottom: isSmallScreen && openReview ? "25vh" : "",
+                  backgroundColor: "rgba(0,0,0,0.5)",
+                  boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
+                  backdropFilter: "blur(2rem)", // blurs the background when translucent
+                }}
+                initial={{ x: "-100%" }}
+                animate={{ x: "0%" }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 0.2 }} // Animation duration (optional)
+              ></motion.div>
+            )}
             <motion.div
               key="song-card"
               layout="position"
@@ -139,7 +164,7 @@ function SongPage({ data, setShowNav }) {
                       background: "transparent",
                       borderColor: "transparent",
                     }}
-                    onClick={() => setShareModal(true)}
+                    onClick={() => setOpenSongInfo((songInfo) => !songInfo)}
                   >
                     <FontAwesomeIcon icon={faCircleInfo} size="lg" />
                   </Button>
@@ -214,7 +239,7 @@ function SongPage({ data, setShowNav }) {
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
-                transition={{ duration: 0.3 }} // Animation duration (optional)
+                transition={{ duration: 0.2 }} // Animation duration (optional)
               >
                 {/* Your new column content */}
                 <CommentCardB songId={data.song._id} />
@@ -235,7 +260,7 @@ function SongPage({ data, setShowNav }) {
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
-                transition={{ duration: 0.3 }} // Animation duration (optional)
+                transition={{ duration: 0.2 }} // Animation duration (optional)
               >
                 {/* Your new column content */}
                 <SongSubmissionList />

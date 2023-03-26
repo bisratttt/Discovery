@@ -32,7 +32,7 @@
 
 .hide-song {
   position: absolute;
-  left: -9999px;
+  top: -9999px;
 }
 .underline-link:hover {
   text-decoration: underline !important;
@@ -48,9 +48,9 @@
   bottom: 0;
   right: 0;
   z-index: -1;
-  filter: blur(1rem);
+  filter: blur(3rem);
   background-size: cover;
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .background-darker {
