@@ -7,13 +7,16 @@ import { RealmAppProvider, useRealmApp } from "./contexts/RealmApp";
 import Details from "./components/Details";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import { ToggleComponentsProvider } from "./contexts/ToggleComponents";
 const { app_id } = appConfig;
 
 export default function AppWithRealm() {
   return (
-    <RealmAppProvider appId={app_id}>
-      <App />
-    </RealmAppProvider>
+    <ToggleComponentsProvider>
+      <RealmAppProvider appId={app_id}>
+        <App />
+      </RealmAppProvider>
+    </ToggleComponentsProvider>
   );
 }
 function App() {

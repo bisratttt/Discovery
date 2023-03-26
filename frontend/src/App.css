@@ -30,6 +30,10 @@
 
 /* song page css */
 
+.hide-song {
+  position: absolute;
+  left: -9999px;
+}
 .underline-link:hover {
   text-decoration: underline !important;
 }
@@ -111,7 +115,6 @@
   background-color: transparent !important;
 }
 #comment-body {
-  height: calc(74vh - 60px);
   overflow-y: scroll;
 }
 

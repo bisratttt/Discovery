@@ -9,7 +9,7 @@ import {
   Col,
   Button,
 } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useRealmApp } from "../contexts/RealmApp";
 import InfoModal from "./InfoModal";
 import Avatar from "react-avatar";
@@ -17,6 +17,7 @@ import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 import RadarIcon from "@mui/icons-material/Radar";
+import { useToggleComponents } from "../contexts/ToggleComponents";
 
 const PillAvatar = ({ email, isSmallScreen }) => {
   const avatarSize = isSmallScreen ? 30 : 40;
@@ -56,11 +57,15 @@ function NavBar({ showNav }) {
   const { currentUser, logOut } = useRealmApp();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
+  const { setOpenReview, setOpenSongSubmissionList } = useToggleComponents();
 
   const customDropdownPill = React.forwardRef(({ children, onClick }, ref) => (
     <div // wrap the component inside a container with round borders and a down arrow icon
       className="d-flex align-items-center rounded-pill px-2 py-2"
-      style={{ cursor: "pointer", backgroundColor: "rgba(0,0,0,0.5)" }}
+      style={{
+        cursor: "pointer",
+        backgroundColor: "rgba(0,0,0,0.5)",
+      }}
       onClick={onClick}
     >
       {children}
@@ -115,16 +120,23 @@ function NavBar({ showNav }) {
                 <>
                   <Button
                     size={isSmallScreen ? "sm" : "lg"}
-                    className="text-white text-decoration-none rounded-pill border-white me-3 py-0 d-flex align-items-center justify-content-center"
+                    className="text-white text-decoration-none rounded-pill me-3 py-0 d-flex align-items-center justify-content-center"
                     style={{
                       backgroundColor: "rgba(0,0,0,0.5)",
                       padding: isSmallScreen
                         ? "0.8rem 0.9rem 0.8rem"
                         : "0.8rem 1rem 0.8rem",
+                      borderColor: "rgba(255,255,255,0.6)",
+                    }}
+                    onClick={() => {
+                      setOpenReview(false);
+                      setOpenSongSubmissionList(
+                        (submissionList) => !submissionList
+                      );
                     }}
                   >
                     <RadarIcon className={`p-0 ${!isSmallScreen && "me-2"}`} />
-                    {!isSmallScreen && "Discover from others"}
+                    {!isSmallScreen && "Discover more"}
                   </Button>
                   <Dropdown align="end">
                     <Dropdown.Toggle as={customDropdownPill}>

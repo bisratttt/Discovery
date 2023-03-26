@@ -1,17 +1,22 @@
-import { Container, Col, Row, Image, Spinner } from "react-bootstrap";
-import Chat from "./Chat";
+import { Container, Col, Row, Image, Spinner, Button } from "react-bootstrap";
 import albumArt from "album-art";
 import { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import BootstrapSwitchButton from "bootstrap-switch-button-react";
-import SharePlay from "./SongButtons";
-import FloatingComment from "./FloatingComment";
+import SongButtons from "./SongButtons";
 import { useQuery } from "@apollo/client";
 import { QUERY_SONG } from "../queries/SongQuery";
 import SongIntroLargeScreen from "./SongIntroLargeScreen";
 import { AnimatePresence, motion } from "framer-motion";
 import ReactionBanner from "./ReactionBanner";
 import CommentCardB from "./CommentCardB";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCircleInfo,
+  faShareFromSquare,
+} from "@fortawesome/free-solid-svg-icons";
+import ShareModal from "./ShareModal";
+import { useToggleComponents } from "../contexts/ToggleComponents";
+import SongSubmissionList from "./SongSubmissionList";
 // create a loading screen if the song hasn't fetched yet
 export default function SongPageFetch({ setShowNav }) {
   const { loading, error, data } = useQuery(QUERY_SONG);
@@ -60,14 +65,15 @@ function YoutubeEmbed({ srcUrl }) {
 }
 function SongPage({ data, setShowNav }) {
   const [albumImg, setAlbumImg] = useState("");
-  const [openChat, setOpenChat] = useState(false);
-  const [openFloatingComments, setOpenFloatingComments] = useState(false);
+  const { openReview, openSongSubmissionList, openSongInfo } =
+    useToggleComponents();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const isPhoneScreen = useMediaQuery("(max-width:630px)");
   const isBigScreen = useMediaQuery("(min-width:850px)");
   const isLargeScreen = useMediaQuery("(min-width:1200px)");
   const [aspectRatio, setAspectRatio] = useState(null);
   const [openReact, setOpenReact] = useState(false);
+  const [shareModal, setShareModal] = useState(false);
 
   useEffect(() => {
     const updateAspectRatio = () => {
@@ -99,33 +105,65 @@ function SongPage({ data, setShowNav }) {
       <SongIntroLargeScreen setShowNav={setShowNav} />
       <div className="relative-container">
         <Row
-          className="justify-content-around align-items-center"
+          className="justify-content-around align-items-center mx-2"
           style={{
             marginTop: "9vh",
             minHeight: "91vh",
           }}
         >
-          <AnimatePresence mode="sync">
+          <AnimatePresence mode="sync" initial={false}>
             <motion.div
-              layout
+              key="song-card"
+              layout="position"
               className={`col-xs-12 col-sm-9 ${
                 isBigScreen && "col-md-5"
-              } col-lg-4 d-flex flex-column justify-content-center song-card rounded-3`}
+              } col-lg-4 d-flex flex-column justify-content-center song-card rounded-3
+                ${
+                  // hides song for smaller screen sizes
+                  isSmallScreen &&
+                  (openReview || openSongSubmissionList || openSongInfo) &&
+                  "hide-song"
+                }`}
               style={{
                 minHeight: isSmallScreen ? "60vh" : "85vh",
-                marginBottom: isSmallScreen ? "25vh" : "",
+                marginBottom: isSmallScreen && openReview ? "25vh" : "",
                 backgroundColor: "rgba(0,0,0,0.5)",
                 boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
-                backdropFilter: "blur(1rem)", // blurs the background when translucent
+                backdropFilter: "blur(2rem)", // blurs the background when translucent
               }}
             >
+              <Row className="justify-content-between">
+                <Col className="d-flex justify-content-start">
+                  <Button
+                    style={{
+                      background: "transparent",
+                      borderColor: "transparent",
+                    }}
+                    onClick={() => setShareModal(true)}
+                  >
+                    <FontAwesomeIcon icon={faCircleInfo} size="lg" />
+                  </Button>
+                </Col>
+                <Col className="d-flex justify-content-end">
+                  <Button
+                    style={{
+                      background: "transparent",
+                      borderColor: "transparent",
+                    }}
+                    className="ps-1"
+                    onClick={() => setShareModal(true)}
+                  >
+                    <FontAwesomeIcon icon={faShareFromSquare} size="lg" />
+                  </Button>
+                </Col>
+              </Row>
               <Row
                 className="justify-content-center"
                 // style={{ minHeight: "60vh" }}
               >
                 <Image
                   src={albumImg}
-                  className={`mt-2 mb-2`}
+                  className={`mb-2`}
                   style={{ maxWidth: "95%" }}
                   fluid
                 />
@@ -139,9 +177,8 @@ function SongPage({ data, setShowNav }) {
               <Row>
                 <p className="artist-name">{data.song.artist ?? ""}</p>
               </Row>
-              <Row className="me-3 ms-3 mt-1">
-                <SharePlay
-                  setOpenChat={setOpenChat}
+              <Row className="mt-1">
+                <SongButtons
                   setOpenReact={setOpenReact}
                   spotify_link={data.song.spotify_link}
                   apple_music_link={data.song.apple_music_link}
@@ -150,6 +187,7 @@ function SongPage({ data, setShowNav }) {
               {openReact && (
                 <AnimatePresence mode="wait">
                   <motion.div
+                    key="reaction-card"
                     className="row"
                     initial={{ y: "50%" }}
                     animate={{ y: "0%" }}
@@ -161,17 +199,18 @@ function SongPage({ data, setShowNav }) {
                 </AnimatePresence>
               )}
             </motion.div>
-            {openChat && (
+            {openReview && (
               <motion.div
+                key="comment-card"
                 style={{
                   backgroundColor: "rgba(0,0,0,0.5)",
                   boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
                   minHeight: isSmallScreen ? "91vh" : "85vh",
-                  backdropFilter: "blur(1rem)", // blurs the background when translucent
+                  backdropFilter: "blur(2rem)", // blurs the background when translucent
                 }}
                 className={`col-xs-12 ${
                   isBigScreen && "col-md-6"
-                } col-lg-7 rounded-3`}
+                } col-lg-7 rounded-3 p-0`}
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
@@ -181,9 +220,35 @@ function SongPage({ data, setShowNav }) {
                 <CommentCardB songId={data.song._id} />
               </motion.div>
             )}
+            {openSongSubmissionList && (
+              <motion.div
+                key="submission-card"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.5)",
+                  boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
+                  minHeight: isSmallScreen ? "91vh" : "85vh",
+                  backdropFilter: "blur(2rem)", // blurs the background when translucent
+                }}
+                className={`col-xs-12 ${
+                  isBigScreen && "col-md-6"
+                } col-lg-4 rounded-3 p-0`}
+                initial={{ x: "100%" }} // Start from the left side, out of the viewport
+                animate={{ x: "0%" }} // Move to the original position
+                exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
+                transition={{ duration: 0.3 }} // Animation duration (optional)
+              >
+                {/* Your new column content */}
+                <SongSubmissionList />
+              </motion.div>
+            )}
           </AnimatePresence>
         </Row>
       </div>
+      <ShareModal
+        show={shareModal}
+        onHide={() => setShareModal(false)}
+        shareLink="#!"
+      />
     </>
   );
 }

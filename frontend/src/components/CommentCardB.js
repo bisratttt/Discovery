@@ -15,6 +15,7 @@ import { useMediaQuery } from "@mui/material";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import CommentB from "./CommentB";
 import {
+  faArrowLeft,
   faCirclePlus,
   faPenFancy,
   faSpinner,
@@ -25,6 +26,7 @@ import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
 import { useErrorAlert } from "../hooks/useErrorAlert";
 import ReviewWriteModal from "./ReviewWriteModal";
+import { useToggleComponents } from "../contexts/ToggleComponents";
 
 export default function CommentCardB({ songId }) {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
@@ -34,7 +36,7 @@ export default function CommentCardB({ songId }) {
   const [limit, setLimit] = useState(100);
   const [intervalId, setIntervalId] = useState(null);
   const [reviewWriteModal, setReviewWriteModal] = useState(false);
-
+  const { setOpenReview } = useToggleComponents();
   const { currentUser } = useRealmApp();
   const { loading, error, data, fetchMore, refetch } = useQuery(
     FETCH_COMMENTS,
@@ -96,10 +98,24 @@ export default function CommentCardB({ songId }) {
   // }, []);
 
   return (
-    <Card id="comment-card" className={`${isSmallScreen && "mb-2"} rounded-3`}>
-      <Card.Header id="comment-footer">
+    <Card
+      id="comment-card"
+      className={`${isSmallScreen && "mb-2"} rounded-3 border-0`}
+    >
+      <Card.Header id="comment-footer" className="border-0">
         {" "}
         <Row>
+          {isSmallScreen && (
+            <Col className="d-flex justify-content-start align-items-start">
+              <Button
+                size="lg"
+                className="bg-transparent border-0 p-0"
+                onClick={() => setOpenReview((openReview) => !openReview)}
+              >
+                <FontAwesomeIcon icon={faArrowLeft} />
+              </Button>
+            </Col>
+          )}
           <Col className="d-flex justify-content-start">
             <ButtonGroup>
               <Button

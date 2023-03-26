@@ -1,44 +1,18 @@
-import { faHeart, faSmile } from "@fortawesome/free-regular-svg-icons";
-import {
-  faCommentDots,
-  faPen,
-  faPlay,
-  faShareNodes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSmile } from "@fortawesome/free-regular-svg-icons";
+import { faCommentDots, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Button, Col, Image } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Image } from "react-bootstrap";
 import PlayModal from "./PlayModal";
-import ReviewReadModal from "./ReviewReadModal";
-import ReviewWriteModal from "./ReviewWriteModal";
-import ShareModal from "./ShareModal";
+import RateReviewIcon from "@mui/icons-material/RateReview";
+import { useToggleComponents } from "../contexts/ToggleComponents";
+
 // buttons underneath the album (Share, Play, Comments)
-function SharePlay({
-  setOpenChat,
-  setOpenReact,
-  spotify_link,
-  apple_music_link,
-}) {
+function SongButtons({ setOpenReact, spotify_link, apple_music_link }) {
   const [playModal, setPlayModal] = useState(false);
-  const [shareModal, setShareModal] = useState(false);
+  const { setOpenReview, setOpenSongSubmissionList } = useToggleComponents();
   return (
     <>
-      <Col className="d-flex justify-content-start">
-        <Button
-          style={{
-            background: "transparent",
-            borderColor: "transparent",
-          }}
-          onClick={() => setShareModal(true)}
-        >
-          <FontAwesomeIcon icon={faShareNodes} size="2xl" />
-        </Button>
-        <ShareModal
-          show={shareModal}
-          onHide={() => setShareModal(false)}
-          shareLink="#!"
-        />
-      </Col>
       <Col className="d-flex justify-content-center">
         <Button
           onClick={() => setPlayModal(true)}
@@ -49,33 +23,36 @@ function SharePlay({
         >
           <FontAwesomeIcon icon={faPlay} size="2xl" />
         </Button>
-        <PlayModal
-          show={playModal}
-          onHide={() => setPlayModal(false)}
-          spotify_link={spotify_link}
-          apple_music_link={apple_music_link}
-        />
       </Col>
-      <Col>
-        <Button
-          className="d-flex align-items-center justify-content-center text-decoration-none border-0 py-1"
-          style={{ backgroundColor: "rgba(0,0,0,0.2)" }}
-          onClick={() => setOpenReact((react) => !react)}
-        >
-          <FontAwesomeIcon size="2xl" icon={faSmile} className="me-1" />
-          <h2 className="mb-0">+</h2>
-        </Button>
+      <Col className="d-flex justify-content-end">
+        <ButtonGroup>
+          <Button
+            className="d-flex align-items-center justify-content-center text-decoration-none border-0 py-1 px-1"
+            style={{ background: "transparent", borderColor: "transparent" }}
+            onClick={() => setOpenReact((react) => !react)}
+          >
+            <FontAwesomeIcon size="2xl" icon={faSmile} className="me-1" />
+          </Button>
+          <Button
+            className="ps-1"
+            style={{ background: "transparent", borderColor: "transparent" }}
+            onClick={() => {
+              setOpenSongSubmissionList(false);
+              setOpenReview((openReview) => !openReview);
+            }}
+          >
+            <RateReviewIcon sx={{ fontSize: 40 }} />
+          </Button>
+        </ButtonGroup>
       </Col>
-      <Col>
-        <Button
-          style={{ background: "transparent", borderColor: "transparent" }}
-          onClick={() => setOpenChat((openChat) => !openChat)}
-        >
-          <FontAwesomeIcon icon={faCommentDots} size="2xl" />
-        </Button>
-      </Col>
+      <PlayModal
+        show={playModal}
+        onHide={() => setPlayModal(false)}
+        spotify_link={spotify_link}
+        apple_music_link={apple_music_link}
+      />
     </>
   );
 }
 
-export default SharePlay;
+export default SongButtons;
