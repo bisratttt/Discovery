@@ -10,7 +10,8 @@ import { useToggleComponents } from "../contexts/ToggleComponents";
 // buttons underneath the album (Share, Play, Comments)
 function SongButtons({ setOpenReact, spotify_link, apple_music_link }) {
   const [playModal, setPlayModal] = useState(false);
-  const { setOpenReview, setOpenSongSubmissionList } = useToggleComponents();
+  const { setOpenReview, setOpenSongSubmissionList, setOpenSongInfo } =
+    useToggleComponents();
   return (
     <>
       <Col className="d-flex justify-content-center">
@@ -37,6 +38,7 @@ function SongButtons({ setOpenReact, spotify_link, apple_music_link }) {
             className="ps-1"
             style={{ background: "transparent", borderColor: "transparent" }}
             onClick={() => {
+              setOpenSongInfo(false);
               setOpenSongSubmissionList(false);
               setOpenReview((openReview) => !openReview);
             }}

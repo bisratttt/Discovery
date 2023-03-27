@@ -63,10 +63,17 @@ function YoutubeEmbed({ srcUrl }) {
     </div>
   );
 }
+
 function SongPage({ data, setShowNav }) {
   const [albumImg, setAlbumImg] = useState("");
-  const { openReview, openSongSubmissionList, openSongInfo, setOpenSongInfo } =
-    useToggleComponents();
+  const {
+    openReview,
+    openSongSubmissionList,
+    openSongInfo,
+    setOpenSongInfo,
+    setOpenSongSubmissionList,
+    setOpenReview,
+  } = useToggleComponents();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const isPhoneScreen = useMediaQuery("(max-width:630px)");
   const isBigScreen = useMediaQuery("(min-width:850px)");
@@ -74,6 +81,12 @@ function SongPage({ data, setShowNav }) {
   const [aspectRatio, setAspectRatio] = useState(null);
   const [openReact, setOpenReact] = useState(false);
   const [shareModal, setShareModal] = useState(false);
+
+  const cardStyle = {
+    backgroundColor: "rgba(0,0,0,0.7)",
+    boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
+    backdropFilter: "blur(2rem)", // blurs the background when translucent
+  };
 
   useEffect(() => {
     const updateAspectRatio = () => {
@@ -105,31 +118,24 @@ function SongPage({ data, setShowNav }) {
       <SongIntroLargeScreen setShowNav={setShowNav} />
       <div className="relative-container">
         <Row
-          className="justify-content-around align-items-center mx-2"
+          className="justify-content-around align-items-center"
           style={{
             marginTop: "9vh",
             minHeight: "91vh",
           }}
         >
-          <AnimatePresence mode="sync" initial={false}>
+          <AnimatePresence mode="popLayout" initial={false}>
             {openSongInfo && (
               <motion.div
                 key="info-card"
                 className={`col-xs-12 col-sm-9 ${
                   isBigScreen && "col-md-5"
-                } col-lg-4 d-flex flex-column justify-content-center song-card rounded-3
-                ${
-                  // hides song for smaller screen sizes
-                  isSmallScreen &&
-                  (openReview || openSongSubmissionList || openSongInfo) &&
-                  "hide-song"
+                } col-lg-4 d-flex flex-column justify-content-center song-card ${
+                  !isPhoneScreen && "rounded-3"
                 }`}
                 style={{
-                  minHeight: isSmallScreen ? "60vh" : "85vh",
-                  marginBottom: isSmallScreen && openReview ? "25vh" : "",
-                  backgroundColor: "rgba(0,0,0,0.5)",
-                  boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
-                  backdropFilter: "blur(2rem)", // blurs the background when translucent
+                  ...cardStyle,
+                  minHeight: "85vh",
                 }}
                 initial={{ x: "-100%" }}
                 animate={{ x: "0%" }}
@@ -142,7 +148,9 @@ function SongPage({ data, setShowNav }) {
               layout="position"
               className={`col-xs-12 col-sm-9 ${
                 isBigScreen && "col-md-5"
-              } col-lg-4 d-flex flex-column justify-content-center song-card rounded-3
+              } col-lg-4 d-flex flex-column justify-content-center song-card ${
+                !isPhoneScreen && "rounded-3"
+              } mx-5
                 ${
                   // hides song for smaller screen sizes
                   isSmallScreen &&
@@ -150,11 +158,8 @@ function SongPage({ data, setShowNav }) {
                   "hide-song"
                 }`}
               style={{
-                minHeight: isSmallScreen ? "60vh" : "85vh",
-                marginBottom: isSmallScreen && openReview ? "25vh" : "",
-                backgroundColor: "rgba(0,0,0,0.5)",
-                boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
-                backdropFilter: "blur(2rem)", // blurs the background when translucent
+                ...cardStyle,
+                minHeight: isSmallScreen ? "65vh" : "85vh",
               }}
             >
               <Row className="justify-content-between">
@@ -164,7 +169,11 @@ function SongPage({ data, setShowNav }) {
                       background: "transparent",
                       borderColor: "transparent",
                     }}
-                    onClick={() => setOpenSongInfo((songInfo) => !songInfo)}
+                    onClick={() => {
+                      setOpenReview(false);
+                      setOpenSongSubmissionList(false);
+                      setOpenSongInfo((songInfo) => !songInfo);
+                    }}
                   >
                     <FontAwesomeIcon icon={faCircleInfo} size="lg" />
                   </Button>
@@ -228,14 +237,12 @@ function SongPage({ data, setShowNav }) {
               <motion.div
                 key="comment-card"
                 style={{
-                  backgroundColor: "rgba(0,0,0,0.5)",
-                  boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
-                  minHeight: isSmallScreen ? "91vh" : "85vh",
-                  backdropFilter: "blur(2rem)", // blurs the background when translucent
+                  ...cardStyle,
+                  minHeight: "85vh",
                 }}
-                className={`col-xs-12 ${
-                  isBigScreen && "col-md-6"
-                } col-lg-7 rounded-3 p-0`}
+                className={`col-xs-12 ${isBigScreen && "col-md-6"} col-lg-7 ${
+                  !isPhoneScreen && "rounded-3"
+                } p-0`}
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
@@ -249,14 +256,12 @@ function SongPage({ data, setShowNav }) {
               <motion.div
                 key="submission-card"
                 style={{
-                  backgroundColor: "rgba(0,0,0,0.5)",
-                  boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
-                  minHeight: isSmallScreen ? "91vh" : "85vh",
-                  backdropFilter: "blur(2rem)", // blurs the background when translucent
+                  ...cardStyle,
+                  minHeight: "85vh",
                 }}
-                className={`col-xs-12 ${
-                  isBigScreen && "col-md-6"
-                } col-lg-4 rounded-3 p-0`}
+                className={`col-xs-12 ${isBigScreen && "col-md-6"} col-lg-4 ${
+                  !isPhoneScreen && "rounded-3"
+                } p-0`}
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM

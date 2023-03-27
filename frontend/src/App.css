@@ -48,9 +48,9 @@
   bottom: 0;
   right: 0;
   z-index: -1;
-  filter: blur(3rem);
+  filter: blur(2rem);
   background-size: cover;
-  transform: scale(1.2);
+  transform: scale(2);
 }
 
 .background-darker {
@@ -60,7 +60,7 @@
   bottom: 0;
   right: 0;
   z-index: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 .song-card {
   font-family: "Raleway", sans-serif;
