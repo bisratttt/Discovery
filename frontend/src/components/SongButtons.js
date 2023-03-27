@@ -2,16 +2,37 @@ import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import { faCommentDots, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { Button, ButtonGroup, Col, Image } from "react-bootstrap";
+import {
+  Button,
+  ButtonGroup,
+  Col,
+  OverlayTrigger,
+  Popover,
+} from "react-bootstrap";
 import PlayModal from "./PlayModal";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import { useToggleComponents } from "../contexts/ToggleComponents";
+import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
+import ReactionBanner from "./ReactionBanner";
 
 // buttons underneath the album (Share, Play, Comments)
-function SongButtons({ setOpenReact, spotify_link, apple_music_link }) {
+function SongButtons({ spotify_link, apple_music_link }) {
   const [playModal, setPlayModal] = useState(false);
   const { setOpenReview, setOpenSongSubmissionList, setOpenSongInfo } =
     useToggleComponents();
+
+  const renderReactionTooltip = (props) => (
+    <Popover
+      id="reaction-popover"
+      {...props}
+      className="py-0"
+      bsPrefix="popover popover-container"
+    >
+      <Popover.Body>
+        <ReactionBanner />
+      </Popover.Body>
+    </Popover>
+  );
   return (
     <>
       <Col className="d-flex justify-content-center">
@@ -22,18 +43,26 @@ function SongButtons({ setOpenReact, spotify_link, apple_music_link }) {
             borderColor: "transparent",
           }}
         >
-          <FontAwesomeIcon icon={faPlay} size="2xl" />
+          <LibraryMusicIcon sx={{ fontSize: 40 }} />
         </Button>
       </Col>
       <Col className="d-flex justify-content-end">
         <ButtonGroup>
-          <Button
-            className="d-flex align-items-center justify-content-center text-decoration-none border-0 py-1 px-1"
-            style={{ background: "transparent", borderColor: "transparent" }}
-            onClick={() => setOpenReact((react) => !react)}
+          <OverlayTrigger
+            trigger="click"
+            placement="top"
+            delay={{ show: 250, hide: 0 }}
+            overlay={renderReactionTooltip}
+            rootClose={true}
           >
-            <FontAwesomeIcon size="2xl" icon={faSmile} className="me-1" />
-          </Button>
+            <Button
+              className="d-flex align-items-center justify-content-center text-decoration-none border-0 py-1 px-1"
+              style={{ background: "transparent", borderColor: "transparent" }}
+            >
+              <FontAwesomeIcon size="2xl" icon={faSmile} className="me-1" />
+            </Button>
+          </OverlayTrigger>
+
           <Button
             className="ps-1"
             style={{ background: "transparent", borderColor: "transparent" }}

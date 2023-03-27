@@ -17,6 +17,7 @@ import {
 import ShareModal from "./ShareModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import SongSubmissionList from "./SongSubmissionList";
+import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
 export default function SongPageFetch({ setShowNav }) {
   const { loading, error, data } = useQuery(QUERY_SONG);
@@ -48,19 +49,12 @@ export default function SongPageFetch({ setShowNav }) {
 // responsive embeding of youtube audio/video files
 function YoutubeEmbed({ srcUrl }) {
   return (
-    <div
-      className="embed-responsive 1embed-responsive-1by mt-2 mb-2 position-relative ps-0"
-      style={{ maxWidth: "95%" }}
-    >
-      <div className="position-absolute top-0 bottom-0 left-0 right-0 w-100 ps-0">
-        <iframe
-          height="100%"
-          width="100%"
-          className="embed-responsive-item"
-          src={srcUrl}
-        ></iframe>
-      </div>
-    </div>
+    <iframe
+      src={srcUrl}
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
   );
 }
 
@@ -79,7 +73,6 @@ function SongPage({ data, setShowNav }) {
   const isBigScreen = useMediaQuery("(min-width:850px)");
   const isLargeScreen = useMediaQuery("(min-width:1200px)");
   const [aspectRatio, setAspectRatio] = useState(null);
-  const [openReact, setOpenReact] = useState(false);
   const [shareModal, setShareModal] = useState(false);
 
   const cardStyle = {
@@ -116,9 +109,12 @@ function SongPage({ data, setShowNav }) {
       />
       <div className="background-darker" />
       <SongIntroLargeScreen setShowNav={setShowNav} />
+      {!isSmallScreen && (
+        <IntroPlaySongModal srcUrl="https://www.youtube.com/embed/khoVBLp-BSE" />
+      )}
       <div className="relative-container">
         <Row
-          className="justify-content-around align-items-center"
+          className="justify-content-around align-items-center mx-0"
           style={{
             marginTop: "9vh",
             minHeight: "91vh",
@@ -129,8 +125,8 @@ function SongPage({ data, setShowNav }) {
               <motion.div
                 key="info-card"
                 className={`col-xs-12 col-sm-9 ${
-                  isBigScreen && "col-md-5"
-                } col-lg-4 d-flex flex-column justify-content-center song-card ${
+                  isBigScreen && "col-md-6"
+                } col-lg-5 d-flex flex-column justify-content-center song-card ${
                   !isPhoneScreen && "rounded-3"
                 }`}
                 style={{
@@ -148,9 +144,9 @@ function SongPage({ data, setShowNav }) {
               layout="position"
               className={`col-xs-12 col-sm-9 ${
                 isBigScreen && "col-md-5"
-              } col-lg-4 d-flex flex-column justify-content-center song-card ${
+              } col-lg-4 d-flex flex-column justify-content-center song-card px-0 ${
                 !isPhoneScreen && "rounded-3"
-              } mx-5
+              }
                 ${
                   // hides song for smaller screen sizes
                   isSmallScreen &&
@@ -159,7 +155,7 @@ function SongPage({ data, setShowNav }) {
                 }`}
               style={{
                 ...cardStyle,
-                minHeight: isSmallScreen ? "65vh" : "85vh",
+                minHeight: isSmallScreen ? "60vh" : "85vh",
               }}
             >
               <Row className="justify-content-between">
@@ -193,17 +189,18 @@ function SongPage({ data, setShowNav }) {
               </Row>
               <Row
                 className="justify-content-center"
+                style={{ minHeight: "60vh" }}
                 // style={{ minHeight: "60vh" }}
               >
-                <Image
+                {/* <Image
                   src={albumImg}
                   className={`mb-2`}
                   style={{ maxWidth: "95%" }}
                   fluid
-                />
-                {/* <YoutubeEmbed
-                  srcUrl={"https://www.youtube.com/embed/eQRyZE2r7oM"}
                 /> */}
+                <YoutubeEmbed
+                  srcUrl={"https://www.youtube.com/embed/khoVBLp-BSE"}
+                />
               </Row>
               <Row>
                 <p className="song-title">{data.song.song_name ?? ""}</p>
@@ -213,25 +210,10 @@ function SongPage({ data, setShowNav }) {
               </Row>
               <Row className="mt-1">
                 <SongButtons
-                  setOpenReact={setOpenReact}
                   spotify_link={data.song.spotify_link}
                   apple_music_link={data.song.apple_music_link}
                 />
               </Row>
-              {openReact && (
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key="reaction-card"
-                    className="row"
-                    initial={{ y: "50%" }}
-                    animate={{ y: "0%" }}
-                    exit={{ y: "100%" }}
-                    transition={{ duration: 0.1 }} // Animation duration (optional)
-                  >
-                    <ReactionBanner />
-                  </motion.div>
-                </AnimatePresence>
-              )}
             </motion.div>
             {openReview && (
               <motion.div
@@ -257,9 +239,11 @@ function SongPage({ data, setShowNav }) {
                 key="submission-card"
                 style={{
                   ...cardStyle,
-                  minHeight: "85vh",
+                  minHeight: "90vh",
+                  position: !isSmallScreen ? "absolute" : "relative",
+                  left: !isSmallScreen ? "75.5%" : "0%",
                 }}
-                className={`col-xs-12 ${isBigScreen && "col-md-6"} col-lg-4 ${
+                className={`col-xs-12 ${isBigScreen && "col-md-5"} col-lg-3 ${
                   !isPhoneScreen && "rounded-3"
                 } p-0`}
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
