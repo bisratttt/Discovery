@@ -1,0 +1,39 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "artist": {
+            "bsonType": "string"
+        },
+        "song_name": {
+            "bsonType": "string"
+        },
+        "user": {
+            "bsonType": "objectId"
+        },
+        "youtube_id": {
+            "bsonType": "string"
+        }
+    },
+    "required": [
+        "song_name",
+        "artist",
+        "_id",
+        "user"
+    ],
+    "title": "userSongSubmission"
+}
