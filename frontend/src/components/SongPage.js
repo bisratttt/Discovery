@@ -114,7 +114,7 @@ function SongPage({ data, setShowNav }) {
       )}
       <div className="relative-container">
         <Row
-          className="justify-content-around align-items-center mx-0"
+          className="justify-content-evenly align-items-center mx-0"
           style={{
             marginTop: "9vh",
             minHeight: "91vh",

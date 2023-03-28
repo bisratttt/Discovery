@@ -66,6 +66,7 @@ function NavBar({ showNav }) {
       style={{
         cursor: "pointer",
         backgroundColor: "rgba(0,0,0,0.7)",
+        boxShadow: "2px 1px 2px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
       }}
       onClick={onClick}
     >
