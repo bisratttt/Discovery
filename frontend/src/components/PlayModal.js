@@ -25,9 +25,8 @@ function Spotify({ srcUrl }) {
       style={{ borderRadius: "12px" }}
       src={`https://open.spotify.com/embed${url.pathname}`}
       width="100%"
-      height="252"
-      frameBorder="0"
-      allowFullScreen=""
+      height="240"
+      allowfullscreen=""
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       loading="lazy"
     />
@@ -35,16 +34,22 @@ function Spotify({ srcUrl }) {
 }
 function PlayModal(props) {
   return (
-    <Modal {...props} centered>
-      <Modal.Header closeButton>
-        <Modal.Title className="text-center">Play on</Modal.Title>
+    <Modal {...props} centered className="transparent-modal" animation={false}>
+      <Modal.Header
+        closeButton
+        closeVariant="white"
+        style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2rem)" }}
+      >
+        <Modal.Title className="text-center text-white">Play on</Modal.Title>
       </Modal.Header>
-      <Modal.Body style={{ background: "rgba(255,255,255,0.6)" }}>
+      <Modal.Body
+        style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2rem)" }}
+      >
         <Row>
-          <Col xs={12} sm={6}>
+          <Col xs={12}>
             <Spotify srcUrl={props.spotify_link} />
           </Col>
-          <Col xs={12} sm={6}>
+          <Col xs={12} className="rounded-3">
             <AppleMusic srcUrl={props.apple_music_link} />
           </Col>
         </Row>
