@@ -1,18 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { faFaceSmile } from "@fortawesome/free-regular-svg-icons";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  Button,
-  Form,
-  Card,
-  Row,
-  Col,
-  InputGroup,
-  ListGroup,
-  ButtonGroup,
-} from "react-bootstrap";
+import { Button, Card, Row, Col, ListGroup } from "react-bootstrap";
 import { useMediaQuery } from "@mui/material";
-import EmojiPicker, { Theme } from "emoji-picker-react";
 import CommentB from "./CommentB";
 import {
   faArrowLeft,

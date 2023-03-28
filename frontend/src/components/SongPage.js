@@ -1,4 +1,4 @@
-import { Container, Col, Row, Image, Spinner, Button } from "react-bootstrap";
+import { Container, Col, Row, Spinner, Button } from "react-bootstrap";
 import albumArt from "album-art";
 import { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -7,7 +7,6 @@ import { useQuery } from "@apollo/client";
 import { QUERY_SONG } from "../queries/SongQuery";
 import SongIntroLargeScreen from "./SongIntroLargeScreen";
 import { AnimatePresence, motion } from "framer-motion";
-import ReactionBanner from "./ReactionBanner";
 import CommentCardB from "./CommentCardB";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,7 +16,7 @@ import {
 import ShareModal from "./ShareModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import SongSubmissionList from "./SongSubmissionList";
-import IntroPlaySongModal from "./IntroPlaySongModal";
+// import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
 export default function SongPageFetch({ setShowNav }) {
   const { loading, error, data } = useQuery(QUERY_SONG);
@@ -109,9 +108,9 @@ function SongPage({ data, setShowNav }) {
       />
       <div className="background-darker" />
       <SongIntroLargeScreen setShowNav={setShowNav} />
-      {!isSmallScreen && (
+      {/* {!isSmallScreen && (
         <IntroPlaySongModal srcUrl="https://www.youtube.com/embed/khoVBLp-BSE" />
-      )}
+      )} */}
       <div className="relative-container">
         <Row
           className="justify-content-evenly align-items-center mx-0"

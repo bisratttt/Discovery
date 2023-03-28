@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Row, Badge, Button } from "react-bootstrap";
+import { Card, Col, Row, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
