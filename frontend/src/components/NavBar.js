@@ -138,7 +138,7 @@ function NavBar({ showNav }) {
                   }}
                 >
                   <RadarIcon className={`p-0 ${!isSmallScreen && "me-2"}`} />
-                  {!isSmallScreen && "Discover more"}
+                  {!isSmallScreen && "Community"}
                 </Button>
               )}
               {currentUser && showNav && (
