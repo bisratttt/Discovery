@@ -19,6 +19,7 @@ import {
   faCirclePlus,
   faPenFancy,
   faSpinner,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { ADD_COMMENT, FETCH_COMMENTS } from "../queries/CommentQuery";
 import { useMutation, useQuery } from "@apollo/client";
@@ -103,38 +104,35 @@ export default function CommentCardB({ songId }) {
       className={`${isSmallScreen && "mb-2"} rounded-3 border-0`}
     >
       <Card.Header id="comment-footer" className="border-0">
-        {" "}
         <Row>
-          {isSmallScreen && (
-            <Col className="d-flex justify-content-start align-items-start">
-              <Button
-                size="lg"
-                className="bg-transparent border-0 p-0"
-                onClick={() => setOpenReview((openReview) => !openReview)}
-              >
+          <Col className="d-flex justify-content-start align-items-start">
+            <Button
+              size="lg"
+              className="bg-transparent border-0 p-0"
+              onClick={() => setOpenReview((openReview) => !openReview)}
+            >
+              {isSmallScreen ? (
                 <FontAwesomeIcon icon={faArrowLeft} />
-              </Button>
-            </Col>
-          )}
+              ) : (
+                <FontAwesomeIcon icon={faXmark} />
+              )}
+            </Button>
+          </Col>
           <Col className="d-flex justify-content-start">
-            <ButtonGroup>
-              <Button
-                size={isSmallScreen ? "sm" : "lg"}
-                className="text-white text-decoration-none rounded-3 border-white"
-                style={{
-                  backgroundColor: "rgba(0,0,0,0.5)",
-                  padding: isSmallScreen
-                    ? "0.8rem 0.9rem 0.8rem"
-                    : "0.8rem 1rem 0.8rem",
-                }}
-                onClick={() =>
-                  setReviewWriteModal((reviewModal) => !reviewModal)
-                }
-              >
-                <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
-                Review this song
-              </Button>
-            </ButtonGroup>
+            <Button
+              size={isSmallScreen ? "sm" : "lg"}
+              className="text-white text-center text-decoration-none rounded-3 border-white w-100"
+              style={{
+                backgroundColor: "rgba(0,0,0,0.5)",
+                padding: isSmallScreen
+                  ? "0.8rem 0.9rem 0.8rem"
+                  : "0.8rem 1rem 0.8rem",
+              }}
+              onClick={() => setReviewWriteModal((reviewModal) => !reviewModal)}
+            >
+              <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
+              Review this song
+            </Button>
           </Col>
 
           <ReviewWriteModal

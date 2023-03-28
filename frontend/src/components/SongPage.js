@@ -136,7 +136,7 @@ function SongPage({ data, setShowNav }) {
                 initial={{ x: "-100%" }}
                 animate={{ x: "0%" }}
                 exit={{ x: "-100%" }}
-                transition={{ duration: 0.2 }} // Animation duration (optional)
+                transition={{ duration: 0.3 }} // Animation duration (optional)
               ></motion.div>
             )}
             <motion.div
@@ -228,7 +228,7 @@ function SongPage({ data, setShowNav }) {
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
-                transition={{ duration: 0.2 }} // Animation duration (optional)
+                transition={{ duration: 0.3 }} // Animation duration (optional)
               >
                 {/* Your new column content */}
                 <CommentCardB songId={data.song._id} />
