@@ -1,7 +1,15 @@
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bangers&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap");
-
+/* Media query for mobile Safari with safe areas */
+@media screen and (max-width: 600px) and (max-height: 375px) and (orientation: portrait) and (viewport-fit: cover) {
+  body {
+    padding-top: constant(safe-area-inset-top);
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: constant(safe-area-inset-bottom);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
 .App {
   text-align: center;
 }
