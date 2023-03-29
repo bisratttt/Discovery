@@ -12,24 +12,19 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FETCH_COMMENTS } from "../queries/CommentQuery";
 import { useQuery } from "@apollo/client";
-import { useRealmApp } from "../contexts/RealmApp";
-import { BSON } from "realm-web";
 import ReviewWriteModal from "./ReviewWriteModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
-
-export default function CommentCardB({ songId }) {
+const LIMIT = 100;
+const LAST_TIME = new Date(0);
+export default function CommentCard({ songId }) {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-  const [comment, setComment] = useState("");
-  const [lastTime, setLastTime] = useState(new Date(0));
-  const [limit, setLimit] = useState(100);
   const [intervalId, setIntervalId] = useState(null);
   const [reviewWriteModal, setReviewWriteModal] = useState(false);
   const { setOpenReview } = useToggleComponents();
-  const { currentUser } = useRealmApp();
   const { loading, error, data, fetchMore, refetch } = useQuery(
     FETCH_COMMENTS,
     {
-      variables: { limit: limit, lastTime: lastTime },
+      variables: { limit: LIMIT, lastTime: LAST_TIME },
     }
   );
 
@@ -101,11 +96,9 @@ export default function CommentCardB({ songId }) {
         ) : (
           <ListGroup className="m-0">
             {data.comments.map((com) => {
-              return (
-                <CommentB key={com._id} {...com} setComment={setComment} />
-              );
+              return <CommentB key={com._id} {...com} />;
             })}
-            {data.comments.length === limit && (
+            {data.comments.length === LIMIT && (
               <ListGroup.Item>
                 <FontAwesomeIcon
                   className="white-icon m-1"

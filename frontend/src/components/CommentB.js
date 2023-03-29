@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
 import { Col, Dropdown, ListGroup } from "react-bootstrap";
 
-export default function CommentB({ avatar, username, body, time, setComment }) {
+export default function CommentB({ avatar, username, body, time }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
   const commentRef = useRef(null);
@@ -29,7 +29,7 @@ export default function CommentB({ avatar, username, body, time, setComment }) {
       onBlur={() => setIsFocused(false)}
       onMouseEnter={() => setIsFocused(true)}
       onMouseLeave={() => setIsFocused(false)}
-    //   onHide={() => setIsHidden(true)}
+      //   onHide={() => setIsHidden(true)}
     >
       <Col xs={2} sm={1} className="d-flex justify-content-end">
         <Avatar
@@ -44,10 +44,7 @@ export default function CommentB({ avatar, username, body, time, setComment }) {
         <Col
           className="d-flex justify-content-start mb-0 pb-0"
           style={{ fontSize: "clamp(0.7rem, 5vw, 0.9rem)", fontWeight: "600" }}
-        >
-          <a className="underline-link" href="#" onClick={()=>setComment((comment)=>comment + " @" + username)} style={{ color: "inherit" }}>{username}</a>
-
-        </Col>
+        ></Col>
         <Col
           style={{ fontSize: "clamp(0.55rem, 5vw, 0.8rem)" }}
           className="d-flex justify-content-start text-center"
@@ -70,39 +67,54 @@ export default function CommentB({ avatar, username, body, time, setComment }) {
             <button
               style={{
                 backgroundColor: "transparent",
-                textDecoration: "underline"
+                textDecoration: "underline",
               }}
               className="border-0 text-white"
-              onClick={() => {setTruncateComment(!truncateComment);}}
+              onClick={() => {
+                setTruncateComment(!truncateComment);
+              }}
             >
               read more
             </button>
-          ) : (isTruncated && !truncateComment && (
-            <button
-              style={{
-                backgroundColor: "transparent",
-                textDecoration: "underline"
-              }}
-              className="border-0 text-white"
-              onClick={() => {setTruncateComment(!truncateComment);}}
-            >
-              see less
-            </button>
-          ))}
+          ) : (
+            isTruncated &&
+            !truncateComment && (
+              <button
+                style={{
+                  backgroundColor: "transparent",
+                  textDecoration: "underline",
+                }}
+                className="border-0 text-white"
+                onClick={() => {
+                  setTruncateComment(!truncateComment);
+                }}
+              >
+                see less
+              </button>
+            )
+          )}
         </Col>
       </Col>
       <Col>
         <Dropdown>
-          <Dropdown.Toggle id="dropdown-basic" bsPrefix="p-0"
-          style={{backgroundColor: "rgba(0, 0, 0, 0.0)", border: "0"}}>
+          <Dropdown.Toggle
+            id="dropdown-basic"
+            bsPrefix="p-0"
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.0)", border: "0" }}
+          >
             <FontAwesomeIcon
-            flip="horizontal"
-            icon={faEllipsis}
-            className={`${isFocused ? "visible" : "hidden"}`}/>
+              flip="horizontal"
+              icon={faEllipsis}
+              className={`${isFocused ? "visible" : "hidden"}`}
+            />
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item style={{fontSize: "clamp(0.65rem, 7vw, 0.85rem"}}>Hide</Dropdown.Item>
-            <Dropdown.Item style={{fontSize: "clamp(0.65rem, 7vw, 0.85rem"}}>Report</Dropdown.Item>
+            <Dropdown.Item style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}>
+              Hide
+            </Dropdown.Item>
+            <Dropdown.Item style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}>
+              Report
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Col>

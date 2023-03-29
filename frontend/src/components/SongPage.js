@@ -1,21 +1,17 @@
-import { Container, Col, Row, Spinner, Button } from "react-bootstrap";
+import { Container, Row, Spinner } from "react-bootstrap";
 import albumArt from "album-art";
 import { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import SongButtons from "./SongButtons";
+import SongButtonsBottom from "./SongButtonsBottom";
 import { useQuery } from "@apollo/client";
 import { QUERY_SONG } from "../queries/SongQuery";
 import SongIntroLargeScreen from "./SongIntroLargeScreen";
 import { AnimatePresence, motion } from "framer-motion";
-import CommentCardB from "./CommentCardB";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleInfo,
-  faShareFromSquare,
-} from "@fortawesome/free-solid-svg-icons";
+import CommentCard from "./CommentCard";
 import ShareModal from "./ShareModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import SongSubmissionList from "./SongSubmissionList";
+import SongButtonsTop from "./SongButtonsTop";
 // import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
 export default function SongPageFetch({ setShowNav }) {
@@ -51,9 +47,9 @@ function YoutubeEmbed({ srcId }) {
   return (
     <iframe
       src={url}
-      frameborder="0"
+      frameBorder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      allowfullscreen
+      allowFullScreen
     ></iframe>
   );
 }
@@ -159,33 +155,12 @@ function SongPage({ data, setShowNav }) {
               }}
             >
               <Row className="justify-content-between">
-                <Col className="d-flex justify-content-start">
-                  <Button
-                    style={{
-                      background: "transparent",
-                      borderColor: "transparent",
-                    }}
-                    onClick={() => {
-                      setOpenReview(false);
-                      setOpenSongSubmissionList(false);
-                      setOpenSongInfo((songInfo) => !songInfo);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faCircleInfo} size="lg" />
-                  </Button>
-                </Col>
-                <Col className="d-flex justify-content-end">
-                  <Button
-                    style={{
-                      background: "transparent",
-                      borderColor: "transparent",
-                    }}
-                    className="ps-1"
-                    onClick={() => setShareModal(true)}
-                  >
-                    <FontAwesomeIcon icon={faShareFromSquare} size="lg" />
-                  </Button>
-                </Col>
+                <SongButtonsTop
+                  setOpenReview={setOpenReview}
+                  setOpenSongInfo={setOpenSongInfo}
+                  setOpenSongSubmissionList={setOpenSongSubmissionList}
+                  setShareModal={setShareModal}
+                />
               </Row>
               <Row
                 className="justify-content-center"
@@ -207,7 +182,7 @@ function SongPage({ data, setShowNav }) {
                 <p className="artist-name">{data.song.artist ?? ""}</p>
               </Row>
               <Row className="mt-1">
-                <SongButtons
+                <SongButtonsBottom
                   spotify_link={data.song.spotify_link}
                   apple_music_link={data.song.apple_music_link}
                 />
@@ -229,7 +204,7 @@ function SongPage({ data, setShowNav }) {
                 transition={{ duration: 0.3 }} // Animation duration (optional)
               >
                 {/* Your new column content */}
-                <CommentCardB songId={data.song._id} />
+                <CommentCard songId={data.song._id} />
               </motion.div>
             )}
             {openSongSubmissionList && (
