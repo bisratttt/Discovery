@@ -28,6 +28,9 @@
         "time": {
             "bsonType": "date"
         },
+        "title": {
+            "bsonType": "string"
+        },
         "username": {
             "bsonType": "string"
         }
