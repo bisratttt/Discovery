@@ -89,6 +89,7 @@ export default function CommentCardB({ songId }) {
           </Col>
 
           <ReviewWriteModal
+            songId={songId}
             show={reviewWriteModal}
             onHide={() => setReviewWriteModal((reviewModal) => !reviewModal)}
           />

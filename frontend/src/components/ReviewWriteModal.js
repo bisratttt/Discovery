@@ -35,7 +35,7 @@ export default function ReviewModal(props) {
           backdropFilter: "blur(2rem)",
         }}
       >
-        <ReviewEditor />
+        <ReviewEditor onHide={props.onHide} songId={props.songId} />
       </Modal.Body>
     </Modal>
   );
