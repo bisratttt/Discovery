@@ -1,14 +1,14 @@
 [
     {
-        "name": "createDateTrigger",
-        "private": true
-    },
-    {
         "name": "resetPassFunc",
         "private": true
     },
     {
         "name": "useNewSong",
+        "private": true
+    },
+    {
+        "name": "createDateTrigger",
         "private": true
     }
 ]
