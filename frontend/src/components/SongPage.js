@@ -75,6 +75,7 @@ function SongPage({ data, setShowNav }) {
     backgroundColor: "rgba(0,0,0,0.7)",
     boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
     backdropFilter: "blur(2rem)", // blurs the background when translucent
+    WebkitBackdropFilter: "blur(2rem)",
   };
 
   useEffect(() => {

@@ -19,6 +19,7 @@ export default function ReviewModal(props) {
         style={{
           backgroundColor: "rgba(0,0,0,0.5)",
           backdropFilter: "blur(2rem)",
+          WebkitBackdropFilter: "blur(2rem)",
         }}
       >
         <Modal.Title className="text-white">Review this song</Modal.Title>
@@ -33,6 +34,7 @@ export default function ReviewModal(props) {
         style={{
           backgroundColor: "rgba(0,0,0,0.5)",
           backdropFilter: "blur(2rem)",
+          WebkitBackdropFilter: "blur(2rem)",
         }}
       >
         <ReviewEditor onHide={props.onHide} songId={props.songId} />

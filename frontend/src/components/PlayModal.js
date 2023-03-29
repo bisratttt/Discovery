@@ -38,12 +38,20 @@ function PlayModal(props) {
       <Modal.Header
         closeButton
         closeVariant="white"
-        style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2rem)" }}
+        style={{
+          background: "rgba(0,0,0,0.5)",
+          backdropFilter: "blur(2rem)",
+          WebkitBackdropFilter: "blur(2rem)",
+        }}
       >
         <Modal.Title className="text-center text-white">Play on</Modal.Title>
       </Modal.Header>
       <Modal.Body
-        style={{ background: "rgba(0,0,0,0.5)", backdropFilter: "blur(2rem)" }}
+        style={{
+          background: "rgba(0,0,0,0.5)",
+          backdropFilter: "blur(2rem)",
+          WebkitBackdropFilter: "blur(2rem)",
+        }}
       >
         <Row>
           <Col xs={12}>
