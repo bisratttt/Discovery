@@ -46,10 +46,11 @@ export default function SongPageFetch({ setShowNav }) {
   );
 }
 // responsive embeding of youtube audio/video files
-function YoutubeEmbed({ srcUrl }) {
+function YoutubeEmbed({ srcId }) {
+  const url = `https://www.youtube.com/embed/${srcId}`;
   return (
     <iframe
-      src={srcUrl}
+      src={url}
       frameborder="0"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen
@@ -197,9 +198,7 @@ function SongPage({ data, setShowNav }) {
                   style={{ maxWidth: "95%" }}
                   fluid
                 /> */}
-                <YoutubeEmbed
-                  srcUrl={"https://www.youtube.com/embed/khoVBLp-BSE"}
-                />
+                <YoutubeEmbed srcId={data.song.youtube_id} />
               </Row>
               <Row>
                 <p className="song-title">{data.song.song_name ?? ""}</p>

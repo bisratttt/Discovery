@@ -9,6 +9,7 @@ export const QUERY_SONG = gql`
       song_name
       apple_music_link
       spotify_link
+      youtube_id
     }
   }
 `;

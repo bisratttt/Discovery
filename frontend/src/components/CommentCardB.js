@@ -10,17 +10,15 @@ import {
   faSpinner,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import { ADD_COMMENT, FETCH_COMMENTS } from "../queries/CommentQuery";
-import { useMutation, useQuery } from "@apollo/client";
+import { FETCH_COMMENTS } from "../queries/CommentQuery";
+import { useQuery } from "@apollo/client";
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
-import { useErrorAlert } from "../hooks/useErrorAlert";
 import ReviewWriteModal from "./ReviewWriteModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 
 export default function CommentCardB({ songId }) {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-  const [openEmoji, setOpenEmoji] = useState(false);
   const [comment, setComment] = useState("");
   const [lastTime, setLastTime] = useState(new Date(0));
   const [limit, setLimit] = useState(100);
@@ -34,40 +32,6 @@ export default function CommentCardB({ songId }) {
       variables: { limit: limit, lastTime: lastTime },
     }
   );
-  const [
-    addComment,
-    { loading: mutationLoading, reset, error: mutationError },
-  ] = useMutation(ADD_COMMENT);
-
-  const NoPostErrorAlert = useErrorAlert({
-    error: mutationError?.message,
-    clearError: () => reset(),
-  });
-
-  const handleEmojiClick = (emojiData) => {
-    const emojiChar = String.fromCodePoint(`0x${emojiData.unified}`); // Convert the Unicode escape sequence to a Unicode character using String.fromCodePoint()
-    setComment(comment + emojiChar); // Add the emoji character to the comment state
-  };
-
-  const handleEnterKey = (event) => {
-    if (event.key === "Enter") {
-      addComment({
-        variables: {
-          username: currentUser.profile.email,
-          owner_id: new BSON.ObjectId(currentUser.id),
-          body: comment,
-          song: new BSON.ObjectId(songId),
-        },
-        onCompleted: () => {
-          setComment("");
-          refetch({
-            limit: limit,
-            lastTIme: lastTime,
-          });
-        },
-      });
-    }
-  };
 
   // // periodically refetch the comments
   // useEffect(() => {
