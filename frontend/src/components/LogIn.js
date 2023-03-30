@@ -71,7 +71,11 @@ function LandingDetails() {
       <NavBar fixed />
       <Row className="w-100 justify-content-center align-items-center">
         <Col sm={12} md={6}>
-          <Image src="/LogoName.svg" className="w-100 h-auto" />
+          <Image
+            alt="logo-with-name"
+            src="/LogoName.png"
+            className="w-100 h-auto"
+          />
         </Col>
       </Row>
       <Row className="w-100 justify-content-center align-items-start">
