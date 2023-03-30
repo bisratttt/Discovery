@@ -7,7 +7,11 @@ import { RealmAppProvider, useRealmApp } from "./contexts/RealmApp";
 import Details from "./components/Details";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { ToggleComponentsProvider } from "./contexts/ToggleComponents";
+import {
+  ToggleComponentsProvider,
+  useToggleComponents,
+} from "./contexts/ToggleComponents";
+import Terms from "./components/Terms";
 const { app_id } = appConfig;
 
 export default function AppWithRealm() {
@@ -22,11 +26,14 @@ export default function AppWithRealm() {
 function App() {
   const { currentUser } = useRealmApp();
   const [showNav, setShowNav] = useState(false);
+  const { openTerms } = useToggleComponents();
   const containerVariants = {
     visible: { opacity: 1, y: 0 },
     hidden: { opacity: 0, y: "-100%" },
   };
-  return (
+  return openTerms ? (
+    <Terms />
+  ) : (
     <div className="App">
       <NavBar showNav={showNav} />
       <AnimatePresence>

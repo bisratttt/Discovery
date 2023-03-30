@@ -13,7 +13,12 @@
 .App {
   text-align: center;
 }
-
+.theme-text-color {
+  color: rgb(111, 27, 6);
+}
+.theme-bg-color {
+  background-color: #f7ebde !important;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,6 +40,8 @@
   border-color: rgb(111, 27, 6, 0.7);
   backdrop-filter: blur(5px);
 }
+/* terms */
+
 /* intro song */
 .intro-song-modal {
   background-color: rgba(0, 0, 0, 0.6);

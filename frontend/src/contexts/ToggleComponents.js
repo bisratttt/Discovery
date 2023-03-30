@@ -8,7 +8,7 @@ export function ToggleComponentsProvider({ children }) {
   const [openReview, setOpenReview] = useState(false);
   const [openSongInfo, setOpenSongInfo] = useState(!isSmallScreen);
   const [openSongSubmissionList, setOpenSongSubmissionList] = useState(false);
-
+  const [openTerms, setOpenTerms] = useState(false);
   const contextValue = {
     openReview,
     setOpenReview,
@@ -16,6 +16,8 @@ export function ToggleComponentsProvider({ children }) {
     setOpenSongInfo,
     openSongSubmissionList,
     setOpenSongSubmissionList,
+    openTerms,
+    setOpenTerms,
   };
 
   return (

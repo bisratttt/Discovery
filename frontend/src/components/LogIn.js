@@ -6,6 +6,8 @@ import {
   Col,
   Button,
   InputGroup,
+  Navbar,
+  Nav,
 } from "react-bootstrap";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,6 +22,7 @@ import { useRealmApp } from "../contexts/RealmApp";
 import { handleAuthenticationError } from "../hooks/handleError";
 import React, { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
+import { useToggleComponents } from "../contexts/ToggleComponents";
 
 function LandingDetails() {
   const isSmallScreen = useMediaQuery("(max-width:950px)");
@@ -27,6 +30,7 @@ function LandingDetails() {
   const componentSize = isPhoneScreen ? "sm" : "lg";
   const inputPadding = !isSmallScreen ? "7em" : "0";
   const realmApp = useRealmApp();
+  const { setOpenTerms } = useToggleComponents();
   // initial configuration to Auth errors
   const noErrors = {
     username: null,
@@ -154,6 +158,23 @@ function LandingDetails() {
           </Form>
         </Col>
       </Row>
+      {/* bottom nav */}
+      <Navbar fixed="bottom" expand={true} className="pb-0">
+        <Navbar.Collapse className="pb-0 justify-content-end">
+          <Nav>
+            <Nav.Link>
+              <Button
+                className="text-decoration-none text-black"
+                variant="link"
+                style={{ fontSize: "1.1rem", fontWeight: "bold" }}
+                onClick={() => setOpenTerms(true)}
+              >
+                Terms
+              </Button>
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
       <NonAuthErrorAlert />
     </Container>
   );
