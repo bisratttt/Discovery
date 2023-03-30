@@ -85,7 +85,6 @@ function NavBar({ fixed = false }) {
           top: 0,
           zIndex: 888,
           width: "100%",
-          height: "8vh",
         }}
       >
         <Container fluid className="justify-content-start align-items-start">
