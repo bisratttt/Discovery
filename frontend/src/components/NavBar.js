@@ -4,10 +4,8 @@ import {
   Image,
   Nav,
   Navbar,
-  NavDropdown,
   Row,
   Col,
-  Button,
 } from "react-bootstrap";
 import React, { useState } from "react";
 import { useRealmApp } from "../contexts/RealmApp";
@@ -16,9 +14,13 @@ import Avatar from "react-avatar";
 import { useMediaQuery } from "@mui/material";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
-import RadarIcon from "@mui/icons-material/Radar";
+import PeopleIcon from "@mui/icons-material/People";
 import { useToggleComponents } from "../contexts/ToggleComponents";
-
+import {
+  NavDropdownLink,
+  NavRightButton,
+} from "./design-system/NavRightButton";
+import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
 const PillAvatar = ({ email, isSmallScreen }) => {
   const avatarSize = isSmallScreen ? 30 : 40;
 
@@ -53,26 +55,26 @@ const PillAvatar = ({ email, isSmallScreen }) => {
   );
 };
 
+const customDropdownPill = React.forwardRef(({ children, onClick }, ref) => (
+  <div // wrap the component inside a container with round borders and a down arrow icon
+    className="d-flex align-items-center rounded-pill px-2 py-2"
+    style={{
+      cursor: "pointer",
+      backgroundColor: "rgba(0,0,0,0.7)",
+      boxShadow: "2px 1px 2px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
+    }}
+    onClick={onClick}
+  >
+    {children}
+  </div>
+));
+
 function NavBar({ showNav }) {
   const { currentUser, logOut } = useRealmApp();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const { setOpenReview, setOpenSongSubmissionList, setOpenSongInfo } =
     useToggleComponents();
-
-  const customDropdownPill = React.forwardRef(({ children, onClick }, ref) => (
-    <div // wrap the component inside a container with round borders and a down arrow icon
-      className="d-flex align-items-center rounded-pill px-2 py-2"
-      style={{
-        cursor: "pointer",
-        backgroundColor: "rgba(0,0,0,0.7)",
-        boxShadow: "2px 1px 2px rgba(0, 0, 0, 0.8)", // add a box shadow to create an elevated effect
-      }}
-      onClick={onClick}
-    >
-      {children}
-    </div>
-  ));
 
   return (
     <>
@@ -98,7 +100,7 @@ function NavBar({ showNav }) {
           )}
 
           <Navbar.Collapse
-            className={`justify-content-end mt-1 ${!isSmallScreen && "me-3"}`}
+            className={`justify-content-end mt-1 ${!isSmallScreen && "me-3"} `}
           >
             <Nav>
               {!currentUser && (
@@ -119,27 +121,23 @@ function NavBar({ showNav }) {
                 onHide={() => setShowInfoModal(false)}
               />
               {currentUser && showNav && (
-                <Button
-                  size={isSmallScreen ? "sm" : "lg"}
-                  className="text-white text-decoration-none rounded-pill me-3 py-0 d-flex align-items-center justify-content-center"
-                  style={{
-                    backgroundColor: "rgba(0,0,0,0.7)",
-                    padding: isSmallScreen
-                      ? "0.8rem 0.9rem 0.8rem"
-                      : "0.8rem 1rem 0.8rem",
-                    borderColor: "rgba(255,255,255,0.6)",
-                  }}
-                  onClick={() => {
-                    setOpenSongInfo(false);
-                    setOpenReview(false);
-                    setOpenSongSubmissionList(
-                      (submissionList) => !submissionList
-                    );
-                  }}
-                >
-                  <RadarIcon className={`p-0 ${!isSmallScreen && "me-2"}`} />
-                  {!isSmallScreen && "Community"}
-                </Button>
+                <>
+                  <NavRightButton
+                    MuiButtonIcon={ThumbsUpDownIcon}
+                    name="Vote"
+                  />
+                  <NavRightButton
+                    onClick={() => {
+                      setOpenSongInfo(false);
+                      setOpenReview(false);
+                      setOpenSongSubmissionList(
+                        (submissionList) => !submissionList
+                      );
+                    }}
+                    MuiButtonIcon={PeopleIcon}
+                    name="Community"
+                  />
+                </>
               )}
               {currentUser && showNav && (
                 <Dropdown align="end">
@@ -153,19 +151,10 @@ function NavBar({ showNav }) {
                     style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
                     className="rounded-3 py-0"
                   >
-                    <NavDropdown.Item className="ps-0 py-2">
-                      <Nav.Link
-                        style={{
-                          fontSize: "clamp(0.8rem,2vw,1rem)",
-                          fontWeight: "bold",
-                        }}
-                        className="mt-0 mb-0 pt-0 pb-0 text-white"
-                        href="#"
-                        onClick={async () => await logOut()}
-                      >
-                        Log Out
-                      </Nav.Link>
-                    </NavDropdown.Item>
+                    <NavDropdownLink
+                      onClick={async () => await logOut()}
+                      label="Log Out"
+                    />
                   </Dropdown.Menu>
                 </Dropdown>
               )}
