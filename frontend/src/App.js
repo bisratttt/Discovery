@@ -12,6 +12,7 @@ import {
   useToggleComponents,
 } from "./contexts/ToggleComponents";
 import Terms from "./components/Terms";
+import Cookies from "./components/Cookies";
 const { app_id } = appConfig;
 
 export default function AppWithRealm() {
@@ -26,13 +27,15 @@ export default function AppWithRealm() {
 function App() {
   const { currentUser } = useRealmApp();
   const [showNav, setShowNav] = useState(false);
-  const { openTerms } = useToggleComponents();
+  const { openTerms, openCookies } = useToggleComponents();
   const containerVariants = {
     visible: { opacity: 1, y: 0 },
     hidden: { opacity: 0, y: "-100%" },
   };
   return openTerms ? (
     <Terms />
+  ) : openCookies ? (
+    <Cookies />
   ) : (
     <div className="App">
       <NavBar showNav={showNav} />

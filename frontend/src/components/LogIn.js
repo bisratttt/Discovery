@@ -30,7 +30,7 @@ function LandingDetails() {
   const componentSize = isPhoneScreen ? "sm" : "lg";
   const inputPadding = !isSmallScreen ? "7em" : "0";
   const realmApp = useRealmApp();
-  const { setOpenTerms } = useToggleComponents();
+  const { setOpenTerms, setOpenCookies } = useToggleComponents();
   // initial configuration to Auth errors
   const noErrors = {
     username: null,
@@ -166,10 +166,18 @@ function LandingDetails() {
               <Button
                 className="text-decoration-none text-black"
                 variant="link"
-                style={{ fontSize: "1.1rem", fontWeight: "bold" }}
+                style={{ fontSize: "0.9rem", fontWeight: "bold" }}
                 onClick={() => setOpenTerms(true)}
               >
                 Terms
+              </Button>
+              <Button
+                className="text-decoration-none text-black"
+                variant="link"
+                style={{ fontSize: "0.9rem", fontWeight: "bold" }}
+                onClick={() => setOpenCookies(true)}
+              >
+                Cookies
               </Button>
             </Nav.Link>
           </Nav>
