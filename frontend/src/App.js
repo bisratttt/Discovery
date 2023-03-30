@@ -38,7 +38,6 @@ function App() {
     <Cookies />
   ) : (
     <div className="App">
-      <NavBar showNav={showNav} />
       <AnimatePresence>
         {!currentUser && (
           <motion.div

@@ -23,6 +23,7 @@ import { handleAuthenticationError } from "../hooks/handleError";
 import React, { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
 import { useToggleComponents } from "../contexts/ToggleComponents";
+import NavBar from "./NavBar";
 
 function LandingDetails() {
   const isSmallScreen = useMediaQuery("(max-width:950px)");
@@ -67,6 +68,7 @@ function LandingDetails() {
       fluid
       className="landing fullscreen d-flex flex-column justify-content-center align-items-center"
     >
+      <NavBar fixed />
       <Row className="w-100 justify-content-center align-items-center">
         <Col sm={12} md={6}>
           <Image src="/LogoName.svg" className="w-100 h-auto" />

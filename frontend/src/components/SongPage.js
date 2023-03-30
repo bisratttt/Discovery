@@ -12,6 +12,7 @@ import ShareModal from "./ShareModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import SongSubmissionList from "./SongSubmissionList";
 import SongButtonsTop from "./SongButtonsTop";
+import NavBar from "./NavBar";
 // import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
 export default function SongPageFetch({ setShowNav }) {
@@ -109,11 +110,11 @@ function SongPage({ data, setShowNav }) {
       {/* {!isSmallScreen && (
         <IntroPlaySongModal srcUrl="https://www.youtube.com/embed/khoVBLp-BSE" />
       )} */}
+      <NavBar />
       <div className="relative-container">
         <Row
           className="justify-content-evenly align-items-center mx-0"
           style={{
-            marginTop: "9vh",
             minHeight: "91vh",
           }}
         >

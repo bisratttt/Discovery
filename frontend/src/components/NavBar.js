@@ -69,7 +69,7 @@ const customDropdownPill = React.forwardRef(({ children, onClick }, ref) => (
   </div>
 ));
 
-function NavBar({ showNav }) {
+function NavBar({ fixed = false }) {
   const { currentUser, logOut } = useRealmApp();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
@@ -81,14 +81,15 @@ function NavBar({ showNav }) {
       <Navbar
         expand={true}
         style={{
-          position: "fixed",
+          position: fixed ? "fixed" : "sticky",
           top: 0,
           zIndex: 888,
           width: "100%",
+          height: "8vh",
         }}
       >
         <Container fluid className="justify-content-start align-items-start">
-          {currentUser && showNav && (
+          {currentUser && (
             <Navbar.Brand className="m-0 p-0">
               <Image
                 src="/Logo.png"
@@ -120,7 +121,7 @@ function NavBar({ showNav }) {
                 show={showInfoModal}
                 onHide={() => setShowInfoModal(false)}
               />
-              {currentUser && showNav && (
+              {currentUser && (
                 <>
                   <NavRightButton
                     MuiButtonIcon={ThumbsUpDownIcon}
@@ -139,7 +140,7 @@ function NavBar({ showNav }) {
                   />
                 </>
               )}
-              {currentUser && showNav && (
+              {currentUser && (
                 <Dropdown align="end">
                   <Dropdown.Toggle as={customDropdownPill}>
                     <PillAvatar
