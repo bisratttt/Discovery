@@ -49,7 +49,6 @@ exports = async (input) => {
   { $group: { _id: '$reaction_unicode', count: { $sum: 1 } } },
   { $project: { reaction_unicode: '$_id', count: 1, _id: 0 } }
 ])
-  .toArray()
   .catch(error => {
     console.error('Error aggregating reactions:', error);
   })
