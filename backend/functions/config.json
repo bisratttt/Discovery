@@ -10,5 +10,9 @@
     {
         "name": "useNewSong",
         "private": true
+    },
+    {
+        "name": "fetchReactionCounts",
+        "private": false
     }
 ]
