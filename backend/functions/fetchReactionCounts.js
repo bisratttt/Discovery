@@ -39,7 +39,6 @@
 exports = async (input) => {
    // Find the name of the MongoDB service you want to use (see "Linked Data Sources" tab)
   var serviceName = "mongodb-atlas";
-  console.log("Input recieved: ", input)
   // Update these to reflect your db/collection
   var dbName = "discovery";
   var collName = "songReaction";
@@ -54,6 +53,5 @@ exports = async (input) => {
   .catch(error => {
     console.error('Error aggregating reactions:', error);
   })
-  console.log("Result is: ", result)
   return result;
 };
