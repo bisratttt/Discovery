@@ -260,7 +260,13 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
+/* share modal */
+.share-button {
+  background-color: transparent !important;
+}
+.share-button:hover {
+  background-color: rgba(71, 69, 69, 0.5) !important;
+}
 .App-link {
   color: #61dafb;
 }
