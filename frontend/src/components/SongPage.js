@@ -187,6 +187,7 @@ function SongPage({ data, setShowNav }) {
                 <SongButtonsBottom
                   spotify_link={data.song.spotify_link}
                   apple_music_link={data.song.apple_music_link}
+                  song_id={data.song._id}
                 />
               </Row>
             </motion.div>

@@ -15,7 +15,7 @@ import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import ReactionBanner from "./ReactionBanner";
 
 // buttons underneath the album (Share, Play, Comments)
-function SongButtons({ spotify_link, apple_music_link }) {
+function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const [playModal, setPlayModal] = useState(false);
   const { setOpenReview, setOpenSongSubmissionList, setOpenSongInfo } =
     useToggleComponents();
@@ -28,7 +28,7 @@ function SongButtons({ spotify_link, apple_music_link }) {
       bsPrefix="popover popover-container"
     >
       <Popover.Body>
-        <ReactionBanner />
+        <ReactionBanner songId={song_id} />
       </Popover.Body>
     </Popover>
   );
