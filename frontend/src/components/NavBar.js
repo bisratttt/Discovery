@@ -95,6 +95,12 @@ function NavBar({ fixed = false }) {
                 width={50}
                 className="d-inline-block align-top"
                 alt="Discovery logo"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  setOpenReview(false);
+                  setOpenSongInfo(false);
+                  setOpenSongSubmissionList(false);
+                }}
               />
             </Navbar.Brand>
           )}
@@ -148,7 +154,7 @@ function NavBar({ fixed = false }) {
                     />
                   </Dropdown.Toggle>
                   <Dropdown.Menu
-                    style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+                    style={{ backgroundColor: "rgb(30, 30, 30)" }}
                     className="rounded-3 py-0"
                   >
                     <NavDropdownLink
