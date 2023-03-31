@@ -22,7 +22,7 @@
                 "count": {
                     "bsonType": "int"
                 },
-                "reaction": {
+                "reaction_unicode": {
                     "bsonType": "string"
                 }
             }
