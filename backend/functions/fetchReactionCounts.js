@@ -46,7 +46,7 @@ exports = async (input) => {
   const db = context.services.get(serviceName).db(dbName);
   const collection = db.collection(collName);
   var result = await collection.aggregate([
-  { $match: { song_id: new BSON.ObjectId(input.song_id )} },
+  { $match: { song_id: input.song_id} },
   { $group: { _id: '$reaction_unicode', count: { $sum: 1 } } },
   { $project: { reaction_unicode: '$_id', count: 1, _id: 0 } }
 ])
