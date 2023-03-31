@@ -45,7 +45,7 @@ exports = async (input) => {
   var collName = "songReaction";
   const db = context.services.get(serviceName).db(dbName);
   const collection = db.collection(collName);
-  console.log("song_id is: ", input.song_id);
+  console.log("type of song_id is: ", typeof input.song_id);
   var result = await collection.aggregate([
   { $match: { song_id: input.song_id} },
   { $group: { _id: '$reaction_unicode', count: { $sum: 1 } } },
