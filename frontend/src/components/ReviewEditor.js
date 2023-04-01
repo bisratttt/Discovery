@@ -15,40 +15,37 @@ export default function ReviewEditor({ songId, onHide }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [lastUpdated, setLastUpdated] = useState("");
-  const [commentSaving, setCommentSaving] = useState(false);
   const wordCount = body.trim() ? body.trim().split(/\s+/).length : 0;
   const { currentUser } = useRealmApp();
   const [error, setError] = useState("");
-  const [
-    addComment,
-    {
-      loading: mutationLoading,
-      reset,
-      error: mutationError,
-      data: mutationData,
-    },
-  ] = useMutation(ADD_COMMENT, {
-    update: (cache, { data: { insertOneComment } }) => {
-      const { comments } = cache.readQuery({
-        query: FETCH_COMMENTS,
-        variables: { limit: LIMIT, lastTime: LAST_TIME },
-      });
-      cache.writeQuery({
-        query: FETCH_COMMENTS,
-        variables: { limit: LIMIT, lastTime: LAST_TIME },
-        data: {
-          comments: [insertOneComment, ...comments],
-        },
-      });
-    },
-  });
+  const [addComment, { loading: mutationLoading, error: mutationError }] =
+    useMutation(ADD_COMMENT, {
+      update: (cache, { data: { insertOneComment } }) => {
+        const { comments } = cache.readQuery({
+          query: FETCH_COMMENTS,
+          variables: { limit: LIMIT, lastTime: LAST_TIME },
+        });
+        cache.writeQuery({
+          query: FETCH_COMMENTS,
+          variables: { limit: LIMIT, lastTime: LAST_TIME },
+          data: {
+            comments: [insertOneComment, ...comments],
+          },
+        });
+      },
+    });
   const ErrorAlert = useErrorAlert({
-    error: error || mutationError,
+    error: error,
     clearError: () => setError(""),
   });
-  const handleSave = (event) => {
-    setCommentSaving(true);
-    checkReviewForError(null, setError, wordCount, title.trim().length > 0);
+  const handleSave = async (event) => {
+    event.preventDefault();
+    const error = await checkReviewForError({
+      serverError: mutationError !== undefined,
+      wordCount,
+      hasTitle: title.trim().length > 0,
+    });
+    setError(error);
     if (error === "") {
       addComment({
         variables: {
@@ -60,12 +57,11 @@ export default function ReviewEditor({ songId, onHide }) {
         },
         onCompleted: () => {
           onHide(true);
+          // Update the last updated timestamp
+          setLastUpdated(new Date().toLocaleString());
         },
       });
-      // Update the last updated timestamp
-      setLastUpdated(new Date().toLocaleString());
     }
-    setCommentSaving(false);
   };
 
   return (

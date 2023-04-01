@@ -52,19 +52,18 @@ export function handleAuthenticationError(err, setError) {
   }
 }
 
-export function checkReviewForError(serverError, setErr, wordCount, hasTitle) {
-  const handleUnknownError = () => {
-    setErr("Something went wrong. Try again in a little bit.");
-    console.warn(
-      "Something went wrong with a Realm. See the following error for details."
-    );
-    console.error(serverError);
-  };
-  if (wordCount < 300) {
-    setErr("Please your review needs to be atleast 300 words!");
-  } else if (!hasTitle) {
-    setErr("You need a title for your review!");
-  } else if (serverError != null) {
-    handleUnknownError();
-  }
+export async function checkReviewForError({
+  serverError,
+  wordCount,
+  hasTitle,
+}) {
+  const error =
+    wordCount < 300
+      ? "Please your review needs to be at least 300 words!"
+      : !hasTitle
+      ? "You need a title for your review!"
+      : serverError
+      ? "Something went wrong. Try again in a little bit."
+      : "";
+  return error;
 }
