@@ -151,6 +151,27 @@
 #comment-footer .input-group-text {
   background-color: transparent;
 }
+
+/* Song Submission */
+#submission-card {
+  background-color: transparent !important;
+}
+#submission-body {
+  height: 75vh;
+  overflow-y: auto;
+}
+
+#submission-footer .form-control {
+  background-color: transparent !important;
+  border: none;
+  border-radius: 0;
+  color: #fff;
+}
+
+#submission-footer .input-group-text {
+  background-color: transparent;
+}
+
 .white-icon {
   border: none;
   color: white;
