@@ -1,6 +1,6 @@
 import { faSmile } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   ButtonGroup,
@@ -13,13 +13,21 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import ReactionBanner from "./ReactionBanner";
+import { useFetchData } from "../contexts/FetchData";
+import { realmFetch } from "../utils/realmDB";
+import { useRealmApp } from "../contexts/RealmApp";
 
 // buttons underneath the album (Share, Play, Comments)
 function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const [playModal, setPlayModal] = useState(false);
   const { setOpenReview, setOpenSongSubmissionList, setOpenSongInfo } =
     useToggleComponents();
-
+  // fetches the data for the reactions
+  const { setReactionCounts } = useFetchData();
+  const { currentUser } = useRealmApp();
+  useEffect(() => {
+    realmFetch({ currentUser, songId: song_id, setReactionCounts });
+  }, [currentUser, song_id]);
   const renderReactionTooltip = (props) => (
     <Popover
       id="reaction-popover"

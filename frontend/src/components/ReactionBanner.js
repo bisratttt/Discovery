@@ -12,6 +12,7 @@ import {
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
 import { realmFetch } from "../utils/realmDB";
+import { useFetchData } from "../contexts/FetchData";
 
 const ReactionButton = ({ emoji, count, handleClick }) => {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -53,16 +54,13 @@ const ReactionButton = ({ emoji, count, handleClick }) => {
 export default function ReactionBanner({ songId }) {
   const { currentUser } = useRealmApp();
   const reactionOrder = ["❤️", "🔥", "👍", "👎", "😠"];
-  const [reactionCounts, setReactionCounts] = useState({});
+  const { reactionCounts, setReactionCounts } = useFetchData();
   // add reaction
   const [addReaction] = useMutation(ADD_REACTION);
   // update reaction
   const [updateReaction, { error: updateReactionError }] =
     useMutation(UPDATE_REACTION);
   //  fetch reaction
-  useEffect(() => {
-    realmFetch({ currentUser, songId, setReactionCounts });
-  }, []);
   // const { data: reactionList, refetch } = useQuery(FETCH_REACTIONS, {
   //   variables: { song_id: new BSON.ObjectId(songId) },
   //   onCompleted: () => {
