@@ -17,7 +17,15 @@
             }
         },
         "body": {
-            "bsonType": "string"
+            "bsonType": "string",
+            "validate": {
+                "%%true": {
+                    "%function": {
+                        "arguments": "%%this",
+                        "name": "validateCommentBody"
+                    }
+                }
+            }
         },
         "owner_id": {
             "bsonType": "objectId"
@@ -29,7 +37,15 @@
             "bsonType": "date"
         },
         "title": {
-            "bsonType": "string"
+            "bsonType": "string",
+            "validate": {
+                "%%true": {
+                    "%function": {
+                        "arguments": "%%this",
+                        "name": "validateCommentTitle"
+                    }
+                }
+            }
         },
         "username": {
             "bsonType": "string"
