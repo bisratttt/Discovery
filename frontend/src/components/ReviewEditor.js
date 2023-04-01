@@ -3,12 +3,14 @@ import { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
 import { checkReviewForError } from "../hooks/handleError";
 import { useMutation } from "@apollo/client";
-import { ADD_COMMENT } from "../queries/CommentQuery";
+import { ADD_COMMENT, FETCH_COMMENTS } from "../queries/CommentQuery";
 import { BSON } from "realm-web";
 import { useRealmApp } from "../contexts/RealmApp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
+const LIMIT = 100;
+const LAST_TIME = new Date(0);
 export default function ReviewEditor({ songId, onHide }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -19,8 +21,27 @@ export default function ReviewEditor({ songId, onHide }) {
   const [error, setError] = useState("");
   const [
     addComment,
-    { loading: mutationLoading, reset, error: mutationError },
-  ] = useMutation(ADD_COMMENT);
+    {
+      loading: mutationLoading,
+      reset,
+      error: mutationError,
+      data: mutationData,
+    },
+  ] = useMutation(ADD_COMMENT, {
+    update: (cache, { data: { insertOneComment } }) => {
+      const { comments } = cache.readQuery({
+        query: FETCH_COMMENTS,
+        variables: { limit: LIMIT, lastTime: LAST_TIME },
+      });
+      cache.writeQuery({
+        query: FETCH_COMMENTS,
+        variables: { limit: LIMIT, lastTime: LAST_TIME },
+        data: {
+          comments: [insertOneComment, ...comments],
+        },
+      });
+    },
+  });
   const ErrorAlert = useErrorAlert({
     error: error || mutationError,
     clearError: () => setError(""),
@@ -34,7 +55,7 @@ export default function ReviewEditor({ songId, onHide }) {
           username: currentUser.profile.email,
           owner_id: new BSON.ObjectId(currentUser.id),
           body: body,
-          song: new BSON.ObjectId(),
+          song: new BSON.ObjectId(songId),
           title: title,
         },
         onCompleted: () => {

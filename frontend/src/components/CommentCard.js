@@ -62,7 +62,7 @@ export default function CommentCard({ songId }) {
               {isSmallScreen ? (
                 <FontAwesomeIcon icon={faArrowLeft} />
               ) : (
-                <FontAwesomeIcon icon={faXmark} />
+                <FontAwesomeIcon icon={faXmark} size="xl" />
               )}
             </Button>
           </Col>

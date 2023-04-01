@@ -1,14 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Card, Col, Row, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
-import { useMutation, useQuery } from "@apollo/client";
-import {
-  ADD_REACTION,
-  UPDATE_REACTION,
-  FETCH_REACTIONS,
-} from "../queries/ReactionQuery";
+import { useMutation } from "@apollo/client";
+import { ADD_REACTION, UPDATE_REACTION } from "../queries/ReactionQuery";
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
 import { realmFetch } from "../utils/realmDB";
