@@ -1,20 +1,13 @@
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
-import { Col, Dropdown, ListGroup } from "react-bootstrap";
+import { Row, Col, Dropdown, ListGroup } from "react-bootstrap";
 
 export default function SongSubmission({username, song_name, artist, time }) {
-  const [truncateSubmission, setTruncateSubmission] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
   const submissionRef = useRef(null);
-  const [isFocused, setIsFocused] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  useEffect(() => {
-    setIsTruncated(
-      submissionRef.current.scrollWidth > submissionRef.current.clientWidth
-    );
-  }, [submissionRef]);
   let dateTime = new Date(time).toLocaleString("en-US", {
     hour: "numeric",
     minute: "numeric",
@@ -25,97 +18,37 @@ export default function SongSubmission({username, song_name, artist, time }) {
       className={`${isHidden ? "hidden" : "visible"} d-flex align-items-start
       justify-content-between text-white m-0 p-0 pt-2`}
       style={{ backgroundColor: "rgba(0,0,0,0.2)" }}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
-      onMouseEnter={() => setIsFocused(true)}
-      onMouseLeave={() => setIsFocused(false)}
-      //   onHide={() => setIsHidden(true)}
+      
     >
-      <Col xs={2} sm={1} className="d-flex justify-content-end">
-        <Avatar
-          textSizeRatio={2}
-          name={username}
-          size="40"
-          round
-        />
+      <Col xs={2}>
+        <FontAwesomeIcon icon={faPlay} size="3x"/>
       </Col>
-      <Col xs={9} sm={10} className="ms-1">
-        <Col
-          className="d-flex justify-content-start mb-0 pb-0"
-          style={{ fontSize: "clamp(0.7rem, 5vw, 0.9rem)", fontWeight: "600" }}
-        ></Col>
-        <Col
-          style={{ fontSize: "clamp(0.55rem, 5vw, 0.8rem)" }}
-          className="d-flex justify-content-start text-center"
-        >
-          <p
-            ref={submissionRef}
-            className={`${
-              truncateSubmission && "text-truncate"
-            } text-start mb-0 pb-0`}
-          >
-            {song_name}
-          </p>
-        </Col>
-        <Col
-          className="d-flex justify-content-between"
-          style={{ fontSize: "clamp(0.5rem, 5vw, 0.75rem)" }}
-        >
-          <small className="text-muted">{dateTime}</small>
-          {isTruncated && truncateSubmission ? (
-            <button
-              style={{
-                backgroundColor: "transparent",
-                textDecoration: "underline",
-              }}
-              className="border-0 text-white"
-              onClick={() => {
-                setTruncateSubmission(!truncateSubmission);
-              }}
-            >
-              read more
-            </button>
-          ) : (
-            isTruncated &&
-            !truncateSubmission && (
-              <button
-                style={{
-                  backgroundColor: "transparent",
-                  textDecoration: "underline",
-                }}
-                className="border-0 text-white"
-                onClick={() => {
-                  setTruncateSubmission(!truncateSubmission);
-                }}
-              >
-                see less
-              </button>
-            )
-          )}
-        </Col>
-      </Col>
-      <Col>
-        <Dropdown>
-          <Dropdown.Toggle
-            id="dropdown-basic"
-            bsPrefix="p-0"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.0)", border: "0" }}
-          >
-            <FontAwesomeIcon
-              flip="horizontal"
-              icon={faEllipsis}
-              className={`${isFocused ? "visible" : "hidden"}`}
-            />
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}>
-              Hide
-            </Dropdown.Item>
-            <Dropdown.Item style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}>
-              Report
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+      <Col >
+        <Row >
+          <Col className="d-flex justify-content-start align-items-center" style={{fontSize: "1.2rem"}}>
+            {song_name} - {artist}
+          </Col>
+          <Col xs={3}>
+            {dateTime}
+          </Col>
+        </Row>
+        <Row >
+          <Col xs={1} className="d-flex justify-content-end align-items-center pe-0">
+          <Avatar
+            textSizeRatio={2}
+            name={username}
+            size="25"
+            round
+          />
+          </Col>
+          <Col className="d-flex justify-content-start align-items-center ps-1">
+          {username}
+          </Col>
+
+        </Row>
+        <Row >
+          This will be notes
+        </Row>
       </Col>
     </ListGroup.Item>
   );

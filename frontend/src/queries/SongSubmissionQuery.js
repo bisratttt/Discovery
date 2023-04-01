@@ -12,12 +12,14 @@ export const FETCH_SUBMISSIONS = gql`
 
 export const ADD_SUBMISSION = gql`
   mutation AddUserSongSubmission(
+    $user_id: ObjectId!
     $username: String!
     $artist: String!
     $song_name: String!
   ) {
     insertOneUserSongSubmission(
       data: {
+        user_id: $user_id
         username: $username
         song_name: $song_name
         artist: $artist

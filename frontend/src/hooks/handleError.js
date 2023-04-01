@@ -67,3 +67,19 @@ export async function checkReviewForError({
       : "";
   return error;
 }
+
+export async function checkSubmissionForError({
+  serverError,
+  hasSongName,
+  hasArtist,
+}) {
+  const error =
+     !hasArtist
+      ? "You need an artist for your submission"
+      : !hasSongName
+      ? "You need a song name for your submission"
+      : serverError
+      ? "Something went wrong. Try again in a little bit."
+      : "";
+  return error;
+}

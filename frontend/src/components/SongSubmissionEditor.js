@@ -1,7 +1,7 @@
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
-import { checkReviewForError } from "../hooks/handleError";
+import { checkReviewForError, checkSubmissionForError } from "../hooks/handleError";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../queries/CommentQuery";
 import {ADD_SUBMISSION} from "../queries/SongSubmissionQuery";
@@ -13,9 +13,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 export default function SongSubmissionEditor({onHide}) {
     const [artist, setArtist] = useState("");
     const [song_name, setSongName] = useState("");
-    const [lastUpdated, setLastUpdated] = useState("");
     const wordCount = song_name.trim() ? song_name.trim().split(/\s+/).length : 0;
-    const [submissionSaving, setSubmissionSaving] = useState(false);
     const { currentUser } = useRealmApp();
     const [error, setError] = useState("");
     const [ 
@@ -23,29 +21,30 @@ export default function SongSubmissionEditor({onHide}) {
         { loading: mutationLoading, reset, error: mutationError },
   ] = useMutation(ADD_SUBMISSION);
   const ErrorAlert = useErrorAlert({
-    error: error || mutationError,
+    error: error,
     clearError: () => setError(""),
   });
-  const handleSave = (event) => {
-    setSubmissionSaving(true);
-    checkReviewForError(null, setError, wordCount, artist.trim().length > 0);
+  const handleSave = async (event) => {
+    event.preventDefault()
+    const error = await checkSubmissionForError({
+        serverError: mutationError !== undefined,
+        hasSongName: song_name.trim().length > 0,
+        hasArtist: artist.trim().length > 0,
+    })
+    setError(error)
     if (error === "") {
       addSongSubmission({
         variables: {
           username: currentUser.profile.email,
-//          owner_id: new BSON.ObjectId(currentUser.id),
+          user_id: new BSON.ObjectId(currentUser.id),
           artist: artist,
           song_name: song_name,
-//          youtube_id: "",
         },
         onCompleted: () => {
           onHide(true);
         },
       });
-      // Update the last updated timestamp
-      setLastUpdated(new Date().toLocaleString());
     }
-    setSubmissionSaving(false);
   };
   return (
     <Form>
@@ -72,16 +71,6 @@ export default function SongSubmissionEditor({onHide}) {
         <ErrorAlert />
       </Form.Group>
       <Row>
-        <Col sm={6} className="d-flex justify-content-start align-items-end">
-          {lastUpdated && (
-            <span
-              style={{ fontSize: "clamp(0.5rem, 5vw, 0.8rem)" }}
-              className="text-muted"
-            >
-              Last updated: {lastUpdated}
-            </span>
-          )}
-        </Col>
         <Col sm={6} className="d-flex justify-content-end">
           <Button
             disabled={mutationLoading}
