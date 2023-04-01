@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Col, Row, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
@@ -11,6 +11,7 @@ import {
 } from "../queries/ReactionQuery";
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
+import { realmFetch } from "../utils/realmDB";
 
 const ReactionButton = ({ emoji, count, handleClick }) => {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -59,22 +60,25 @@ export default function ReactionBanner({ songId }) {
   const [updateReaction, { error: updateReactionError }] =
     useMutation(UPDATE_REACTION);
   //  fetch reaction
-  const { data: reactionList, refetch } = useQuery(FETCH_REACTIONS, {
-    variables: { song_id: new BSON.ObjectId(songId) },
-    onCompleted: () => {
-      console.log(reactionList);
-      const counts = reactionList.getReactionCounts.reduce(
-        (obj, { reaction_unicode, count }) => ({
-          ...obj,
-          [reaction_unicode]: count,
-        }),
-        {}
-      );
-      console.log(counts);
-      setReactionCounts(counts);
-    },
-    onError: (error) => console.log(error),
-  });
+  useEffect(() => {
+    realmFetch({ currentUser, songId, setReactionCounts });
+  }, []);
+  // const { data: reactionList, refetch } = useQuery(FETCH_REACTIONS, {
+  //   variables: { song_id: new BSON.ObjectId(songId) },
+  //   onCompleted: () => {
+  //     console.log(reactionList);
+  //     const counts = reactionList.getReactionCounts.reduce(
+  //       (obj, { reaction_unicode, count }) => ({
+  //         ...obj,
+  //         [reaction_unicode]: count,
+  //       }),
+  //       {}
+  //     );
+  //     console.log(counts);
+  //     setReactionCounts(counts);
+  //   },
+  //   onError: (error) => console.log(error),
+  // });
 
   const reactToSong = (reactionEmoji) => {
     //  try adding first
@@ -84,9 +88,7 @@ export default function ReactionBanner({ songId }) {
         song_id: new BSON.ObjectId(songId),
         reaction: reactionEmoji,
       },
-      onCompleted: () => {
-        refetch();
-      },
+      onCompleted: () => realmFetch({ currentUser, songId, setReactionCounts }),
       onError: () => {
         // if adding doesn't work then try updating the reaction
         updateReaction({
@@ -95,9 +97,8 @@ export default function ReactionBanner({ songId }) {
             song_id: new BSON.ObjectId(songId),
             reaction: reactionEmoji,
           },
-          onCompleted: () => {
-            refetch();
-          },
+          onCompleted: () =>
+            realmFetch({ currentUser, songId, setReactionCounts }),
           onError: () => console.log(updateReactionError),
         });
       },
@@ -105,7 +106,6 @@ export default function ReactionBanner({ songId }) {
   };
 
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-
   return (
     <Card bg="dark" text="white" id="reaction-card" className="mb-2">
       <Row>
