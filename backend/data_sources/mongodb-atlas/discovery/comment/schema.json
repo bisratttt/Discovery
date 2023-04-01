@@ -17,15 +17,14 @@
             }
         },
         "body": {
-            "bsonType": "string",
-            "validate": {
-                "%%true": {
-                    "%function": {
-                        "arguments": "%%this",
-                        "name": "validateCommentBody"
-                    }
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateCommentBody"
                 }
-            }
+            },
+            "bsonType": "string",
+            "description": "Body must be at least 300 words!"
         },
         "owner_id": {
             "bsonType": "objectId"
@@ -37,15 +36,14 @@
             "bsonType": "date"
         },
         "title": {
-            "bsonType": "string",
-            "validate": {
-                "%%true": {
-                    "%function": {
-                        "arguments": "%%this",
-                        "name": "validateCommentTitle"
-                    }
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateCommentTitle"
                 }
-            }
+            },
+            "bsonType": "string",
+            "description": "Title must not be empty!"
         },
         "username": {
             "bsonType": "string"
