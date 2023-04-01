@@ -44,13 +44,15 @@ exports = async (input) => {
   var collName = "songReaction";
   const db = context.services.get(serviceName).db(dbName);
   const collection = db.collection(collName);
-  var result = await collection.aggregate([
-  { $match: { song_id: input.song_id} },
-  { $group: { _id: '$reaction_unicode', count: { $sum: 1 } } },
-  { $project: { reaction_unicode: '$_id', count: 1, _id: 0 } }
-])
-  .catch(error => {
+  var result = []
+  try {
+    result = await collection.aggregate([
+      { $match: { song_id: input.song_id} },
+      { $group: { _id: '$reaction_unicode', count: { $sum: 1 } } },
+      { $project: { reaction_unicode: '$_id', count: 1, _id: 0 } }
+    ])
+  } catch (error) {
     console.error('Error aggregating reactions:', error);
-  })
+  }
   return result;
 };
