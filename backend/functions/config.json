@@ -14,5 +14,15 @@
     {
         "name": "fetchReactionCounts",
         "private": false
+    },
+    {
+        "name": "validateCommentBody",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "validateCommentTitle",
+        "private": true,
+        "disable_arg_logs": true
     }
 ]
