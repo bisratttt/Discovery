@@ -52,6 +52,7 @@
         }
     },
     "required": [
+        "title",
         "username",
         "body",
         "_id",
