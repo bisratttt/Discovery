@@ -16,6 +16,7 @@ export const ADD_COMMENT = gql`
     $body: String!
     $song: ObjectId!
     $owner_id: ObjectId!
+    $title: String!
   ) {
     insertOneComment(
       data: {
@@ -23,6 +24,7 @@ export const ADD_COMMENT = gql`
         song: $song
         body: $body
         owner_id: $owner_id
+        title: $title
       }
     ) {
       _id
