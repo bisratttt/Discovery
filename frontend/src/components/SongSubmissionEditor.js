@@ -13,7 +13,8 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 export default function SongSubmissionEditor({onHide}) {
     const [artist, setArtist] = useState("");
     const [song_name, setSongName] = useState("");
-    const wordCount = song_name.trim() ? song_name.trim().split(/\s+/).length : 0;
+    const [note, setNote] = useState("");
+    const charCount = note ? note.length : 0;
     const { currentUser } = useRealmApp();
     const [error, setError] = useState("");
     const [ 
@@ -30,6 +31,7 @@ export default function SongSubmissionEditor({onHide}) {
         serverError: mutationError !== undefined,
         hasSongName: song_name.trim().length > 0,
         hasArtist: artist.trim().length > 0,
+        noteShortEnough: note.trim().length < 136,
     })
     setError(error)
     if (error === "") {
@@ -39,6 +41,7 @@ export default function SongSubmissionEditor({onHide}) {
           user_id: new BSON.ObjectId(currentUser.id),
           artist: artist,
           song_name: song_name,
+          note: note,
         },
         onCompleted: () => {
           onHide(true);
@@ -67,7 +70,18 @@ export default function SongSubmissionEditor({onHide}) {
           onChange={(e) => setSongName(e.target.value)}
           style={{ backgroundColor: "transparent" }}
         />
-        <Form.Text className="text-muted">{wordCount} words</Form.Text>
+      </Form.Group>
+      <Form.Group controlId="note">
+        <Form.Control
+          className="submission-body text-white"
+          as="textarea"
+          rows={3}
+          placeholder="Notes about your song"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          style={{ backgroundColor: "transparent" }}
+        />
+        <Form.Text className="text-muted">{charCount}/135 characters</Form.Text>
         <ErrorAlert />
       </Form.Group>
       <Row>

@@ -6,6 +6,7 @@ export const FETCH_SUBMISSIONS = gql`
       username
       artist
       song_name
+      note
     }
   }
 `;
@@ -16,6 +17,7 @@ export const ADD_SUBMISSION = gql`
     $username: String!
     $artist: String!
     $song_name: String!
+    $note: String!
   ) {
     insertOneUserSongSubmission(
       data: {
@@ -23,12 +25,14 @@ export const ADD_SUBMISSION = gql`
         username: $username
         song_name: $song_name
         artist: $artist
+        note: $note
       }
     ) {
         _id
         username
         artist
         song_name
+        note
     }
   }
 `;

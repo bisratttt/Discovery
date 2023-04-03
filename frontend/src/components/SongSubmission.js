@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
 import { Row, Col, Dropdown, ListGroup } from "react-bootstrap";
 
-export default function SongSubmission({username, song_name, artist, time }) {
+export default function SongSubmission({username, song_name, artist, note, time }) {
   const [isTruncated, setIsTruncated] = useState(false);
   const submissionRef = useRef(null);
   const [isHidden, setIsHidden] = useState(false);
@@ -29,11 +29,11 @@ export default function SongSubmission({username, song_name, artist, time }) {
             {song_name} - {artist}
           </Col>
           <Col xs={3}>
-            {dateTime}
+          <small className="text-muted">{dateTime}</small>
           </Col>
         </Row>
         <Row >
-          <Col xs={1} className="d-flex justify-content-end align-items-center pe-0">
+          <Col xs={1} className="d-flex justify-content-end align-items-start pe-0">
           <Avatar
             textSizeRatio={2}
             name={username}
@@ -41,14 +41,16 @@ export default function SongSubmission({username, song_name, artist, time }) {
             round
           />
           </Col>
-          <Col className="d-flex justify-content-start align-items-center ps-1">
-          {username}
+          <Col className="d-flex justify-content-start align-items-start ps-0">
+          {username} - {note}
           </Col>
 
         </Row>
-        <Row >
-          This will be notes
-        </Row>
+        {/* <Row >
+         <Col className="d-flex justify-content-start ps-0"> 
+          {note}
+          </Col> 
+        </Row> */}
       </Col>
     </ListGroup.Item>
   );

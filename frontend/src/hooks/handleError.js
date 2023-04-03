@@ -72,12 +72,15 @@ export async function checkSubmissionForError({
   serverError,
   hasSongName,
   hasArtist,
+  noteShortEnough,
 }) {
   const error =
      !hasArtist
       ? "You need an artist for your submission"
       : !hasSongName
       ? "You need a song name for your submission"
+      : !noteShortEnough
+      ? "Your note is too long!"
       : serverError
       ? "Something went wrong. Try again in a little bit."
       : "";
