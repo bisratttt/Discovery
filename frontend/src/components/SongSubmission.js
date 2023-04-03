@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
 import { Row, Col, Dropdown, ListGroup } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
+import { getMetaphorialTime } from "../utils/utils";
 
 export default function SongSubmission({
   username,
@@ -14,18 +15,17 @@ export default function SongSubmission({
 }) {
   const submissionRef = useRef(null);
   const [isHidden, setIsHidden] = useState(false);
-  let dateTime = new Date(time).toLocaleString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
+  let dateTime = getMetaphorialTime(time);
   return (
     <ListGroup.Item
       className={`${
         isHidden ? "hidden" : "visible"
       } row d-flex align-items-start
       justify-content-between text-white m-0 p-0 pt-2`}
-      style={{ backgroundColor: "rgba(0,0,0,0.2)" }}
+      style={{
+        backgroundColor: "rgba(0,0,0,0.2)",
+        borderBottom: "solid rgba(255,255,255,0.5) 0.01rem",
+      }}
     >
       <Col xs={2}>
         <FontAwesomeIcon icon={faPlay} size="3x" />
@@ -60,7 +60,7 @@ export default function SongSubmission({
         </Row>
         <Row>
           <Col
-            className="d-flex justify-content-start p-1 text-start rounded-2 me-3 mt-1"
+            className="d-flex justify-content-start p-1 text-start rounded-2 me-3 mt-1 mb-2"
             style={{
               backgroundColor: "rgba(30,30,30, 0.7)",
               fontSize: "0.8rem",

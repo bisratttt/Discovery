@@ -7,6 +7,7 @@ export const FETCH_SUBMISSIONS = gql`
       artist
       song_name
       note
+      time
     }
   }
 `;
@@ -28,11 +29,11 @@ export const ADD_SUBMISSION = gql`
         note: $note
       }
     ) {
-        _id
-        username
-        artist
-        song_name
-        note
+      _id
+      username
+      artist
+      song_name
+      note
     }
   }
 `;
