@@ -19,6 +19,9 @@
         "artist": {
             "bsonType": "string"
         },
+        "note": {
+            "bsonType": "string"
+        },
         "song_name": {
             "bsonType": "string"
         },
