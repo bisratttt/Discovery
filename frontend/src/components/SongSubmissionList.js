@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Row, Col, ListGroup } from "react-bootstrap";
 import { useMediaQuery } from "@mui/material";
@@ -14,6 +14,8 @@ import SongSubmissionModal from "./SongSubmissionModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import { FETCH_SUBMISSIONS } from "../queries/SongSubmissionQuery";
 import SongSubmission from "./SongSubmission";
+import { useRealmApp } from "../contexts/RealmApp";
+
 // const LIMIT = 100;
 // const LAST_TIME = new Date(0);
 export default function SongSubmissionList() {
@@ -27,6 +29,20 @@ export default function SongSubmissionList() {
     //   variables: { limit: LIMIT, lastTime: LAST_TIME },
     // }
   );
+  const { currentUser } = useRealmApp();
+  const [isBlurred, setIsBlurred] = useState(true);
+  
+  // const usernames = data?.userSongSubmissions?.map((submission) => submission.username) || [];
+  // const madeSubmission = usernames.some((username) => username === currentUser.profile.email);
+
+  // if (madeSubmission){
+  //   setIsBlurred(false);
+  // }
+
+  useEffect(() => {
+    const madeSubmission = data?.userSongSubmissions?.some((submission) => submission.username === currentUser.profile.email);
+    setIsBlurred(!madeSubmission);
+  }, [data, currentUser]);
 
   // // periodically refetch the comments
   // useEffect(() => {
@@ -69,7 +85,9 @@ console.log(error)
           <Col className="d-flex justify-content-start">
             <Button
               size={isSmallScreen ? "sm" : "lg"}
-              className="text-white text-center text-decoration-none rounded-3 border-white w-100"
+              className={`text-white text-center text-decoration-none rounded-3 border-0 w-100 ${
+                isBlurred ? "overlay" : ""
+              }`}
               style={{
                 backgroundColor: "rgba(0,0,0,0.5)",
                 padding: isSmallScreen
@@ -89,7 +107,7 @@ console.log(error)
           />
         </Row>
       </Card.Header>
-      <Card.Body id="submission-body" className="p-0">
+      <Card.Body id="submission-body" className={`p-0`}>
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
