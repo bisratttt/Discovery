@@ -20,7 +20,7 @@
             "%%true": {
                 "%function": {
                     "arguments": "%%this",
-                    "name": "validateCommentBody"
+                    "name": "validateEmptyInput"
                 }
             },
             "bsonType": "string",
@@ -39,7 +39,7 @@
             "%%true": {
                 "%function": {
                     "arguments": "%%this",
-                    "name": "validateCommentTitle"
+                    "name": "validateEmptyInput"
                 }
             },
             "bsonType": "string",

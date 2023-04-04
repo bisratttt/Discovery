@@ -17,13 +17,34 @@
             }
         },
         "artist": {
-            "bsonType": "string"
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Artist name must not be empty!"
         },
         "note": {
-            "bsonType": "string"
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Empty note is not valid"
         },
         "song_name": {
-            "bsonType": "string"
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Song name must not be empty!"
         },
         "time": {
             "bsonType": "date"
