@@ -22,8 +22,14 @@
         "song_name": {
             "bsonType": "string"
         },
-        "user": {
+        "time": {
+            "bsonType": "date"
+        },
+        "user_id": {
             "bsonType": "objectId"
+        },
+        "username": {
+            "bsonType": "string"
         },
         "youtube_id": {
             "bsonType": "string"
@@ -33,7 +39,8 @@
         "song_name",
         "artist",
         "_id",
-        "user"
+        "user_id",
+        "username"
     ],
     "title": "userSongSubmission"
 }
