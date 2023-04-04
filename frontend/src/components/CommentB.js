@@ -2,9 +2,11 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
-import { Col, Dropdown, ListGroup } from "react-bootstrap";
+import { Button, Col, Dropdown, ListGroup, Row } from "react-bootstrap";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
-export default function CommentB({ avatar, username, body, time }) {
+export default function CommentB({ avatar, username, body, title, time }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
   const commentRef = useRef(null);
@@ -12,7 +14,7 @@ export default function CommentB({ avatar, username, body, time }) {
   const [isHidden, setIsHidden] = useState(false);
   useEffect(() => {
     setIsTruncated(
-      commentRef.current.scrollWidth > commentRef.current.clientWidth
+      commentRef.current.scrollHeight > commentRef.current.clientHeight
     );
   }, [commentRef]);
   let dateTime = new Date(time).toLocaleString("en-US", {
@@ -22,102 +24,121 @@ export default function CommentB({ avatar, username, body, time }) {
   });
   return (
     <ListGroup.Item
-      className={`${isHidden ? "hidden" : "visible"} d-flex align-items-start
-      justify-content-between text-white m-0 p-0 pt-2`}
-      style={{ backgroundColor: "rgba(0,0,0,0.2)" }}
+      className={`text-white mx-2 my-1 pt-2 rounded-1`}
+      style={{
+        backgroundColor: "rgba(0,0,0,0.2)",
+        border: "solid 1px rgba(255,255,255,0.3)",
+      }}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       onMouseEnter={() => setIsFocused(true)}
       onMouseLeave={() => setIsFocused(false)}
       //   onHide={() => setIsHidden(true)}
     >
-      <Col xs={2} sm={1} className="d-flex justify-content-end">
-        <Avatar
-          textSizeRatio={2}
-          name={username}
-          src={avatar}
-          size="40"
-          round
-        />
-      </Col>
-      <Col xs={9} sm={10} className="ms-1">
-        <Col
-          className="d-flex justify-content-start mb-0 pb-0"
-          style={{ fontSize: "clamp(0.7rem, 5vw, 0.9rem)", fontWeight: "600" }}
-        ></Col>
-        <Col
-          style={{ fontSize: "clamp(0.55rem, 5vw, 0.8rem)" }}
-          className="d-flex justify-content-start text-center"
-        >
-          <p
-            ref={commentRef}
-            className={`${
-              truncateComment && "text-truncate"
-            } text-start mb-0 pb-0`}
-          >
-            {body}
-          </p>
+      <Row>
+        <Col xs={2} lg={1} className="d-flex justify-content-end">
+          <Avatar
+            textSizeRatio={2}
+            name={username}
+            src={avatar}
+            size="35"
+            round
+          />
         </Col>
-        <Col
-          className="d-flex justify-content-between"
-          style={{ fontSize: "clamp(0.5rem, 5vw, 0.75rem)" }}
-        >
-          <small className="text-muted">{dateTime}</small>
-          {isTruncated && truncateComment ? (
-            <button
-              style={{
-                backgroundColor: "transparent",
-                textDecoration: "underline",
-              }}
-              className="border-0 text-white"
-              onClick={() => {
-                setTruncateComment(!truncateComment);
-              }}
+        <Col xs={10} lg={11}>
+          <Row
+            style={{ height: "35px" }}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <Col className="d-flex justify-content-start ps-0">
+              <strong>{username}</strong>
+            </Col>
+            <Col xs={4} lg={2} className="d-flex justify-content-end pe-4">
+              <Dropdown>
+                <Dropdown.Toggle
+                  id="dropdown-basic"
+                  bsPrefix="p-0"
+                  style={{ backgroundColor: "rgba(0, 0, 0, 0.0)", border: "0" }}
+                >
+                  <FontAwesomeIcon
+                    flip="horizontal"
+                    icon={faEllipsis}
+                    className={`${isFocused ? "visible" : "hidden"}`}
+                  />
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}
+                  >
+                    Hide
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}
+                  >
+                    Report
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="d-flex justify-content-start ps-0">
+              <strong style={{ fontSize: "clamp(1rem, 5vw, 1.3rem)" }}>
+                {title}
+              </strong>
+            </Col>
+          </Row>
+          <Row>
+            <Col
+              style={{ fontSize: "clamp(0.55rem, 5vw, 0.8rem)" }}
+              className="d-flex justify-content-start text-center ps-0"
             >
-              read more
-            </button>
-          ) : (
-            isTruncated &&
-            !truncateComment && (
-              <button
-                style={{
-                  backgroundColor: "transparent",
-                  textDecoration: "underline",
-                }}
-                className="border-0 text-white"
-                onClick={() => {
-                  setTruncateComment(!truncateComment);
-                }}
+              <p
+                ref={commentRef}
+                className={`${
+                  truncateComment && "review-truncate"
+                } text-start mb-0`}
               >
-                see less
-              </button>
-            )
-          )}
+                {body}
+              </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="d-flex justify-content-start ps-0 mt-2">
+              <small
+                style={{ fontSize: "clamp(0.5rem, 5vw, 0.8rem)" }}
+                className="text-muted"
+              >
+                {dateTime}
+              </small>
+            </Col>
+            <Col className="d-flex justify-content-end">
+              {isTruncated && truncateComment ? (
+                <Button
+                  className="text-white bg-transparent border-0"
+                  onClick={() => {
+                    setTruncateComment(!truncateComment);
+                  }}
+                >
+                  <ExpandMoreIcon />
+                </Button>
+              ) : (
+                isTruncated &&
+                !truncateComment && (
+                  <Button
+                    className="bg-transparent border-0 text-white"
+                    onClick={() => {
+                      setTruncateComment(!truncateComment);
+                    }}
+                  >
+                    <ExpandLessIcon />
+                  </Button>
+                )
+              )}
+            </Col>
+          </Row>
         </Col>
-      </Col>
-      <Col>
-        <Dropdown>
-          <Dropdown.Toggle
-            id="dropdown-basic"
-            bsPrefix="p-0"
-            style={{ backgroundColor: "rgba(0, 0, 0, 0.0)", border: "0" }}
-          >
-            <FontAwesomeIcon
-              flip="horizontal"
-              icon={faEllipsis}
-              className={`${isFocused ? "visible" : "hidden"}`}
-            />
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}>
-              Hide
-            </Dropdown.Item>
-            <Dropdown.Item style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}>
-              Report
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-      </Col>
+      </Row>
     </ListGroup.Item>
   );
 }

@@ -6,6 +6,7 @@ export const FETCH_COMMENTS = gql`
       username
       time
       body
+      title
     }
   }
 `;
@@ -31,6 +32,7 @@ export const ADD_COMMENT = gql`
       username
       time
       body
+      title
     }
   }
 `;

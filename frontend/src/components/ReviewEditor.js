@@ -29,7 +29,7 @@ export default function ReviewEditor({ songId, onHide }) {
           query: FETCH_COMMENTS,
           variables: { limit: LIMIT, lastTime: LAST_TIME },
           data: {
-            comments: [insertOneComment, ...comments],
+            comments: [{ ...insertOneComment, time: new Date() }, ...comments],
           },
         });
       },

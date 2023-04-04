@@ -53,7 +53,10 @@ export default function CommentCard({ songId }) {
     >
       <Card.Header id="comment-footer" className="border-0">
         <Row>
-          <Col className="d-flex justify-content-start align-items-start">
+          <Col
+            xs={4}
+            className="d-flex justify-content-start align-items-start"
+          >
             <Button
               size="lg"
               className="bg-transparent border-0 p-0"
@@ -66,16 +69,11 @@ export default function CommentCard({ songId }) {
               )}
             </Button>
           </Col>
-          <Col className="d-flex justify-content-start">
+          <Col className="d-flex justify-content-end">
             <Button
-              size={isSmallScreen ? "sm" : "lg"}
-              className="text-white text-center text-decoration-none rounded-3 border-white w-100"
-              style={{
-                backgroundColor: "rgba(0,0,0,0.5)",
-                padding: isSmallScreen
-                  ? "0.8rem 0.9rem 0.8rem"
-                  : "0.8rem 1rem 0.8rem",
-              }}
+              id="review-button"
+              size="sm"
+              className="text-white text-center text-decoration-none rounded-3 border-white py-2 px-3"
               onClick={() => setReviewWriteModal((reviewModal) => !reviewModal)}
             >
               <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
