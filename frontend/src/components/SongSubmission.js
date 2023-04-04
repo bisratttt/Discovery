@@ -29,7 +29,7 @@ export default function SongSubmission({
       }}
     >
       <Col xs={2}>
-        <FontAwesomeIcon icon={faPlay} size="3x" />
+        <FontAwesomeIcon icon={faPlay} size="2x" />
       </Col>
       <Col xs={10}>
         <Row>

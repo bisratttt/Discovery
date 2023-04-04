@@ -18,7 +18,7 @@ export default function SongSubmissionModal(props) {
         animation={false}
       >
         <Modal.Header
-          className="text-white"
+          className="text-white" closeButton closeVariant="white"
           style={{
             backgroundColor: "rgba(0,0,0,0.5)",
             backdropFilter: "blur(2rem)",
