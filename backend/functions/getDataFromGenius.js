@@ -11,7 +11,9 @@ exports = async function(query) {
       });
 
       const data = EJSON.parse(response.body.text());
-      return data.response.hits[0].result.id;
+      const songId = data.response.hits[0].result.id;
+      const artistId = data.response.hits[0].result.primary_artist.id;
+      return {songId, artistId}
     } catch (error) {
       console.error('Error fetching song from search:', error);
     }
@@ -32,7 +34,26 @@ exports = async function(query) {
       console.error('Error fetching songs from id:', error);
     }
   }
+
+async function getArtist(id) {
+    try {
+      const response = await context.http.get({
+        url: `https://api.genius.com/artists/${encodeURIComponent(id)}`,
+        headers: {
+          'Authorization': [`Bearer ${geniusAccessToken}`]
+        }
+      });
+
+      const data = EJSON.parse(response.body.text());
+      return data
+    } catch (error) {
+      console.error('Error fetching songs from id:', error);
+    }
+  }    
   
-  var songID = await getSongId(query);
-  return await getSong(songID);
+  
+  var {songId, artistId} = await getSongId(query);
+  const song = await getSong(songId);
+  const artist = await getArtist(artistId);
+  return {song, artist};
 };
