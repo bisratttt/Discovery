@@ -27,9 +27,11 @@ export function getMetaphorialTime(timestamp) {
   } else {
     // Show the time difference in hours and minutes
     const timestampDate = new Date(timestamp);
-    const hours = timestampDate.getHours().toString().padStart(2, "0");
-    const minutes = timestampDate.getMinutes().toString().padStart(2, "0");
-    formattedTimestamp = `${hours}:${minutes}`;
+    formattedTimestamp = timestampDate.toLocaleString("en-US", {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
   }
 
   return formattedTimestamp;

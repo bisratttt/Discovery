@@ -59,12 +59,12 @@ export default function SongSubmission({
             </small>
           </Col>
         </Row>
-        <Row>
+        <Row style={{ fontSize: "0.9rem" }}>
           <Col
             xs={1}
             className="d-flex justify-content-end align-items-start pe-1"
           >
-            <Avatar textSizeRatio={2} name={username} size="25" round />
+            <Avatar textSizeRatio={2.1} name={username} size="20" round />
           </Col>
           <Col className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start">
             {username}
