@@ -24,5 +24,9 @@
         "name": "validateCommentBody",
         "private": true,
         "disable_arg_logs": true
+    },
+    {
+        "name": "userSongSuggestionDateTrigger",
+        "private": true
     }
 ]
