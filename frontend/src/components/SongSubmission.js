@@ -15,6 +15,7 @@ export default function SongSubmission({
 }) {
   const submissionRef = useRef(null);
   const [isHidden, setIsHidden] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   let dateTime = getMetaphorialTime(time);
   return (
     <ListGroup.Item
@@ -30,21 +31,32 @@ export default function SongSubmission({
       <Col xs={2}>
         <FontAwesomeIcon icon={faPlay} size="3x" />
       </Col>
-      <Col>
+      <Col xs={10}>
         <Row>
           <Col
+            xs={9}
             className="d-flex justify-content-start align-items-center overflow-hidden"
             style={{ fontSize: "1.2rem" }}
+            onMouseOver={() => setIsHovered(true)}
+            onMouseOut={() => setIsHovered(false)}
           >
-            <Marquee gradient={false} pauseOnClick={true}>
-              <span>
+            {isHovered ? (
+              <Marquee gradient={false} pauseOnClick={true}>
+                <span className="me-4">
+                  {song_name} - {artist}
+                </span>
+              </Marquee>
+            ) : (
+              <span className="text-truncate">
                 {song_name} - {artist}
               </span>
-            </Marquee>
+            )}
           </Col>
 
           <Col xs={3}>
-            <small className="text-muted">{dateTime}</small>
+            <small style={{ fontSize: "0.75rem" }} className="text-muted">
+              {dateTime}
+            </small>
           </Col>
         </Row>
         <Row>
