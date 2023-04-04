@@ -1,5 +1,13 @@
 [
     {
+        "name": "createDateTrigger",
+        "private": true
+    },
+    {
+        "name": "fetchReactionCounts",
+        "private": false
+    },
+    {
         "name": "resetPassFunc",
         "private": true
     },
@@ -8,7 +16,12 @@
         "private": true
     },
     {
-        "name": "createDateTrigger",
+        "name": "userSongSubmissionDateTrigger",
         "private": true
+    },
+    {
+        "name": "validateEmptyInput",
+        "private": true,
+        "disable_arg_logs": true
     }
 ]

@@ -1,0 +1,36 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "reaction_unicode": {
+            "bsonType": "string"
+        },
+        "song_id": {
+            "bsonType": "objectId"
+        },
+        "user_id": {
+            "bsonType": "objectId"
+        }
+    },
+    "required": [
+        "reaction_unicode",
+        "user_id",
+        "song_id",
+        "_id"
+    ],
+    "title": "songReaction"
+}

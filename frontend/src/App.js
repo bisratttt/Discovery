@@ -13,15 +13,18 @@ import {
 } from "./contexts/ToggleComponents";
 import Terms from "./components/Terms";
 import Cookies from "./components/Cookies";
+import { FetchDataProvider } from "./contexts/FetchData";
 const { app_id } = appConfig;
 
 export default function AppWithRealm() {
   return (
-    <ToggleComponentsProvider>
-      <RealmAppProvider appId={app_id}>
-        <App />
-      </RealmAppProvider>
-    </ToggleComponentsProvider>
+    <FetchDataProvider>
+      <ToggleComponentsProvider>
+        <RealmAppProvider appId={app_id}>
+          <App />
+        </RealmAppProvider>
+      </ToggleComponentsProvider>
+    </FetchDataProvider>
   );
 }
 function App() {

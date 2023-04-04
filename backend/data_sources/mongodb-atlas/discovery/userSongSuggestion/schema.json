@@ -17,13 +17,43 @@
             }
         },
         "artist": {
-            "bsonType": "string"
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Artist name must not be empty!"
+        },
+        "note": {
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Empty note is not valid"
         },
         "song_name": {
-            "bsonType": "string"
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Song name must not be empty!"
         },
-        "user": {
+        "time": {
+            "bsonType": "date"
+        },
+        "user_id": {
             "bsonType": "objectId"
+        },
+        "username": {
+            "bsonType": "string"
         },
         "youtube_id": {
             "bsonType": "string"
@@ -33,7 +63,8 @@
         "song_name",
         "artist",
         "_id",
-        "user"
+        "user_id",
+        "username"
     ],
     "title": "userSongSubmission"
 }

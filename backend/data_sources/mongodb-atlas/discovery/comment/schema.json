@@ -17,7 +17,14 @@
             }
         },
         "body": {
-            "bsonType": "string"
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Body must be at least 300 words!"
         },
         "owner_id": {
             "bsonType": "objectId"
@@ -29,13 +36,21 @@
             "bsonType": "date"
         },
         "title": {
-            "bsonType": "string"
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Title must not be empty!"
         },
         "username": {
             "bsonType": "string"
         }
     },
     "required": [
+        "title",
         "username",
         "body",
         "_id",

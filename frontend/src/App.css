@@ -68,7 +68,7 @@
   z-index: -1;
   filter: blur(2.5rem);
   background-size: cover;
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .background-darker {
@@ -137,10 +137,26 @@
   background-color: transparent !important;
 }
 #comment-body {
-  height: 75vh;
+  height: 77vh;
   overflow-y: auto;
 }
-
+.review-truncate {
+  line-height: 1.5;
+  max-height: 5.9em; /* 4 lines x 1.2 line-height */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+#review-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  font-size: clamp(0.9rem, 5vw, 1.1rem);
+  transition: background-color 0.3s ease;
+}
+#review-button:hover {
+  background-color: rgba(43, 42, 42, 0.5);
+}
 #comment-footer .form-control {
   background-color: transparent !important;
   border: none;
@@ -151,6 +167,27 @@
 #comment-footer .input-group-text {
   background-color: transparent;
 }
+
+/* Song Submission */
+#submission-card {
+  background-color: transparent !important;
+}
+#submission-body {
+  height: 81vh;
+  overflow-y: auto;
+}
+
+#submission-footer .form-control {
+  background-color: transparent !important;
+  border: none;
+  border-radius: 0;
+  color: #fff;
+}
+
+#submission-footer .input-group-text {
+  background-color: transparent;
+}
+
 .white-icon {
   border: none;
   color: white;

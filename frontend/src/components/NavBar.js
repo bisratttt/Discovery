@@ -128,10 +128,10 @@ function NavBar({ fixed = false }) {
               />
               {currentUser && (
                 <>
-                  <NavRightButton
+                  {/* <NavRightButton
                     MuiButtonIcon={ThumbsUpDownIcon}
                     name="Vote"
-                  />
+                  /> */}
                   <NavRightButton
                     onClick={() => {
                       setOpenSongInfo(false);
