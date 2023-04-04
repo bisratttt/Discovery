@@ -67,8 +67,8 @@ console.log(error)
       id="submission-card"
       className={`${isSmallScreen && "mb-2"} rounded-3 border-0`}
     >
-      <Card.Header id="submission-footer" className="border-0">
-        <Row>
+      { isBlurred && <Card.Body id="submission-footer" className="border-0 d-flex flex-column justify-content-center align-items-center">
+        <Row className="align-items-center">
           {/* <Col className="d-flex justify-content-start align-items-start">
             <Button
               size="lg"
@@ -82,12 +82,10 @@ console.log(error)
               )}
             </Button>
           </Col> */}
-          <Col className="d-flex justify-content-start">
+          <Col className={`d-flex justify-content-start align-items-center `}>
             <Button
               size={isSmallScreen ? "sm" : "lg"}
-              className={`text-white text-center text-decoration-none rounded-3 border-0 w-100 ${
-                isBlurred ? "overlay" : ""
-              }`}
+              className={`text-white text-center text-decoration-none rounded-3 border-0 w-100 `}
               style={{
                 backgroundColor: "rgba(0,0,0,0.5)",
                 padding: isSmallScreen
@@ -97,7 +95,7 @@ console.log(error)
               onClick={() => setSongSubmissionModal((submissionModal) => !submissionModal)}
             >
               <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
-              What's your Song of the Day?
+              Post your Song of the Day!
             </Button>
           </Col>
 
@@ -106,8 +104,8 @@ console.log(error)
             onHide={() => setSongSubmissionModal((submissionModal) => !submissionModal)}
           />
         </Row>
-      </Card.Header>
-      <Card.Body id="submission-body" className={`p-0`}>
+      </Card.Body> }
+      <Card.Body id="submission-body" className={`p-0 ${isBlurred ? "blur" : ""}`}>
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (

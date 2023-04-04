@@ -190,13 +190,13 @@
 
 /*Song submission blur*/
 .blur {
-  filter: blur(2rem);
+  filter: blur(1rem);
 }
 .overlay {
   position: relative;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 0.8rem 1rem;
+  padding: 0rem 1rem;
 }
 
 .white-icon {
