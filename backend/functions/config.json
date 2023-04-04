@@ -26,7 +26,7 @@
         "disable_arg_logs": true
     },
     {
-        "name": "userSongSuggestionDateTrigger",
+        "name": "userSongSubmissionDateTrigger",
         "private": true
     }
 ]
