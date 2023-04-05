@@ -173,7 +173,7 @@
   background-color: transparent !important;
 }
 #submission-body {
-  height: 81vh;
+  height: 91vh;
   overflow-y: auto;
 }
 
@@ -188,9 +188,12 @@
   background-color: transparent;
 }
 
-/*Song submission blur*/
 .blur {
   filter: blur(1rem);
+}
+
+.submission-post-button {
+  z-index: 10;
 }
 .overlay {
   position: relative;
