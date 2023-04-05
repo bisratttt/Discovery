@@ -85,7 +85,7 @@ export default function SongSubmissionEditor({onHide}) {
         <ErrorAlert />
       </Form.Group>
       <Row>
-        <Col sm={6} className="d-flex justify-content-end">
+        <Col  className="d-flex justify-content-end">
           <Button
             disabled={mutationLoading}
             className="border-0 text-black ps-5 pe-5 mt-2 fw-bold"

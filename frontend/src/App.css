@@ -188,6 +188,17 @@
   background-color: transparent;
 }
 
+/*Song submission blur*/
+.blur {
+  filter: blur(1rem);
+}
+.overlay {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 0rem 1rem;
+}
+
 .white-icon {
   border: none;
   color: white;

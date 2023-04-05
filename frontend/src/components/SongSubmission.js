@@ -29,7 +29,7 @@ export default function SongSubmission({
       }}
     >
       <Col xs={2}>
-        <FontAwesomeIcon icon={faPlay} size="3x" />
+        <FontAwesomeIcon icon={faPlay} size="2x" />
       </Col>
       <Col xs={10}>
         <Row>
@@ -71,6 +71,7 @@ export default function SongSubmission({
           </Col>
         </Row>
         <Row>
+          {note.length > 0 && 
           <Col
             className="d-flex justify-content-start p-1 text-start rounded-2 me-3 mt-1 mb-2"
             style={{
@@ -80,6 +81,7 @@ export default function SongSubmission({
           >
             {note}
           </Col>
+}
         </Row>
       </Col>
     </ListGroup.Item>
