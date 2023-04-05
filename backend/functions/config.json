@@ -1,5 +1,18 @@
 [
     {
+        "name": "useNewSong",
+        "private": true
+    },
+    {
+        "name": "userSongSubmissionDateTrigger",
+        "private": true
+    },
+    {
+        "name": "validateEmptyInput",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
         "name": "createDateTrigger",
         "private": true
     },
@@ -12,15 +25,7 @@
         "private": true
     },
     {
-        "name": "useNewSong",
-        "private": true
-    },
-    {
-        "name": "userSongSubmissionDateTrigger",
-        "private": true
-    },
-    {
-        "name": "validateEmptyInput",
+        "name": "getDataFromGenius",
         "private": true,
         "disable_arg_logs": true
     }

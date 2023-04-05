@@ -1,0 +1,44 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "artist_bio": {
+            "bsonType": "string"
+        },
+        "artist_name": {
+            "bsonType": "string"
+        },
+        "is_visible": {
+            "bsonType": "bool"
+        },
+        "song_bio": {
+            "bsonType": "string"
+        },
+        "song_name": {
+            "bsonType": "string"
+        }
+    },
+    "required": [
+        "aritst_name",
+        "song_name",
+        "artist_bio",
+        "song_bio",
+        "_id",
+        "is_visible"
+    ],
+    "title": "songInfo"
+}
