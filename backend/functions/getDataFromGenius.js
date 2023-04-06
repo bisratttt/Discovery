@@ -57,10 +57,9 @@ exports = async function() {
     let songQuery = `nothing`
     let songId = ""
     try {
-        const song = await collection.findOne({is_visible: true});
+        const song = await songColl.findOne({is_visible: true});
         songQuery = `${song.song_name} ${song.artist}`
         songId = song._id
-        console.log("successfully added/updated the current time")
     } catch(err) {
       console.error("There was an error finding the visible song: ", err)
       
