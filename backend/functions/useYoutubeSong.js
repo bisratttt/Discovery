@@ -48,12 +48,7 @@ exports = async function(arg){
   const commentCollection = db.collection(commentCollName);
   
   const { google } = require("googleapis");
-  
   const api_key = "AIzaSyAjzElIPpTfdiLDGr2GnW5RvQFJF7RXktY";
-  const client_id = "410090683640-0ej81d2hvv36mjv9564jkviga9d45o1c.apps.googleusercontent.com";
-  const client_secret = "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";
-  
-  
   const playlist_id = "PLjflttNTZpythjMh02YCBiDDCrZHjfPi_";
   
   async function fetchPlaylistItems() {
