@@ -55,11 +55,11 @@ exports = async function(arg){
     const youtube = google.youtube("v3");
     const playlist_items = await youtube.playlistItems.list({
       key: api_key,
-      part: "snippet",
+      part: "contentDetails",
       playlistId: playlist_id
     });
     
-    return playlist_items;
+    return playlist_items.data.items[0].videoId;
   }
   
   try {
