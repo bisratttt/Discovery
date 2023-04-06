@@ -37,7 +37,11 @@ export default function ReviewModal(props) {
           WebkitBackdropFilter: "blur(2rem)",
         }}
       >
-        <ReviewEditor onHide={props.onHide} songId={props.songId} />
+        <ReviewEditor
+          refetch={props.refetch}
+          onHide={props.onHide}
+          songId={props.songId}
+        />
       </Modal.Body>
     </Modal>
   );

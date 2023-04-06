@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Row, Col, ListGroup } from "react-bootstrap";
 import { useMediaQuery } from "@mui/material";
@@ -14,20 +14,29 @@ import { FETCH_COMMENTS } from "../queries/CommentQuery";
 import { useQuery } from "@apollo/client";
 import ReviewWriteModal from "./ReviewWriteModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
+import { useRealmApp } from "../contexts/RealmApp";
 const LIMIT = 100;
 const LAST_TIME = new Date(0);
 export default function CommentCard({ songId }) {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const [intervalId, setIntervalId] = useState(null);
   const [reviewWriteModal, setReviewWriteModal] = useState(false);
+  const [userHasReviewed, setUserHasReviewed] = useState(false);
   const { setOpenReview } = useToggleComponents();
+  const { currentUser } = useRealmApp();
   const { loading, error, data, fetchMore, refetch } = useQuery(
     FETCH_COMMENTS,
     {
-      variables: { limit: LIMIT, lastTime: LAST_TIME },
+      variables: { song_id: songId, limit: LIMIT, lastTime: LAST_TIME },
     }
   );
-
+  // checks if the current user has reviewed a song
+  useEffect(() => {
+    const reviewed = data?.comments?.some(
+      (comment) => comment.username === currentUser.profile.email
+    );
+    setUserHasReviewed(reviewed);
+  }, [data, currentUser]);
   // // periodically refetch the comments
   // useEffect(() => {
   //   // Start polling the server every 5 seconds
@@ -69,19 +78,24 @@ export default function CommentCard({ songId }) {
               )}
             </Button>
           </Col>
-          <Col className="d-flex justify-content-end">
-            <Button
-              id="review-button"
-              size="sm"
-              className="text-white text-center text-decoration-none rounded-3 border-white py-2 px-3"
-              onClick={() => setReviewWriteModal((reviewModal) => !reviewModal)}
-            >
-              <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
-              Review this song
-            </Button>
-          </Col>
+          {!userHasReviewed && (
+            <Col className="d-flex justify-content-end">
+              <Button
+                id="review-button"
+                size="sm"
+                className="text-white text-center text-decoration-none rounded-3 border-white py-2 px-3"
+                onClick={() =>
+                  setReviewWriteModal((reviewModal) => !reviewModal)
+                }
+              >
+                <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
+                Review this song
+              </Button>
+            </Col>
+          )}
 
           <ReviewWriteModal
+            refetch={refetch}
             songId={songId}
             show={reviewWriteModal}
             onHide={() => setReviewWriteModal((reviewModal) => !reviewModal)}

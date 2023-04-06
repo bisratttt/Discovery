@@ -22,7 +22,7 @@ export default function SongSubmissionList() {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   //  const [intervalId, setIntervalId] = useState(null);
   const [songSubmissionModal, setSongSubmissionModal] = useState(false);
-  const { setOpenSubmission } = useToggleComponents();
+  const { setOpenSongSubmissionList } = useToggleComponents();
   const { loading, error, data, refetch } = useQuery(
     FETCH_SUBMISSIONS
     // {
@@ -89,6 +89,23 @@ export default function SongSubmissionList() {
             </Button>
           </div>
         </>
+      )}
+      {isSmallScreen && (
+        <Card.Header>
+          <Row>
+            <Col className="d-flex justify-content-start align-items-center">
+              <Button
+                size="lg"
+                className="bg-transparent border-0 p-0"
+                onClick={() =>
+                  setOpenSongSubmissionList((openSubmission) => !openSubmission)
+                }
+              >
+                <FontAwesomeIcon icon={faArrowLeft} />
+              </Button>
+            </Col>
+          </Row>
+        </Card.Header>
       )}
       <Card.Body
         id="submission-body"

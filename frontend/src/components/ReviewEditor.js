@@ -11,7 +11,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const LIMIT = 100;
 const LAST_TIME = new Date(0);
-export default function ReviewEditor({ songId, onHide }) {
+export default function ReviewEditor({ songId, onHide, refetch }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [lastUpdated, setLastUpdated] = useState("");
@@ -56,6 +56,7 @@ export default function ReviewEditor({ songId, onHide }) {
           title: title,
         },
         onCompleted: () => {
+          refetch();
           onHide(true);
           // Update the last updated timestamp
           setLastUpdated(new Date().toLocaleString());
