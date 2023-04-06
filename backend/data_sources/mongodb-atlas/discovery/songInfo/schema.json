@@ -28,12 +28,16 @@
         "song_bio": {
             "bsonType": "string"
         },
+        "song_id": {
+            "bsonType": "objectId"
+        },
         "song_name": {
             "bsonType": "string"
         }
     },
     "required": [
-        "aritst_name",
+        "artist_name",
+        "song_id",
         "song_name",
         "artist_bio",
         "song_bio",
