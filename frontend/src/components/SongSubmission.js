@@ -70,13 +70,14 @@ export default function SongSubmission({
             {username}
           </Col>
         </Row>
-        <Row>
+        <Row className="pb-1">
           {note.length > 0 && (
             <Col
               className="d-flex justify-content-start align-items-center p-1 text-start rounded-2 me-3 mt-1 mb-2 w-100 ps-2"
               style={{
                 backgroundColor: "rgba(30,30,30, 0.7)",
                 fontSize: "0.8rem",
+                wordWrap: "anywhere",
               }}
             >
               {note}
