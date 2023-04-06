@@ -59,7 +59,7 @@ exports = async function(arg){
       playlistId: playlist_id
     });
     
-    return playlist_items.data.items[0].videoId;
+    return playlist_items.data.items[0].contentDetails.videoId;
   }
   
   try {
