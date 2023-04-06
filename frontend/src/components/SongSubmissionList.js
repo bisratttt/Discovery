@@ -92,7 +92,7 @@ export default function SongSubmissionList() {
       )}
       <Card.Body
         id="submission-body"
-        className={`border-0 justify-content-center align-items-center ${
+        className={`border-0 justify-content-center align-items-center p-0 ${
           isBlurred && "blur"
         }`}
       >
@@ -106,6 +106,7 @@ export default function SongSubmissionList() {
           </ListGroup>
         )}
         <SongSubmissionModal
+          refetch={refetch}
           show={songSubmissionModal}
           onHide={() =>
             setSongSubmissionModal((submissionModal) => !submissionModal)

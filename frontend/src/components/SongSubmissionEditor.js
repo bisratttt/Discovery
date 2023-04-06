@@ -1,39 +1,42 @@
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
-import { checkReviewForError, checkSubmissionForError } from "../hooks/handleError";
+import {
+  checkReviewForError,
+  checkSubmissionForError,
+} from "../hooks/handleError";
 import { useMutation } from "@apollo/client";
 import { ADD_COMMENT } from "../queries/CommentQuery";
-import {ADD_SUBMISSION} from "../queries/SongSubmissionQuery";
+import { ADD_SUBMISSION } from "../queries/SongSubmissionQuery";
 import { BSON } from "realm-web";
 import { useRealmApp } from "../contexts/RealmApp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
-export default function SongSubmissionEditor({onHide}) {
-    const [artist, setArtist] = useState("");
-    const [song_name, setSongName] = useState("");
-    const [note, setNote] = useState("");
-    const charCount = note ? note.length : 0;
-    const { currentUser } = useRealmApp();
-    const [error, setError] = useState("");
-    const [ 
-        addSongSubmission,
-        { loading: mutationLoading, reset, error: mutationError },
+export default function SongSubmissionEditor({ onHide, refetch }) {
+  const [artist, setArtist] = useState("");
+  const [song_name, setSongName] = useState("");
+  const [note, setNote] = useState("");
+  const charCount = note ? note.length : 0;
+  const { currentUser } = useRealmApp();
+  const [error, setError] = useState("");
+  const [
+    addSongSubmission,
+    { loading: mutationLoading, reset, error: mutationError },
   ] = useMutation(ADD_SUBMISSION);
   const ErrorAlert = useErrorAlert({
     error: error,
     clearError: () => setError(""),
   });
   const handleSave = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     const error = await checkSubmissionForError({
-        serverError: mutationError !== undefined,
-        hasSongName: song_name.trim().length > 0,
-        hasArtist: artist.trim().length > 0,
-        noteShortEnough: note.trim().length < 136,
-    })
-    setError(error)
+      serverError: mutationError !== undefined,
+      hasSongName: song_name.trim().length > 0,
+      hasArtist: artist.trim().length > 0,
+      noteShortEnough: note.trim().length < 136,
+    });
+    setError(error);
     if (error === "") {
       addSongSubmission({
         variables: {
@@ -44,6 +47,7 @@ export default function SongSubmissionEditor({onHide}) {
           note: note,
         },
         onCompleted: () => {
+          refetch();
           onHide(true);
         },
       });
@@ -85,7 +89,7 @@ export default function SongSubmissionEditor({onHide}) {
         <ErrorAlert />
       </Form.Group>
       <Row>
-        <Col  className="d-flex justify-content-end">
+        <Col className="d-flex justify-content-end">
           <Button
             disabled={mutationLoading}
             className="border-0 text-black ps-5 pe-5 mt-2 fw-bold"
