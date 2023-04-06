@@ -1,0 +1,36 @@
+{
+    "collection": "submissionReaction",
+    "database": "discovery",
+    "roles": [
+        {
+            "name": "userReadAndWriteAll",
+            "apply_when": {
+                "%%user.identities.provider_type": "local-userpass"
+            },
+            "document_filters": {
+                "write": true,
+                "read": true
+            },
+            "read": true,
+            "write": true,
+            "insert": true,
+            "delete": true,
+            "search": true
+        },
+        {
+            "name": "guestReadAll",
+            "apply_when": {
+                "%%user.identities.provider_type": "api-key"
+            },
+            "document_filters": {
+                "write": false,
+                "read": true
+            },
+            "read": true,
+            "write": false,
+            "insert": false,
+            "delete": false,
+            "search": true
+        }
+    ]
+}
