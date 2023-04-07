@@ -10,6 +10,7 @@ export function ToggleComponentsProvider({ children }) {
   const [openSongSubmissionList, setOpenSongSubmissionList] = useState(false);
   const [openTerms, setOpenTerms] = useState(false);
   const [openCookies, setOpenCookies] = useState(false);
+  const [openLoginModal, setOpenLoginModal] = useState(false);
   const contextValue = {
     openReview,
     setOpenReview,
@@ -21,6 +22,8 @@ export function ToggleComponentsProvider({ children }) {
     setOpenTerms,
     openCookies,
     setOpenCookies,
+    openLoginModal,
+    setOpenLoginModal,
   };
 
   return (

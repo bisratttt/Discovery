@@ -9,6 +9,7 @@ import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
 import { realmFetch } from "../utils/realmDB";
 import { useFetchData } from "../contexts/FetchData";
+import { useToggleComponents } from "../contexts/ToggleComponents";
 
 const ReactionButton = ({ emoji, count, handleClick }) => {
   const [isAnimating, setIsAnimating] = useState(false);
@@ -51,6 +52,7 @@ export default function ReactionBanner({ songId }) {
   const { currentUser } = useRealmApp();
   const reactionOrder = ["❤️", "🔥", "👍", "👎", "😠"];
   const { reactionCounts, setReactionCounts } = useFetchData();
+  const { setOpenLoginModal } = useToggleComponents();
   // add reaction
   const [addReaction] = useMutation(ADD_REACTION);
   // update reaction
@@ -75,28 +77,33 @@ export default function ReactionBanner({ songId }) {
   // });
 
   const reactToSong = (reactionEmoji) => {
-    //  try adding first
-    addReaction({
-      variables: {
-        user_id: new BSON.ObjectId(currentUser.id),
-        song_id: new BSON.ObjectId(songId),
-        reaction: reactionEmoji,
-      },
-      onCompleted: () => realmFetch({ currentUser, songId, setReactionCounts }),
-      onError: () => {
-        // if adding doesn't work then try updating the reaction
-        updateReaction({
-          variables: {
-            user_id: new BSON.ObjectId(currentUser.id),
-            song_id: new BSON.ObjectId(songId),
-            reaction: reactionEmoji,
-          },
-          onCompleted: () =>
-            realmFetch({ currentUser, songId, setReactionCounts }),
-          onError: () => console.log(updateReactionError),
-        });
-      },
-    });
+    if (currentUser.providerType == "api-key") {
+      setOpenLoginModal(true);
+    } else {
+      //  try adding first
+      addReaction({
+        variables: {
+          user_id: new BSON.ObjectId(currentUser.id),
+          song_id: new BSON.ObjectId(songId),
+          reaction: reactionEmoji,
+        },
+        onCompleted: () =>
+          realmFetch({ currentUser, songId, setReactionCounts }),
+        onError: () => {
+          // if adding doesn't work then try updating the reaction
+          updateReaction({
+            variables: {
+              user_id: new BSON.ObjectId(currentUser.id),
+              song_id: new BSON.ObjectId(songId),
+              reaction: reactionEmoji,
+            },
+            onCompleted: () =>
+              realmFetch({ currentUser, songId, setReactionCounts }),
+            onError: () => console.log(updateReactionError),
+          });
+        },
+      });
+    }
   };
 
   const isSmallScreen = useMediaQuery("(max-width:850px)");

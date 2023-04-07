@@ -24,7 +24,7 @@ export function NavRightButton({ onClick = () => {}, MuiButtonIcon, name }) {
   return (
     <Button
       size={isSmallScreen ? "sm" : "lg"}
-      className="text-white text-decoration-none rounded-pill me-3 py-0 d-flex align-items-center justify-content-center"
+      className="text-white text-decoration-none rounded-pill me-3 d-flex align-items-center justify-content-center"
       style={{
         backgroundColor: "rgba(0,0,0,0.7)",
         padding: isSmallScreen ? "0.8rem 0.9rem 0.8rem" : "0.8rem 1rem 0.8rem",
