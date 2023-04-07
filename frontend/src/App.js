@@ -6,7 +6,7 @@ import appConfig from "./realm.json";
 import { RealmAppProvider, useRealmApp } from "./contexts/RealmApp";
 import Details from "./components/Details";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ToggleComponentsProvider,
   useToggleComponents,
@@ -14,6 +14,7 @@ import {
 import Terms from "./components/Terms";
 import Cookies from "./components/Cookies";
 import { FetchDataProvider } from "./contexts/FetchData";
+import LoginModal from "./components/LoginModal";
 const { app_id } = appConfig;
 
 export default function AppWithRealm() {
@@ -28,7 +29,15 @@ export default function AppWithRealm() {
   );
 }
 function App() {
-  const { currentUser } = useRealmApp();
+  const { apiLogin, currentUser } = useRealmApp();
+  useEffect(() => {
+    async function logGuest() {
+      await apiLogin();
+    }
+    if (currentUser === null) {
+      logGuest();
+    }
+  });
   const [showNav, setShowNav] = useState(false);
   const { openTerms, openCookies } = useToggleComponents();
   const containerVariants = {
@@ -59,6 +68,7 @@ function App() {
           <Details setShowNav={setShowNav} />
         </motion.div>
       )}
+      <LoginModal />
     </div>
   );
 }

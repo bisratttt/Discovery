@@ -70,11 +70,15 @@ const customDropdownPill = React.forwardRef(({ children, onClick }, ref) => (
 ));
 
 function NavBar({ fixed = false }) {
-  const { currentUser, logOut } = useRealmApp();
+  const { currentUser, logIn, logOut } = useRealmApp();
   const [showInfoModal, setShowInfoModal] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-  const { setOpenReview, setOpenSongSubmissionList, setOpenSongInfo } =
-    useToggleComponents();
+  const {
+    setOpenReview,
+    setOpenSongSubmissionList,
+    setOpenSongInfo,
+    setOpenLoginModal,
+  } = useToggleComponents();
 
   return (
     <>
@@ -109,24 +113,35 @@ function NavBar({ fixed = false }) {
             className={`justify-content-end mt-1 ${!isSmallScreen && "me-3"} `}
           >
             <Nav>
-              {!currentUser && (
-                <Nav.Link
-                  style={{
-                    color: "rgb(111, 27, 6)",
-                    fontWeight: "bold",
-                    fontSize: "clamp(1.2rem, 1.5vw, 1.5rem)",
-                  }}
-                  onClick={() => setShowInfoModal(true)}
-                  href="#"
-                >
-                  What is this?
-                </Nav.Link>
+              {currentUser.providerType === "api-key" && (
+                <>
+                  <NavRightButton
+                    onClick={() => setOpenLoginModal(true)}
+                    name="Log In"
+                  />
+                  <NavRightButton
+                    onClick={() => setShowInfoModal(true)}
+                    name="What is this?"
+                  />
+                </>
+
+                // <Nav.Link
+                //   style={{
+                //     color: "rgb(111, 27, 6)",
+                //     fontWeight: "bold",
+                //     fontSize: "clamp(1.2rem, 1.5vw, 1.5rem)",
+                //   }}
+                //   onClick={() => setShowInfoModal(true)}
+                //   href="#"
+                // >
+                //   What is this?
+                // </Nav.Link>
               )}
               <InfoModal
                 show={showInfoModal}
                 onHide={() => setShowInfoModal(false)}
               />
-              {currentUser && (
+              {currentUser.providerType === "local-userpass" && (
                 <>
                   {/* <NavRightButton
                     MuiButtonIcon={ThumbsUpDownIcon}
@@ -143,26 +158,24 @@ function NavBar({ fixed = false }) {
                     MuiButtonIcon={PeopleIcon}
                     name="Community"
                   />
+                  <Dropdown align="end">
+                    <Dropdown.Toggle as={customDropdownPill}>
+                      <PillAvatar
+                        email={currentUser.profile.email}
+                        isSmallScreen={isSmallScreen}
+                      />
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu
+                      style={{ backgroundColor: "rgb(30, 30, 30)" }}
+                      className="rounded-3 py-0"
+                    >
+                      <NavDropdownLink
+                        onClick={async () => await logOut()}
+                        label="Log Out"
+                      />
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </>
-              )}
-              {currentUser && (
-                <Dropdown align="end">
-                  <Dropdown.Toggle as={customDropdownPill}>
-                    <PillAvatar
-                      email={currentUser.profile.email}
-                      isSmallScreen={isSmallScreen}
-                    />
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu
-                    style={{ backgroundColor: "rgb(30, 30, 30)" }}
-                    className="rounded-3 py-0"
-                  >
-                    <NavDropdownLink
-                      onClick={async () => await logOut()}
-                      label="Log Out"
-                    />
-                  </Dropdown.Menu>
-                </Dropdown>
               )}
             </Nav>
           </Navbar.Collapse>

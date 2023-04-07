@@ -22,7 +22,7 @@ export default function CommentCard({ songId }) {
   const [intervalId, setIntervalId] = useState(null);
   const [reviewWriteModal, setReviewWriteModal] = useState(false);
   const [userHasReviewed, setUserHasReviewed] = useState(false);
-  const { setOpenReview } = useToggleComponents();
+  const { setOpenReview, setOpenLoginModal } = useToggleComponents();
   const { currentUser } = useRealmApp();
   const { loading, error, data, fetchMore, refetch } = useQuery(
     FETCH_COMMENTS,
@@ -84,9 +84,14 @@ export default function CommentCard({ songId }) {
                 id="review-button"
                 size="sm"
                 className="text-white text-center text-decoration-none rounded-3 border-white py-2 px-3"
-                onClick={() =>
-                  setReviewWriteModal((reviewModal) => !reviewModal)
-                }
+                onClick={() => {
+                  console.log(currentUser);
+                  if (currentUser.providerType === "api-key") {
+                    setOpenLoginModal(true);
+                  } else {
+                    setReviewWriteModal((reviewModal) => !reviewModal);
+                  }
+                }}
               >
                 <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
                 Review this song
