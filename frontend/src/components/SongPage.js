@@ -15,7 +15,7 @@ import SongButtonsTop from "./SongButtonsTop";
 import NavBar from "./NavBar";
 // import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
-export default function SongPageFetch({ setShowNav }) {
+export default function Page() {
   const { loading, error, data } = useQuery(QUERY_SONG);
   return (
     <Container
@@ -37,7 +37,7 @@ export default function SongPageFetch({ setShowNav }) {
           <Spinner animation="border" variant="dark" />
         </Row>
       ) : (
-        <SongPage data={data} setShowNav={setShowNav} />
+        <SongPage data={data} />
       )}
     </Container>
   );
@@ -55,7 +55,7 @@ function YoutubeEmbed({ srcId }) {
   );
 }
 
-function SongPage({ data, setShowNav }) {
+function SongPage({ data }) {
   const [albumImg, setAlbumImg] = useState("");
   const {
     openReview,
@@ -106,7 +106,7 @@ function SongPage({ data, setShowNav }) {
         style={{ backgroundImage: `url(${albumImg})` }}
       />
       <div className="background-darker" />
-      <SongIntroLargeScreen setShowNav={setShowNav} />
+      <SongIntroLargeScreen />
       {/* {!isSmallScreen && (
         <IntroPlaySongModal srcUrl="https://www.youtube.com/embed/khoVBLp-BSE" />
       )} */}

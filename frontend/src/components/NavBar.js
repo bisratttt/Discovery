@@ -109,33 +109,21 @@ function NavBar({ fixed = false }) {
             </Navbar.Brand>
           )}
 
-          <Navbar.Collapse
-            className={`justify-content-end mt-1 ${!isSmallScreen && "me-3"} `}
-          >
+          <Navbar.Collapse className={`justify-content-end mt-1 `}>
             <Nav>
               {currentUser.providerType === "api-key" && (
                 <>
                   <NavRightButton
                     onClick={() => setOpenLoginModal(true)}
+                    fullname={true}
                     name="Log In"
                   />
                   <NavRightButton
                     onClick={() => setShowInfoModal(true)}
+                    fullname={true}
                     name="What is this?"
                   />
                 </>
-
-                // <Nav.Link
-                //   style={{
-                //     color: "rgb(111, 27, 6)",
-                //     fontWeight: "bold",
-                //     fontSize: "clamp(1.2rem, 1.5vw, 1.5rem)",
-                //   }}
-                //   onClick={() => setShowInfoModal(true)}
-                //   href="#"
-                // >
-                //   What is this?
-                // </Nav.Link>
               )}
               <InfoModal
                 show={showInfoModal}
