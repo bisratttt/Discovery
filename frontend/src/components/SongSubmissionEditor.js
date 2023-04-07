@@ -1,12 +1,8 @@
 import { Form, Button, Row, Col } from "react-bootstrap";
 import { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
-import {
-  checkReviewForError,
-  checkSubmissionForError,
-} from "../hooks/handleError";
+import { checkSubmissionForError } from "../hooks/handleError";
 import { useMutation } from "@apollo/client";
-import { ADD_COMMENT } from "../queries/CommentQuery";
 import { ADD_SUBMISSION } from "../queries/SongSubmissionQuery";
 import { BSON } from "realm-web";
 import { useRealmApp } from "../contexts/RealmApp";

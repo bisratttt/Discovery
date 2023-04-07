@@ -18,7 +18,12 @@ export function NavDropdownLink({ onClick, label }) {
     </NavDropdown.Item>
   );
 }
-export function NavRightButton({ onClick = () => {}, MuiButtonIcon, name }) {
+export function NavRightButton({
+  onClick = () => {},
+  MuiButtonIcon,
+  name,
+  fullname = false,
+}) {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
 
   return (
@@ -35,7 +40,7 @@ export function NavRightButton({ onClick = () => {}, MuiButtonIcon, name }) {
       {MuiButtonIcon && (
         <MuiButtonIcon className={`p-0 ${!isSmallScreen && "me-2"}`} />
       )}
-      {!isSmallScreen && name}
+      {(!isSmallScreen || fullname) && name}
     </Button>
   );
 }

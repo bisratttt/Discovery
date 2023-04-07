@@ -85,7 +85,7 @@ export default function SongSubmissionList() {
               }
             >
               <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
-              Post your Song of the Day!
+              What is your song of the day?
             </Button>
           </div>
         </>
