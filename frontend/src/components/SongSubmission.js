@@ -5,6 +5,7 @@ import Avatar from "react-avatar";
 import { Row, Col, Dropdown, ListGroup } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
 import { getMetaphorialTime } from "../utils/utils";
+import SubmissionReaction from "./SubmissionReaction";
 
 export default function SongSubmission({
   username,
@@ -12,10 +13,12 @@ export default function SongSubmission({
   artist,
   note,
   time,
+  _id,
 }) {
   const submissionRef = useRef(null);
   const [isHidden, setIsHidden] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const submission_id = _id;
   let dateTime = getMetaphorialTime(time);
   return (
     <ListGroup.Item
@@ -68,6 +71,9 @@ export default function SongSubmission({
           </Col>
           <Col className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start">
             {username}
+          </Col>
+          <Col>
+            <SubmissionReaction submissionId={submission_id} />
           </Col>
         </Row>
         <Row className="pb-1">
