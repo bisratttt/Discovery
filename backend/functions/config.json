@@ -1,5 +1,9 @@
 [
     {
+        "name": "fetchReactionCounts",
+        "private": false
+    },
+    {
         "name": "getDataFromGenius",
         "private": true,
         "disable_arg_logs": true
@@ -13,6 +17,11 @@
         "private": true
     },
     {
+        "name": "useYoutubeSong",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
         "name": "userSongSubmissionDateTrigger",
         "private": true
     },
@@ -24,14 +33,5 @@
     {
         "name": "createDateTrigger",
         "private": true
-    },
-    {
-        "name": "fetchReactionCounts",
-        "private": false
-    },
-    {
-        "name": "useYoutubeSong",
-        "private": true,
-        "disable_arg_logs": true
     }
 ]
