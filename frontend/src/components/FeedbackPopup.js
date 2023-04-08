@@ -98,7 +98,10 @@ export default function FeedbackPopup({ songId }) {
                         body: body,
                         song_id: new BSON.ObjectId(songId),
                       },
-                      onCompleted: () => handleClose(),
+                      onCompleted: () => {
+                        setBody("");
+                        handleClose();
+                      },
                     });
                   }}
                 >
