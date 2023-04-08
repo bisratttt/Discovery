@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Col, Row, Button } from "react-bootstrap";
+import { Card, Col, Row, Button, Image } from "react-bootstrap";
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
@@ -11,7 +11,7 @@ import { realmFetch } from "../utils/realmDB";
 import { useFetchData } from "../contexts/FetchData";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 
-const ReactionButton = ({ emoji, count, handleClick }) => {
+const ReactionButton = ({ emoji, count, handleClick, image = "" }) => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   const handleButtonClick = () => {
@@ -33,13 +33,17 @@ const ReactionButton = ({ emoji, count, handleClick }) => {
         onClick={handleButtonClick}
         className="p-0 reaction-button"
       >
-        <span
-          role="img"
-          aria-label={emoji}
-          style={{ fontSize: "clamp(2rem, 5vw, 2.5rem)" }}
-        >
-          {emoji}
-        </span>
+        {image !== "" ? (
+          <Image height={50} width="auto" src={image} />
+        ) : (
+          <span
+            role="img"
+            aria-label={emoji}
+            style={{ fontSize: "clamp(2rem, 5vw, 2.5rem)" }}
+          >
+            {emoji}
+          </span>
+        )}
       </Button>
       <div className="position-absolute bottom-0 end-0 reaction-badge">
         {count}
@@ -50,7 +54,14 @@ const ReactionButton = ({ emoji, count, handleClick }) => {
 
 export default function ReactionBanner({ songId }) {
   const { currentUser } = useRealmApp();
-  const reactionOrder = ["❤️", "🔥", "👍", "👎", "😠"];
+  const reactionOrder = {
+    "❤️": "/emojis/heart.png",
+    "🔥": "/emojis/fire.png",
+    "👍": "/emojis/thumbs_up.png",
+    "👎": "/emojis/thumbs_down.png",
+    "😠": "/emojis/angry_face.png",
+  };
+  // const reactionOrder = ["❤️", "🔥", "👍", "👎", "😠"];
   const { reactionCounts, setReactionCounts } = useFetchData();
   const { setOpenLoginModal } = useToggleComponents();
   // add reaction
@@ -105,7 +116,6 @@ export default function ReactionBanner({ songId }) {
       });
     }
   };
-
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   return (
     <Card bg="dark" text="white" id="reaction-card" className="mb-2">
@@ -114,14 +124,23 @@ export default function ReactionBanner({ songId }) {
           xs={12}
           className="d-flex align-items-center justify-content-around"
         >
-          {reactionOrder.map((emoji) => (
+          {Object.entries(reactionOrder).map(([emoji, image]) => (
+            <ReactionButton
+              key={emoji}
+              emoji={emoji}
+              image={image}
+              count={reactionCounts[emoji] || 0}
+              handleClick={() => reactToSong(emoji)}
+            />
+          ))}
+          {/* {reactionOrder.map((emoji) => (
             <ReactionButton
               key={emoji}
               emoji={emoji}
               count={reactionCounts[emoji] || 0}
               handleClick={() => reactToSong(emoji)}
             />
-          ))}
+          ))} */}
         </Col>
       </Row>
     </Card>
