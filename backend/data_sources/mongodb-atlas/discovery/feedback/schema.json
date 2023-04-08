@@ -1,0 +1,42 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "body": {
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Body must not be empty!"
+        },
+        "song_id": {
+            "bsonType": "objectId"
+        },
+        "time": {
+            "bsonType": "date"
+        }
+    },
+    "required": [
+        "body",
+        "_id",
+        "song_id"
+    ],
+    "title": "feedback"
+}
