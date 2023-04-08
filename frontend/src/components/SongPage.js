@@ -13,6 +13,7 @@ import { useToggleComponents } from "../contexts/ToggleComponents";
 import SongSubmissionList from "./SongSubmissionList";
 import SongButtonsTop from "./SongButtonsTop";
 import NavBar from "./NavBar";
+import FeedbackPopup from "./FeedbackPopup";
 // import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
 export default function Page() {
@@ -239,6 +240,7 @@ function SongPage({ data }) {
         onHide={() => setShareModal(false)}
         shareLink="#!"
       />
+      {!isSmallScreen && <FeedbackPopup songId={data.song._id} />}
     </>
   );
 }
