@@ -21,6 +21,7 @@ import {
   NavRightButton,
 } from "./design-system/NavRightButton";
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
+import DeleteAccountWarningModal from "./DeleteAccountWarningModal";
 const PillAvatar = ({ email, isSmallScreen }) => {
   const avatarSize = isSmallScreen ? 30 : 40;
 
@@ -72,6 +73,7 @@ const customDropdownPill = React.forwardRef(({ children, onClick }, ref) => (
 function NavBar({ fixed = false }) {
   const { currentUser, logIn, logOut } = useRealmApp();
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const {
     setOpenReview,
@@ -131,10 +133,6 @@ function NavBar({ fixed = false }) {
               />
               {currentUser.providerType === "local-userpass" && (
                 <>
-                  {/* <NavRightButton
-                    MuiButtonIcon={ThumbsUpDownIcon}
-                    name="Vote"
-                  /> */}
                   <NavRightButton
                     onClick={() => {
                       setOpenSongInfo(false);
@@ -164,12 +162,20 @@ function NavBar({ fixed = false }) {
                         }}
                         label="Log Out"
                       />
+                      <NavDropdownLink
+                        onClick={() => setShowDeleteWarningModal(true)}
+                        label="Delete Account"
+                      />
                     </Dropdown.Menu>
                   </Dropdown>
                 </>
               )}
             </Nav>
           </Navbar.Collapse>
+          <DeleteAccountWarningModal
+            onHide={() => setShowDeleteWarningModal(false)}
+            show={showDeleteWarningModal}
+          />
         </Container>
       </Navbar>
     </>

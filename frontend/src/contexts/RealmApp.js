@@ -59,10 +59,18 @@ export function RealmAppProvider({ appId, children }) {
     setCurrentUser(realmApp.currentUser);
   }, [realmApp]);
 
+  const deleteUser = useCallback(async () => {
+    try {
+      await realmApp.deleteUser(realmApp.currentUser);
+    } catch (err) {
+      console.error(err);
+    }
+    await apiLogin();
+  }, [realmApp]);
   // Override the App's currentUser & logIn properties + include the app-level logout function
   const realmAppContext = useMemo(() => {
-    return { ...realmApp, currentUser, apiLogin, logIn, logOut };
-  }, [realmApp, currentUser, apiLogin, logIn, logOut]);
+    return { ...realmApp, currentUser, apiLogin, logIn, logOut, deleteUser };
+  }, [realmApp, currentUser, apiLogin, logIn, logOut, deleteUser]);
 
   return (
     <RealmAppContext.Provider value={realmAppContext}>
