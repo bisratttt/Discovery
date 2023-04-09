@@ -36,7 +36,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
     <Popover
       id="reaction-popover"
       {...props}
-      className="py-0"
+      className="py-0 "
       bsPrefix="popover popover-container"
       show={props.show && !openLoginModal}
     >

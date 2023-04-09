@@ -158,7 +158,10 @@ function NavBar({ fixed = false }) {
                       className="rounded-3 py-0"
                     >
                       <NavDropdownLink
-                        onClick={async () => await logOut()}
+                        onClick={async () => {
+                          setOpenSongSubmissionList(false);
+                          await logOut();
+                        }}
                         label="Log Out"
                       />
                     </Dropdown.Menu>

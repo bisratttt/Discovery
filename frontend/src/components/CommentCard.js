@@ -85,7 +85,6 @@ export default function CommentCard({ songId }) {
                 size="sm"
                 className="text-white text-center text-decoration-none rounded-3 border-white py-2 px-3"
                 onClick={() => {
-                  console.log(currentUser);
                   if (currentUser.providerType === "api-key") {
                     setOpenLoginModal(true);
                   } else {
