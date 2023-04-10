@@ -33,5 +33,9 @@
     {
         "name": "userSongSubmissionDateTrigger",
         "private": true
+    },
+    {
+        "name": "createUserPreferences",
+        "private": true
     }
 ]
