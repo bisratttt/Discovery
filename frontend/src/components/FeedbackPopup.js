@@ -90,8 +90,7 @@ export default function FeedbackPopup({ songId }) {
                 <Button
                   disabled={loading}
                   variant="primary"
-                  className="border-0 mt-2"
-                  style={{ backgroundColor: "rgb(166, 39, 7)" }}
+                  className="border-white bg-transparent mt-2"
                   onClick={() => {
                     addFeedback({
                       variables: {
