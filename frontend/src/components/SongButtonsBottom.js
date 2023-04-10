@@ -20,8 +20,12 @@ import { useRealmApp } from "../contexts/RealmApp";
 // buttons underneath the album (Share, Play, Comments)
 function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const [playModal, setPlayModal] = useState(false);
-  const { setOpenReview, setOpenSongSubmissionList, setOpenSongInfo } =
-    useToggleComponents();
+  const {
+    setOpenReview,
+    setOpenSongSubmissionList,
+    openLoginModal,
+    setOpenSongInfo,
+  } = useToggleComponents();
   // fetches the data for the reactions
   const { setReactionCounts } = useFetchData();
   const { currentUser } = useRealmApp();
@@ -32,8 +36,9 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
     <Popover
       id="reaction-popover"
       {...props}
-      className="py-0"
+      className="py-0 "
       bsPrefix="popover popover-container"
+      show={props.show && !openLoginModal}
     >
       <Popover.Body>
         <ReactionBanner songId={song_id} />

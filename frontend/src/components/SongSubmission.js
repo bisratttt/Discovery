@@ -22,7 +22,7 @@ export default function SongSubmission({
       className={`${
         isHidden ? "hidden" : "visible"
       } row d-flex align-items-start
-      justify-content-between text-white m-0 p-0 pt-2`}
+      justify-content-between text-white m-0 p-0 pt-3 rounded-0 rounded-top`}
       style={{
         backgroundColor: "rgba(0,0,0,0.2)",
         borderBottom: "solid rgba(255,255,255,0.5) 0.01rem",
@@ -71,17 +71,17 @@ export default function SongSubmission({
           </Col>
         </Row>
         <Row>
-          {note.length > 0 && 
-          <Col
-            className="d-flex justify-content-start p-1 text-start rounded-2 me-3 mt-1 mb-2"
-            style={{
-              backgroundColor: "rgba(30,30,30, 0.7)",
-              fontSize: "0.8rem",
-            }}
-          >
-            {note}
-          </Col>
-}
+          {note.length > 0 && (
+            <Col
+              className="d-flex justify-content-start align-items-center p-1 text-start rounded-2 me-3 mt-1 mb-2 w-100 ps-2"
+              style={{
+                backgroundColor: "rgba(30,30,30, 0.7)",
+                fontSize: "0.8rem",
+              }}
+            >
+              {note}
+            </Col>
+          )}
         </Row>
       </Col>
     </ListGroup.Item>

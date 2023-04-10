@@ -16,33 +16,27 @@
                 ]
             }
         },
-        "artist_bio": {
-            "bsonType": "string"
-        },
-        "artist_name": {
-            "bsonType": "string"
-        },
-        "is_visible": {
-            "bsonType": "bool"
-        },
-        "song_bio": {
-            "bsonType": "string"
+        "body": {
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Body must not be empty!"
         },
         "song_id": {
             "bsonType": "objectId"
         },
-        "song_name": {
-            "bsonType": "string"
+        "time": {
+            "bsonType": "date"
         }
     },
     "required": [
-        "artist_name",
-        "song_id",
-        "song_name",
-        "artist_bio",
-        "song_bio",
+        "body",
         "_id",
-        "is_visible"
+        "song_id"
     ],
-    "title": "songInfo"
+    "title": "feedback"
 }

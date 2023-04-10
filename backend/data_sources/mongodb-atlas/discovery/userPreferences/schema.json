@@ -16,33 +16,38 @@
                 ]
             }
         },
-        "artist_bio": {
+        "facebook_handle": {
             "bsonType": "string"
         },
-        "artist_name": {
+        "instagram_handle": {
             "bsonType": "string"
         },
-        "is_visible": {
-            "bsonType": "bool"
-        },
-        "song_bio": {
+        "tiktok_handle": {
             "bsonType": "string"
         },
-        "song_id": {
-            "bsonType": "objectId"
+        "twitter_handle": {
+            "bsonType": "string"
         },
-        "song_name": {
+        "user_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "youtube_handle": {
             "bsonType": "string"
         }
     },
     "required": [
-        "artist_name",
-        "song_id",
-        "song_name",
-        "artist_bio",
-        "song_bio",
-        "_id",
-        "is_visible"
-    ],
-    "title": "songInfo"
+        "user_id"
+    ]
 }

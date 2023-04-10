@@ -98,6 +98,7 @@ export default function CommentB({ avatar, username, body, title, time }) {
                 className={`${
                   truncateComment && "review-truncate"
                 } text-start mb-0`}
+                style={{ whiteSpace: "pre-line" }}
               >
                 {body}
               </p>

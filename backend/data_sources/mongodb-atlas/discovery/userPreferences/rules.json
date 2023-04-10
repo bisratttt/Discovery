@@ -1,14 +1,16 @@
 {
-    "collection": "comment",
+    "collection": "userPreferences",
     "database": "discovery",
     "roles": [
         {
-            "name": "userReadAndWriteAll",
+            "name": "readAllWriteOwn",
             "apply_when": {
                 "%%user.identities.provider_type": "local-userpass"
             },
             "document_filters": {
-                "write": true,
+                "write": {
+                    "owner_id": "%%user.id"
+                },
                 "read": true
             },
             "read": true,
@@ -18,19 +20,17 @@
             "search": true
         },
         {
-            "name": "guestReadAll",
-            "apply_when": {
-                "%%user.identities.provider_type": "api-key"
-            },
+            "name": "denyAllAccess",
+            "apply_when": {},
             "document_filters": {
                 "write": false,
-                "read": true
+                "read": false
             },
-            "read": true,
+            "read": false,
             "write": false,
             "insert": false,
             "delete": false,
-            "search": true
+            "search": false
         }
     ]
 }

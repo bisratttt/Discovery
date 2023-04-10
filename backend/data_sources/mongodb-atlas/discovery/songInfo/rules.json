@@ -1,6 +1,15 @@
 {
     "collection": "songInfo",
     "database": "discovery",
+    "filters": [
+        {
+            "name": "filterVisibleOnly",
+            "query": {
+                "is_visible": true
+            },
+            "apply_when": {}
+        }
+    ],
     "roles": [
         {
             "name": "readAll",

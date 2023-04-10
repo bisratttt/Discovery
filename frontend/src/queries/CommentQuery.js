@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 export const FETCH_COMMENTS = gql`
-  query FetchComment($limit: Int!, $lastTime: DateTime!) {
-    comments(query: { time_gt: $lastTime }, limit: $limit) {
+  query FetchComment($limit: Int!, $lastTime: DateTime!, $song_id: ObjectId!) {
+    comments(query: { song: $song_id, time_gt: $lastTime }, limit: $limit) {
       _id
       username
       time

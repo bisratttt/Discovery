@@ -10,7 +10,7 @@ export default function InfoModal(props) {
       size="lg"
       centered
       scrollable
-      className={`${isPhoneScreen && "pt-5 pb-5"}`}
+      className={`${isPhoneScreen && "pt-5 pb-5"} transparent-modal`}
     >
       <Modal.Header
         style={{
@@ -117,9 +117,8 @@ export default function InfoModal(props) {
       >
         <Container className="d-flex justify-content-center align-items-center">
           <Button
-            style={{ backgroundColor: "#BA2D0B", border: "none" }}
             onClick={props.onHide}
-            className="d-flex justify-content-center align-items-center ps-5 pe-5"
+            className="d-flex justify-content-center align-items-center ps-5 pe-5 border-0 theme-button-color"
           >
             Close
           </Button>
