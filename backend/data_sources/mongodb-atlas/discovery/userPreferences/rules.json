@@ -3,14 +3,12 @@
     "database": "discovery",
     "roles": [
         {
-            "name": "readAllWriteOwn",
+            "name": "readAndWriteAll",
             "apply_when": {
                 "%%user.identities.provider_type": "local-userpass"
             },
             "document_filters": {
-                "write": {
-                    "user_id": "%%user.id"
-                },
+                "write": true,
                 "read": true
             },
             "read": true,
