@@ -80,6 +80,7 @@ function NavBar({ fixed = false }) {
     setOpenSongSubmissionList,
     setOpenSongInfo,
     setOpenLoginModal,
+    setOpenProfile,
   } = useToggleComponents();
 
   return (
@@ -105,6 +106,8 @@ function NavBar({ fixed = false }) {
                 onClick={() => {
                   setOpenReview(false);
                   setOpenSongInfo(false);
+                  setOpenProfile(false);
+                  setOpenLoginModal(false);
                   setOpenSongSubmissionList(false);
                 }}
               />
@@ -137,6 +140,8 @@ function NavBar({ fixed = false }) {
                     onClick={() => {
                       setOpenSongInfo(false);
                       setOpenReview(false);
+                      setOpenProfile(false);
+                      setOpenLoginModal(false);
                       setOpenSongSubmissionList(
                         (submissionList) => !submissionList
                       );
@@ -155,6 +160,16 @@ function NavBar({ fixed = false }) {
                       style={{ backgroundColor: "rgb(30, 30, 30)" }}
                       className="rounded-3 py-0"
                     >
+                      <NavDropdownLink
+                        onClick={() => {
+                          setOpenSongSubmissionList(false);
+                          setOpenLoginModal(false);
+                          setOpenSongInfo(false);
+                          setOpenReview(false);
+                          setOpenProfile((openProfile) => !openProfile);
+                        }}
+                        label="Profile"
+                      />
                       <NavDropdownLink
                         onClick={async () => {
                           setOpenSongSubmissionList(false);
