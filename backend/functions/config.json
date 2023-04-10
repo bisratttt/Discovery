@@ -1,5 +1,14 @@
 [
     {
+        "name": "validateEmptyInput",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "createDateTrigger",
+        "private": true
+    },
+    {
         "name": "fetchReactionCounts",
         "private": false
     },
@@ -23,15 +32,6 @@
     },
     {
         "name": "userSongSubmissionDateTrigger",
-        "private": true
-    },
-    {
-        "name": "validateEmptyInput",
-        "private": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "createDateTrigger",
         "private": true
     }
 ]

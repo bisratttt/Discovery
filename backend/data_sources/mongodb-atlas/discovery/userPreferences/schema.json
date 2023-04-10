@@ -1,0 +1,53 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "facebook_handle": {
+            "bsonType": "string"
+        },
+        "instagram_handle": {
+            "bsonType": "string"
+        },
+        "tiktok_handle": {
+            "bsonType": "string"
+        },
+        "twitter_handle": {
+            "bsonType": "string"
+        },
+        "user_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "youtube_handle": {
+            "bsonType": "string"
+        }
+    },
+    "required": [
+        "user_id"
+    ]
+}
