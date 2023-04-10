@@ -9,7 +9,7 @@
             },
             "document_filters": {
                 "write": {
-                    "owner_id": "%%user.id"
+                    "user_id": "%%user.id"
                 },
                 "read": true
             },
