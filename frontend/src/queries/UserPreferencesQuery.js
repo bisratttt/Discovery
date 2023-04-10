@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export const GET_USER_PREFERENCES = gql`
   query FetchUserPreferences($user_id: ObjectId!) {
-    userPreference(data: { user_id: $user_id }) {
+    userPreference(query: { user_id: $user_id }) {
       facebook_handle
       instagram_handle
       tiktok_handle
