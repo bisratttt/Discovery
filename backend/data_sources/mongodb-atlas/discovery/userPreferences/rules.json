@@ -4,7 +4,9 @@
     "roles": [
         {
             "name": "readAllWriteOwn",
-            "apply_when": {},
+            "apply_when": {
+                "%%user.identities.provider_type": "local-userpass"
+            },
             "document_filters": {
                 "write": {
                     "owner_id": "%%user.id"
@@ -16,6 +18,19 @@
             "insert": true,
             "delete": true,
             "search": true
+        },
+        {
+            "name": "denyAllAccess",
+            "apply_when": {},
+            "document_filters": {
+                "write": false,
+                "read": false
+            },
+            "read": false,
+            "write": false,
+            "insert": false,
+            "delete": false,
+            "search": false
         }
     ]
 }
