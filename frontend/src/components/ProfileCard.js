@@ -87,7 +87,10 @@ export default function ProfileCard() {
       if (!queryLoading && queryData === undefined) {
         try {
           await addPreferences({
-            variables: { user_id: currentUser.id },
+            variables: {
+              user_id: currentUser.id,
+              username: currentUser.profile.email,
+            },
             onCompleted: (addData) =>
               setSocialHandles({
                 youtube: addData.userPreference.youtube_handle,
