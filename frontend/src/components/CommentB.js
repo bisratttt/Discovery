@@ -22,6 +22,7 @@ import { getPlatformIcon } from "../utils/utils";
 export default function CommentB({ avatar, username, body, title, time }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
+  const [noSocials, setNoSocials] = useState(true);
   const [socialHandles, setSocialHandles] = useState({
     youtube: null,
     instagram: null,
@@ -63,43 +64,74 @@ export default function CommentB({ avatar, username, body, title, time }) {
             </Spinner>
           </div>
         ) : (
-          <Popover {...props} bsPrefix="popover darker-container">
-            <Popover.Header className="darker-container text-white">
+          <Popover {...props} bsPrefix="popover darker-container min-w-popover">
+            <Popover.Header className="darker-container text-white d-flex justify-content-center align-items-center">
               Profile
             </Popover.Header>
-            <Popover.Body>
+            <Popover.Body className="pb-2">
               <Row>
                 <Col className="d-flex justify-content-start text-white">
                   <span style={{ fontWeight: "bold" }}>BIO</span>
                 </Col>
               </Row>
-              <Row className="rounded-3 mb-1 py-1 mx-0 px-0 text-white">
-                <Col className="px-0">
-                  <p className="mb-0 text-start">{data.userPreference.bio}</p>
+              <Row
+                className="rounded-1 py-1 mx-0 px-0 text-white"
+                style={{ background: "rgba(41,41,41, 0.4)" }}
+              >
+                <Col>
+                  <p className="mb-0 text-start">
+                    {data.userPreference.bio !== ""
+                      ? data.userPreference.bio
+                      : "no-bio"}
+                  </p>
                 </Col>
               </Row>
-              <Row className="rounded-3">
+              <Row>
+                <Col className="d-flex justify-content-start text-white">
+                  <span style={{ fontWeight: "bold" }}>SOCIALS</span>
+                </Col>
+              </Row>
+              <Row
+                className="rounded-1 py-1 mx-0 px-0 "
+                style={{ background: "rgba(41,41,41, 0.4)" }}
+              >
                 {Object.keys(socialHandles).map((platform) => {
-                  socialHandles[platform] && socialHandles[platform] !== "" && (
-                    <Row>
-                      <Col xs={3}>
-                        <FontAwesomeIcon icon={getPlatformIcon(platform)} />
-                      </Col>
-                      <Col xs={9}>
-                        <a
-                          href={`https://${platform}.com/${
-                            (platform === "youtube" || platform === "tiktok") &&
-                            socialHandles[platform]
-                              ? "@"
-                              : ""
-                          }${socialHandles[platform] ?? ""}`}
-                        >
-                          {socialHandles[platform]}
-                        </a>
-                      </Col>
-                    </Row>
-                  );
+                  if (
+                    socialHandles[platform] &&
+                    socialHandles[platform] !== ""
+                  ) {
+                    setNoSocials(false);
+                    return (
+                      <Row>
+                        <Col xs={3}>
+                          <FontAwesomeIcon
+                            className="text-white"
+                            icon={getPlatformIcon(platform)}
+                          />
+                        </Col>
+                        <Col xs={9}>
+                          <a
+                            href={`https://${platform}.com/${
+                              (platform === "youtube" ||
+                                platform === "tiktok") &&
+                              socialHandles[platform]
+                                ? "@"
+                                : ""
+                            }${socialHandles[platform] ?? ""}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="bg-transparent border-0 text-white"
+                          >
+                            {socialHandles[platform]}
+                          </a>
+                        </Col>
+                      </Row>
+                    );
+                  }
                 })}
+                {noSocials && (
+                  <span className="text-white mb-0">no-socials</span>
+                )}
               </Row>
             </Popover.Body>
           </Popover>
