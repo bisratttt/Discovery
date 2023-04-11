@@ -36,72 +36,23 @@ exports = async function(arg){
 
   // return { result: findResult };
   
-  // // Find the name of the MongoDB service you want to use (see "Linked Data Sources" tab)
-  // var serviceName = "mongodb-atlas";
+  // Find the name of the MongoDB service you want to use (see "Linked Data Sources" tab)
+  var serviceName = "mongodb-atlas";
 
-  // // Update these to reflect your db/collection
-  // var dbName = "discovery";
-  // var songCollName = "song";
-  // var commentCollName = "comment";
-  // const db = context.services.get(serviceName).db(dbName);
-  // const songCollection = db.collection(songCollName);
-  // const commentCollection = db.collection(commentCollName);
+  // Update these to reflect your db/collection
+  var dbName = "discovery";
+  var songCollName = "song";
+  var commentCollName = "comment";
+  const db = context.services.get(serviceName).db(dbName);
+  const songCollection = db.collection(songCollName);
+  const commentCollection = db.collection(commentCollName);
   
   const { google } = require("googleapis");
-  const express = require("express");
   
   const api_key = "AIzaSyAjzElIPpTfdiLDGr2GnW5RvQFJF7RXktY";
-  const CLIENT_ID = "410090683640-0ej81d2hvv36mjv9564jkviga9d45o1c.apps.googleusercontent.com";
-  const CLIENT_SECRET = "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";
-  const REDIRECT_URI = "https://data.mongodb-api.com/app/discovery-kdqhu/endpoint/auth/google/callback";
+  const client_id = "410090683640-0ej81d2hvv36mjv9564jkviga9d45o1c.apps.googleusercontent.com";
+  const client_secret = "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";
   
-  // const oauthConfig = {
-  //   client_id: CLIENT_ID,
-  //   project_id: "discovery-382221",
-  //   auth_uri: "https://accounts.google.com/o/oauth2/auth",
-  // token_uri: "https://oauth2.googleapis.com/token",
-  // auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-  // client_secret: CLIENT_SECRET,
-  // redirect_uris: [`https://data.mongodb-api.com/app/discovery-kdqhu/endpoint/playlist/auth/google/callback`],
-  // JWTsecret: "secret",
-  // scopes: [
-  //   "https://www.googleapis.com/auth/userinfo.email",
-  //   "https://www.googleapis.com/auth/userinfo.profile",
-  //   "openid"
-  // ]
-  // };
-  
-  // const OAuth2 = google.auth.OAuth2;
-  // const oauth2Client = new OAuth2(
-  //   oauthConfig.client_id,
-  //   oauthConfig.client_secret,
-  //   oauthConfig.redirect_uris[0]
-  // );
-  
-  // const realm_app_id = "discovery-kdqhu";
-  // const realmApp = new Realm.app({
-  //   id: realm_app_id
-  // });
-  
-  
-  const app = express();
-  const client = new google.auth.OAuth2(
-    CLIENT_ID,
-    CLIENT_SECRET,
-    REDIRECT_URI
-  );
-  
-  app.get('/auth', (req, res) => {
-    // Generate the URL for the consent dialog.
-    const authUrl = client.generateAuthUrl({
-      access_type: 'offline',
-      scope: ['profile', 'email']
-    });
-  
-    // Redirect the user to the consent dialog.
-    // After the user grants access, they will be redirected to the callback URL.
-    res.redirect(authUrl);
-  });
   
   const playlist_id = "PLjflttNTZpythjMh02YCBiDDCrZHjfPi_";
   

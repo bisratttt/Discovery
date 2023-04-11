@@ -16,6 +16,9 @@
                 ]
             }
         },
+        "bio": {
+            "bsonType": "string"
+        },
         "facebook_handle": {
             "bsonType": "string"
         },
@@ -48,6 +51,10 @@
         }
     },
     "required": [
-        "user_id"
-    ]
+        "user_id",
+        "username"
+    ],
+    "username": {
+        "bsonType": "string"
+    }
 }
