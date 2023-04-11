@@ -17,12 +17,22 @@
   color: rgb(111, 27, 6);
 }
 .theme-bg-color {
-  background-color: #f7ebde !important;
+  background-color: #f0d9c2 !important;
+}
+.theme-button-color {
+  background-color: rgb(166, 39, 7) !important;
 }
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+.border-top-translucent {
+  border-top: solid rgba(255, 255, 255, 0.5) 0.01rem;
+}
+.border-bottom-translucent {
+  border-bottom: solid rgba(255, 255, 255, 0.5) 0.01rem;
+}
+
 /* navbar */
 .dropdown-item:hover {
   background-color: rgb(0, 0, 0) !important;
@@ -84,8 +94,9 @@
   font-family: "Raleway", sans-serif;
 }
 
-.popover-container {
-  background-color: rgba(0, 0, 0, 0.8) !important;
+.darker-container {
+  background-color: rgba(0, 0, 0, 0.65) !important;
+  backdrop-filter: blur(1rem);
 }
 
 .relative-container {
@@ -133,6 +144,12 @@
   border: none;
 }
 /* comment */
+.popover-arrow {
+  display: none !important;
+}
+.min-w-popover {
+  min-width: 200px !important;
+}
 #comment-card {
   background-color: transparent !important;
 }
@@ -173,7 +190,7 @@
   background-color: transparent !important;
 }
 #submission-body {
-  height: 91vh;
+  height: 90vh;
   overflow-y: auto;
 }
 

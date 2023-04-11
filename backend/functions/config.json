@@ -5,16 +5,13 @@
         "disable_arg_logs": true
     },
     {
-        "name": "resetPassFunc",
+        "name": "createUserPreferences",
         "private": true
     },
     {
-        "name": "useNewSong",
-        "private": true
-    },
-    {
-        "name": "userSongSubmissionDateTrigger",
-        "private": true
+        "name": "useYoutubeSong",
+        "private": true,
+        "disable_arg_logs": true
     },
     {
         "name": "validateEmptyInput",
@@ -30,8 +27,15 @@
         "private": false
     },
     {
-        "name": "useYoutubeSong",
-        "private": true,
-        "disable_arg_logs": true
+        "name": "resetPassFunc",
+        "private": true
+    },
+    {
+        "name": "useNewSong",
+        "private": true
+    },
+    {
+        "name": "userSongSubmissionDateTrigger",
+        "private": true
     }
 ]

@@ -24,7 +24,9 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
     setOpenReview,
     setOpenSongSubmissionList,
     openLoginModal,
+    setOpenLoginModal,
     setOpenSongInfo,
+    setOpenProfile,
   } = useToggleComponents();
   // fetches the data for the reactions
   const { setReactionCounts } = useFetchData();
@@ -36,8 +38,8 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
     <Popover
       id="reaction-popover"
       {...props}
-      className="py-0"
-      bsPrefix="popover popover-container"
+      className="py-0 "
+      bsPrefix="popover darker-container"
       show={props.show && !openLoginModal}
     >
       <Popover.Body>
@@ -81,6 +83,8 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
             onClick={() => {
               setOpenSongInfo(false);
               setOpenSongSubmissionList(false);
+              setOpenProfile(false);
+              setOpenLoginModal(false);
               setOpenReview((openReview) => !openReview);
             }}
           >

@@ -85,7 +85,7 @@ export default function ReviewEditor({ songId, onHide, refetch }) {
           placeholder="Body of your review"
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          style={{ backgroundColor: "transparent" }}
+          style={{ backgroundColor: "transparent", whiteSpace: "pre-line" }}
         />
         <Form.Text className="text-muted">{wordCount} words</Form.Text>
         <ErrorAlert />

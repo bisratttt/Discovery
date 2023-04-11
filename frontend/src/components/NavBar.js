@@ -21,6 +21,7 @@ import {
   NavRightButton,
 } from "./design-system/NavRightButton";
 import ThumbsUpDownIcon from "@mui/icons-material/ThumbsUpDown";
+import DeleteAccountWarningModal from "./DeleteAccountWarningModal";
 const PillAvatar = ({ email, isSmallScreen }) => {
   const avatarSize = isSmallScreen ? 30 : 40;
 
@@ -72,12 +73,14 @@ const customDropdownPill = React.forwardRef(({ children, onClick }, ref) => (
 function NavBar({ fixed = false }) {
   const { currentUser, logIn, logOut } = useRealmApp();
   const [showInfoModal, setShowInfoModal] = useState(false);
+  const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const {
     setOpenReview,
     setOpenSongSubmissionList,
     setOpenSongInfo,
     setOpenLoginModal,
+    setOpenProfile,
   } = useToggleComponents();
 
   return (
@@ -91,7 +94,10 @@ function NavBar({ fixed = false }) {
           width: "100%",
         }}
       >
-        <Container fluid className="justify-content-start align-items-start">
+        <Container
+          fluid
+          className="justify-content-start align-items-start pe-2"
+        >
           {currentUser && (
             <Navbar.Brand className="m-0 p-0">
               <Image
@@ -103,6 +109,8 @@ function NavBar({ fixed = false }) {
                 onClick={() => {
                   setOpenReview(false);
                   setOpenSongInfo(false);
+                  setOpenProfile(false);
+                  setOpenLoginModal(false);
                   setOpenSongSubmissionList(false);
                 }}
               />
@@ -131,14 +139,12 @@ function NavBar({ fixed = false }) {
               />
               {currentUser.providerType === "local-userpass" && (
                 <>
-                  {/* <NavRightButton
-                    MuiButtonIcon={ThumbsUpDownIcon}
-                    name="Vote"
-                  /> */}
                   <NavRightButton
                     onClick={() => {
                       setOpenSongInfo(false);
                       setOpenReview(false);
+                      setOpenProfile(false);
+                      setOpenLoginModal(false);
                       setOpenSongSubmissionList(
                         (submissionList) => !submissionList
                       );
@@ -158,8 +164,25 @@ function NavBar({ fixed = false }) {
                       className="rounded-3 py-0"
                     >
                       <NavDropdownLink
-                        onClick={async () => await logOut()}
+                        onClick={() => {
+                          setOpenSongSubmissionList(false);
+                          setOpenLoginModal(false);
+                          setOpenSongInfo(false);
+                          setOpenReview(false);
+                          setOpenProfile((openProfile) => !openProfile);
+                        }}
+                        label="Profile"
+                      />
+                      <NavDropdownLink
+                        onClick={async () => {
+                          setOpenSongSubmissionList(false);
+                          await logOut();
+                        }}
                         label="Log Out"
+                      />
+                      <NavDropdownLink
+                        onClick={() => setShowDeleteWarningModal(true)}
+                        label="Delete Account"
                       />
                     </Dropdown.Menu>
                   </Dropdown>
@@ -167,6 +190,10 @@ function NavBar({ fixed = false }) {
               )}
             </Nav>
           </Navbar.Collapse>
+          <DeleteAccountWarningModal
+            onHide={() => setShowDeleteWarningModal(false)}
+            show={showDeleteWarningModal}
+          />
         </Container>
       </Navbar>
     </>

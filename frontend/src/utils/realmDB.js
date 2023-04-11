@@ -25,7 +25,6 @@ export async function realmFetch({ currentUser, songId, setReactionCounts }) {
       {}
     );
     setReactionCounts(counts);
-    console.log(res);
   } catch (error) {
     console.error("Error aggregating reactions:", error);
   }
