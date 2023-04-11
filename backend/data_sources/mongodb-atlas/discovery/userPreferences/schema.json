@@ -16,6 +16,9 @@
                 ]
             }
         },
+        "bio": {
+            "bsonType": "string"
+        },
         "facebook_handle": {
             "bsonType": "string"
         },

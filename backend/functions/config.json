@@ -1,19 +1,15 @@
 [
     {
-        "name": "useYoutubeSong",
+        "name": "validateEmptyInput",
         "private": true,
         "disable_arg_logs": true
     },
     {
+        "name": "createDateTrigger",
+        "private": true
+    },
+    {
         "name": "createUserPreferences",
-        "private": true
-    },
-    {
-        "name": "userSongSubmissionDateTrigger",
-        "private": true
-    },
-    {
-        "name": "resetPassFunc",
         "private": true
     },
     {
@@ -21,11 +17,16 @@
         "private": false
     },
     {
-        "name": "useNewSong",
+        "name": "useYoutubeSong",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "userSongSubmissionDateTrigger",
         "private": true
     },
     {
-        "name": "createDateTrigger",
+        "name": "useNewSong",
         "private": true
     },
     {
@@ -34,8 +35,7 @@
         "disable_arg_logs": true
     },
     {
-        "name": "validateEmptyInput",
-        "private": true,
-        "disable_arg_logs": true
+        "name": "resetPassFunc",
+        "private": true
     }
 ]
