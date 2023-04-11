@@ -49,6 +49,7 @@ const getPlatformIcon = (platform) => {
   }
 };
 export default function ProfileCard() {
+  const [editMode, setEditMode] = useState(false);
   const { currentUser } = useRealmApp();
   const { setOpenProfile } = useToggleComponents();
   const [socialHandles, setSocialHandles] = useState({
@@ -58,36 +59,36 @@ export default function ProfileCard() {
     tiktok: null,
     twitter: null,
   });
-  const {
-    loading: queryLoading,
-    error: queryError,
-    data,
-  } = useQuery(GET_USER_PREFERENCES, {
-    variables: { user_id: new BSON.ObjectId(currentUser.id) },
-    onCompleted: () => {
-      console.log("Complete fetching...");
-      setSocialHandles({
-        youtube: data.userPreference.youtube_handle,
-        instagram: data.userPreference.instagram_handle,
-        facebook: data.userPreference.facebook_handle,
-        tiktok: data.userPreference.tiktok_handle,
-        twitter: data.userPreference.twitter_handle,
-      });
-    },
-  });
-  const [addPreferences, { error: addError, data: addData }] =
-    useMutation(ADD_PREFERENCES);
-  const [updatePreferences, { error: updateError, loading: updateLoading }] =
-    useMutation(UPDATE_USER_PREFERENCES);
+  const { loading: queryLoading, data: queryData } = useQuery(
+    GET_USER_PREFERENCES,
+    {
+      variables: { user_id: new BSON.ObjectId(currentUser.id) },
+      onCompleted: (queryData) => {
+        console.log("Complete fetching...");
+        setSocialHandles({
+          youtube: queryData.userPreference.youtube_handle,
+          instagram: queryData.userPreference.instagram_handle,
+          facebook: queryData.userPreference.facebook_handle,
+          tiktok: queryData.userPreference.tiktok_handle,
+          twitter: queryData.userPreference.twitter_handle,
+        });
+      },
+      onError: (err) => console.log("Error querying user preferences: ", err),
+    }
+  );
+  const [addPreferences] = useMutation(ADD_PREFERENCES);
+  const [updatePreferences, { loading: updateLoading }] = useMutation(
+    UPDATE_USER_PREFERENCES
+  );
   //   if user prefernces are not create then create them
 
   useEffect(() => {
     const addNewPreferences = async () => {
-      if (!queryLoading && data === undefined) {
+      if (!queryLoading && queryData === undefined) {
         try {
           await addPreferences({
             variables: { user_id: currentUser.id },
-            onCompleted: () =>
+            onCompleted: (addData) =>
               setSocialHandles({
                 youtube: addData.userPreference.youtube_handle,
                 instagram: addData.userPreference.instagram_handle,
@@ -95,6 +96,8 @@ export default function ProfileCard() {
                 tiktok: addData.userPreference.tiktok_handle,
                 twitter: addData.userPreference.twitter_handle,
               }),
+            onError: (err) =>
+              console.error("Error adding new preference: ", err),
           });
         } catch (err) {
           console.error("Error adding preferences:", err);
@@ -103,7 +106,7 @@ export default function ProfileCard() {
     };
 
     addNewPreferences();
-  }, [queryLoading, data, addPreferences, currentUser.id]);
+  }, [queryLoading, addPreferences, currentUser.id]);
 
   const handleChange = (e) => {
     setSocialHandles({ ...socialHandles, [e.target.name]: e.target.value });
@@ -114,16 +117,26 @@ export default function ProfileCard() {
     updatePreferences({
       variables: {
         user_id: currentUser.id,
-        youtube: socialHandles.youtube ?? "",
-        instagram: socialHandles.instagram ?? "",
-        facebook: socialHandles.facebook ?? "",
-        twitter: socialHandles.twitter ?? "",
-        tiktok: socialHandles.tiktok ?? "",
+        youtube: socialHandles.youtube,
+        instagram: socialHandles.instagram,
+        facebook: socialHandles.facebook,
+        twitter: socialHandles.twitter,
+        tiktok: socialHandles.tiktok,
       },
-      onCompleted: () => setEditMode(false),
+      onCompleted: (updateData) => {
+        setEditMode(false);
+        setSocialHandles({
+          youtube: updateData.userPreference.youtube_handle,
+          instagram: updateData.userPreference.instagram_handle,
+          facebook: updateData.userPreference.facebook_handle,
+          tiktok: updateData.userPreference.tiktok_handle,
+          twitter: updateData.userPreference.twitter_handle,
+        });
+      },
+      onError: (err) => console.error("Error updating preferences: ", err),
     });
   };
-  const [editMode, setEditMode] = useState(false);
+  console.log(socialHandles);
   return (
     <>
       {queryLoading && (
@@ -210,15 +223,21 @@ export default function ProfileCard() {
                       {!editMode ? (
                         <a
                           href={`https://${platform}.com/${
-                            socialHandles[platform] ?? ""
-                          }`}
+                            (platform === "youtube" || platform === "tiktok") &&
+                            socialHandles[platform]
+                              ? "@"
+                              : ""
+                          }${socialHandles[platform] ?? ""}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
                         >
-                          {" "}
                           {socialHandles[platform]
-                            ? socialHandles[platform].split("://")[1]
+                            ? `${
+                                platform === "youtube" || platform === "tiktok"
+                                  ? "@"
+                                  : ""
+                              }${socialHandles[platform]}`
                             : `your-handle`}
                         </a>
                       ) : (
