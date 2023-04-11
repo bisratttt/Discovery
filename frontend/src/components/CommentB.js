@@ -2,16 +2,111 @@ import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
-import { Button, Col, Dropdown, ListGroup, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Dropdown,
+  ListGroup,
+  OverlayTrigger,
+  Popover,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { GET_USER_PREFERENCES_NAME } from "../queries/UserPreferencesQuery";
+import { useQuery } from "@apollo/client";
+import { faYoutube } from "@fortawesome/free-brands-svg-icons";
+import { getPlatformIcon } from "../utils/utils";
 
 export default function CommentB({ avatar, username, body, title, time }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
+  const [socialHandles, setSocialHandles] = useState({
+    youtube: null,
+    instagram: null,
+    facebook: null,
+    tiktok: null,
+    twitter: null,
+  });
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+  const { loading, error, data } = useQuery(GET_USER_PREFERENCES_NAME, {
+    variables: { username: username },
+    onCompleted: (queryData) => {
+      setSocialHandles({
+        youtube: queryData.userPreference.youtube_handle,
+        instagram: queryData.userPreference.instagram_handle,
+        facebook: queryData.userPreference.facebook_handle,
+        tiktok: queryData.userPreference.tiktok_handle,
+        twitter: queryData.userPreference.twitter_handle,
+      });
+    },
+  });
+  console.log(error);
+  console.log(data);
+  const ProfilePopover = (props) => {
+    return (
+      <>
+        {loading ? (
+          <div
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <Spinner animation="border" role="status" variant="light">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        ) : (
+          <Popover {...props} bsPrefix="popover darker-container">
+            <Popover.Header className="darker-container text-white">
+              Profile
+            </Popover.Header>
+            <Popover.Body>
+              <Row>
+                <Col className="d-flex justify-content-start text-white">
+                  <span style={{ fontWeight: "bold" }}>BIO</span>
+                </Col>
+              </Row>
+              <Row className="rounded-3 mb-1 py-1 mx-0 px-0 text-white">
+                <Col className="px-0">
+                  <p className="mb-0 text-start">{data.userPreference.bio}</p>
+                </Col>
+              </Row>
+              <Row className="rounded-3">
+                {Object.keys(socialHandles).map((platform) => {
+                  socialHandles[platform] && socialHandles[platform] !== "" && (
+                    <Row>
+                      <Col xs={3}>
+                        <FontAwesomeIcon icon={getPlatformIcon(platform)} />
+                      </Col>
+                      <Col xs={9}>
+                        <a
+                          href={`https://${platform}.com/${
+                            (platform === "youtube" || platform === "tiktok") &&
+                            socialHandles[platform]
+                              ? "@"
+                              : ""
+                          }${socialHandles[platform] ?? ""}`}
+                        >
+                          {socialHandles[platform]}
+                        </a>
+                      </Col>
+                    </Row>
+                  );
+                })}
+              </Row>
+            </Popover.Body>
+          </Popover>
+        )}
+      </>
+    );
+  };
   useEffect(() => {
     setIsTruncated(
       commentRef.current.scrollHeight > commentRef.current.clientHeight
@@ -51,7 +146,15 @@ export default function CommentB({ avatar, username, body, title, time }) {
             className="d-flex justify-content-center align-items-center"
           >
             <Col className="d-flex justify-content-start ps-0">
-              <strong>{username}</strong>
+              <OverlayTrigger
+                trigger="click"
+                placement="auto"
+                delay={{ show: 250, hide: 0 }}
+                overlay={ProfilePopover}
+                rootClose={true}
+              >
+                <strong style={{ cursor: "pointer" }}>{username}</strong>
+              </OverlayTrigger>
             </Col>
             <Col xs={4} lg={2} className="d-flex justify-content-end pe-4">
               <Dropdown>

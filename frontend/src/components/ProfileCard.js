@@ -16,13 +16,7 @@ import {
   faPencilAlt,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import {
-  faYoutube,
-  faInstagram,
-  faFacebook,
-  faTiktok,
-  faTwitter,
-} from "@fortawesome/free-brands-svg-icons";
+
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import {
   ADD_PREFERENCES,
@@ -31,23 +25,8 @@ import {
 } from "../queries/UserPreferencesQuery";
 import { useMutation, useQuery } from "@apollo/client";
 import { BSON } from "realm-web";
+import { getPlatformIcon } from "../utils/utils";
 
-const getPlatformIcon = (platform) => {
-  switch (platform) {
-    case "youtube":
-      return faYoutube;
-    case "instagram":
-      return faInstagram;
-    case "facebook":
-      return faFacebook;
-    case "tiktok":
-      return faTiktok;
-    case "twitter":
-      return faTwitter;
-    default:
-      return null;
-  }
-};
 export default function ProfileCard() {
   const [editMode, setEditMode] = useState(false);
   const { currentUser } = useRealmApp();
@@ -207,7 +186,12 @@ export default function ProfileCard() {
           {/* user preferences */}
           <Row style={{ margin: "0 0.1rem 0" }}>
             {/* bio */}
-            <Row className="darker-container rounded-3 mt-2 py-1 mx-0 px-0 text-white">
+            <Row className="mt-2">
+              <Col className="d-flex justify-content-start">
+                <span style={{ fontWeight: "bold" }}>BIO</span>
+              </Col>
+            </Row>
+            <Row className="darker-container rounded-3 mb-3 py-1 mx-0 px-0 text-white">
               <Col>
                 {!editMode ? (
                   <p className="mb-0 text-start">{bio}</p>
@@ -222,7 +206,12 @@ export default function ProfileCard() {
                 )}
               </Col>
             </Row>
-            <Row className="mt-1 py-1 mx-0 px-0 darker-container rounded-3">
+            <Row>
+              <Col className="d-flex justify-content-start">
+                <span style={{ fontWeight: "bold" }}>SOCIALS</span>
+              </Col>
+            </Row>
+            <Row className="py-1 mx-0 px-0 darker-container rounded-3">
               <Col>
                 <Form onSubmit={handleSubmit}>
                   {Object.keys(socialHandles).map((platform) => (
