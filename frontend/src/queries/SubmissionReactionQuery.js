@@ -6,7 +6,7 @@ export const ADD_SUBMISSION_REACTION = gql`
     $submission_id: ObjectId!
     $reaction: String!
   ) {
-    insertOneSongSubmissionReaction(
+    insertOneSubmissionReaction(
       data: {
         reaction_unicode: $reaction
         user_id: $user_id

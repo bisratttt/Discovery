@@ -63,7 +63,6 @@ export default function SongSubmissionList() {
   //     clearInterval(intervalId);
   //   };
   // }, []);
-  console.log(error);
   return (
     <Card
       id="submission-card"
