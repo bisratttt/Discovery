@@ -22,7 +22,7 @@ export default function SongSubmission({
       className={`${
         isHidden ? "hidden" : "visible"
       } row d-flex align-items-start
-      justify-content-between text-white m-0 p-0 pt-3 rounded-0 rounded-top`}
+      justify-content-between text-white m-0 p-0 pt-3 rounded-0 rounded-top pb-2`}
       style={{
         backgroundColor: "rgba(0,0,0,0.2)",
         borderBottom: "solid rgba(255,255,255,0.5) 0.01rem",
@@ -62,7 +62,7 @@ export default function SongSubmission({
         <Row style={{ fontSize: "0.9rem" }}>
           <Col
             xs={1}
-            className="d-flex justify-content-end align-items-start pe-1"
+            className="d-flex justify-content-end align-items-start pe-1 mb-1"
           >
             <Avatar textSizeRatio={2.1} name={username} size="20" round />
           </Col>
@@ -73,13 +73,13 @@ export default function SongSubmission({
         <Row>
           {note.length > 0 && (
             <Col
-              className="d-flex justify-content-start align-items-center p-1 text-start rounded-2 me-3 mt-1 mb-2 w-100 ps-2"
+              className="d-flex justify-content-start align-items-center p-1 text-start rounded-2 me-3 w-100 ps-2"
               style={{
                 backgroundColor: "rgba(30,30,30, 0.7)",
                 fontSize: "0.8rem",
               }}
             >
-              {note}
+              <p className="mb-0 text-start">{note}</p>
             </Col>
           )}
         </Row>

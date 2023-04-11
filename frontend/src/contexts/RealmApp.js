@@ -49,6 +49,7 @@ export function RealmAppProvider({ appId, children }) {
       const user = realmApp.currentUser;
       await user?.logOut();
       await realmApp.removeUser(user);
+      await apiLogin();
     } catch (err) {
       console.error(err);
     }

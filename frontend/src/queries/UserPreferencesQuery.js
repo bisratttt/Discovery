@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-export const GET_USER_PREFERENCES = gql`
+export const GET_USER_PREFERENCES_ID = gql`
   query FetchUserPreferences($user_id: ObjectId!) {
     userPreference(query: { user_id: $user_id }) {
       facebook_handle
@@ -8,6 +8,19 @@ export const GET_USER_PREFERENCES = gql`
       tiktok_handle
       twitter_handle
       youtube_handle
+      bio
+    }
+  }
+`;
+export const GET_USER_PREFERENCES_NAME = gql`
+  query FetchUserPreferences($username: String!) {
+    userPreference(query: { username: $username }) {
+      facebook_handle
+      instagram_handle
+      tiktok_handle
+      twitter_handle
+      youtube_handle
+      bio
     }
   }
 `;
@@ -20,6 +33,7 @@ export const ADD_PREFERENCES = gql`
     $instagram: String
     $twitter: String
     $tiktok: String
+    $bio: String
   ) {
     insertOneUserPreference(
       data: {
@@ -29,6 +43,7 @@ export const ADD_PREFERENCES = gql`
         tiktok_handle: $tiktok
         twitter_handle: $twitter
         youtube_handle: $youtube
+        bio: $bio
       }
     ) {
       facebook_handle
@@ -36,6 +51,7 @@ export const ADD_PREFERENCES = gql`
       tiktok_handle
       twitter_handle
       youtube_handle
+      bio
     }
   }
 `;
@@ -47,6 +63,7 @@ export const UPDATE_USER_PREFERENCES = gql`
     $instagram: String
     $twitter: String
     $tiktok: String
+    $bio: String
   ) {
     updateOneUserPreference(
       query: { user_id: $user_id }
@@ -56,6 +73,7 @@ export const UPDATE_USER_PREFERENCES = gql`
         tiktok_handle: $tiktok
         twitter_handle: $twitter
         youtube_handle: $youtube
+        bio: $bio
       }
     ) {
       facebook_handle
@@ -63,6 +81,7 @@ export const UPDATE_USER_PREFERENCES = gql`
       tiktok_handle
       twitter_handle
       youtube_handle
+      bio
     }
   }
 `;

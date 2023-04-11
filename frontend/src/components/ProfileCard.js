@@ -26,7 +26,7 @@ import {
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import {
   ADD_PREFERENCES,
-  GET_USER_PREFERENCES,
+  GET_USER_PREFERENCES_ID,
   UPDATE_USER_PREFERENCES,
 } from "../queries/UserPreferencesQuery";
 import { useMutation, useQuery } from "@apollo/client";
@@ -59,12 +59,12 @@ export default function ProfileCard() {
     tiktok: null,
     twitter: null,
   });
+  const [bio, setBio] = useState("");
   const { loading: queryLoading, data: queryData } = useQuery(
-    GET_USER_PREFERENCES,
+    GET_USER_PREFERENCES_ID,
     {
       variables: { user_id: new BSON.ObjectId(currentUser.id) },
       onCompleted: (queryData) => {
-        console.log("Complete fetching...");
         setSocialHandles({
           youtube: queryData.userPreference.youtube_handle,
           instagram: queryData.userPreference.instagram_handle,
@@ -72,6 +72,7 @@ export default function ProfileCard() {
           tiktok: queryData.userPreference.tiktok_handle,
           twitter: queryData.userPreference.twitter_handle,
         });
+        setBio(queryData.userPreference.bio);
       },
       onError: (err) => console.log("Error querying user preferences: ", err),
     }
@@ -91,14 +92,16 @@ export default function ProfileCard() {
               user_id: currentUser.id,
               username: currentUser.profile.email,
             },
-            onCompleted: (addData) =>
+            onCompleted: (addData) => {
               setSocialHandles({
                 youtube: addData.userPreference.youtube_handle,
                 instagram: addData.userPreference.instagram_handle,
                 facebook: addData.userPreference.facebook_handle,
                 tiktok: addData.userPreference.tiktok_handle,
                 twitter: addData.userPreference.twitter_handle,
-              }),
+              });
+              setBio(addData.userPreference.bio);
+            },
             onError: (err) =>
               console.error("Error adding new preference: ", err),
           });
@@ -125,6 +128,7 @@ export default function ProfileCard() {
         facebook: socialHandles.facebook,
         twitter: socialHandles.twitter,
         tiktok: socialHandles.tiktok,
+        bio: bio,
       },
       onCompleted: (updateData) => {
         setEditMode(false);
@@ -135,6 +139,7 @@ export default function ProfileCard() {
           tiktok: updateData.userPreference.tiktok_handle,
           twitter: updateData.userPreference.twitter_handle,
         });
+        setBio(updateData.userPreference.bio);
       },
       onError: (err) => console.error("Error updating preferences: ", err),
     });
@@ -169,7 +174,7 @@ export default function ProfileCard() {
         <Card.Body className="px-2">
           <Row>
             <Col
-              xs={10}
+              xs={9}
               className="d-flex justify-content-start align-items-center"
             >
               <Avatar
@@ -189,7 +194,7 @@ export default function ProfileCard() {
                 {currentUser.profile.email}
               </span>
             </Col>
-            <Col xs={2}>
+            <Col xs={3}>
               {" "}
               <Button
                 className="bg-transparent border-1 border-white"
@@ -200,15 +205,24 @@ export default function ProfileCard() {
             </Col>
           </Row>
           {/* user preferences */}
-          <Row
-            className="darker-container rounded-3 mt-2"
-            style={{ margin: "0 0.1rem 0" }}
-          >
+          <Row style={{ margin: "0 0.1rem 0" }}>
             {/* bio */}
-            <Row>
-              <Col></Col>
+            <Row className="darker-container rounded-3 mt-2 py-1 mx-0 px-0 text-white">
+              <Col>
+                {!editMode ? (
+                  <p className="mb-0 text-start">{bio}</p>
+                ) : (
+                  <Form.Control
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
+                    as="textarea"
+                    placeholder="your bio"
+                    className="bg-transparent border-0 text-white"
+                  />
+                )}
+              </Col>
             </Row>
-            <Row className="mt-1 py-1 mx-0 px-0">
+            <Row className="mt-1 py-1 mx-0 px-0 darker-container rounded-3">
               <Col>
                 <Form onSubmit={handleSubmit}>
                   {Object.keys(socialHandles).map((platform) => (
