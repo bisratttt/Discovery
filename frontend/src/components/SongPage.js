@@ -15,7 +15,6 @@ import SongButtonsTop from "./SongButtonsTop";
 import NavBar from "./NavBar";
 import FeedbackPopup from "./FeedbackPopup";
 import ProfileCard from "./ProfileCard";
-// import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
 export default function Page() {
   const { loading, error, data } = useQuery(QUERY_SONG);
@@ -111,9 +110,6 @@ function SongPage({ data }) {
       />
       <div className="background-darker" />
       <SongIntroLargeScreen />
-      {/* {!isSmallScreen && (
-        <IntroPlaySongModal srcUrl="https://www.youtube.com/embed/khoVBLp-BSE" />
-      )} */}
       <NavBar />
       <div className="relative-container">
         <Row
