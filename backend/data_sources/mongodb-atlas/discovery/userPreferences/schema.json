@@ -48,6 +48,10 @@
         }
     },
     "required": [
-        "user_id"
-    ]
+        "user_id",
+        "username"
+    ],
+    "username": {
+        "bsonType": "string"
+    }
 }
