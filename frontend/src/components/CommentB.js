@@ -16,8 +16,8 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { GET_USER_PREFERENCES_NAME } from "../queries/UserPreferencesQuery";
 import { useQuery } from "@apollo/client";
-import { faYoutube } from "@fortawesome/free-brands-svg-icons";
 import { getPlatformIcon } from "../utils/utils";
+import { useRealmApp } from "../contexts/RealmApp";
 
 export default function CommentB({ avatar, username, body, title, time }) {
   const [truncateComment, setTruncateComment] = useState(true);
@@ -33,6 +33,7 @@ export default function CommentB({ avatar, username, body, title, time }) {
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+  const { currentUser } = useRealmApp();
   const { loading, error, data } = useQuery(GET_USER_PREFERENCES_NAME, {
     variables: { username: username },
     onCompleted: (queryData) => {
@@ -178,15 +179,19 @@ export default function CommentB({ avatar, username, body, title, time }) {
             className="d-flex justify-content-center align-items-center"
           >
             <Col className="d-flex justify-content-start ps-0">
-              <OverlayTrigger
-                trigger="click"
-                placement="auto"
-                delay={{ show: 250, hide: 0 }}
-                overlay={ProfilePopover}
-                rootClose={true}
-              >
-                <strong style={{ cursor: "pointer" }}>{username}</strong>
-              </OverlayTrigger>
+              {currentUser.providerType === "api-key" ? (
+                <strong>{username}</strong>
+              ) : (
+                <OverlayTrigger
+                  trigger="click"
+                  placement="auto"
+                  delay={{ show: 250, hide: 0 }}
+                  overlay={ProfilePopover}
+                  rootClose={true}
+                >
+                  <strong style={{ cursor: "pointer" }}>{username}</strong>
+                </OverlayTrigger>
+              )}
             </Col>
             <Col xs={4} lg={2} className="d-flex justify-content-end pe-4">
               <Dropdown>
