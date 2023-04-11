@@ -40,7 +40,6 @@
     },
     "required": [
         "artist_name",
-        "artist_image_url",
         "song_id",
         "song_name",
         "artist_bio",
