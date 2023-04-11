@@ -94,7 +94,10 @@ function NavBar({ fixed = false }) {
           width: "100%",
         }}
       >
-        <Container fluid className="justify-content-start align-items-start">
+        <Container
+          fluid
+          className="justify-content-start align-items-start pe-2"
+        >
           {currentUser && (
             <Navbar.Brand className="m-0 p-0">
               <Image

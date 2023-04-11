@@ -31,7 +31,7 @@ export function NavRightButton({
       size={isSmallScreen ? "sm" : "lg"}
       className={`text-white text-decoration-none rounded-pill me-3 d-flex align-items-center justify-content-center ${
         isSmallScreen ? "px-3 border-0" : ""
-      }`}
+      } ${fullname ? "py-3" : ""}`}
       style={{
         backgroundColor: "rgba(0,0,0,0.7)",
         borderColor: "rgba(255,255,255,0.6)",
