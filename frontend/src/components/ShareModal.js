@@ -91,6 +91,8 @@ function ShareModal(props) {
               <a
                 href={shareLink.link}
                 className="text-white text-decoration-none"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Row>
                   <Col xs={2}>

@@ -113,9 +113,6 @@ function SongPage({ data }) {
       />
       <div className="background-darker" />
       <SongIntroLargeScreen />
-      {/* {!isSmallScreen && (
-        <IntroPlaySongModal srcUrl="https://www.youtube.com/embed/khoVBLp-BSE" />
-      )} */}
       <NavBar />
       <div className="relative-container">
         <Row

@@ -11,12 +11,27 @@ export default function DeleteAccountWarningModal({ onHide, show }) {
       show={show}
       centered
       animation={false}
-      className="px-2"
+      className="px-2 transparent-modal text-white"
     >
-      <Modal.Header closeButton className="theme-bg-color">
+      <Modal.Header
+        closeButton
+        closeVariant="white"
+        style={{
+          backgroundColor: "rgba(0,0,0,0.7)",
+          backdropFilter: "blur(2rem)",
+          WebkitBackdropFilter: "blur(2rem)",
+        }}
+      >
         <Modal.Title>Delete your account</Modal.Title>
       </Modal.Header>
-      <Modal.Body className="theme-bg-color rounded-bottom">
+      <Modal.Body
+        style={{
+          backgroundColor: "rgba(0,0,0,0.7)",
+          backdropFilter: "blur(2rem)",
+          WebkitBackdropFilter: "blur(2rem)",
+        }}
+        className=" rounded-bottom"
+      >
         <Row>
           <Col className="d-flex justify-content-center">
             <h5> Are you sure you want to delete your account?</h5>

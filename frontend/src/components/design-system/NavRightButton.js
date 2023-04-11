@@ -29,10 +29,11 @@ export function NavRightButton({
   return (
     <Button
       size={isSmallScreen ? "sm" : "lg"}
-      className="text-white text-decoration-none rounded-pill me-3 d-flex align-items-center justify-content-center"
+      className={`text-white text-decoration-none rounded-pill me-3 d-flex align-items-center justify-content-center ${
+        isSmallScreen ? "px-3 border-0" : ""
+      } ${fullname ? "py-3" : ""}`}
       style={{
         backgroundColor: "rgba(0,0,0,0.7)",
-        padding: isSmallScreen ? "0.8rem 0.9rem 0.8rem" : "0.8rem 1rem 0.8rem",
         borderColor: "rgba(255,255,255,0.6)",
       }}
       onClick={onClick}

@@ -1,6 +1,6 @@
 [
     {
-        "route": "/auth/google/callback",
+        "route": "/playlist",
         "http_method": "GET",
         "function_name": "useYoutubeSong",
         "validation_method": "NO_VALIDATION",

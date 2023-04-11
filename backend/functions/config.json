@@ -1,5 +1,19 @@
 [
     {
+        "name": "getDataFromGenius",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "createUserPreferences",
+        "private": true
+    },
+    {
+        "name": "useYoutubeSong",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
         "name": "validateEmptyInput",
         "private": true,
         "disable_arg_logs": true
@@ -13,11 +27,6 @@
         "private": false
     },
     {
-        "name": "getDataFromGenius",
-        "private": true,
-        "disable_arg_logs": true
-    },
-    {
         "name": "resetPassFunc",
         "private": true
     },
@@ -26,16 +35,7 @@
         "private": true
     },
     {
-        "name": "useYoutubeSong",
-        "private": true,
-        "disable_arg_logs": true
-    },
-    {
         "name": "userSongSubmissionDateTrigger",
-        "private": true
-    },
-    {
-        "name": "createUserPreferences",
         "private": true
     }
 ]
