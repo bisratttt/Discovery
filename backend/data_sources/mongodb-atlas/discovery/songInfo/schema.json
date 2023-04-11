@@ -19,6 +19,9 @@
         "artist_bio": {
             "bsonType": "string"
         },
+        "artist_image_url": {
+            "bsonType": "string"
+        },
         "artist_name": {
             "bsonType": "string"
         },
@@ -37,6 +40,7 @@
     },
     "required": [
         "artist_name",
+        "artist_image_url",
         "song_id",
         "song_name",
         "artist_bio",
