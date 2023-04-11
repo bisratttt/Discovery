@@ -1,5 +1,14 @@
 [
     {
+        "name": "getDataFromGenius",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "createUserPreferences",
+        "private": true
+    },
+    {
         "name": "useYoutubeSong",
         "private": true,
         "disable_arg_logs": true
@@ -14,8 +23,8 @@
         "private": true
     },
     {
-        "name": "createUserPreferences",
-        "private": true
+        "name": "fetchReactionCounts",
+        "private": false
     },
     {
         "name": "resetPassFunc",
@@ -24,15 +33,6 @@
     {
         "name": "useNewSong",
         "private": true
-    },
-    {
-        "name": "fetchReactionCounts",
-        "private": false
-    },
-    {
-        "name": "getDataFromGenius",
-        "private": true,
-        "disable_arg_logs": true
     },
     {
         "name": "userSongSubmissionDateTrigger",
