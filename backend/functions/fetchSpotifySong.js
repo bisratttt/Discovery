@@ -7,7 +7,7 @@ exports = async function(arg){
   
   https.get("/login", (req, res) => {
     let state = generateRandomString(16);
-    
+    let scope = "user-read-private user-read-email";
   });
   
   https.get(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, (res) => {
