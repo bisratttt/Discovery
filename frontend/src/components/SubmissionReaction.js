@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Col, Row, Button } from "react-bootstrap";
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
 import { useMutation } from "@apollo/client";
-import { ADD_SUBMISSION_REACTION, UPDATE_SUBMISSION_REACTION } from "../queries/SubmissionReactionQuery";
+import {
+  ADD_SUBMISSION_REACTION,
+  UPDATE_SUBMISSION_REACTION,
+} from "../queries/SubmissionReactionQuery";
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
 import { realmFetchS } from "../utils/realmDB";
@@ -50,13 +53,20 @@ const SubmissionReactionButton = ({ emoji, count, handleClick }) => {
 export default function SubmissionReaction({ submissionId }) {
   const { currentUser } = useRealmApp();
   const reactionOrder = ["❤️", "🔥", "👍", "👎"];
-  const [ submissionReactionCounts, setSubmissionReactionCounts ] = useState({});
+  const [submissionReactionCounts, setSubmissionReactionCounts] = useState({});
   // add reaction
   const [addReaction] = useMutation(ADD_SUBMISSION_REACTION);
   // update reaction
-  const [updateReaction, { error: updateReactionError }] =
-    useMutation(UPDATE_SUBMISSION_REACTION);
-
+  const [updateReaction, { error: updateReactionError }] = useMutation(
+    UPDATE_SUBMISSION_REACTION
+  );
+  useEffect(() => {
+    realmFetchS({
+      currentUser,
+      submissionId,
+      setSubmissionReactionCounts,
+    });
+  }, [currentUser, submissionId]);
   //  fetch reaction
   // const { data: reactionList, refetch } = useQuery(FETCH_REACTIONS, {
   //   variables: { song_id: new BSON.ObjectId(songId) },
@@ -77,7 +87,6 @@ export default function SubmissionReaction({ submissionId }) {
 
   const reactToSong = (reactionEmoji) => {
     //  try adding first
-    console.log("reacting to submission...")
     addReaction({
       variables: {
         user_id: new BSON.ObjectId(currentUser.id),
@@ -85,12 +94,14 @@ export default function SubmissionReaction({ submissionId }) {
         reaction: reactionEmoji,
       },
       onCompleted: async (updateData) => {
-        console.log("fetched submission reactions after add....", updateData)
-        await realmFetchS({ currentUser, submissionId, setSubmissionReactionCounts })
+        await realmFetchS({
+          currentUser,
+          submissionId,
+          setSubmissionReactionCounts,
+        });
       },
       onError: (e) => {
         // if adding doesn't work then try updating the reaction
-        console.log("updating submission reaction...", e)
         updateReaction({
           variables: {
             user_id: new BSON.ObjectId(currentUser.id),
@@ -98,9 +109,11 @@ export default function SubmissionReaction({ submissionId }) {
             reaction: reactionEmoji,
           },
           onCompleted: async (updateData) => {
-            console.log("update complete",updateData)
-            await realmFetchS({ currentUser, submissionId, setSubmissionReactionCounts })
-
+            await realmFetchS({
+              currentUser,
+              submissionId,
+              setSubmissionReactionCounts,
+            });
           },
           onError: () => console.log(updateReactionError),
         });
