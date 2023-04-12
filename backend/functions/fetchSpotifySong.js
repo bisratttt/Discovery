@@ -32,7 +32,7 @@ exports = async function(arg){
 };
 
 /*
-const fetch = require('node-fetch');
+const axios = require('axios');
 
 const clientId = 'YOUR_CLIENT_ID';
 const clientSecret = 'YOUR_CLIENT_SECRET';
@@ -40,42 +40,41 @@ const refreshToken = 'YOUR_REFRESH_TOKEN';
 const playlistId = 'YOUR_PLAYLIST_ID';
 
 async function getAccessToken() {
-  const response = await fetch('https://accounts.spotify.com/api/token', {
-    method: 'POST',
+  const response = await axios.post('https://accounts.spotify.com/api/token', null, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Basic ' + Buffer.from(clientId + ':' + clientSecret).toString('base64')
     },
-    body: `grant_type=refresh_token&refresh_token=${refreshToken}`
+    params: {
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken
+    }
   });
 
-  const data = await response.json();
-  return data.access_token;
+  return response.data.access_token;
 }
 
 async function fetchPlaylist(accessToken, playlistId) {
-  const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}`, {
+  const response = await axios.get(`https://api.spotify.com/v1/playlists/${playlistId}`, {
     headers: {
       'Authorization': 'Bearer ' + accessToken
     }
   });
 
-  const data = await response.json();
-  return data;
+  return response.data;
 }
 
 async function removeTopSong(accessToken, playlistId, trackUri) {
-  const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-    method: 'DELETE',
+  const response = await axios.delete(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
     headers: {
       'Authorization': 'Bearer ' + accessToken,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
+    data: {
       tracks: [{
         uri: trackUri
       }]
-    })
+    }
   });
 
   return response.status;
@@ -104,5 +103,4 @@ async function removeTopSong(accessToken, playlistId, trackUri) {
     console.error('Error:', error);
   }
 })();
-
 */
