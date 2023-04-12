@@ -17,7 +17,16 @@
 exports = async (user) => {
   const collection = context.services.get("mongodb-atlas").db("discovery").collection("userPreferences");
   try {
-    await collection.insertOne({user_id: new BSON.ObjectId(user.id), username: user.data.email});
+    await collection.insertOne({
+                                user_id: new BSON.ObjectId(user.id), 
+                                username: user.data.email, 
+                                bio: "", 
+                                facebook_handle: "", 
+                                instagram_handle: "", 
+                                tiktok_handle: "", 
+                                twitter_handle: "", 
+                                youtube_handle: ""
+                              });
   } catch(err) {
     console.error("Error creating user preferences: ", err)
     throw err

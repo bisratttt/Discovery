@@ -3,7 +3,7 @@
     "database": "discovery",
     "roles": [
         {
-            "name": "writeOwnReadAll",
+            "name": "readAllWriteOwn",
             "apply_when": {
                 "%%user.identities.provider_type": "local-userpass"
             },
