@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, Col, Row, Button } from "react-bootstrap";
+import { Card, Col, Row, Button, Image } from "react-bootstrap";
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
@@ -11,9 +11,13 @@ import {
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
 import { realmFetchS } from "../utils/realmDB";
-import { useFetchData } from "../contexts/FetchData";
 
-const SubmissionReactionButton = ({ emoji, count, handleClick }) => {
+const SubmissionReactionButton = ({
+  emoji,
+  count,
+  handleClick,
+  image = "",
+}) => {
   const [isAnimating, setIsAnimating] = useState(false);
 
   const handleButtonClick = () => {
@@ -26,33 +30,47 @@ const SubmissionReactionButton = ({ emoji, count, handleClick }) => {
 
   return (
     <motion.div
-      className="d-flex flex-column position-relative"
+      className="d-flex flex-row justify-content-center align-items-center position-relative mx-1 py-0 px-1 rounded-3"
       initial={{ scale: 1 }}
       animate={isAnimating ? { scale: 1.1 } : { scale: 1 }}
+      style={{ backgroundColor: "rgba(30,30,30, 0.7)" }}
     >
-      <Button
-        variant="link"
-        onClick={handleButtonClick}
-        className="p-0 reaction-button"
-      >
-        <span
-          role="img"
-          aria-label={emoji}
-          style={{ fontSize: "clamp(2rem, 5vw, 2.5rem)" }}
+      <Col>
+        <Button
+          variant="link"
+          onClick={handleButtonClick}
+          className="p-0 pe-1 reaction-button bg-transparent"
         >
-          {emoji}
-        </span>
-      </Button>
-      <div className="position-absolute bottom-0 end-0 reaction-badge">
-        {count}
-      </div>
+          {image !== "" ? (
+            <Image height={22} width="auto" src={image} />
+          ) : (
+            <span
+              role="img"
+              aria-label={emoji}
+              style={{ fontSize: "clamp(1rem, 5vw, 1.2rem)" }}
+            >
+              {emoji}
+            </span>
+          )}
+        </Button>
+      </Col>
+      <Col>
+        <div>{count}</div>
+      </Col>
     </motion.div>
   );
 };
 
 export default function SubmissionReaction({ submissionId }) {
   const { currentUser } = useRealmApp();
-  const reactionOrder = ["❤️", "🔥", "👍", "👎"];
+  const reactionOrder = {
+    "❤️": "/emojis/heart.png",
+    "🔥": "/emojis/fire.png",
+    "👍": "/emojis/thumbs_up.png",
+    "👎": "/emojis/thumbs_down.png",
+    "😠": "/emojis/angry_face.png",
+  };
+  // const reactionOrder = ["❤️", "🔥", "👍", "👎"];
   const [submissionReactionCounts, setSubmissionReactionCounts] = useState({});
   // add reaction
   const [addReaction] = useMutation(ADD_SUBMISSION_REACTION);
@@ -129,10 +147,11 @@ export default function SubmissionReaction({ submissionId }) {
           xs={12}
           className="d-flex align-items-center justify-content-around"
         >
-          {reactionOrder.map((emoji) => (
+          {Object.entries(reactionOrder).map(([emoji, image]) => (
             <SubmissionReactionButton
               key={emoji}
               emoji={emoji}
+              image={image}
               count={submissionReactionCounts[emoji] || 0}
               handleClick={() => reactToSong(emoji)}
             />

@@ -72,9 +72,6 @@ export default function SongSubmission({
           <Col className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start">
             {username}
           </Col>
-          <Col>
-            <SubmissionReaction submissionId={submission_id} />
-          </Col>
         </Row>
         <Row className="pb-1">
           {note.length > 0 && (
@@ -89,6 +86,11 @@ export default function SongSubmission({
               <p className="mb-0 text-start">{note}</p>
             </Col>
           )}
+        </Row>
+        <Row className="justify-content-end">
+          <Col xs={7} className="p-1 me-5">
+            <SubmissionReaction submissionId={submission_id} />
+          </Col>
         </Row>
       </Col>
     </ListGroup.Item>
