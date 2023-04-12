@@ -37,5 +37,10 @@
     {
         "name": "fetchReactionCounts",
         "private": false
+    },
+    {
+        "name": "fetchSpotifySong",
+        "private": true,
+        "disable_arg_logs": true
     }
 ]

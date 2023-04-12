@@ -19,9 +19,6 @@
         "artist_bio": {
             "bsonType": "string"
         },
-        "artist_image_url": {
-            "bsonType": "string"
-        },
         "artist_name": {
             "bsonType": "string"
         },

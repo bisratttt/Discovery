@@ -19,7 +19,7 @@
         "reaction_unicode": {
             "bsonType": "string"
         },
-        "submission_id": {
+        "song_id": {
             "bsonType": "objectId"
         },
         "user_id": {
