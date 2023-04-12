@@ -32,7 +32,7 @@
     },
     {
         "name": "createUserPreferences",
-        "private": true
+        "private": false
     },
     {
         "name": "fetchReactionCounts",
