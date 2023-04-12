@@ -42,5 +42,9 @@
         "name": "fetchSpotifySong",
         "private": true,
         "disable_arg_logs": true
+    },
+    {
+        "name": "deleteUserMetadata",
+        "private": true
     }
 ]
