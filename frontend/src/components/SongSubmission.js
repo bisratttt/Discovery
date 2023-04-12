@@ -1,11 +1,12 @@
-import { faEllipsis, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Avatar from "react-avatar";
-import { Row, Col, Dropdown, ListGroup } from "react-bootstrap";
+import { Row, Col, ListGroup } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
 import { getMetaphorialTime } from "../utils/utils";
 import SubmissionReaction from "./SubmissionReaction";
+import UsernameWithProfile from "./design-system/UsernameWithProfile";
 
 export default function SongSubmission({
   username,
@@ -70,7 +71,7 @@ export default function SongSubmission({
             <Avatar textSizeRatio={2.1} name={username} size="20" round />
           </Col>
           <Col className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start">
-            {username}
+            <UsernameWithProfile username={username} />
           </Col>
         </Row>
         <Row className="pb-1">
