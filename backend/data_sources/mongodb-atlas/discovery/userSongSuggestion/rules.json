@@ -11,12 +11,12 @@
                 "write": {
                     "%or": [
                         {
-                            "user_id": {
+                            "%%prevRoot": {
                                 "%exists": false
                             }
                         },
                         {
-                            "user_id": "%%user.id"
+                            "%%prevRoot.user_id": "%%user.id"
                         }
                     ]
                 },
