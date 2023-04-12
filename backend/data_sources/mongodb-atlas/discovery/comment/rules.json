@@ -11,12 +11,12 @@
                 "write": {
                     "%or": [
                         {
-                            "owner_id": {
+                            "%%prevRoot": {
                                 "%exists": false
                             }
                         },
                         {
-                            "owner_id": "%%user.id"
+                            "%%prevRoot.owner_id": "%%user.id"
                         }
                     ]
                 },
