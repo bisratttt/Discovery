@@ -44,7 +44,7 @@
         "disable_arg_logs": true
     },
     {
-        "name": "deleteUserMetadata",
+        "name": "deleteUserMetadataTrigger",
         "private": true
     }
 ]
