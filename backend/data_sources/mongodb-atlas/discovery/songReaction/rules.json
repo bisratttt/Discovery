@@ -16,7 +16,7 @@
                             }
                         },
                         {
-                            "%%prevRoot.user_id": "%%user.id"
+                            "%%root.user_id": "%%user.id"
                         }
                     ]
                 },
