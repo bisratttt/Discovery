@@ -16,7 +16,7 @@
                             }
                         },
                         {
-                            "owner_id": "$user.id"
+                            "owner_id": "%%user.id"
                         }
                     ]
                 },
