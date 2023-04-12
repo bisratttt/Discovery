@@ -1,0 +1,19 @@
+{
+    "id": "64371aa81e13542205361702",
+    "name": "deleteUserMetadataTrigger",
+    "type": "AUTHENTICATION",
+    "config": {
+        "operation_type": "DELETE",
+        "providers": [
+            "local-userpass"
+        ]
+    },
+    "disabled": false,
+    "event_processors": {
+        "FUNCTION": {
+            "config": {
+                "function_name": "deleteUserMetadata"
+            }
+        }
+    }
+}
