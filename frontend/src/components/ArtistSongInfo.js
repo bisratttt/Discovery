@@ -1,68 +1,20 @@
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { Carousel } from 'react-bootstrap';
-import { QUERY_SONGINFO } from '../queries/songInfoQuery';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
-
-// const RecursiveRenderer = ({ data }) => {
-//   if (!data) return null;
-//   if (typeof data === 'string') {
-//     return data;
-//   }
-//   const { tag, attributes, children } = data;
-//   const Tag = tag;
-//   return (
-//     <Tag {...attributes}>
-//       {children && children.map((child, index) => <RecursiveRenderer key={index} data={child} />)}
-//     </Tag>
-//   );
-// };
-
-
-
-function ArtistSongInfo() {
-  const {loading, error, data} = useQuery(QUERY_SONGINFO)
-  const [artistBio, setArtistBio] = useState({})
-  const [songBio, setSongBio] = useState({})
-  useEffect(() => {
-    if (data) {
-      setArtistBio(JSON.parse(data.songInfo.artist_bio));
-      console.log(data.songInfo.song_bio)
-      setSongBio(JSON.parse(data.songInfo.song_bio));
-    }
-  }, [data]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
-  console.log(data.children[0])
-  return (
-    <Container>
-      <Carousel interval={null} controls={false}>
-        <CarouselPage data={artistBio} />
-        <CarouselPage data={songBio} />
-      </Carousel>
-    </Container>
-  );
-};
+import Container from "react-bootstrap/Container";
+import { Carousel, Spinner } from "react-bootstrap";
+import { QUERY_SONGINFO } from "../queries/songInfoQuery";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
+import { useQuery } from "@apollo/client";
 
 const RecursiveRenderer = ({ data }) => {
   if (!data) return null;
-  if (typeof data === 'string') {
-    return data;
+  if (typeof data === "string") {
+    return data.trim() !== "" ? data : <></>;
   }
-  const { tag, attributes, children } = data;
+  const { tag, children } = data;
   const Tag = tag;
   return (
-    <Tag {...attributes}>
+    <Tag>
       {children &&
         children.map((child, index) => (
           <RecursiveRenderer key={index} data={child} />
@@ -70,10 +22,16 @@ const RecursiveRenderer = ({ data }) => {
     </Tag>
   );
 };
-const SecondaryCarousel = ({ data }) => {
+
+const SecondaryCarousel = React.forwardRef(({ data }, ref) => {
   const [showMoreDetails, setShowMoreDetails] = useState(false);
   return (
-    <Carousel activeIndex={showMoreDetails ? 1 : 0} interval={null} controls={false}>
+    <Carousel
+      ref={ref}
+      activeIndex={showMoreDetails ? 1 : 0}
+      interval={null}
+      controls={false}
+    >
       <Carousel.Item>
         <RecursiveRenderer data={data.children[0]} />
         <div className="mt-3 text-center">
@@ -90,55 +48,68 @@ const SecondaryCarousel = ({ data }) => {
       </Carousel.Item>
     </Carousel>
   );
-};
-const CarouselPage = ({ data }) => {
+});
+
+const CarouselPage = React.forwardRef(({ data }, ref) => {
   return (
-    <Carousel.Item>
+    <Carousel.Item ref={ref}>
       <SecondaryCarousel data={data} />
     </Carousel.Item>
   );
-};
-export default ArtistSongInfo
+});
 
+function ArtistSongInfo() {
+  const { loading, error, data } = useQuery(QUERY_SONGINFO);
+  const [artistBio, setArtistBio] = useState({});
+  const [songBio, setSongBio] = useState({});
+  useEffect(() => {
+    if (data) {
+      setArtistBio(JSON.parse(data.songInfo.artist_bio).dom);
+      setSongBio(JSON.parse(data.songInfo.song_bio).dom);
+    }
+  }, [data]);
+  if (error) {
+    console.log("Error fetching artist bio", error);
+  }
+  return loading ||
+    Object.keys(artistBio).length === 0 ||
+    Object.keys(songBio).length === 0 ? (
+    <Spinner animation="border" role="status" variant="light">
+      <div>Loading...</div>
+    </Spinner>
+  ) : (
+    <Container>
+      <Carousel interval={null} controls={false}>
+        <CarouselPage data={artistBio} />
+        <CarouselPage data={songBio} />
+      </Carousel>
+    </Container>
+  );
+}
+export default ArtistSongInfo;
 
-
-
-
-
-
-
-
-  // const CarouselPage = ({ childIndex, isMoreDetails }) => {
-  //   const child = songBio.dom.children[0]
-  //   return (
-  //     <Carousel.Item>
-  //       <RecursiveRenderer data={child} />
-  //       {isMoreDetails && (
-  //         <div className="mt-3 text-center">
-  //           <FontAwesomeIcon icon={faArrowDown} />
-  //         </div>
-  //       )}
-  //     </Carousel.Item>
-  //   );
-  // };
-  //   return (
-  //     <Container>
-  //       <Carousel interval={null} controls={false}>
-  //         <CarouselPage childIndex={0} isMoreDetails />
-  //         <CarouselPage childIndex={1} />
-  //       </Carousel>
-  //     </Container>
-  //   );
-  // };
-  
-  
-  
-  
-  
-  
-  
-  
-  
+// const CarouselPage = ({ childIndex, isMoreDetails }) => {
+//   const child = songBio.dom.children[0]
+//   return (
+//     <Carousel.Item>
+//       <RecursiveRenderer data={child} />
+//       {isMoreDetails && (
+//         <div className="mt-3 text-center">
+//           <FontAwesomeIcon icon={faArrowDown} />
+//         </div>
+//       )}
+//     </Carousel.Item>
+//   );
+// };
+//   return (
+//     <Container>
+//       <Carousel interval={null} controls={false}>
+//         <CarouselPage childIndex={0} isMoreDetails />
+//         <CarouselPage childIndex={1} />
+//       </Carousel>
+//     </Container>
+//   );
+// };
 
 //   return (
 //     <Container>

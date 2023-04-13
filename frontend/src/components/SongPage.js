@@ -139,7 +139,7 @@ function SongPage({ data }) {
                 exit={{ x: "-100%" }}
                 transition={{ duration: 0.3 }} // Animation duration (optional)
               >
-                {/* <ArtistSongInfo/> */}
+                <ArtistSongInfo />
               </motion.div>
             )}
             <motion.div
