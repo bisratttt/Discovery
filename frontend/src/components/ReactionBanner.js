@@ -11,9 +11,15 @@ import { realmFetch } from "../utils/realmDB";
 import { useFetchData } from "../contexts/FetchData";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 
-const ReactionButton = ({ emoji, count, handleClick, image = "" }) => {
+const ReactionButton = ({
+  emoji,
+  count,
+  handleClick,
+  image = "",
+  staticImage = "",
+}) => {
   const [isAnimating, setIsAnimating] = useState(false);
-
+  const [isHover, setIsHover] = useState(false);
   const handleButtonClick = () => {
     setIsAnimating(true);
     handleClick();
@@ -34,7 +40,7 @@ const ReactionButton = ({ emoji, count, handleClick, image = "" }) => {
         className="p-0 reaction-button"
       >
         {image !== "" ? (
-          <Image height={50} width="auto" src={image} />
+          <Image height={50} width="auto" src={isHover ? staticImage : image} />
         ) : (
           <span
             role="img"
