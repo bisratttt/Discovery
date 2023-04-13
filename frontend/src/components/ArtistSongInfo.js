@@ -1,4 +1,3 @@
-import Container from "react-bootstrap/Container";
 import { Carousel, Spinner } from "react-bootstrap";
 import { QUERY_SONGINFO } from "../queries/songInfoQuery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -50,14 +49,6 @@ const SecondaryCarousel = React.forwardRef(({ data }, ref) => {
   );
 });
 
-const CarouselPage = React.forwardRef(({ data }, ref) => {
-  return (
-    <Carousel.Item ref={ref}>
-      <SecondaryCarousel data={data} />
-    </Carousel.Item>
-  );
-});
-
 function ArtistSongInfo() {
   const { loading, error, data } = useQuery(QUERY_SONGINFO);
   const [artistBio, setArtistBio] = useState({});
@@ -78,79 +69,14 @@ function ArtistSongInfo() {
       <div>Loading...</div>
     </Spinner>
   ) : (
-    <Carousel interval={null} controls={false}>
-      <CarouselPage data={artistBio} />
-      <CarouselPage data={songBio} />
+    <Carousel>
+      <Carousel.Item>
+        <SecondaryCarousel data={artistBio} />
+      </Carousel.Item>
+      <Carousel.Item>
+        <SecondaryCarousel data={songBio} />
+      </Carousel.Item>
     </Carousel>
   );
 }
 export default ArtistSongInfo;
-
-// const CarouselPage = ({ childIndex, isMoreDetails }) => {
-//   const child = songBio.dom.children[0]
-//   return (
-//     <Carousel.Item>
-//       <RecursiveRenderer data={child} />
-//       {isMoreDetails && (
-//         <div className="mt-3 text-center">
-//           <FontAwesomeIcon icon={faArrowDown} />
-//         </div>
-//       )}
-//     </Carousel.Item>
-//   );
-// };
-//   return (
-//     <Container>
-//       <Carousel interval={null} controls={false}>
-//         <CarouselPage childIndex={0} isMoreDetails />
-//         <CarouselPage childIndex={1} />
-//       </Carousel>
-//     </Container>
-//   );
-// };
-
-//   return (
-//     <Container>
-//       <Row>
-//         <Col>
-//           <Carousel>
-//             <Carousel.Item>
-//             <Container>
-//       <Row>
-//         <Col><h3 style={{ color: "rgb(155, 54, 13)" }}>
-//             📻 Discover new music every day
-//           </h3>
-
-//           <p>
-//             We believe that every song has the power to inspire and connect
-//             people. That's why we're committed to bringing you the best music
-//             every day. 🎧 Our team of expert music curators carefully selects
-//             each track to ensure that it's high-quality and worth listening to.
-//           </p>
-// </Col>
-//       </Row>
-//       </Container>
-
-//             </Carousel.Item>
-//             <Carousel.Item>
-//             <Container>
-//             <Row>
-//         <Col><h3 style={{ color: "rgb(155, 54, 13)" }}>
-//             🗣️ Exchange thoughts with other music lovers
-//           </h3>
-//           <p>
-//           </p></Col>
-//       </Row>
-//       </Container>
-//             </Carousel.Item>
-//             <Carousel.Item>
-//               <p>Section 3 Text</p>
-//             </Carousel.Item>
-//             <Carousel.Item>
-//               <p>Section 4 Text</p>
-//             </Carousel.Item>
-//           </Carousel>
-//         </Col>
-//       </Row>
-//     </Container>
-//   );
