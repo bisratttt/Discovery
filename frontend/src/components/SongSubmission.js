@@ -1,10 +1,12 @@
-import { faEllipsis, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Avatar from "react-avatar";
-import { Row, Col, Dropdown, ListGroup } from "react-bootstrap";
+import { Row, Col, ListGroup } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
 import { getMetaphorialTime } from "../utils/utils";
+import SubmissionReaction from "./SubmissionReaction";
+import UsernameWithProfile from "./design-system/UsernameWithProfile";
 
 export default function SongSubmission({
   username,
@@ -12,10 +14,12 @@ export default function SongSubmission({
   artist,
   note,
   time,
+  _id,
 }) {
   const submissionRef = useRef(null);
   const [isHidden, setIsHidden] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const submission_id = _id;
   let dateTime = getMetaphorialTime(time);
   return (
     <ListGroup.Item
@@ -67,21 +71,27 @@ export default function SongSubmission({
             <Avatar textSizeRatio={2.1} name={username} size="20" round />
           </Col>
           <Col className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start">
-            {username}
+            <UsernameWithProfile username={username} />
           </Col>
         </Row>
-        <Row>
+        <Row className="pb-1">
           {note.length > 0 && (
             <Col
               className="d-flex justify-content-start align-items-center p-1 text-start rounded-2 me-3 w-100 ps-2"
               style={{
                 backgroundColor: "rgba(30,30,30, 0.7)",
                 fontSize: "0.8rem",
+                wordWrap: "anywhere",
               }}
             >
               <p className="mb-0 text-start">{note}</p>
             </Col>
           )}
+        </Row>
+        <Row className="justify-content-end">
+          <Col xs={7} className="p-1 me-5">
+            <SubmissionReaction submissionId={submission_id} />
+          </Col>
         </Row>
       </Col>
     </ListGroup.Item>

@@ -91,7 +91,7 @@ export default function LoginModal() {
               <Col>
                 <Image
                   alt="logo-with-name"
-                  src="/LogoName.png"
+                  src="/LogoName.webp"
                   className="w-100 h-auto"
                 />
               </Col>
@@ -104,7 +104,9 @@ export default function LoginModal() {
                     fontWeight: "500",
                   }}
                 >
-                  Please enter your details to interact
+                  {registerUser
+                    ? "Sign up for an account to interact"
+                    : "Please enter your details to interact"}
                 </span>
               </Col>
             </Row>
@@ -192,7 +194,7 @@ export default function LoginModal() {
                         )}
                         <FontAwesomeIcon icon={faVolumeHigh} className="pe-2" />
                         {registerUser ? (
-                          <span>Sign In</span>
+                          <span>Sign Up</span>
                         ) : (
                           <span>Tune In</span>
                         )}

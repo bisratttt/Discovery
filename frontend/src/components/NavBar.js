@@ -101,7 +101,7 @@ function NavBar({ fixed = false }) {
           {currentUser && (
             <Navbar.Brand className="m-0 p-0">
               <Image
-                src="/Logo.png"
+                src="/Logo.webp"
                 width={50}
                 className="d-inline-block align-top"
                 alt="Discovery logo"

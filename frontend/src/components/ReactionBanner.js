@@ -55,11 +55,11 @@ const ReactionButton = ({ emoji, count, handleClick, image = "" }) => {
 export default function ReactionBanner({ songId }) {
   const { currentUser } = useRealmApp();
   const reactionOrder = {
-    "❤️": "/emojis/heart.png",
-    "🔥": "/emojis/fire.png",
-    "👍": "/emojis/thumbs_up.png",
-    "👎": "/emojis/thumbs_down.png",
-    "😠": "/emojis/angry_face.png",
+    "❤️": "/emojis/heart.webp",
+    "🔥": "/emojis/fire.webp",
+    "👍": "/emojis/thumbs_up.webp",
+    "👎": "/emojis/thumbs_down.webp",
+    "😠": "/emojis/angry.webp",
   };
   // const reactionOrder = ["❤️", "🔥", "👍", "👎", "😠"];
   const { reactionCounts, setReactionCounts } = useFetchData();

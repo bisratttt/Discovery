@@ -1,11 +1,24 @@
 [
     {
+        "name": "createDateTrigger",
+        "private": true
+    },
+    {
         "name": "getDataFromGenius",
         "private": true,
         "disable_arg_logs": true
     },
     {
-        "name": "createUserPreferences",
+        "name": "resetPassFunc",
+        "private": true
+    },
+    {
+        "name": "validateEmptyInput",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "useNewSong",
         "private": true
     },
     {
@@ -14,28 +27,24 @@
         "disable_arg_logs": true
     },
     {
-        "name": "validateEmptyInput",
-        "private": true,
-        "disable_arg_logs": true
+        "name": "userSongSubmissionDateTrigger",
+        "private": true
     },
     {
-        "name": "createDateTrigger",
-        "private": true
+        "name": "createUserPreferences",
+        "private": false
     },
     {
         "name": "fetchReactionCounts",
         "private": false
     },
     {
-        "name": "resetPassFunc",
-        "private": true
+        "name": "fetchSpotifySong",
+        "private": true,
+        "disable_arg_logs": true
     },
     {
-        "name": "useNewSong",
-        "private": true
-    },
-    {
-        "name": "userSongSubmissionDateTrigger",
+        "name": "deleteUserMetadataTrigger",
         "private": true
     }
 ]
