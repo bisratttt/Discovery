@@ -138,7 +138,9 @@ function SongPage({ data }) {
                 animate={{ x: "0%" }}
                 exit={{ x: "-100%" }}
                 transition={{ duration: 0.3 }} // Animation duration (optional)
-              ><ArtistSongInfo/></motion.div>
+              >
+                {/* <ArtistSongInfo/> */}
+              </motion.div>
             )}
             <motion.div
               key="song-card"
