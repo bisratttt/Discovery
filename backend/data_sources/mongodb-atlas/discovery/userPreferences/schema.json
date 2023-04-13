@@ -16,6 +16,9 @@
                 ]
             }
         },
+        "bio": {
+            "bsonType": "string"
+        },
         "facebook_handle": {
             "bsonType": "string"
         },
@@ -43,11 +46,15 @@
                 ]
             }
         },
+        "username": {
+            "bsonType": "string"
+        },
         "youtube_handle": {
             "bsonType": "string"
         }
     },
     "required": [
-        "user_id"
+        "user_id",
+        "username"
     ]
 }

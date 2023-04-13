@@ -14,7 +14,7 @@ import SongSubmissionList from "./SongSubmissionList";
 import SongButtonsTop from "./SongButtonsTop";
 import NavBar from "./NavBar";
 import FeedbackPopup from "./FeedbackPopup";
-// import IntroPlaySongModal from "./IntroPlaySongModal";
+import ProfileCard from "./ProfileCard";
 // create a loading screen if the song hasn't fetched yet
 export default function Page() {
   const { loading, error, data } = useQuery(QUERY_SONG);
@@ -65,6 +65,8 @@ function SongPage({ data }) {
     setOpenSongInfo,
     setOpenSongSubmissionList,
     setOpenReview,
+    setOpenProfile,
+    openProfile,
   } = useToggleComponents();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const isPhoneScreen = useMediaQuery("(max-width:630px)");
@@ -108,9 +110,6 @@ function SongPage({ data }) {
       />
       <div className="background-darker" />
       <SongIntroLargeScreen />
-      {/* {!isSmallScreen && (
-        <IntroPlaySongModal srcUrl="https://www.youtube.com/embed/khoVBLp-BSE" />
-      )} */}
       <NavBar />
       <div className="relative-container">
         <Row
@@ -149,7 +148,10 @@ function SongPage({ data }) {
                 ${
                   // hides song for smaller screen sizes
                   isSmallScreen &&
-                  (openReview || openSongSubmissionList || openSongInfo) &&
+                  (openReview ||
+                    openSongSubmissionList ||
+                    openSongInfo ||
+                    openProfile) &&
                   "hide-song"
                 }`}
               style={{
@@ -230,6 +232,27 @@ function SongPage({ data }) {
               >
                 {/* Your new column content */}
                 <SongSubmissionList />
+              </motion.div>
+            )}
+            {openProfile && (
+              <motion.div
+                key="submission-card"
+                style={{
+                  ...cardStyle,
+                  minHeight: "90vh",
+                  position: !isSmallScreen ? "absolute" : "relative",
+                  left: !isSmallScreen ? "75.5%" : "0%",
+                }}
+                className={`col-xs-12 ${isBigScreen && "col-md-5"} col-lg-3 ${
+                  !isPhoneScreen && "rounded-3"
+                } p-0`}
+                initial={{ x: "100%" }} // Start from the left side, out of the viewport
+                animate={{ x: "0%" }} // Move to the original position
+                exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
+                transition={{ duration: 0.2 }} // Animation duration (optional)
+              >
+                {/* Your new column content */}
+                <ProfileCard />
               </motion.div>
             )}
           </AnimatePresence>

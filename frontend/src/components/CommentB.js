@@ -5,13 +5,17 @@ import Avatar from "react-avatar";
 import { Button, Col, Dropdown, ListGroup, Row } from "react-bootstrap";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { useRealmApp } from "../contexts/RealmApp";
+import UsernameWithProfile from "./design-system/UsernameWithProfile";
 
 export default function CommentB({ avatar, username, body, title, time }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
+  const { currentUser } = useRealmApp();
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+
   useEffect(() => {
     setIsTruncated(
       commentRef.current.scrollHeight > commentRef.current.clientHeight
@@ -51,7 +55,11 @@ export default function CommentB({ avatar, username, body, title, time }) {
             className="d-flex justify-content-center align-items-center"
           >
             <Col className="d-flex justify-content-start ps-0">
-              <strong>{username}</strong>
+              {currentUser.providerType === "api-key" ? (
+                <strong>{username}</strong>
+              ) : (
+                <UsernameWithProfile username={username} />
+              )}
             </Col>
             <Col xs={4} lg={2} className="d-flex justify-content-end pe-4">
               <Dropdown>

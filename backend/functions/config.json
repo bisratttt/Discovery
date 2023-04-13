@@ -1,16 +1,7 @@
 [
     {
-        "name": "validateEmptyInput",
-        "private": true,
-        "disable_arg_logs": true
-    },
-    {
         "name": "createDateTrigger",
         "private": true
-    },
-    {
-        "name": "fetchReactionCounts",
-        "private": false
     },
     {
         "name": "getDataFromGenius",
@@ -20,6 +11,11 @@
     {
         "name": "resetPassFunc",
         "private": true
+    },
+    {
+        "name": "validateEmptyInput",
+        "private": true,
+        "disable_arg_logs": true
     },
     {
         "name": "useNewSong",
@@ -36,6 +32,19 @@
     },
     {
         "name": "createUserPreferences",
+        "private": false
+    },
+    {
+        "name": "fetchReactionCounts",
+        "private": false
+    },
+    {
+        "name": "fetchSpotifySong",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "deleteUserMetadataTrigger",
         "private": true
     }
 ]

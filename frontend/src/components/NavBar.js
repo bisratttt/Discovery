@@ -80,6 +80,7 @@ function NavBar({ fixed = false }) {
     setOpenSongSubmissionList,
     setOpenSongInfo,
     setOpenLoginModal,
+    setOpenProfile,
   } = useToggleComponents();
 
   return (
@@ -93,11 +94,14 @@ function NavBar({ fixed = false }) {
           width: "100%",
         }}
       >
-        <Container fluid className="justify-content-start align-items-start">
+        <Container
+          fluid
+          className="justify-content-start align-items-start pe-2"
+        >
           {currentUser && (
             <Navbar.Brand className="m-0 p-0">
               <Image
-                src="/Logo.png"
+                src="/Logo.webp"
                 width={50}
                 className="d-inline-block align-top"
                 alt="Discovery logo"
@@ -105,6 +109,8 @@ function NavBar({ fixed = false }) {
                 onClick={() => {
                   setOpenReview(false);
                   setOpenSongInfo(false);
+                  setOpenProfile(false);
+                  setOpenLoginModal(false);
                   setOpenSongSubmissionList(false);
                 }}
               />
@@ -137,6 +143,8 @@ function NavBar({ fixed = false }) {
                     onClick={() => {
                       setOpenSongInfo(false);
                       setOpenReview(false);
+                      setOpenProfile(false);
+                      setOpenLoginModal(false);
                       setOpenSongSubmissionList(
                         (submissionList) => !submissionList
                       );
@@ -155,6 +163,16 @@ function NavBar({ fixed = false }) {
                       style={{ backgroundColor: "rgb(30, 30, 30)" }}
                       className="rounded-3 py-0"
                     >
+                      <NavDropdownLink
+                        onClick={() => {
+                          setOpenSongSubmissionList(false);
+                          setOpenLoginModal(false);
+                          setOpenSongInfo(false);
+                          setOpenReview(false);
+                          setOpenProfile((openProfile) => !openProfile);
+                        }}
+                        label="Profile"
+                      />
                       <NavDropdownLink
                         onClick={async () => {
                           setOpenSongSubmissionList(false);

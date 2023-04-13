@@ -1,3 +1,11 @@
+import {
+  faYoutube,
+  faInstagram,
+  faFacebook,
+  faTiktok,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
+
 export function calculateLuminance(rgb) {
   const r = rgb[0] / 255;
   const g = rgb[1] / 255;
@@ -36,3 +44,20 @@ export function getMetaphorialTime(timestamp) {
 
   return formattedTimestamp;
 }
+
+export const getPlatformIcon = (platform) => {
+  switch (platform) {
+    case "youtube":
+      return faYoutube;
+    case "instagram":
+      return faInstagram;
+    case "facebook":
+      return faFacebook;
+    case "tiktok":
+      return faTiktok;
+    case "twitter":
+      return faTwitter;
+    default:
+      return null;
+  }
+};
