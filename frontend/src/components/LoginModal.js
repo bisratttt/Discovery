@@ -91,7 +91,7 @@ export default function LoginModal() {
               <Col>
                 <Image
                   alt="logo-with-name"
-                  src="/LogoName.png"
+                  src="/LogoName.webp"
                   className="w-100 h-auto"
                 />
               </Col>
