@@ -11,10 +11,10 @@ const RecursiveRenderer = ({ data }) => {
   if (typeof data === "string") {
     return data.trim() !== "" ? data : <></>;
   }
-  const { tag, children } = data;
+  const { tag, attributes, children } = data;
   const Tag = tag;
   return (
-    <Tag>
+    <Tag {...attributes}>
       {children &&
         children.map((child, index) => (
           <RecursiveRenderer key={index} data={child} />
@@ -78,12 +78,10 @@ function ArtistSongInfo() {
       <div>Loading...</div>
     </Spinner>
   ) : (
-    <Container>
-      <Carousel interval={null} controls={false}>
-        <CarouselPage data={artistBio} />
-        <CarouselPage data={songBio} />
-      </Carousel>
-    </Container>
+    <Carousel interval={null} controls={false}>
+      <CarouselPage data={artistBio} />
+      <CarouselPage data={songBio} />
+    </Carousel>
   );
 }
 export default ArtistSongInfo;
