@@ -70,6 +70,7 @@ exports = async function(arg){
   // }
   
   // insert the top song into the song collection
+  let newSong;
   try {
     let artists;
     for (let i = 0; i < track.artists.length; i++) {
@@ -79,7 +80,7 @@ exports = async function(arg){
       }
     }
     
-    const newSong = await songCollection.insertOne({
+    newSong = await songCollection.insertOne({
       album_name: track.album.name,
       artist: artists,
       is_visible: false,
@@ -90,6 +91,8 @@ exports = async function(arg){
   catch(err) {
     return {newSong: false, error: err.message};
   }
+  
+  return {newSong: true};
 };
 
 /*
