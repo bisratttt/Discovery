@@ -9,6 +9,7 @@ exports = async function(arg){
   
   let authorization = Buffer.from(auth_string).toString("base64");
 	
+	// gets an access token to access the playlist
 	async function getAccessToken() {
 	  const auth_token = await context.http.post({
 	    url: auth_endpoint,
@@ -24,6 +25,7 @@ exports = async function(arg){
   	return auth_token.access_token;
 	}
 	
+	// fetches the tracks from our Spotify playlist
 	async function getTracks(access_token) {
 	  const tracks = await context.http.get({
 	    url: `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
@@ -40,12 +42,39 @@ exports = async function(arg){
 	try {
 	  const access_token = await getAccessToken();
 	  const tracks = await getTracks(access_token);
-	  
-	  
 	}
 	catch(err) {
-	  console.error(err);
+	  return {newSong: false, error: err.message};
 	}
+	
+	// Find the name of the MongoDB service you want to use (see "Linked Data Sources" tab)
+  const serviceName = "mongodb-atlas";
+
+  // Update these to reflect your db/collection
+  const dbName = "discovery";
+  const songCollName = "song";
+  const commentCollName = "comment";
+  const db = context.services.get(serviceName).db(dbName);
+  const songCollection = db.collection(songCollName);
+  const commentCollection = db.collection(commentCollName);
+  
+  try {
+    // make previous day song invisible
+    await songCollection.updateMany({"is_visible": false}, {"is_visible": true});
+    // deletes all the comments in the db (for a specific song)
+    await commentCollection.deleteMany({});
+  }
+  catch(err) {
+    return {newSong: false, error: err.message};
+  }
+  
+  // insert the top song into the song collection
+  try {
+    
+  }
+  catch(err) {
+    return {newSong: false, error: err.message};
+  }
 };
 
 /*
