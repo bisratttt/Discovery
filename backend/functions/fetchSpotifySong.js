@@ -6,6 +6,7 @@ exports = async function(arg){
   const auth_string = `${CLIENT_ID}:${CLIENT_SECRET}`;
   
   const playlist_id = "0GTk24v6Hx76tCJJ4UhbzO";
+  const playlist_endpoint = `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`;
   
   let authorization = Buffer.from(auth_string).toString("base64");
 	
@@ -26,9 +27,9 @@ exports = async function(arg){
 	}
 	
 	// fetches the tracks from our Spotify playlist
-	async function getTrack(access_token) {
+	async function getTrack(access_token, playlist_id) {
 	  const tracks = await context.http.get({
-	    url: `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+	    url: playlist_endpoint,
 	    headers: {
 	      "Authorization": [`Bearer ${access_token}`]
 	    }
@@ -39,10 +40,31 @@ exports = async function(arg){
 	  return tracks.items[0].track;
 	}
 	
+	async function deleteTopTrack(access_token, playlist_id, track_uri) {
+	  const response = await context.http.delete({
+	    url: playlist_endpoint,
+	    headers: {
+	      "Authorization": [`Bearer ${access_token}`],
+	     // "Content-Type": ["application/json"]
+	    },
+	    encodeBodyAsJSON: true,
+	    body: {
+	      tracks: [{
+	        uri: track_uri
+	      }]
+	    }
+	  });
+	  
+	  return response.status;
+	}
+	
 	let track;
 	try {
 	  const access_token = await getAccessToken();
-	  track = await getTrack(access_token);
+	  console.log(access_token);
+	  track = await getTrack(access_token, playlist_id);
+	  console.log(track.uri);
+	  console.log(await deleteTopTrack(access_token, playlist_id, track.uri));
 	}
 	catch(err) {
 	  return {newSong: false, error: err.message};
@@ -80,13 +102,13 @@ exports = async function(arg){
       }
     }
     
-    newSong = await songCollection.insertOne({
-      album_name: track.album.name,
-      artist: artists,
-      is_visible: false,
-      song_name: track.name,
-      spotify_link: track.external_urls.spotify
-    });
+    // newSong = await songCollection.insertOne({
+    //   album_name: track.album.name,
+    //   artist: artists,
+    //   is_visible: false,
+    //   song_name: track.name,
+    //   spotify_link: track.external_urls.spotify
+    // });
   }
   catch(err) {
     return {newSong: false, error: err.message};
