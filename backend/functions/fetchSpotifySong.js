@@ -8,15 +8,6 @@ exports = async function(arg){
   const playlist_id = "0GTk24v6Hx76tCJJ4UhbzO";
   
   let authorization = Buffer.from(auth_string).toString("base64");
-//   if (typeof btoa !== "undefined") {
-// 		authorization = btoa(auth_string);
-// 	}
-// 	else if (Buffer) {
-// 		authorization = Buffer.from(auth_string).toString("base64");
-// 	}
-// 	else {
-// 		throw new Error("Authorization parse failed.");
-// 	}
 	
 	async function getAccessToken() {
 	  const auth_token = await context.http.post({
@@ -33,11 +24,27 @@ exports = async function(arg){
   	return auth_token.access_token;
 	}
 	
+	async function getTracks(access_token) {
+	  const tracks = await context.http.get({
+	    url: `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+	    headers: {
+	      "Authorization": [`Bearer ${access_token}`]
+	    }
+	  }).then((response) => {
+	    return EJSON.parse(response.body.text());
+	  })
+	  
+	  return tracks.items;
+	}
+	
 	try {
-	  console.log(await getAccessToken());
+	  const access_token = await getAccessToken();
+	  const tracks = await getTracks(access_token);
+	  
+	  
 	}
 	catch(err) {
-	  console.error("Getting access token.", err);
+	  console.error(err);
 	}
 };
 
