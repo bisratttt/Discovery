@@ -26,7 +26,7 @@ exports = async function(arg){
 	}
 	
 	// fetches the tracks from our Spotify playlist
-	async function getTracks(access_token) {
+	async function getTrack(access_token) {
 	  const tracks = await context.http.get({
 	    url: `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
 	    headers: {
@@ -36,13 +36,13 @@ exports = async function(arg){
 	    return EJSON.parse(response.body.text());
 	  })
 	  
-	  return tracks.items;
+	  return tracks.items[0].track;
 	}
 	
 	let track;
 	try {
 	  const access_token = await getAccessToken();
-	  track = await getTracks(access_token).items[0];
+	  track = await getTrack(access_token);
 	}
 	catch(err) {
 	  return {newSong: false, error: err.message};
@@ -72,7 +72,7 @@ exports = async function(arg){
   // insert the top song into the song collection
   let newSong;
   try {
-    let artists;
+    let artists = "";
     for (let i = 0; i < track.artists.length; i++) {
       artists += track.artists[i].name;
       if (i < track.artists.length - 1) {
@@ -85,7 +85,7 @@ exports = async function(arg){
       artist: artists,
       is_visible: false,
       song_name: track.name,
-      spotify_link: track.preview_url
+      spotify_link: track.external_urls.spotify
     });
   }
   catch(err) {
