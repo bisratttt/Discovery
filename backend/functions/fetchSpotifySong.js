@@ -39,9 +39,10 @@ exports = async function(arg){
 	  return tracks.items;
 	}
 	
+	let track;
 	try {
 	  const access_token = await getAccessToken();
-	  const tracks = await getTracks(access_token);
+	  track = await getTracks(access_token).items[0];
 	}
 	catch(err) {
 	  return {newSong: false, error: err.message};
@@ -58,19 +59,33 @@ exports = async function(arg){
   const songCollection = db.collection(songCollName);
   const commentCollection = db.collection(commentCollName);
   
-  try {
-    // make previous day song invisible
-    await songCollection.updateMany({"is_visible": false}, {"is_visible": true});
-    // deletes all the comments in the db (for a specific song)
-    await commentCollection.deleteMany({});
-  }
-  catch(err) {
-    return {newSong: false, error: err.message};
-  }
+  // try {
+  //   // make previous day song invisible
+  //   await songCollection.updateMany({"is_visible": false}, {"is_visible": true});
+  //   // deletes all the comments in the db (for a specific song)
+  //   await commentCollection.deleteMany({});
+  // }
+  // catch(err) {
+  //   return {newSong: false, error: err.message};
+  // }
   
   // insert the top song into the song collection
   try {
+    let artists;
+    for (let i = 0; i < track.artists.length; i++) {
+      artists += track.artists[i].name;
+      if (i < track.artists.length - 1) {
+        artists += ", ";
+      }
+    }
     
+    const newSong = await songCollection.insertOne({
+      album_name: track.album.name,
+      artist: artists,
+      is_visible: false,
+      song_name: track.name,
+      spotify_link: track.preview_url
+    });
   }
   catch(err) {
     return {newSong: false, error: err.message};
