@@ -26,12 +26,11 @@ exports = async function(arg){
   			"Content-Type": ["application/x-www-form-urlencoded"],
   			"Authorization": [`Basic ${authorization}`]
   		},
-  		encodeBodyAsJSON: true
   	}).then((response) => {
   	  return EJSON.parse(response.body.text());
   	});
   	
-  	return auth_token;
+  	return auth_token.access_token;
 	}
 	
 	try {
