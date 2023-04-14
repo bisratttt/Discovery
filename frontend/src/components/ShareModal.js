@@ -9,17 +9,16 @@ import {
   faTiktok,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
-import { Alert } from '@mui/material';
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
+import { Alert } from "@mui/material";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
 
 async function copyPageUrl(event) {
   event.preventDefault(); // Prevents the default behavior of the anchor tag
   try {
-    await navigator.clipboard.writeText(location.href);
-    console.log('Page URL copied to clipboard');
-    
+    await navigator.clipboard.writeText(window.location.href);
+    console.log("Page URL copied to clipboard");
   } catch (err) {
-    console.error('Failed to copy: ', err);
+    console.error("Failed to copy: ", err);
   }
 }
 
@@ -47,34 +46,34 @@ function TweetButton() {
   );
 }
 function ShareModal(props) {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
   const shareLinks = [
     {
       link: props.shareLink,
       buttonIcon: faInstagram,
       label: "Share on Instagram",
-      onClick: async (event, setCopied = null) => {}
+      onClick: async (event, setCopied = null) => {},
     },
     {
       link: props.shareLink,
       buttonIcon: faFacebook,
       label: "Share on Facebook",
-      onClick: async (event, setCopied = null) => {}
+      onClick: async (event, setCopied = null) => {},
     },
     {
       link: `https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&text=Did%20you%20%23DISCover%20today%27s%20song%20of%20the%20day%3F&url=https%3A%2F%2Fdisc-music.com`,
       buttonIcon: faTwitter,
       label: "Share on Twitter",
-      onClick: async (event, setCopied = null) => {}
+      onClick: async (event, setCopied = null) => {},
     },
     {
       link: props.shareLink,
       buttonIcon: faCopy,
       label: "Copy Link",
       onClick: async (event, setCopied = null) => {
-        await copyPageUrl(event)
-        setCopied(true)
-      }
+        await copyPageUrl(event);
+        setCopied(true);
+      },
     },
   ];
   return (
@@ -125,14 +124,18 @@ function ShareModal(props) {
               </a>
             </ListGroup.Item>
           ))}
-          {copied && <Alert variant = "outlined" 
-  iconMapping={{
-    success: <CheckCircleOutlineOutlinedIcon fontSize="inherit" />,
-  }} onClose={() => setCopied(false)}
-  sx={{ color: "#ffffff" }}
->
-  Link has been copied!
-</Alert>}
+          {copied && (
+            <Alert
+              variant="outlined"
+              iconMapping={{
+                success: <CheckCircleOutlineOutlinedIcon fontSize="inherit" />,
+              }}
+              onClose={() => setCopied(false)}
+              sx={{ color: "#ffffff" }}
+            >
+              Link has been copied!
+            </Alert>
+          )}
         </ListGroup>
       </Modal.Body>
     </Modal>

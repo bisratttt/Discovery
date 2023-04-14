@@ -120,6 +120,13 @@
   border: none !important;
   box-shadow: none !important;
 }
+/* song artist info */
+.custom-tabs .nav-link {
+  background-color: transparent !important;
+  border: none !important;
+  color: white !important;
+}
+
 /* reactions */
 .reaction-button {
   text-decoration: none !important;
