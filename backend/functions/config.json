@@ -1,21 +1,7 @@
 [
     {
-        "name": "createDateTrigger",
+        "name": "userSongSubmissionDateTrigger",
         "private": true
-    },
-    {
-        "name": "getDataFromGenius",
-        "private": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "resetPassFunc",
-        "private": true
-    },
-    {
-        "name": "validateEmptyInput",
-        "private": true,
-        "disable_arg_logs": true
     },
     {
         "name": "useNewSong",
@@ -27,16 +13,8 @@
         "disable_arg_logs": true
     },
     {
-        "name": "userSongSubmissionDateTrigger",
+        "name": "createDateTrigger",
         "private": true
-    },
-    {
-        "name": "createUserPreferences",
-        "private": false
-    },
-    {
-        "name": "fetchReactionCounts",
-        "private": false
     },
     {
         "name": "fetchSpotifySong",
@@ -44,7 +22,34 @@
         "disable_arg_logs": true
     },
     {
+        "name": "resetPassFunc",
+        "private": true
+    },
+    {
+        "name": "createUserPreferences",
+        "private": false
+    },
+    {
+        "name": "getDataFromGenius",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "validateEmptyInput",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
         "name": "deleteUserMetadataTrigger",
         "private": true
+    },
+    {
+        "name": "fetchReactionCounts",
+        "private": false
+    },
+    {
+        "name": "searchYoutubeSong",
+        "private": true,
+        "disable_arg_logs": true
     }
 ]
