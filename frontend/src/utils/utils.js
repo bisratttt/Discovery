@@ -4,6 +4,8 @@ import {
   faFacebook,
   faTiktok,
   faTwitter,
+  faSpotify,
+  faItunes,
 } from "@fortawesome/free-brands-svg-icons";
 
 export function calculateLuminance(rgb) {
@@ -57,6 +59,10 @@ export const getPlatformIcon = (platform) => {
       return faTiktok;
     case "twitter":
       return faTwitter;
+    case "spotify":
+      return faSpotify;
+    case "apple_music":
+      return faItunes;
     default:
       return null;
   }

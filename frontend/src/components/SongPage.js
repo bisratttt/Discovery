@@ -132,7 +132,7 @@ function SongPage({ data }) {
                 }`}
                 style={{
                   ...cardStyle,
-                  minHeight: "85vh",
+                  height: "85vh",
                 }}
                 initial={{ x: "-100%" }}
                 animate={{ x: "0%" }}
