@@ -61,9 +61,11 @@ exports = async function(){
 	let track;
 	try {
 	  const access_token = await getAccessToken();
+	 // console.log(access_token);
 	  track = await getTrack(access_token, playlist_id);
 	 // console.log(track.uri);
 	 // await deleteTopTrack(access_token, playlist_id, track.uri);
+	 console.log(track.name);
 	}
 	catch(err) {
 	  console.error("Token Retrieve", err);
