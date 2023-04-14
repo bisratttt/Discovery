@@ -82,7 +82,7 @@ exports = async function(){
   
   try {
     // make previous day song invisible
-    await songCollection.updateMany({"is_visible": true}, {"is_visible": false});
+    await songCollection.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
     // deletes all the comments in the db (for a specific song)
     // await commentCollection.deleteMany({});
   }
