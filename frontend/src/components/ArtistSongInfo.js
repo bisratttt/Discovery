@@ -1,6 +1,7 @@
 import {
   Button,
   Col,
+  Collapse,
   Container,
   Image,
   Row,
@@ -14,6 +15,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useQuery } from "@apollo/client";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { getPlatformIcon } from "../utils/utils";
+import HorizontalCollapse from "./HorizontalCollapse.js";
+import { useMediaQuery } from "@mui/material";
 
 const RecursiveRenderer = ({ data, parentKey = "" }) => {
   if (!data) return null;
@@ -42,7 +45,8 @@ function ArtistInfo({
   socialHandles,
 }) {
   const targetRowRef = useRef(null);
-
+  const isSmallScreen = useMediaQuery("(max-width:765px)");
+  const isMedScreen = useMediaQuery("(max-width:1270px)");
   const scrollArtistMoreDetails = () => {
     const container = document.querySelector(".container-scroll");
     const targetTop = targetRowRef.current.offsetTop - 48;
@@ -59,14 +63,23 @@ function ArtistInfo({
     >
       <Row style={{ height: "77vh" }}>
         <Row className="pt-3 justify-content-between">
-          <Col xs={12} md={8} className="d-flex justify-content-start">
-            <Image height={320} src={artist_image_url} />
+          <Col
+            xs={12}
+            md={8}
+            className={`d-flex justify-content-${
+              isSmallScreen ? "center" : "start"
+            }`}
+          >
+            <Image height={isMedScreen ? 250 : 320} src={artist_image_url} />
           </Col>
           <Col
-            className="d-flex flex-column justify-content-around"
+            className={`d-flex flex-${
+              isSmallScreen ? "row" : "column"
+            } justify-content-around`}
             xs={12}
             md={4}
           >
+            {/* render socials */}
             {Object.keys(socialHandles).map((platform) => (
               <a
                 href={`https://${platform}.com/${
@@ -80,18 +93,20 @@ function ArtistInfo({
                 className="text-white text-decoration-none"
               >
                 <Row>
-                  <Col xs={2}>
+                  <Col xs={12} sm={2}>
                     <FontAwesomeIcon
                       icon={getPlatformIcon(platform)}
                       size="lg"
                       className="text-white"
                     />
                   </Col>
-                  <Col className="d-flex justify-content-start">
-                    <span>
-                      {platform == "apple_music" ? "apple music" : platform}
-                    </span>
-                  </Col>
+                  {!isSmallScreen && (
+                    <Col className="d-flex justify-content-start">
+                      <span>
+                        {platform == "apple_music" ? "apple music" : platform}
+                      </span>
+                    </Col>
+                  )}
                 </Row>
               </a>
             ))}
@@ -165,17 +180,26 @@ function ArtistSongInfo() {
       <div>Loading...</div>
     </Spinner>
   ) : (
-    <Tabs defaultActiveKey="Artist" className="custom-tabs" justify>
-      <Tab eventKey="Artist" title="Artist">
-        <ArtistInfo
-          artist_bio={artistBio}
-          artist_image_url={data.songInfo.artist_image_url}
-          artist_name={data.songInfo.artist_name}
-          socialHandles={socialHandles}
-        />
-      </Tab>
-      <Tab eventKey="Song" title="Song"></Tab>
-    </Tabs>
+    <div className="tab-content-wrapper p-0 m-0">
+      <Tabs
+        defaultActiveKey="Artist"
+        className="custom-tabs"
+        justify
+        transition={HorizontalCollapse}
+        mountOnEnter
+        unmountOnExit
+      >
+        <Tab eventKey="Artist" title="Artist">
+          <ArtistInfo
+            artist_bio={artistBio}
+            artist_image_url={data.songInfo.artist_image_url}
+            artist_name={data.songInfo.artist_name}
+            socialHandles={socialHandles}
+          />
+        </Tab>
+        <Tab eventKey="Song" title="Song"></Tab>
+      </Tabs>
+    </div>
   );
 }
 export default ArtistSongInfo;

@@ -1,4 +1,4 @@
-exports = async function(arg){
+exports = async function(){
   
   const CLIENT_ID = "08c721f15bf04ac9b4812ab29c113afd";
   const CLIENT_SECRET = "662d08df25b24add9666674b74a38740";
@@ -6,18 +6,11 @@ exports = async function(arg){
   const auth_string = `${CLIENT_ID}:${CLIENT_SECRET}`;
   
   const playlist_id = "0GTk24v6Hx76tCJJ4UhbzO";
+  const playlist_endpoint = `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`;
   
   let authorization = Buffer.from(auth_string).toString("base64");
-//   if (typeof btoa !== "undefined") {
-// 		authorization = btoa(auth_string);
-// 	}
-// 	else if (Buffer) {
-// 		authorization = Buffer.from(auth_string).toString("base64");
-// 	}
-// 	else {
-// 		throw new Error("Authorization parse failed.");
-// 	}
 	
+	// gets an access token to access the playlist
 	async function getAccessToken() {
 	  const auth_token = await context.http.post({
 	    url: auth_endpoint,
@@ -26,21 +19,132 @@ exports = async function(arg){
   			"Content-Type": ["application/x-www-form-urlencoded"],
   			"Authorization": [`Basic ${authorization}`]
   		},
-  		encodeBodyAsJSON: true
   	}).then((response) => {
   	  return EJSON.parse(response.body.text());
   	});
   	
-  	return auth_token;
+  	return auth_token.access_token;
 	}
 	
+	// fetches the tracks from our Spotify playlist
+	async function getTrack(access_token, playlist_id) {
+	  const tracks = await context.http.get({
+	    url: playlist_endpoint,
+	    headers: {
+	      "Authorization": [`Bearer ${access_token}`]
+	    }
+	  }).then((response) => {
+	    return EJSON.parse(response.body.text());
+	  })
+	  
+	  return tracks.items[0].track;
+	}
+	
+	async function deleteTopTrack(access_token, playlist_id, track_uri) {
+	  const response = await context.http.delete({
+	    url: playlist_endpoint,
+	    headers: {
+	      "Authorization": [`Bearer ${access_token}`],
+	     // "Content-Type": ["application/json"]
+	    },
+	    encodeBodyAsJSON: true,
+	    body: {
+	      tracks: [{
+	        uri: track_uri
+	      }]
+	    }
+	  });
+	  
+	  return response.status;
+	}
+	
+	let track;
 	try {
-	  console.log(await getAccessToken());
+	  const access_token = await getAccessToken();
+	 // console.log(access_token);
+	  track = await getTrack(access_token, playlist_id);
+	 // console.log(track.uri);
+	 // await deleteTopTrack(access_token, playlist_id, track.uri);
+	 console.log(track.name);
 	}
 	catch(err) {
-	  console.error("Getting access token.", err);
+	  console.error("Token Retrieve", err);
 	}
+	
+	// Find the name of the MongoDB service you want to use (see "Linked Data Sources" tab)
+  const serviceName = "mongodb-atlas";
+
+  // Update these to reflect your db/collection
+  const dbName = "discovery";
+  const songCollName = "song";
+  const commentCollName = "comment";
+  const db = context.services.get(serviceName).db(dbName);
+  const songCollection = db.collection(songCollName);
+  const commentCollection = db.collection(commentCollName);
+  
+  try {
+    // make previous day song invisible
+    await songCollection.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
+    // deletes all the comments in the db (for a specific song)
+    // await commentCollection.deleteMany({});
+  }
+  catch(err) {
+    console.error("Update Previous", err);
+  }
+  
+  // insert the top song into the song collection
+  let newSong;
+  try {
+    let artists = "";
+    for (let i = 0; i < track.artists.length; i++) {
+      artists += track.artists[i].name;
+      if (i < track.artists.length - 1) {
+        artists += ", ";
+      }
+    }
+    
+    const name = track.name;
+    const videoId = await context.functions.execute("searchYoutubeSong", name + " " + artists);
+    
+    newSong = await songCollection.insertOne({
+      album_name: track.album.name,
+      artist: artists,
+      is_visible: true,
+      song_name: name,
+      spotify_link: track.external_urls.spotify,
+      youtube_id: videoId
+    });
+  }
+  catch(err) {
+    console.error("Inserting Song", err);
+  }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 const axios = require('axios');

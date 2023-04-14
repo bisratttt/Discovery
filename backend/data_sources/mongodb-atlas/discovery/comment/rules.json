@@ -9,10 +9,10 @@
             },
             "document_filters": {
                 "write": {
-                    "%or": [
+                    "$or": [
                         {
                             "%%prevRoot": {
-                                "%exists": false
+                                "$exists": false
                             }
                         },
                         {

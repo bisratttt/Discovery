@@ -68,12 +68,6 @@ function ShareModal(props) {
     },
     {
       link: props.shareLink,
-      buttonIcon: faTiktok,
-      label: "Share on TikTok",
-      onClick: async (event, setCopied = null) => {},
-    },
-    {
-      link: props.shareLink,
       buttonIcon: faCopy,
       label: "Copy Link",
       onClick: async (event, setCopied = null) => {
