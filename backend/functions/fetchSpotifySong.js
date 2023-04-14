@@ -1,4 +1,4 @@
-exports = async function(arg){
+exports = async function(){
   
   const CLIENT_ID = "08c721f15bf04ac9b4812ab29c113afd";
   const CLIENT_SECRET = "662d08df25b24add9666674b74a38740";
@@ -66,7 +66,7 @@ exports = async function(arg){
 	 // await deleteTopTrack(access_token, playlist_id, track.uri);
 	}
 	catch(err) {
-	  return {newSong: false, error: err.message};
+	  console.error("Token Retrieve", err);
 	}
 	
 	// Find the name of the MongoDB service you want to use (see "Linked Data Sources" tab)
@@ -82,12 +82,12 @@ exports = async function(arg){
   
   try {
     // make previous day song invisible
-    await songCollection.updateMany({"is_visible": false}, {"is_visible": true});
+    await songCollection.updateMany({"is_visible": true}, {"is_visible": false});
     // deletes all the comments in the db (for a specific song)
     // await commentCollection.deleteMany({});
   }
   catch(err) {
-    return {newSong: false, error: err.message};
+    console.error("Update Previous", err);
   }
   
   // insert the top song into the song collection
@@ -114,10 +114,8 @@ exports = async function(arg){
     });
   }
   catch(err) {
-    return {newSong: false, error: err.message};
+    console.error("Inserting Song", err);
   }
-  
-  return {newSong: true};
 };
 
 
