@@ -15,6 +15,9 @@ import SongButtonsTop from "./SongButtonsTop";
 import NavBar from "./NavBar";
 import FeedbackPopup from "./FeedbackPopup";
 import ProfileCard from "./ProfileCard";
+import ArtistSongInfo from "./ArtistSongInfo";
+
+// import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
 export default function Page() {
   const { loading, error, data } = useQuery(QUERY_SONG);
@@ -129,13 +132,15 @@ function SongPage({ data }) {
                 }`}
                 style={{
                   ...cardStyle,
-                  minHeight: "85vh",
+                  height: "85vh",
                 }}
                 initial={{ x: "-100%" }}
                 animate={{ x: "0%" }}
                 exit={{ x: "-100%" }}
                 transition={{ duration: 0.3 }} // Animation duration (optional)
-              ></motion.div>
+              >
+                <ArtistSongInfo />
+              </motion.div>
             )}
             <motion.div
               key="song-card"

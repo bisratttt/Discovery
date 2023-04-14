@@ -17,9 +17,10 @@ const SubmissionReactionButton = ({
   count,
   handleClick,
   image = "",
+  staticImage = "",
 }) => {
   const [isAnimating, setIsAnimating] = useState(false);
-
+  const [isHover, setIsHover] = useState(false);
   const handleButtonClick = () => {
     setIsAnimating(true);
     handleClick();
@@ -42,7 +43,13 @@ const SubmissionReactionButton = ({
           className="p-0 pe-1 reaction-button bg-transparent"
         >
           {image !== "" ? (
-            <Image height={22} width="auto" src={image} />
+            <Image
+              height={22}
+              width="auto"
+              src={!isHover ? staticImage : image}
+              onMouseEnter={() => setIsHover(true)}
+              onMouseLeave={() => setIsHover(false)}
+            />
           ) : (
             <span
               role="img"
@@ -64,11 +71,18 @@ const SubmissionReactionButton = ({
 export default function SubmissionReaction({ submissionId }) {
   const { currentUser } = useRealmApp();
   const reactionOrder = {
-    "❤️": "/emojis/heart.png",
-    "🔥": "/emojis/fire.png",
-    "👍": "/emojis/thumbs_up.png",
-    "👎": "/emojis/thumbs_down.png",
-    "😠": "/emojis/angry_face.png",
+    "❤️": "/emojis/heart.webp",
+    "🔥": "/emojis/fire.webp",
+    "👍": "/emojis/thumbs_up.webp",
+    "👎": "/emojis/thumbs_down.webp",
+    "😠": "/emojis/angry.webp",
+  };
+  const reactionStaticOrder = {
+    "❤️": "/emojis/static/heart.avif",
+    "🔥": "/emojis/static/fire.avif",
+    "👍": "/emojis/static/thumbs_up.avif",
+    "👎": "/emojis/static/thumbs_down.avif",
+    "😠": "/emojis/static/angry.avif",
   };
   // const reactionOrder = ["❤️", "🔥", "👍", "👎"];
   const [submissionReactionCounts, setSubmissionReactionCounts] = useState({});
@@ -152,6 +166,7 @@ export default function SubmissionReaction({ submissionId }) {
               key={emoji}
               emoji={emoji}
               image={image}
+              staticImage={reactionStaticOrder[emoji]}
               count={submissionReactionCounts[emoji] || 0}
               handleClick={() => reactToSong(emoji)}
             />
