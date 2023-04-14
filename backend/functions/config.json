@@ -46,5 +46,10 @@
     {
         "name": "fetchReactionCounts",
         "private": false
+    },
+    {
+        "name": "searchYoutubeSong",
+        "private": true,
+        "disable_arg_logs": true
     }
 ]
