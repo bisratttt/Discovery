@@ -1,4 +1,4 @@
-exports = async function(arg){
+exports = async function(song_query){
   const { google } = require("googleapis");
   
   const API_KEY = "AIzaSyAx3GqTuDk8Z1HCf4ITwZ2zoXrkw12qJlg";
@@ -14,5 +14,5 @@ exports = async function(arg){
     return search_results.data.items;
   }
   
-  return (await fetchYoutubeSong(arg))[0].id.videoId;
+  return (await fetchYoutubeSong(song_query))[0].id.videoId;
 };
