@@ -80,15 +80,15 @@ exports = async function(arg){
   const songCollection = db.collection(songCollName);
   const commentCollection = db.collection(commentCollName);
   
-  // try {
-  //   // make previous day song invisible
-  //   await songCollection.updateMany({"is_visible": false}, {"is_visible": true});
-  //   // deletes all the comments in the db (for a specific song)
-  //   await commentCollection.deleteMany({});
-  // }
-  // catch(err) {
-  //   return {newSong: false, error: err.message};
-  // }
+  try {
+    // make previous day song invisible
+    await songCollection.updateMany({"is_visible": false}, {"is_visible": true});
+    // deletes all the comments in the db (for a specific song)
+    // await commentCollection.deleteMany({});
+  }
+  catch(err) {
+    return {newSong: false, error: err.message};
+  }
   
   // insert the top song into the song collection
   let newSong;
@@ -102,12 +102,12 @@ exports = async function(arg){
     }
     
     const name = track.name;
-    const videoId = user.functions.searchYoutubeSong(name + " " + artists);
+    const videoId = await context.functions.execute("searchYoutubeSong", name + " " + artists);
     
     newSong = await songCollection.insertOne({
       album_name: track.album.name,
       artist: artists,
-      is_visible: false,
+      is_visible: true,
       song_name: name,
       spotify_link: track.external_urls.spotify,
       youtube_id: videoId
