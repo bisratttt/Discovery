@@ -61,10 +61,9 @@ exports = async function(arg){
 	let track;
 	try {
 	  const access_token = await getAccessToken();
-	  console.log(access_token);
 	  track = await getTrack(access_token, playlist_id);
-	  console.log(track.uri);
-	  console.log(await deleteTopTrack(access_token, playlist_id, track.uri));
+	 // console.log(track.uri);
+	 // await deleteTopTrack(access_token, playlist_id, track.uri);
 	}
 	catch(err) {
 	  return {newSong: false, error: err.message};
@@ -102,13 +101,17 @@ exports = async function(arg){
       }
     }
     
-    // newSong = await songCollection.insertOne({
-    //   album_name: track.album.name,
-    //   artist: artists,
-    //   is_visible: false,
-    //   song_name: track.name,
-    //   spotify_link: track.external_urls.spotify
-    // });
+    const name = track.name;
+    const videoId = user.functions.searchYoutubeSong(name + " " + artists);
+    
+    newSong = await songCollection.insertOne({
+      album_name: track.album.name,
+      artist: artists,
+      is_visible: false,
+      song_name: name,
+      spotify_link: track.external_urls.spotify,
+      youtube_id: videoId
+    });
   }
   catch(err) {
     return {newSong: false, error: err.message};
@@ -116,6 +119,32 @@ exports = async function(arg){
   
   return {newSong: true};
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 const axios = require('axios');
