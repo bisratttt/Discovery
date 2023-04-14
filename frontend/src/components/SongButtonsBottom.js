@@ -81,7 +81,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
             className="ps-1"
             style={{ background: "transparent", borderColor: "transparent" }}
             onClick={() => {
-              setOpenSongInfo(false);
+              setOpenSongInfo({ openInfo: false });
               setOpenSongSubmissionList(false);
               setOpenProfile(false);
               setOpenLoginModal(false);

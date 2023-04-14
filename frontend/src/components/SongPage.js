@@ -77,6 +77,8 @@ function SongPage({ data }) {
   const isLargeScreen = useMediaQuery("(min-width:1200px)");
   const [aspectRatio, setAspectRatio] = useState(null);
   const [shareModal, setShareModal] = useState(false);
+  const [songHover, setSongHover] = useState(false);
+  const [artistHover, setArtistHover] = useState(false);
 
   const cardStyle = {
     backgroundColor: "rgba(0,0,0,0.7)",
@@ -122,7 +124,7 @@ function SongPage({ data }) {
           }}
         >
           <AnimatePresence mode="popLayout" initial={false}>
-            {openSongInfo && (
+            {openSongInfo.openInfo && (
               <motion.div
                 key="info-card"
                 className={`col-xs-12 col-sm-9 ${
@@ -139,7 +141,7 @@ function SongPage({ data }) {
                 exit={{ x: "-100%" }}
                 transition={{ duration: 0.3 }} // Animation duration (optional)
               >
-                <ArtistSongInfo />
+                <ArtistSongInfo active_tab={openSongInfo.active_tab} />
               </motion.div>
             )}
             <motion.div
@@ -165,12 +167,7 @@ function SongPage({ data }) {
               }}
             >
               <Row className="justify-content-between">
-                <SongButtonsTop
-                  setOpenReview={setOpenReview}
-                  setOpenSongInfo={setOpenSongInfo}
-                  setOpenSongSubmissionList={setOpenSongSubmissionList}
-                  setShareModal={setShareModal}
-                />
+                <SongButtonsTop setShareModal={setShareModal} />
               </Row>
               <Row
                 className="justify-content-center"
@@ -186,10 +183,34 @@ function SongPage({ data }) {
                 <YoutubeEmbed srcId={data.song.youtube_id} />
               </Row>
               <Row>
-                <p className="song-title">{data.song.song_name ?? ""}</p>
+                <p
+                  onClick={() =>
+                    setOpenSongInfo({ openInfo: true, active_tab: "Song" })
+                  }
+                  className={`${
+                    songHover && "text-decoration-underline"
+                  } song-title`}
+                  onMouseEnter={() => setSongHover(true)}
+                  onMouseLeave={() => setSongHover(false)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {data.song.song_name ?? ""}
+                </p>
               </Row>
               <Row>
-                <p className="artist-name">{data.song.artist ?? ""}</p>
+                <p
+                  onMouseEnter={() => setArtistHover(true)}
+                  onMouseLeave={() => setArtistHover(false)}
+                  onClick={() =>
+                    setOpenSongInfo({ openInfo: true, active_tab: "Artist" })
+                  }
+                  className={`${
+                    artistHover && "text-decoration-underline"
+                  } artist-name`}
+                  style={{ cursor: "pointer" }}
+                >
+                  {data.song.artist ?? ""}
+                </p>
               </Row>
               <Row className="mt-1">
                 <SongButtonsBottom

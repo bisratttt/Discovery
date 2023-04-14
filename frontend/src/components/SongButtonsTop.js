@@ -3,13 +3,11 @@ import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Col, Button } from "react-bootstrap";
+import { useToggleComponents } from "../contexts/ToggleComponents";
 
-export default function SongButtonsTop({
-  setOpenReview,
-  setOpenSongInfo,
-  setOpenSongSubmissionList,
-  setShareModal,
-}) {
+export default function SongButtonsTop({ setShareModal }) {
+  const { setOpenReview, setOpenSongInfo, setOpenSongSubmissionList } =
+    useToggleComponents();
   return (
     <>
       <Col className="d-flex justify-content-start">
@@ -21,7 +19,10 @@ export default function SongButtonsTop({
           onClick={() => {
             setOpenReview(false);
             setOpenSongSubmissionList(false);
-            setOpenSongInfo((songInfo) => !songInfo);
+            setOpenSongInfo((openSongInfo) => ({
+              openInfo: !openSongInfo.openInfo,
+              active_tab: openSongInfo.active_tab,
+            }));
           }}
         >
           <FontAwesomeIcon icon={faCircleInfo} size="lg" />

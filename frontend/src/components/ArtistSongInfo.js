@@ -62,78 +62,80 @@ function ArtistInfo({
       style={{ height: "77vh", overflowY: "auto" }}
     >
       <Row style={{ height: "77vh" }}>
-        <Row className="pt-3 justify-content-between">
-          <Col
-            xs={12}
-            md={8}
-            className={`d-flex justify-content-${
-              isSmallScreen ? "center" : "start"
-            }`}
-          >
-            <Image height={isMedScreen ? 250 : 320} src={artist_image_url} />
-          </Col>
-          <Col
-            className={`d-flex flex-${
-              isSmallScreen ? "row" : "column"
-            } justify-content-around`}
-            xs={12}
-            md={4}
-          >
-            {/* render socials */}
-            {Object.keys(socialHandles).map((platform) => (
-              <a
-                href={`https://${platform}.com/${
-                  (platform === "youtube" || platform === "tiktok") &&
-                  socialHandles[platform]
-                    ? "@"
-                    : ""
-                }${socialHandles[platform] ?? ""}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white text-decoration-none"
-              >
-                <Row>
-                  <Col xs={12} sm={2}>
-                    <FontAwesomeIcon
-                      icon={getPlatformIcon(platform)}
-                      size="lg"
-                      className="text-white"
-                    />
-                  </Col>
-                  {!isSmallScreen && (
-                    <Col className="d-flex justify-content-start">
-                      <span>
-                        {platform == "apple_music" ? "apple music" : platform}
-                      </span>
-                    </Col>
-                  )}
-                </Row>
-              </a>
-            ))}
-          </Col>
-        </Row>
-        <Row>
-          <Col className={`text-start`}>
-            <h1 style={{ fontSize: "clamp(3rem,5vw,3.5rem)" }}>
-              {artist_name}
-            </h1>
-          </Col>
-        </Row>
-        <Row>
-          <Col className="text-start">
-            <RecursiveRenderer data={artist_bio.children[0]} />
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Button
-              className="bg-transparent border-0"
-              onClick={scrollArtistMoreDetails}
+        <Col className="d-flex flex-column justify-content-between">
+          <Row className="pt-3">
+            <Col
+              xs={12}
+              md={8}
+              className={`d-flex justify-content-${
+                isSmallScreen ? "center" : "start"
+              }`}
             >
-              <KeyboardDoubleArrowDownIcon />
-            </Button>
-          </Col>
-        </Row>
+              <Image height={isMedScreen ? 250 : 320} src={artist_image_url} />
+            </Col>
+            <Col
+              className={`d-flex flex-${
+                isSmallScreen ? "row" : "column"
+              } justify-content-around pt-3`}
+              xs={12}
+              md={4}
+            >
+              {/* render socials */}
+              {Object.keys(socialHandles).map((platform) => (
+                <a
+                  href={`https://${platform}.com/${
+                    (platform === "youtube" || platform === "tiktok") &&
+                    socialHandles[platform]
+                      ? "@"
+                      : ""
+                  }${socialHandles[platform] ?? ""}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white text-decoration-none"
+                >
+                  <Row>
+                    <Col xs={12} sm={2}>
+                      <FontAwesomeIcon
+                        icon={getPlatformIcon(platform)}
+                        size="lg"
+                        className="text-white"
+                      />
+                    </Col>
+                    {!isSmallScreen && (
+                      <Col className="d-flex justify-content-start">
+                        <span>
+                          {platform == "apple_music" ? "apple music" : platform}
+                        </span>
+                      </Col>
+                    )}
+                  </Row>
+                </a>
+              ))}
+            </Col>
+          </Row>
+          <Row>
+            <Col className={`text-start`}>
+              <h1 style={{ fontSize: "clamp(3rem,5vw,3.5rem)" }}>
+                {artist_name}
+              </h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="text-start">
+              <RecursiveRenderer data={artist_bio.children[0]} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button
+                className="bg-transparent border-0"
+                onClick={scrollArtistMoreDetails}
+              >
+                <KeyboardDoubleArrowDownIcon />
+              </Button>
+            </Col>
+          </Row>
+        </Col>
       </Row>
 
       <Row
@@ -150,7 +152,7 @@ function ArtistInfo({
     </Container>
   );
 }
-function ArtistSongInfo() {
+function ArtistSongInfo({ active_tab = "Artist" }) {
   const { loading, error, data } = useQuery(QUERY_SONGINFO);
 
   const [artistBio, setArtistBio] = useState({});
@@ -182,7 +184,7 @@ function ArtistSongInfo() {
   ) : (
     <div className="tab-content-wrapper p-0 m-0">
       <Tabs
-        defaultActiveKey="Artist"
+        defaultActiveKey={active_tab}
         className="custom-tabs"
         justify
         transition={HorizontalCollapse}

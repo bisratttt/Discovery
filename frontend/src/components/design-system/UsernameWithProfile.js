@@ -15,7 +15,7 @@ export default function UsernameWithProfile({ username }) {
     twitter: null,
   });
   const [noSocials, setNoSocials] = useState(true);
-
+  const [isHover, setIsHover] = useState(false);
   const { loading, error, data } = useQuery(GET_USER_PREFERENCES_NAME, {
     variables: { username: username },
     onCompleted: (queryData) => {
@@ -128,7 +128,14 @@ export default function UsernameWithProfile({ username }) {
       overlay={ProfilePopover}
       rootClose={true}
     >
-      <strong style={{ cursor: "pointer" }}>{username}</strong>
+      <strong
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        className={isHover && "text-decoration-underline"}
+        style={{ cursor: "pointer" }}
+      >
+        {username}
+      </strong>
     </OverlayTrigger>
   );
 }

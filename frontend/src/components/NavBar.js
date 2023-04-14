@@ -108,7 +108,7 @@ function NavBar({ fixed = false }) {
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   setOpenReview(false);
-                  setOpenSongInfo(false);
+                  setOpenSongInfo({ openInfo: false });
                   setOpenProfile(false);
                   setOpenLoginModal(false);
                   setOpenSongSubmissionList(false);
@@ -141,7 +141,7 @@ function NavBar({ fixed = false }) {
                 <>
                   <NavRightButton
                     onClick={() => {
-                      setOpenSongInfo(false);
+                      setOpenSongInfo({ openInfo: false });
                       setOpenReview(false);
                       setOpenProfile(false);
                       setOpenLoginModal(false);
@@ -167,7 +167,7 @@ function NavBar({ fixed = false }) {
                         onClick={() => {
                           setOpenSongSubmissionList(false);
                           setOpenLoginModal(false);
-                          setOpenSongInfo(false);
+                          setOpenSongInfo({ openInfo: false });
                           setOpenReview(false);
                           setOpenProfile((openProfile) => !openProfile);
                         }}

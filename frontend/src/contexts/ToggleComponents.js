@@ -6,7 +6,10 @@ const AppContext = createContext();
 export function ToggleComponentsProvider({ children }) {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const [openReview, setOpenReview] = useState(false);
-  const [openSongInfo, setOpenSongInfo] = useState(!isSmallScreen);
+  const [openSongInfo, setOpenSongInfo] = useState({
+    openInfo: !isSmallScreen,
+    active_tab: "Artist",
+  });
   const [openSongSubmissionList, setOpenSongSubmissionList] = useState(false);
   const [openTerms, setOpenTerms] = useState(false);
   const [openCookies, setOpenCookies] = useState(false);
