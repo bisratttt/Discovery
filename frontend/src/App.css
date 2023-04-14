@@ -121,12 +121,42 @@
   box-shadow: none !important;
 }
 /* song artist info */
+/* Custom styles for tabs */
+.tab-content-wrapper {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+
 .custom-tabs .nav-link {
   background-color: transparent !important;
   border: none !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  transition: color 0.3s;
+}
+
+.custom-tabs .nav-link.active,
+.custom-tabs .nav-link:hover {
   color: white !important;
 }
 
+.horizontal-collapse-enter {
+  transform: translateX(100%);
+}
+
+.horizontal-collapse-enter-active {
+  transform: translateX(0%);
+  transition: transform 300ms;
+}
+
+.horizontal-collapse-exit {
+  transform: translateX(0%);
+}
+
+.horizontal-collapse-exit-active {
+  transform: translateX(-100%);
+  transition: transform 300ms;
+}
 /* reactions */
 .reaction-button {
   text-decoration: none !important;
