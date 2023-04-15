@@ -10,6 +10,27 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
+/* transparent scroll */
+/* For Webkit-based browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+/* For Firefox */
+body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+a:hover {
+  text-decoration: underline !important;
+}
 .App {
   text-align: center;
 }
@@ -57,8 +78,10 @@
 /* song page css */
 
 .hide-song {
-  position: absolute;
-  top: -9999px;
+  visibility: hidden !important;
+  position: fixed;
+  width: 0;
+  height: 0;
 }
 .underline-link:hover {
   text-decoration: underline !important;

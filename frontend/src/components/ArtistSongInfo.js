@@ -17,7 +17,8 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 import { getPlatformIcon } from "../utils/utils";
 import HorizontalCollapse from "./HorizontalCollapse.js";
 import { useMediaQuery } from "@mui/material";
-
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useToggleComponents } from "../contexts/ToggleComponents";
 const RecursiveRenderer = ({ data, parentKey = "" }) => {
   if (!data) return null;
   if (typeof data === "string") {
@@ -25,8 +26,20 @@ const RecursiveRenderer = ({ data, parentKey = "" }) => {
   }
   const { tag, attributes, children } = data;
   const Tag = tag;
+
+  // Check if the tag is an anchor element and add target and rel attributes
+  const updatedAttributes =
+    tag === "a"
+      ? {
+          ...attributes,
+          target: "_blank",
+          rel: "noopener noreferrer",
+          className: "text-white text-decoration-none fw-bold",
+        }
+      : attributes;
+
   return (
-    <Tag {...attributes}>
+    <Tag {...updatedAttributes}>
       {children &&
         children.map((child, index) => {
           const newKey = `${parentKey}-${tag}-${index}`;
@@ -154,7 +167,7 @@ function ArtistInfo({
 }
 function ArtistSongInfo({ active_tab = "Artist" }) {
   const { loading, error, data } = useQuery(QUERY_SONGINFO);
-
+  const { setOpenSongInfo } = useToggleComponents();
   const [artistBio, setArtistBio] = useState({});
   const [songBio, setSongBio] = useState({});
   const [socialHandles, setSocialHandles] = useState({
@@ -183,6 +196,18 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
     </Spinner>
   ) : (
     <div className="tab-content-wrapper p-0 m-0">
+      <Button
+        className="position-absolute bg-transparent border-0 start-0 top-0"
+        style={{ zIndex: 888 }}
+        onClick={() =>
+          setOpenSongInfo((openSongInfo) => ({
+            openInfo: false,
+            active_tab: openSongInfo.active_tab,
+          }))
+        }
+      >
+        <FontAwesomeIcon size="xl" icon={faXmark} />
+      </Button>
       <Tabs
         defaultActiveKey={active_tab}
         className="custom-tabs"

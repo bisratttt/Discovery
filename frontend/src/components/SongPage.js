@@ -157,7 +157,7 @@ function SongPage({ data }) {
                   isSmallScreen &&
                   (openReview ||
                     openSongSubmissionList ||
-                    openSongInfo ||
+                    openSongInfo.openInfo ||
                     openProfile) &&
                   "hide-song"
                 }`}
