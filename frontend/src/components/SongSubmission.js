@@ -85,7 +85,7 @@ export default function SongSubmission({
           <Col
             xs={9}
             className="d-flex justify-content-start align-items-center overflow-hidden"
-            style={{ fontSize: "1.2rem" }}
+            style={{ fontSize: "1.4rem" }}
             onMouseOver={() => setIsHovered(true)}
             onMouseOut={() => setIsHovered(false)}
           >
@@ -114,15 +114,18 @@ export default function SongSubmission({
         <Row className="mt-2" style={{ fontSize: "0.9rem" }}>
           <Col
             xs={1}
-            className="d-flex justify-content-end align-items-start pe-1 mb-1"
+            className="d-flex justify-content-end align-items-start pe-1 "
           >
             <Avatar textSizeRatio={2.1} name={username} size="20" round />
           </Col>
           <Col
-            xs={11}
+            xs={4}
             className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start"
           >
             <UsernameWithProfile username={username} />
+          </Col>
+          <Col xs={7} className="pe-1 d-flex justify-content-end">
+            <SubmissionReaction submissionId={submission_id} />
           </Col>
         </Row>
         <Row className="pb-1 px-3">
@@ -131,7 +134,7 @@ export default function SongSubmission({
               className="d-flex justify-content-start align-items-center py-1 ps-2 text-start rounded-2 w-100"
               style={{
                 backgroundColor: "rgba(30,30,30, 0.7)",
-                fontSize: "0.8rem",
+                fontSize: "1rem",
                 wordWrap: "anywhere",
               }}
             >
@@ -139,11 +142,7 @@ export default function SongSubmission({
             </Col>
           )}
         </Row>
-        <Row className="justify-content-end">
-          <Col xs={7} className="p-1 me-5">
-            <SubmissionReaction submissionId={submission_id} />
-          </Col>
-        </Row>
+        
       </Col>
     </ListGroup.Item>
   );
