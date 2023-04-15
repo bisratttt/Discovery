@@ -1,6 +1,6 @@
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useRef ,useEffect} from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
 import { Row, Col, ListGroup } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
@@ -8,7 +8,6 @@ import { getMetaphorialTime } from "../utils/utils";
 import SubmissionReaction from "./SubmissionReaction";
 import UsernameWithProfile from "./design-system/UsernameWithProfile";
 import { useRealmApp } from "../contexts/RealmApp";
-
 
 function YoutubeEmbed({ srcId }) {
   const url = `https://www.youtube.com/embed/${srcId}`;
@@ -22,11 +21,14 @@ function YoutubeEmbed({ srcId }) {
   );
 }
 
-async function fetchSearchData({song_name,artist,currentUser}) {
+async function fetchSearchData({ song_name, artist, currentUser }) {
   try {
     console.log(currentUser);
-    const result = await currentUser.callFunction('searchYoutubeSong', (song_name + " " + artist));
-    
+    const result = await currentUser.callFunction(
+      "searchYoutubeSong",
+      song_name + " " + artist
+    );
+
     // Do something with the result
     return result;
   } catch (error) {
@@ -34,8 +36,6 @@ async function fetchSearchData({song_name,artist,currentUser}) {
     // Handle the error
   }
 }
-
-
 
 export default function SongSubmission({
   username,
@@ -46,13 +46,12 @@ export default function SongSubmission({
   _id,
   youtube_id,
 }) {
-  
   const submissionRef = useRef(null);
   const [isHidden, setIsHidden] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [result, setResult] = useState(null);
   const submission_id = _id;
-  
+
   let dateTime = getMetaphorialTime(time);
   const { currentUser } = useRealmApp();
 
@@ -81,7 +80,7 @@ export default function SongSubmission({
       {/* <Col xs={2}>
         <FontAwesomeIcon icon={faPlay} size="2x" />
       </Col> */}
-      <Col xs={10}>
+      <Col xs={12}>
         <Row>
           <Col
             xs={9}
@@ -109,24 +108,27 @@ export default function SongSubmission({
             </small>
           </Col>
         </Row>
-        <Row style={{ fontSize: "0.9rem" }}>
+        <Row style={{ minHeight: "50vh" }}>
+          <YoutubeEmbed srcId={youtube_id} />
+        </Row>
+        <Row className="mt-2" style={{ fontSize: "0.9rem" }}>
           <Col
             xs={1}
             className="d-flex justify-content-end align-items-start pe-1 mb-1"
           >
             <Avatar textSizeRatio={2.1} name={username} size="20" round />
           </Col>
-          <Col className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start">
+          <Col
+            xs={11}
+            className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start"
+          >
             <UsernameWithProfile username={username} />
           </Col>
         </Row>
-        <Row>
-          <YoutubeEmbed srcId={youtube_id} />
-        </Row>
-        <Row className="pb-1">
+        <Row className="pb-1 px-3">
           {note.length > 0 && (
             <Col
-              className="d-flex justify-content-start align-items-center p-1 text-start rounded-2 me-3 w-100 ps-2"
+              className="d-flex justify-content-start align-items-center py-1 ps-2 text-start rounded-2 w-100"
               style={{
                 backgroundColor: "rgba(30,30,30, 0.7)",
                 fontSize: "0.8rem",

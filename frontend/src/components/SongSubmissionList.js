@@ -111,6 +111,7 @@ export default function SongSubmissionList() {
         className={`border-0 justify-content-center align-items-center p-0 ${
           isBlurred && "blur"
         }`}
+        style={{ height: "85vh", overflowY: "scroll" }}
       >
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />

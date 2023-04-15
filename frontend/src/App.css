@@ -265,7 +265,7 @@ a:hover {
   background-color: transparent !important;
 }
 #submission-body {
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 #submission-footer .form-control {
