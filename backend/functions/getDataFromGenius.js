@@ -73,6 +73,9 @@ exports = async function() {
           song_name: song.song_name, 
           artist_bio: JSON.stringify(artist.description),
           song_bio: JSON.stringify(song.description),
+          artist_twitter: artist.twitter_name,
+          artst_facebook: artist.facebook_name,
+          artist_instagram: artist.instagram_name,
           artist_image_url: artist.image_url,
           is_visible: true ,
           });
