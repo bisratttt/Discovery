@@ -78,9 +78,9 @@ export default function SongSubmission({
         borderBottom: "solid rgba(255,255,255,0.5) 0.01rem",
       }}
     >
-      <Col xs={2}>
+      {/* <Col xs={2}>
         <FontAwesomeIcon icon={faPlay} size="2x" />
-      </Col>
+      </Col> */}
       <Col xs={10}>
         <Row>
           <Col

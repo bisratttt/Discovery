@@ -256,20 +256,18 @@ function SongPage({ data }) {
             )}
             {openSongSubmissionList && (
               <motion.div
-                key="submission-card"
-                style={{
-                  ...cardStyle,
-                  minHeight: "85vh",
-                  position: !isSmallScreen ? "absolute" : "relative",
-                  left: !isSmallScreen ? "75.5%" : "0%",
-                }}
-                className={`col-xs-12 ${isBigScreen && "col-md-5"} col-lg-3 ${
-                  !isPhoneScreen && "rounded-3"
-                } p-0`}
-                initial={{ x: "100%" }} // Start from the left side, out of the viewport
-                animate={{ x: "0%" }} // Move to the original position
-                exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
-                transition={{ duration: 0.2 }} // Animation duration (optional)
+              key="comment-card"
+              style={{
+                ...cardStyle,
+                minHeight: "85vh",
+              }}
+              className={`col-xs-12 ${isBigScreen && "col-md-6"} col-lg-5 ${
+                !isPhoneScreen && "rounded-3"
+              } p-0`}
+              initial={{ Y: "100%" }} // Start from the left side, out of the viewport
+              animate={{ x: "0%" }} // Move to the original position
+              exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
+              transition={{ duration: 0.3 }} // Animation duration (optional)
               >
                 {/* Your new column content */}
                 <SongSubmissionList />
