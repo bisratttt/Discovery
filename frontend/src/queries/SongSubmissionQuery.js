@@ -8,6 +8,7 @@ export const FETCH_SUBMISSIONS = gql`
       song_name
       note
       time
+      youtube_id
     }
   }
 `;

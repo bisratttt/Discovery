@@ -1,12 +1,41 @@
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef ,useEffect} from "react";
 import Avatar from "react-avatar";
 import { Row, Col, ListGroup } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
 import { getMetaphorialTime } from "../utils/utils";
 import SubmissionReaction from "./SubmissionReaction";
 import UsernameWithProfile from "./design-system/UsernameWithProfile";
+import { useRealmApp } from "../contexts/RealmApp";
+
+
+function YoutubeEmbed({ srcId }) {
+  const url = `https://www.youtube.com/embed/${srcId}`;
+  return (
+    <iframe
+      src={url}
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowFullScreen
+    ></iframe>
+  );
+}
+
+async function fetchSearchData({song_name,artist,currentUser}) {
+  try {
+    console.log(currentUser);
+    const result = await currentUser.callFunction('searchYoutubeSong', (song_name + " " + artist));
+    
+    // Do something with the result
+    return result;
+  } catch (error) {
+    console.error(error);
+    // Handle the error
+  }
+}
+
+
 
 export default function SongSubmission({
   username,
@@ -15,12 +44,29 @@ export default function SongSubmission({
   note,
   time,
   _id,
+  youtube_id,
 }) {
+  
   const submissionRef = useRef(null);
   const [isHidden, setIsHidden] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [result, setResult] = useState(null);
   const submission_id = _id;
+  
   let dateTime = getMetaphorialTime(time);
+  const { currentUser } = useRealmApp();
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     console.log(currentUser);
+  //     const result = await fetchSearchData(song_name, artist, currentUser);
+  //     setResult(result); // Set the result in the state
+  //     console.log(result);
+  //     // Do something with the result
+  //   };
+  //   fetchData();
+  // }, []);
+
   return (
     <ListGroup.Item
       className={`${
@@ -73,6 +119,9 @@ export default function SongSubmission({
           <Col className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start">
             <UsernameWithProfile username={username} />
           </Col>
+        </Row>
+        <Row>
+          <YoutubeEmbed srcId={youtube_id} />
         </Row>
         <Row className="pb-1">
           {note.length > 0 && (
