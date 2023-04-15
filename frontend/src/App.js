@@ -12,6 +12,7 @@ import Cookies from "./components/Cookies";
 import { FetchDataProvider } from "./contexts/FetchData";
 import LoginModal from "./components/LoginModal";
 import Details from "./components/Details";
+import { Routes, Route } from "react-router-dom";
 const { app_id } = appConfig;
 
 export default function AppWithRealm() {
@@ -37,14 +38,21 @@ function App() {
   }, []);
   const { openTerms, openCookies } = useToggleComponents();
 
-  return openTerms ? (
-    <Terms />
-  ) : openCookies ? (
-    <Cookies />
-  ) : (
+  return (
     <div className="App">
-      {currentUser && <Details />}
-      <LoginModal />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              {currentUser && <Details />}
+              <LoginModal />
+            </>
+          }
+        />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/cookies" element={<Cookies />} />
+      </Routes>
     </div>
   );
 }

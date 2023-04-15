@@ -156,11 +156,28 @@ a:hover {
   border: none !important;
   color: rgba(255, 255, 255, 0.6) !important;
   transition: color 0.3s;
+  position: relative;
+}
+
+.custom-tabs .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s;
+}
+
+.custom-tabs .nav-link.active::after {
+  width: 100%;
 }
 
 .custom-tabs .nav-link.active,
 .custom-tabs .nav-link:hover {
   color: white !important;
+  border-bottom: 2px solid white;
 }
 
 .horizontal-collapse-enter {
@@ -248,7 +265,6 @@ a:hover {
   background-color: transparent !important;
 }
 #submission-body {
-  height: 90vh;
   overflow-y: auto;
 }
 

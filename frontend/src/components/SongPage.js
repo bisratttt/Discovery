@@ -16,6 +16,7 @@ import NavBar from "./NavBar";
 import FeedbackPopup from "./FeedbackPopup";
 import ProfileCard from "./ProfileCard";
 import ArtistSongInfo from "./ArtistSongInfo";
+import NavBarBottom from "./NavBarBottom";
 
 // import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
@@ -59,6 +60,18 @@ function YoutubeEmbed({ srcId }) {
   );
 }
 
+const isFirstVisitToday = () => {
+  const today = new Date().toISOString().slice(0, 10);
+  const lastVisit = localStorage.getItem("lastVisit");
+  console.log(localStorage);
+  if (!lastVisit || lastVisit !== today) {
+    localStorage.setItem("lastVisit", today);
+    return true;
+  }
+
+  return false;
+};
+
 function SongPage({ data }) {
   const [albumImg, setAlbumImg] = useState("");
   const {
@@ -66,9 +79,6 @@ function SongPage({ data }) {
     openSongSubmissionList,
     openSongInfo,
     setOpenSongInfo,
-    setOpenSongSubmissionList,
-    setOpenReview,
-    setOpenProfile,
     openProfile,
   } = useToggleComponents();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
@@ -79,6 +89,11 @@ function SongPage({ data }) {
   const [shareModal, setShareModal] = useState(false);
   const [songHover, setSongHover] = useState(false);
   const [artistHover, setArtistHover] = useState(false);
+  const [firstVisitToday, setFirstVisitToday] = useState(false);
+
+  useEffect(() => {
+    setFirstVisitToday(isFirstVisitToday());
+  });
 
   const cardStyle = {
     backgroundColor: "rgba(0,0,0,0.7)",
@@ -120,7 +135,7 @@ function SongPage({ data }) {
         <Row
           className="justify-content-evenly align-items-center mx-0"
           style={{
-            minHeight: "90vh",
+            minHeight: "87vh",
           }}
         >
           <AnimatePresence mode="popLayout" initial={false}>
@@ -244,7 +259,7 @@ function SongPage({ data }) {
                 key="submission-card"
                 style={{
                   ...cardStyle,
-                  minHeight: "90vh",
+                  minHeight: "85vh",
                   position: !isSmallScreen ? "absolute" : "relative",
                   left: !isSmallScreen ? "75.5%" : "0%",
                 }}
@@ -265,7 +280,7 @@ function SongPage({ data }) {
                 key="submission-card"
                 style={{
                   ...cardStyle,
-                  minHeight: "90vh",
+                  minHeight: "85vh",
                   position: !isSmallScreen ? "absolute" : "relative",
                   left: !isSmallScreen ? "75.5%" : "0%",
                 }}
@@ -284,6 +299,7 @@ function SongPage({ data }) {
           </AnimatePresence>
         </Row>
       </div>
+      <NavBarBottom />
       <ShareModal
         show={shareModal}
         onHide={() => setShareModal(false)}

@@ -162,6 +162,18 @@ function ArtistInfo({
           ))}
         </Col>
       </Row>
+      <Row>
+        <Col>
+          <span>Retrieved from</span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://genius.com"
+          >
+            <Image height={40} src="/genius-logo.png" />
+          </a>
+        </Col>
+      </Row>
     </Container>
   );
 }
