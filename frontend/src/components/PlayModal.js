@@ -1,7 +1,12 @@
 import { Col, Modal, Row } from "react-bootstrap";
 
 function AppleMusic({ srcUrl }) {
+  console.log(srcUrl)
   const url = new URL(srcUrl);
+  console.log(url.pathname)
+  const params = new URLSearchParams(url.search);
+  const iValue = params.get("i");
+  console.log(iValue)
   return (
     <iframe
       allow="autoplay *; encrypted-media *;"
@@ -14,7 +19,7 @@ function AppleMusic({ srcUrl }) {
         background: "transparent",
       }}
       sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation"
-      src={`https://embed.music.apple.com${url.pathname}`}
+      src={`https://embed.music.apple.com${url.pathname}?i=${iValue}`}
     />
   );
 }
