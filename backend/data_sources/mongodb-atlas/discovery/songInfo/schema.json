@@ -19,10 +19,19 @@
         "artist_bio": {
             "bsonType": "string"
         },
+        "artist_facebook": {
+            "bsonType": "string"
+        },
         "artist_image_url": {
             "bsonType": "string"
         },
+        "artist_instagram": {
+            "bsonType": "string"
+        },
         "artist_name": {
+            "bsonType": "string"
+        },
+        "artist_twitter": {
             "bsonType": "string"
         },
         "is_visible": {
