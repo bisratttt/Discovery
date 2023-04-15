@@ -264,7 +264,7 @@ function SongPage({ data }) {
                 className={`col-xs-12 ${isBigScreen && "col-md-6"} col-lg-5 ${
                   !isPhoneScreen && "rounded-3"
                 } p-0`}
-                initial={{ Y: "100%" }} // Start from the left side, out of the viewport
+                initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
                 transition={{ duration: 0.3 }} // Animation duration (optional)
