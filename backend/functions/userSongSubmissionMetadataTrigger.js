@@ -40,8 +40,10 @@ exports = async function(changeEvent) {
   */
   const docId = changeEvent.documentKey._id;
   const collection = context.services.get("mongodb-atlas").db("discovery").collection("userSongSuggestion");
+  let youtubeID = null;
   try {
-      await collection.updateOne({ _id: docId }, { $set: {time: new Date()}});
+      youtubeID = await context.functions.execute('searchYoutubeSong', changeEvent.fullDocument.song_name + " " + changeEvent.fullDocument.artist );
+      await collection.updateOne({ _id: docId }, { $set: {time: new Date(), youtube_id: youtubeID}});
   } catch(err) {
     console.error("There was an error adding/updating the time", err)
     
