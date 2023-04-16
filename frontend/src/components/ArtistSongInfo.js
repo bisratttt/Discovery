@@ -74,7 +74,7 @@ function ArtistInfo({
       className="text-white py-2 container-scroll"
       style={{ height: "77vh", overflowY: "auto" }}
     >
-      <Row style={{ height: "77vh" }}>
+      <Row style={{ minHeight: "77vh" }}>
         <Col className="d-flex flex-column justify-content-between">
           <Row className="pt-3">
             <Col
@@ -151,11 +151,7 @@ function ArtistInfo({
         </Col>
       </Row>
 
-      <Row
-        className="text-start"
-        style={{ minHeight: "85vh" }}
-        ref={targetRowRef}
-      >
+      <Row className="text-start mb-5" ref={targetRowRef}>
         <Col>
           {artist_bio.children.slice(1).map((child, index) => (
             <RecursiveRenderer key={index} data={child} fluid />
@@ -164,13 +160,13 @@ function ArtistInfo({
       </Row>
       <Row>
         <Col>
-          <span>Retrieved from</span>
+          <span className="pe-3">Retrieved from</span>
           <a
             target="_blank"
             rel="noopener noreferrer"
             href="https://genius.com"
           >
-            <Image height={40} src="/genius-logo.png" />
+            <Image height={30} src="/Genius_logo.png" />
           </a>
         </Col>
       </Row>
