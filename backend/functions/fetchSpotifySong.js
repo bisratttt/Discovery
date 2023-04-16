@@ -101,75 +101,78 @@ exports = async function(){
 
 
 /*
-const axios = require('axios');
+const auth_endpoint = 'https://accounts.spotify.com/api/token';
+const auth_url = 'https://accounts.spotify.com/authorize';
+const CLIENT_ID = 'your_client_id';
+const CLIENT_SECRET = 'your_client_secret';
+const REDIRECT_URI = 'your_redirect_uri';
 
-const clientId = 'YOUR_CLIENT_ID';
-const clientSecret = 'YOUR_CLIENT_SECRET';
-const refreshToken = 'YOUR_REFRESH_TOKEN';
-const playlistId = 'YOUR_PLAYLIST_ID';
+const playlist_id = "your_private_playlist_id";
+const playlist_endpoint = `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`;
 
-async function getAccessToken() {
-  const response = await axios.post('https://accounts.spotify.com/api/token', null, {
+let authorization = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64");
+
+function generateAuthURL() {
+  const scope = 'playlist-read-private';
+  const state = 'your_state';
+  const authURL = `${auth_url}?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=${encodeURIComponent(scope)}&state=${state}`;
+  return authURL;
+}
+
+async function getAccessTokenWithCode(authorizationCode) {
+  const response = await context.http.post({
+    url: auth_endpoint,
+    body: `grant_type=authorization_code&code=${authorizationCode}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}`,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': 'Basic ' + Buffer.from(clientId + ':' + clientSecret).toString('base64')
+      "Content-Type": ["application/x-www-form-urlencoded"],
+      "Authorization": [`Basic ${authorization}`]
     },
-    params: {
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken
-    }
   });
 
-  return response.data.access_token;
+  const tokenData = EJSON.parse(response.body.text());
+  return tokenData.access_token;
 }
 
-async function fetchPlaylist(accessToken, playlistId) {
-  const response = await axios.get(`https://api.spotify.com/v1/playlists/${playlistId}`, {
+async function getAccessTokenWithRefreshToken(refresh_token) {
+  const response = await context.http.post({
+    url: auth_endpoint,
+    body: `grant_type=refresh_token&refresh_token=${refresh_token}`,
     headers: {
-      'Authorization': 'Bearer ' + accessToken
-    }
-  });
-
-  return response.data;
-}
-
-async function removeTopSong(accessToken, playlistId, trackUri) {
-  const response = await axios.delete(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-    headers: {
-      'Authorization': 'Bearer ' + accessToken,
-      'Content-Type': 'application/json'
+      "Content-Type": ["application/x-www-form-urlencoded"],
+      "Authorization": [`Basic ${authorization}`]
     },
-    data: {
-      tracks: [{
-        uri: trackUri
-      }]
-    }
   });
 
-  return response.status;
+  const tokenData = EJSON.parse(response.body.text());
+  return tokenData.access_token;
 }
 
-(async () => {
+
+call like the following
+
+async function main() {
+  // Replace this with your stored refresh token
+  const stored_refresh_token = 'your_stored_refresh_token';
+
   try {
-    const accessToken = await getAccessToken();
-    const playlist = await fetchPlaylist(accessToken, playlistId);
-
-    if (playlist.tracks.items.length > 0) {
-      const topSong = playlist.tracks.items[0].track;
-      console.log(`Top song: ${topSong.name} by ${topSong.artists[0].name}`);
-      
-      const removeStatus = await removeTopSong(accessToken, playlistId, topSong.uri);
-      
-      if (removeStatus === 200) {
-        console.log('Top song removed from the playlist.');
-      } else {
-        console.log('Error removing the top song.');
-      }
-    } else {
-      console.log('The playlist is empty.');
-    }
-  } catch (error) {
-    console.error('Error:', error);
+    const access_token = await getAccessTokenWithRefreshToken(stored_refresh_token);
+    track = await getTrack(access_token, playlist_id);
+    console.log(track.name);
+  } catch (err) {
+    console.error("Token Retrieve", err);
   }
-})();
+
+  return track;
+}
+
+To use auth 2.0 automatically
+Here's how you can do it:
+
+Obtain an access token and a refresh token using the Authorization Code Flow, either through a one-time manual process or by using a simple web app to perform the initial authorization.
+
+Store the refresh token securely.
+
+Use the refresh token to request a new access token when the current one expires.
+
+
 */
