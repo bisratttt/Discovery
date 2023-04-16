@@ -1,0 +1,17 @@
+{
+    "id": "643c292866b9d21f88b44b33",
+    "name": "addTheSongOfTheDay",
+    "type": "SCHEDULED",
+    "config": {
+        "schedule": "0 0 * * *",
+        "skip_catchup_events": false
+    },
+    "disabled": false,
+    "event_processors": {
+        "FUNCTION": {
+            "config": {
+                "function_name": "addNewSongOfTheDayTrigger"
+            }
+        }
+    }
+}
