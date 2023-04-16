@@ -94,6 +94,7 @@ export default function SongSubmissionList() {
           <Row>
             <Col className="d-flex justify-content-start align-items-center">
               <Button
+                style={{ zIndex: 11 }}
                 size="lg"
                 className="bg-transparent border-0 p-0"
                 onClick={() =>
