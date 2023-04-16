@@ -71,53 +71,7 @@ exports = async function(){
 	  console.error("Token Retrieve", err);
 	}
 	
-	// Find the name of the MongoDB service you want to use (see "Linked Data Sources" tab)
-  const serviceName = "mongodb-atlas";
-
-  // Update these to reflect your db/collection
-  const dbName = "discovery";
-  const songCollName = "song";
-  const commentCollName = "comment";
-  const db = context.services.get(serviceName).db(dbName);
-  const songCollection = db.collection(songCollName);
-  const commentCollection = db.collection(commentCollName);
-  
-  try {
-    // make previous day song invisible
-    await songCollection.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
-    // deletes all the comments in the db (for a specific song)
-    // await commentCollection.deleteMany({});
-  }
-  catch(err) {
-    console.error("Update Previous", err);
-  }
-  
-  // insert the top song into the song collection
-  let newSong;
-  try {
-    let artists = "";
-    for (let i = 0; i < track.artists.length; i++) {
-      artists += track.artists[i].name;
-      if (i < track.artists.length - 1) {
-        artists += ", ";
-      }
-    }
-    
-    const name = track.name;
-    const videoId = await context.functions.execute("searchYoutubeSong", name + " " + artists);
-    
-    newSong = await songCollection.insertOne({
-      album_name: track.album.name,
-      artist: artists,
-      is_visible: true,
-      song_name: name,
-      spotify_link: track.external_urls.spotify,
-      youtube_id: videoId
-    });
-  }
-  catch(err) {
-    console.error("Inserting Song", err);
-  }
+	return track
 };
 
 

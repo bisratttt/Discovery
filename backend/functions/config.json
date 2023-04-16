@@ -1,38 +1,22 @@
 [
     {
-        "name": "createUserPreferences",
-        "private": false
-    },
-    {
-        "name": "fetchSpotifySong",
-        "private": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "useNewSong",
-        "private": true
-    },
-    {
-        "name": "createDateTrigger",
-        "private": true
-    },
-    {
-        "name": "getDataFromGenius",
-        "private": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "resetPassFunc",
-        "private": true
-    },
-    {
         "name": "useYoutubeSong",
         "private": true,
         "disable_arg_logs": true
     },
     {
-        "name": "fetchReactionCounts",
+        "name": "createUserPreferences",
         "private": false
+    },
+    {
+        "name": "searchYoutubeSong",
+        "private": false,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "validateEmptyInput",
+        "private": true,
+        "disable_arg_logs": true
     },
     {
         "name": "userSongSubmissionMetadataTrigger",
@@ -43,12 +27,28 @@
         "private": true
     },
     {
-        "name": "searchYoutubeSong",
-        "private": false,
+        "name": "resetPassFunc",
+        "private": true
+    },
+    {
+        "name": "addNewSongOfTheDay",
+        "private": true
+    },
+    {
+        "name": "createDateTrigger",
+        "private": true
+    },
+    {
+        "name": "fetchReactionCounts",
+        "private": false
+    },
+    {
+        "name": "fetchSpotifySong",
+        "private": true,
         "disable_arg_logs": true
     },
     {
-        "name": "validateEmptyInput",
+        "name": "getDataFromGenius",
         "private": true,
         "disable_arg_logs": true
     }

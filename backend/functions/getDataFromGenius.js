@@ -68,6 +68,7 @@ exports = async function() {
   const song = (await getSong(gSongId)).response.song;
   const artist = (await getArtist(gArtistId)).response.artist;
   try {
+    await songInfoColl.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
     await songInfoColl.insertOne({artist_name: song.primary_artist.name, 
           song_id: songId, 
           song_name: song.song_name, 
@@ -82,5 +83,5 @@ exports = async function() {
   } catch (err) {
       console.error("There was an error adding the song info: ", err)
   }
-  
+  return {song, artist}
 };
