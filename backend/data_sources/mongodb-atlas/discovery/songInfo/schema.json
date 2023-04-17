@@ -37,6 +37,12 @@
         "is_visible": {
             "bsonType": "bool"
         },
+        "song_album": {
+            "bsonType": "string"
+        },
+        "song_art": {
+            "bsonType": "string"
+        },
         "song_bio": {
             "bsonType": "string"
         },
@@ -44,6 +50,15 @@
             "bsonType": "objectId"
         },
         "song_name": {
+            "bsonType": "string"
+        },
+        "song_producers": {
+            "bsonType": "string"
+        },
+        "song_release_date:": {
+            "bsonType": "string"
+        },
+        "song_writers": {
             "bsonType": "string"
         }
     },
