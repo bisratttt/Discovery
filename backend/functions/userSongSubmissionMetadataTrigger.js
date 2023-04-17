@@ -47,10 +47,6 @@ exports = async function(changeEvent) {
       console.log("Document: ", changeEvent.fullDocument)
     
       await collection.updateOne({ _id: docId },  
-      {$unset: {
-      time: "",  // Field to unset before setting
-      youtube_id: ""  // Field to unset before setting
-    }},
     { $set: {time: new Date(), youtube_id: youtubeID}});
   } catch(err) {
     console.error("There was an error adding/updating the time", err)
