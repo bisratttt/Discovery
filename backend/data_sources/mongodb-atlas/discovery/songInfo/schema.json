@@ -55,7 +55,7 @@
         "song_producers": {
             "bsonType": "string"
         },
-        "song_release_date:": {
+        "song_release_date": {
             "bsonType": "string"
         },
         "song_writers": {
