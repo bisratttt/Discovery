@@ -78,6 +78,11 @@ exports = async function() {
           artst_facebook: artist.facebook_name,
           artist_instagram: artist.instagram_name,
           artist_image_url: artist.image_url,
+          song_art: song.song_art_image_url,
+          song_album: song.album.name ,
+          song_producers: JSON.stringify(song.producer_artists),
+          song_writers: JSON.stringify(song.writer_artists),
+          song_release_date: song.release_date_for_display, 
           is_visible: true ,
           });
   } catch (err) {
