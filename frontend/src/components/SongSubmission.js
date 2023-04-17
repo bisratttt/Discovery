@@ -1,14 +1,15 @@
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Col, Dropdown, ListGroup, Row } from "react-bootstrap";
 import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
-import { Row, Col, ListGroup } from "react-bootstrap";
 import Marquee from "react-fast-marquee";
 import { getMetaphorialTime } from "../utils/utils";
 import SubmissionReaction from "./SubmissionReaction";
 import UsernameWithProfile from "./design-system/UsernameWithProfile";
 import { useRealmApp } from "../contexts/RealmApp";
 import { useMediaQuery } from "@mui/material";
+import SongSubmissionUpdateEditor from "./SongSubmissionUpdateEditor";
 
 function YoutubeEmbed({ srcId }) {
   const url = `https://www.youtube.com/embed/${srcId}`;
@@ -53,9 +54,15 @@ export default function SongSubmission({
   const [result, setResult] = useState(null);
   const submission_id = _id;
   const isSmallScreen = useMediaQuery("(max-width:850px)");
+  const [isFocused, setIsFocused] = useState(true);
+  const [editing, setEditing] = useState(false);
 
   let dateTime = getMetaphorialTime(time);
   const { currentUser } = useRealmApp();
+  let owner = username==currentUser.profile.email ? true : false
+  const handleDropdownEditClick = () => {
+    setEditing(true);
+  }
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -79,11 +86,21 @@ export default function SongSubmission({
         borderBottom: "solid rgba(255,255,255,0.5) 0.01rem",
       }}
     >
-      <Row className="mx-0 px-0">
+      {editing && (
+        <SongSubmissionUpdateEditor
+          a={artist}
+          s={song_name}
+          n={note}
+          onHide={() =>
+            setEditing((editing) => !editing)
+          }
+        />
+      )}
+      {!editing && (<Row className="mx-0 px-0">
         <Col>
-          <Row>
+          <Row className="ps-1 justify-content-end align-items-center ">
             <Col
-              xs={9}
+              xs={10}
               className="d-flex justify-content-start align-items-center overflow-hidden"
               style={{ fontSize: "1.4rem" }}
               onMouseOver={() => setIsHovered(true)}
@@ -102,10 +119,43 @@ export default function SongSubmission({
               )}
             </Col>
 
-            <Col xs={3}>
-              <small style={{ fontSize: "0.75rem" }} className="text-muted">
+            <Col xs={1}>
+              <small style={{ fontSize: "0.75rem" }} className="text-muted d-flex justify-content-end ps-5">
                 {dateTime}
               </small>
+            </Col>
+            <Col xs={1} lg={1} className="d-flex justify-content-end pe-4">
+              <Dropdown>
+                <Dropdown.Toggle
+                  id="dropdown-basic"
+                  bsPrefix="p-0"
+                  style={{ backgroundColor: "rgba(0, 0, 0, 0.0)", border: "0" }}
+                >
+                  <FontAwesomeIcon
+                    icon={faEllipsis}
+                    flip="horizontal"
+                    className={`${isFocused ? "visible" : "hidden"}`}
+                  />
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {owner && <Dropdown.Item onClick={handleDropdownEditClick}
+                    style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}
+                  >
+                    Edit
+                  </Dropdown.Item>}
+                  <Dropdown.Item
+                    style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}
+                  >
+                    Hide
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}
+                  >
+                    Report
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+                
+              </Dropdown>
             </Col>
           </Row>
           <Row style={{ minHeight: "50vh" }}>
@@ -113,7 +163,7 @@ export default function SongSubmission({
           </Row>
           <Row
             className={`mt-2 ${isSmallScreen && "ps-3"}`}
-            style={{ fontSize: "0.9rem" }}
+            style={{ fontSize: "0.9rem", maxHeight: "3.5vh" }}
           >
             <Col
               xs={1}
@@ -123,6 +173,13 @@ export default function SongSubmission({
             </Col>
             <Col className="d-flex justify-content-start align-items-start ps-0 pe-2 text-start">
               <UsernameWithProfile username={username} />
+            </Col>
+            <Col
+              className={`pe-1 d-flex justify-content-${
+                isSmallScreen ? "center" : "end"
+              }`}
+            >
+              <SubmissionReaction submissionId={submission_id} />
             </Col>
           </Row>
           <Row className="pb-1 px-3">
@@ -140,16 +197,10 @@ export default function SongSubmission({
             )}
           </Row>
           <Row>
-            <Col
-              className={`pe-1 d-flex justify-content-${
-                isSmallScreen ? "center" : "end"
-              }`}
-            >
-              <SubmissionReaction submissionId={submission_id} />
-            </Col>
+            
           </Row>
         </Col>
-      </Row>
+      </Row>)}
     </ListGroup.Item>
   );
 }

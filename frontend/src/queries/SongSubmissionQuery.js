@@ -38,3 +38,23 @@ export const ADD_SUBMISSION = gql`
     }
   }
 `;
+
+export const UPDATE_SUBMISSION = gql`
+  mutation UpdateUserSongSubmission(
+    $user_id: ObjectId!
+    $artist: String!
+    $song_name: String!
+    $note: String!
+  ) {
+    updateOneUserSongSubmission(
+      query: { user_id: $user_id }
+      set: { song_name: $song_name
+        artist: $artist
+        note: $note }
+    ) {
+      artist
+      song_name
+      note
+    }
+  }
+`;
