@@ -4,9 +4,7 @@
     "type": "DATABASE",
     "config": {
         "operation_types": [
-            "UPDATE",
-            "INSERT",
-            "REPLACE"
+            "INSERT"
         ],
         "database": "discovery",
         "collection": "userSongSuggestion",
