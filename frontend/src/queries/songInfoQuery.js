@@ -18,6 +18,7 @@ export const QUERY_SONGINFO = gql`
       song_producers
       song_writers
       song_release_date
+      is_song_on_album
     }
   }
 `;

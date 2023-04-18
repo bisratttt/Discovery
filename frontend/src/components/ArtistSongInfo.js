@@ -19,6 +19,7 @@ import HorizontalCollapse from "./HorizontalCollapse.js";
 import { useMediaQuery } from "@mui/material";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useToggleComponents } from "../contexts/ToggleComponents";
+import { QUERY_ALBUMINFO } from "../queries/albumInfoQuery";
 
 const ProducerLink = ({ producer }) => {
   return (
@@ -186,12 +187,132 @@ function ArtistInfo({
     </Container>
   );
 }
+function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
+  const targetRowRef = useRef(null);
+  const isSmallScreen = useMediaQuery("(max-width:765px)");
+  const isMedScreen = useMediaQuery("(max-width:1270px)");
+  const scrollAlbumMoreDetails = () => {
+    const container = document.querySelector(".container-scroll");
+    const targetTop = targetRowRef.current.offsetTop - 48;
 
+    container.scrollTo({
+      top: targetTop,
+      behavior: "smooth",
+    });
+  };
+  return (
+    <Container
+      className="text-white py-2 container-scroll"
+      style={{ height: "77vh", overflowY: "auto" }}
+    >
+      <Row style={{ minHeight: "77vh" }}>
+        <Col className="d-flex flex-column justify-content-between">
+          <Row className="pt-3">
+            <Col
+              xs={12}
+              md={6}
+              className={`d-flex justify-content-${
+                isSmallScreen ? "center" : "start"
+              }`}
+            >
+              <Image height={isMedScreen ? 250 : 320} src={album_art} />
+            </Col>
+            <Col
+              className={`d-flex flex-${
+                isSmallScreen ? "row" : "column"
+              } justify-content-around pt-3`}
+              xs={12}
+              md={6}
+            >
+              <Row>
+                <Col
+                  className={`d-flex justify-content-center`}
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "20px",
+                    color: "white",
+                    padding: "10px 0",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Tracks
+                </Col>
+              </Row>
+              <Row>
+                <Col
+                  className={`d-flex flex-column`}
+                  style={{ padding: "5px 0" }}
+                >
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      color: "white",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Release Date:
+                  </span>
+                  <div
+                    className={`d-flex justify-content-center`}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <span>{album_release_date}</span>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col className={`text-start`}>
+              <h1 style={{ fontSize: "clamp(3rem,5vw,3.5rem)" }}>
+                {album_name}
+              </h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="text-start">
+              <RecursiveRenderer data={album_bio.children[0]} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button
+                className="bg-transparent border-0"
+                onClick={scrollAlbumMoreDetails}
+              >
+                <KeyboardDoubleArrowDownIcon />
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+      <Row className="text-start mb-5" ref={targetRowRef}>
+        <Col>
+          {album_bio.children.slice(1).map((child, index) => (
+            <RecursiveRenderer key={index} data={child} fluid />
+          ))}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <span className="pe-3">Retrieved from</span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://genius.com"
+          >
+            <Image height={30} src="/Genius_logo.png" />
+          </a>
+        </Col>
+      </Row>
+    </Container>
+  );
+}
 function SongInfo({
   song_bio,
   song_name,
   song_art,
-  song_album,
   song_producers,
   song_writers,
   song_release_date,
@@ -367,14 +488,21 @@ function SongInfo({
     </Container>
   );
 }
-
 function ArtistSongInfo({ active_tab = "Artist" }) {
   const { loading, error, data } = useQuery(QUERY_SONGINFO);
+  const {
+    loading: albumDataLoading,
+    error: albumDataError,
+    data: albumData,
+  } = useQuery(QUERY_ALBUMINFO);
+  console.log(albumData);
+  console.log(albumDataError);
   const { setOpenSongInfo } = useToggleComponents();
   const [artistBio, setArtistBio] = useState({});
   const [songBio, setSongBio] = useState({});
   const [songProducers, setSongProducers] = useState({});
   const [songWriters, setSongWriters] = useState({});
+  const [albumBio, setAlbumBio] = useState({});
   const [socialHandles, setSocialHandles] = useState({
     instagram: null,
     twitter: null,
@@ -392,14 +520,20 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
         twitter: data.songInfo.artist_twitter,
         facebook: data.songInfo.artist_facebook,
       });
+      setAlbumBio(JSON.parse(albumData.albumInfo.album_bio).dom);
     }
   }, [data]);
   if (error) {
     console.log("Error fetching artist bio", error);
   }
+  if (albumDataError) {
+    console.log("Error fetching album bio", albumDataError);
+  }
   return loading ||
+    albumDataLoading ||
     Object.keys(artistBio).length === 0 ||
     Object.keys(songBio).length === 0 ||
+    Object.keys(albumBio).length === 0 ||
     Object.keys(songProducers).length === 0 ||
     Object.keys(songWriters).length === 0 ? (
     <Spinner animation="border" role="status" variant="light">
@@ -435,6 +569,16 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
             socialHandles={socialHandles}
           />
         </Tab>
+        {data.songInfo.is_song_on_album && (
+          <Tab eventKey="Album" title="Album">
+            <AlbumInfo
+              album_bio={albumBio}
+              album_art={albumData.albumInfo.album_art}
+              album_release_date={albumData.albumInfo.album_release_date}
+              album_name={albumData.albumInfo.album_name}
+            />
+          </Tab>
+        )}
         <Tab eventKey="Song" title="Song">
           <SongInfo
             song_bio={songBio}
