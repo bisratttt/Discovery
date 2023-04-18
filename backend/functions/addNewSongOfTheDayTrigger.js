@@ -26,21 +26,46 @@ exports = async function() {
   var dbName = "discovery";
   var songCollName = "song";
   var commentCollName = "comment";
+  var songSubmissionCollName = "userSongSuggestion"
   const db = context.services.get(serviceName).db(dbName);
   const songCollection = db.collection(songCollName);
   const commentCollection = db.collection(commentCollName);
+  const songSubmissionCollection = db.collection(songSubmissionCollName)
+  // removing data from previous day
   try {
     // make previous day album invisible
-    await songCollection.updateMany({"is_visible": false}, {"is_visible": true});
+    await songCollection.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
     // deletes all the comments in the db (for a specific song)
     await commentCollection.deleteMany({});
+    // delete all song suggestions from users
+    await songSubmissionCollection.deleteMany({});
+    console.log("Finished removing data from previous day")
   } catch(err) {
-    return {newSong: false, error: err.message}
+    console.error("Error removing data from previous day: ", err)
+    return
   }
-  // try {
-  //   const newSong = await collection.insertOne({})
-  // } catch(err) {
+  // adding data for new day
+  try {
+    const spotifyFunctionName = "fetchSpotifySong"
+    const youtubeFunctionName = "searchYoutubeSong"
+    const songInfoFunctionName = "getDataFromGenius"
+    const track = await context.functions.execute(spotifyFunctionName)
+    const artists = track.artists.reduce((artistBuilder, artist) => (artistBuilder + artist.name + ' , '), '').slice(0, -3);
+    const videoId = await context.functions.execute(youtubeFunctionName, track.name + " " + artists)
+
+    newSong = await songCollection.insertOne({
+      album_name: track.album.name,
+      artist: artists,
+      is_visible: true,
+      song_name: track.name,
+      spotify_link: track.external_urls.spotify,
+      youtube_id: videoId
+    });
     
-  // }
-  return {newSong: true}
+    await context.functions.execute(songInfoFunctionName);
+    console.log("Finished adding new song to db")
+  } catch(err) {
+    console.error("Error adding new song to db: ", err)
+    return
+  }
 };

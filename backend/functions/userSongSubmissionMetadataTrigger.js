@@ -45,7 +45,9 @@ exports = async function(changeEvent) {
       youtubeID = await context.functions.execute('searchYoutubeSong', changeEvent.fullDocument.song_name + " " + changeEvent.fullDocument.artist );
       console.log("SOng submission trigger")
       console.log("Document: ", changeEvent.fullDocument)
-      await collection.updateOne({ _id: docId }, { $set: {time: new Date(), youtube_id: youtubeID}});
+    
+      await collection.updateOne({ _id: docId },  
+    { $set: {time: new Date(), youtube_id: youtubeID}});
   } catch(err) {
     console.error("There was an error adding/updating the time", err)
     
