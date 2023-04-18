@@ -19,6 +19,7 @@ import HorizontalCollapse from "./HorizontalCollapse.js";
 import { useMediaQuery } from "@mui/material";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useToggleComponents } from "../contexts/ToggleComponents";
+import { QUERY_ALBUMINFO } from "../queries/albumInfoQuery";
 
 const ProducerLink = ({ producer }) => {
   return (
@@ -186,19 +187,11 @@ function ArtistInfo({
     </Container>
   );
 }
-function AlbumInfo({
-  album_bio,
-  album_name,
-  album_art,
-  song_album,
-  song_producers,
-  song_writers,
-  song_release_date,
-}) {
+function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
   const targetRowRef = useRef(null);
   const isSmallScreen = useMediaQuery("(max-width:765px)");
   const isMedScreen = useMediaQuery("(max-width:1270px)");
-  const scrollSongMoreDetails = () => {
+  const scrollAlbumMoreDetails = () => {
     const container = document.querySelector(".container-scroll");
     const targetTop = targetRowRef.current.offsetTop - 48;
 
@@ -222,7 +215,7 @@ function AlbumInfo({
                 isSmallScreen ? "center" : "start"
               }`}
             >
-              <Image height={isMedScreen ? 250 : 320} src={song_art} />
+              <Image height={isMedScreen ? 250 : 320} src={album_art} />
             </Col>
             <Col
               className={`d-flex flex-${
@@ -242,59 +235,7 @@ function AlbumInfo({
                     whiteSpace: "nowrap",
                   }}
                 >
-                  Credits
-                </Col>
-              </Row>
-              <Row>
-                <Col
-                  className={`d-flex flex-column`}
-                  style={{ padding: "5px 0" }}
-                >
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Producers:
-                  </span>
-                  <div
-                    className={`d-flex justify-content-center flex-wrap`}
-                    style={{ flexWrap: "wrap" }}
-                  >
-                    {song_producers.map((producer, index) => (
-                      <span key={index} style={{ margin: "0 10px 5px 0" }}>
-                        <ProducerLink producer={producer} />
-                      </span>
-                    ))}
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col
-                  className={`d-flex flex-column`}
-                  style={{ padding: "5px 0" }}
-                >
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Writers:
-                  </span>
-                  <div
-                    className={`d-flex justify-content-center flex-wrap`}
-                    style={{ flexWrap: "wrap" }}
-                  >
-                    {song_writers.map((writer, index) => (
-                      <span key={index} style={{ margin: "0 10px 5px 0" }}>
-                        <ProducerLink producer={writer} />
-                      </span>
-                    ))}
-                  </div>
+                  Tracks
                 </Col>
               </Row>
               <Row>
@@ -315,7 +256,7 @@ function AlbumInfo({
                     className={`d-flex justify-content-center`}
                     style={{ marginBottom: "10px" }}
                   >
-                    <span>{song_release_date}</span>
+                    <span>{album_release_date}</span>
                   </div>
                 </Col>
               </Row>
@@ -324,20 +265,20 @@ function AlbumInfo({
           <Row>
             <Col className={`text-start`}>
               <h1 style={{ fontSize: "clamp(3rem,5vw,3.5rem)" }}>
-                {song_name}
+                {album_name}
               </h1>
             </Col>
           </Row>
           <Row>
             <Col className="text-start">
-              <RecursiveRenderer data={song_bio.children[0]} />
+              <RecursiveRenderer data={album_bio.children[0]} />
             </Col>
           </Row>
           <Row>
             <Col>
               <Button
                 className="bg-transparent border-0"
-                onClick={scrollSongMoreDetails}
+                onClick={scrollAlbumMoreDetails}
               >
                 <KeyboardDoubleArrowDownIcon />
               </Button>
@@ -348,7 +289,7 @@ function AlbumInfo({
 
       <Row className="text-start mb-5" ref={targetRowRef}>
         <Col>
-          {song_bio.children.slice(1).map((child, index) => (
+          {album_bio.children.slice(1).map((child, index) => (
             <RecursiveRenderer key={index} data={child} fluid />
           ))}
         </Col>
@@ -368,12 +309,10 @@ function AlbumInfo({
     </Container>
   );
 }
-
 function SongInfo({
   song_bio,
   song_name,
   song_art,
-  song_album,
   song_producers,
   song_writers,
   song_release_date,
@@ -549,14 +488,21 @@ function SongInfo({
     </Container>
   );
 }
-
 function ArtistSongInfo({ active_tab = "Artist" }) {
   const { loading, error, data } = useQuery(QUERY_SONGINFO);
+  const {
+    loading: albumDataLoading,
+    error: albumDataError,
+    data: albumData,
+  } = useQuery(QUERY_ALBUMINFO);
+  console.log(albumData);
+  console.log(albumDataError);
   const { setOpenSongInfo } = useToggleComponents();
   const [artistBio, setArtistBio] = useState({});
   const [songBio, setSongBio] = useState({});
   const [songProducers, setSongProducers] = useState({});
   const [songWriters, setSongWriters] = useState({});
+  const [albumBio, setAlbumBio] = useState({});
   const [socialHandles, setSocialHandles] = useState({
     instagram: null,
     twitter: null,
@@ -574,14 +520,20 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
         twitter: data.songInfo.artist_twitter,
         facebook: data.songInfo.artist_facebook,
       });
+      setAlbumBio(JSON.parse(albumData.albumInfo.album_bio).dom);
     }
   }, [data]);
   if (error) {
     console.log("Error fetching artist bio", error);
   }
+  if (albumDataError) {
+    console.log("Error fetching album bio", albumDataError);
+  }
   return loading ||
+    albumDataLoading ||
     Object.keys(artistBio).length === 0 ||
     Object.keys(songBio).length === 0 ||
+    Object.keys(albumBio).length === 0 ||
     Object.keys(songProducers).length === 0 ||
     Object.keys(songWriters).length === 0 ? (
     <Spinner animation="border" role="status" variant="light">
@@ -617,14 +569,16 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
             socialHandles={socialHandles}
           />
         </Tab>
-        <Tab eventKey="Album" title="Album">
-          <AlbumInfo
-            album_bio={albumBio}
-            album_art={data.albumInfo.album_art}
-            album_release_date={data.albumInfo.artist_release_date}
-            album_name={data.albumInfo.album_name}
-          />
-        </Tab>
+        {data.songInfo.is_song_on_album && (
+          <Tab eventKey="Album" title="Album">
+            <AlbumInfo
+              album_bio={albumBio}
+              album_art={albumData.albumInfo.album_art}
+              album_release_date={albumData.albumInfo.album_release_date}
+              album_name={albumData.albumInfo.album_name}
+            />
+          </Tab>
+        )}
         <Tab eventKey="Song" title="Song">
           <SongInfo
             song_bio={songBio}
