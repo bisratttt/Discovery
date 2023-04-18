@@ -70,6 +70,7 @@ exports = async function() {
     const db = context.services.get("mongodb-atlas").db("discovery")
     const songColl = db.collection("song");
     const songInfoColl = db.collection("songInfo");
+    const albumInfoColl = db.collection("albumInfo");
     let songQuery = `nothing`
     let songId = ""
     try {
@@ -83,7 +84,8 @@ exports = async function() {
   var {gSongId, gArtistId} = await getSongId(songQuery);
   const song = (await getSong(gSongId)).response.song;
   const artist = (await getArtist(gArtistId)).response.artist;
-  const album = (await getAlbum(song.album.id));
+  const album = (await getAlbum(song.album.id)).response.album;
+  console.log(album);
   try {
     await songInfoColl.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
     await songInfoColl.insertOne({artist_name: song.primary_artist.name, 
@@ -105,7 +107,7 @@ exports = async function() {
     await albumInfoColl.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
     await albumInfoColl.insertOne({
           album_name: album.name, 
-          album_bio: JSON.stringify(album.description_annotation.annotations.body),
+          album_bio: JSON.stringify(album.description_annotation.annotations[0].body),
           album_art: album.cover_art_url,
           album_release_date: album.release_date_for_display, 
           is_visible: true ,
@@ -113,5 +115,5 @@ exports = async function() {
   } catch (err) {
       console.error("There was an error adding the song info: ", err)
   }
-  return {song, artist, album}
+   return {album}
 };
