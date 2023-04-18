@@ -85,12 +85,11 @@ exports = async function() {
   const song = (await getSong(gSongId)).response.song;
   const artist = (await getArtist(gArtistId)).response.artist;
   const album = (await getAlbum(song.album.id)).response.album;
-  console.log(album);
   try {
     await songInfoColl.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
     await songInfoColl.insertOne({artist_name: song.primary_artist.name, 
           song_id: songId, 
-          song_name: song.song_name, 
+          song_name: song.title_with_featured, 
           artist_bio: JSON.stringify(artist.description),
           song_bio: JSON.stringify(song.description),
           artist_twitter: artist.twitter_name,
