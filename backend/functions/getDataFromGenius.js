@@ -49,6 +49,22 @@ exports = async function() {
       } catch (error) {
         console.error('Error fetching songs from id:', error);
       }
+    }
+    
+      async function getAlbum(id) {
+      try {
+        const response = await context.http.get({
+          url: `https://api.genius.com/albums/${encodeURIComponent(id)}`,
+          headers: {
+            'Authorization': [`Bearer ${geniusAccessToken}`]
+          }
+        });
+  
+        const data = EJSON.parse(response.body.text());
+        return data
+      } catch (error) {
+        console.error('Error fetching album from id:', error);
+      }
     }    
   
     const db = context.services.get("mongodb-atlas").db("discovery")
@@ -67,6 +83,7 @@ exports = async function() {
   var {gSongId, gArtistId} = await getSongId(songQuery);
   const song = (await getSong(gSongId)).response.song;
   const artist = (await getArtist(gArtistId)).response.artist;
+  const album = (await getAlbum(song.album.id));
   try {
     await songInfoColl.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
     await songInfoColl.insertOne({artist_name: song.primary_artist.name, 
@@ -85,8 +102,16 @@ exports = async function() {
           song_release_date: song.release_date_for_display, 
           is_visible: true ,
           });
+    await albumInfoColl.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
+    await albumInfoColl.insertOne({
+          album_name: album.name, 
+          album_bio: JSON.stringify(album.description_annotation.annotations.body),
+          album_image_url: album.cover_art_url,
+          album_release_date: album.release_date_for_display, 
+          is_visible: true ,
+          });
   } catch (err) {
       console.error("There was an error adding the song info: ", err)
   }
-  return {song, artist}
+  return {song, artist, album}
 };
