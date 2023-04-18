@@ -49,6 +49,7 @@ exports = async function(changeEvent) {
       
       replacement = {
         username: changeEvent.fullDocument.username,
+        user_id: changeEvent.fullDocument.user_id,
         song_name: changeEvent.fullDocument.song_name,
         artist: changeEvent.fullDocument.artist,
         note: changeEvent.fullDocument.artist,
