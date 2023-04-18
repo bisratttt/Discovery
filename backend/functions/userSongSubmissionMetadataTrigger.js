@@ -52,7 +52,7 @@ exports = async function(changeEvent) {
         user_id: changeEvent.fullDocument.user_id,
         song_name: changeEvent.fullDocument.song_name,
         artist: changeEvent.fullDocument.artist,
-        note: changeEvent.fullDocument.artist,
+        note: changeEvent.fullDocument.note,
         youtube_id: youtubeID,
         time: new Date()
       };
