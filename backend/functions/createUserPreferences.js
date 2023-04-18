@@ -25,7 +25,10 @@ exports = async (user) => {
                                 instagram_handle: "", 
                                 tiktok_handle: "", 
                                 twitter_handle: "", 
-                                youtube_handle: ""
+                                youtube_handle: "",
+                                applemusic_handle: "",
+                                spotify_handle: "",
+                                soundcloud_handle: ""
                               });
   } catch(err) {
     console.error("Error creating user preferences: ", err)
