@@ -186,6 +186,188 @@ function ArtistInfo({
     </Container>
   );
 }
+function AlbumInfo({
+  album_bio,
+  album_name,
+  album_art,
+  song_album,
+  song_producers,
+  song_writers,
+  song_release_date,
+}) {
+  const targetRowRef = useRef(null);
+  const isSmallScreen = useMediaQuery("(max-width:765px)");
+  const isMedScreen = useMediaQuery("(max-width:1270px)");
+  const scrollSongMoreDetails = () => {
+    const container = document.querySelector(".container-scroll");
+    const targetTop = targetRowRef.current.offsetTop - 48;
+
+    container.scrollTo({
+      top: targetTop,
+      behavior: "smooth",
+    });
+  };
+  return (
+    <Container
+      className="text-white py-2 container-scroll"
+      style={{ height: "77vh", overflowY: "auto" }}
+    >
+      <Row style={{ minHeight: "77vh" }}>
+        <Col className="d-flex flex-column justify-content-between">
+          <Row className="pt-3">
+            <Col
+              xs={12}
+              md={6}
+              className={`d-flex justify-content-${
+                isSmallScreen ? "center" : "start"
+              }`}
+            >
+              <Image height={isMedScreen ? 250 : 320} src={song_art} />
+            </Col>
+            <Col
+              className={`d-flex flex-${
+                isSmallScreen ? "row" : "column"
+              } justify-content-around pt-3`}
+              xs={12}
+              md={6}
+            >
+              <Row>
+                <Col
+                  className={`d-flex justify-content-center`}
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: "20px",
+                    color: "white",
+                    padding: "10px 0",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Credits
+                </Col>
+              </Row>
+              <Row>
+                <Col
+                  className={`d-flex flex-column`}
+                  style={{ padding: "5px 0" }}
+                >
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      color: "white",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Producers:
+                  </span>
+                  <div
+                    className={`d-flex justify-content-center flex-wrap`}
+                    style={{ flexWrap: "wrap" }}
+                  >
+                    {song_producers.map((producer, index) => (
+                      <span key={index} style={{ margin: "0 10px 5px 0" }}>
+                        <ProducerLink producer={producer} />
+                      </span>
+                    ))}
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col
+                  className={`d-flex flex-column`}
+                  style={{ padding: "5px 0" }}
+                >
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      color: "white",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Writers:
+                  </span>
+                  <div
+                    className={`d-flex justify-content-center flex-wrap`}
+                    style={{ flexWrap: "wrap" }}
+                  >
+                    {song_writers.map((writer, index) => (
+                      <span key={index} style={{ margin: "0 10px 5px 0" }}>
+                        <ProducerLink producer={writer} />
+                      </span>
+                    ))}
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <Col
+                  className={`d-flex flex-column`}
+                  style={{ padding: "5px 0" }}
+                >
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      color: "white",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    Release Date:
+                  </span>
+                  <div
+                    className={`d-flex justify-content-center`}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <span>{song_release_date}</span>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col className={`text-start`}>
+              <h1 style={{ fontSize: "clamp(3rem,5vw,3.5rem)" }}>
+                {song_name}
+              </h1>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="text-start">
+              <RecursiveRenderer data={song_bio.children[0]} />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Button
+                className="bg-transparent border-0"
+                onClick={scrollSongMoreDetails}
+              >
+                <KeyboardDoubleArrowDownIcon />
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+
+      <Row className="text-start mb-5" ref={targetRowRef}>
+        <Col>
+          {song_bio.children.slice(1).map((child, index) => (
+            <RecursiveRenderer key={index} data={child} fluid />
+          ))}
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <span className="pe-3">Retrieved from</span>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://genius.com"
+          >
+            <Image height={30} src="/Genius_logo.png" />
+          </a>
+        </Col>
+      </Row>
+    </Container>
+  );
+}
 
 function SongInfo({
   song_bio,
@@ -435,6 +617,14 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
             artist_image_url={data.songInfo.artist_image_url}
             artist_name={data.songInfo.artist_name}
             socialHandles={socialHandles}
+          />
+        </Tab>
+        <Tab eventKey="Album" title="Album">
+          <AlbumInfo
+            album_bio={albumBio}
+            album_art={data.albumInfo.album_art}
+            album_release_date={data.albumInfo.artist_release_date}
+            album_name={data.albumInfo.album_name}
           />
         </Tab>
         <Tab eventKey="Song" title="Song">
