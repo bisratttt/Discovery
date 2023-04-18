@@ -115,5 +115,5 @@ exports = async function() {
   } catch (err) {
       console.error("There was an error adding the song info: ", err)
   }
-   return {album}
+   return {song, artist, album}
 };
