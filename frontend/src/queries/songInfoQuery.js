@@ -6,6 +6,9 @@ export const QUERY_SONGINFO = gql`
       _id
       artist_name
       artist_bio
+      artist_twitter
+      artist_instagram
+      artist_facebook
       song_name
       song_bio
       song_id
