@@ -48,7 +48,6 @@ exports = async function(changeEvent) {
       console.log("Document: ", changeEvent.fullDocument)
       
       replacement = {
-        _id: docId,
         username: changeEvent.fullDocument.username,
         song_name: changeEvent.fullDocument.song_name,
         artist: changeEvent.fullDocument.artist,
