@@ -72,8 +72,13 @@ function ArtistInfo({
   socialHandles,
 }) {
   const targetRowRef = useRef(null);
+  const containerRef = useRef(null);
+  const introRef = useRef(null);
   const isSmallScreen = useMediaQuery("(max-width:765px)");
   const isMedScreen = useMediaQuery("(max-width:1270px)");
+  const [showArrowIcon, setShowArrowIcon] = useState(true);
+  const handleScroll = () =>
+    setShowArrowIcon(containerRef.current.scrollTop <= 0);
   const scrollArtistMoreDetails = () => {
     const container = document.querySelector(".container-scroll");
     const targetTop = targetRowRef.current.offsetTop - 48;
@@ -85,6 +90,8 @@ function ArtistInfo({
   };
   return (
     <Container
+      ref={containerRef}
+      onScroll={handleScroll}
       className="text-white py-2 container-scroll"
       style={{ height: "77vh", overflowY: "auto" }}
     >
@@ -98,12 +105,17 @@ function ArtistInfo({
                 isSmallScreen ? "center" : "start"
               }`}
             >
-              <Image height={isMedScreen ? 250 : 320} src={artist_image_url} />
+              <Image
+                style={{ objectFit: "contain" }}
+                width="100%"
+                height="auto"
+                src={artist_image_url}
+              />
             </Col>
             <Col
               className={`d-flex flex-${
                 isSmallScreen ? "row" : "column"
-              } justify-content-around pt-3`}
+              } justify-content-start pt-3`}
               xs={12}
               md={4}
             >
@@ -118,7 +130,7 @@ function ArtistInfo({
                   }${socialHandles[platform] ?? ""}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-white text-decoration-none"
+                  className="text-white text-decoration-none m-2"
                 >
                   <Row>
                     <Col xs={12} sm={2}>
@@ -154,12 +166,14 @@ function ArtistInfo({
           </Row>
           <Row>
             <Col>
-              <Button
-                className="bg-transparent border-0"
-                onClick={scrollArtistMoreDetails}
-              >
-                <KeyboardDoubleArrowDownIcon />
-              </Button>
+              {showArrowIcon && (
+                <Button
+                  className="bg-transparent border-0"
+                  onClick={scrollArtistMoreDetails}
+                >
+                  <KeyboardDoubleArrowDownIcon />
+                </Button>
+              )}
             </Col>
           </Row>
         </Col>
@@ -189,8 +203,12 @@ function ArtistInfo({
 }
 function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
   const targetRowRef = useRef(null);
+  const containerRef = useRef(null);
   const isSmallScreen = useMediaQuery("(max-width:765px)");
   const isMedScreen = useMediaQuery("(max-width:1270px)");
+  const [showArrowIcon, setShowArrowIcon] = useState(true);
+  const handleScroll = () =>
+    setShowArrowIcon(containerRef.current.scrollTop <= 0);
   const scrollAlbumMoreDetails = () => {
     const container = document.querySelector(".container-scroll");
     const targetTop = targetRowRef.current.offsetTop - 48;
@@ -203,6 +221,8 @@ function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
   return (
     <Container
       className="text-white py-2 container-scroll"
+      ref={containerRef}
+      onScroll={handleScroll}
       style={{ height: "77vh", overflowY: "auto" }}
     >
       <Row style={{ minHeight: "77vh" }}>
@@ -215,7 +235,12 @@ function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
                 isSmallScreen ? "center" : "start"
               }`}
             >
-              <Image height={isMedScreen ? 250 : 320} src={album_art} />
+              <Image
+                width="100%"
+                height="auto"
+                style={{ objectFit: "contain" }}
+                src={album_art}
+              />
             </Col>
             <Col
               className={`d-flex flex-${
@@ -239,25 +264,25 @@ function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
                 </Col>
               </Row>
               <Row>
-                <Col
-                  className={`d-flex flex-column`}
-                  style={{ padding: "5px 0" }}
-                >
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Release Date:
-                  </span>
-                  <div
-                    className={`d-flex justify-content-center`}
-                    style={{ marginBottom: "10px" }}
-                  >
-                    <span>{album_release_date}</span>
-                  </div>
+                <Col>
+                  <Row>
+                    <Col className="p-0 d-flex justify-content-start ps-1">
+                      <small
+                        className="text-muted pe-2"
+                        style={{
+                          fontWeight: "bold",
+                          color: "white",
+                        }}
+                      >
+                        Release Date
+                      </small>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="d-flex justify-content-start ps-1">
+                      <span>{album_release_date}</span>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Col>
@@ -276,12 +301,14 @@ function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
           </Row>
           <Row>
             <Col>
-              <Button
-                className="bg-transparent border-0"
-                onClick={scrollAlbumMoreDetails}
-              >
-                <KeyboardDoubleArrowDownIcon />
-              </Button>
+              {showArrowIcon && (
+                <Button
+                  className="bg-transparent border-0"
+                  onClick={scrollAlbumMoreDetails}
+                >
+                  <KeyboardDoubleArrowDownIcon />
+                </Button>
+              )}
             </Col>
           </Row>
         </Col>
@@ -318,8 +345,12 @@ function SongInfo({
   song_release_date,
 }) {
   const targetRowRef = useRef(null);
+  const containerRef = useRef(null);
   const isSmallScreen = useMediaQuery("(max-width:765px)");
   const isMedScreen = useMediaQuery("(max-width:1270px)");
+  const [showArrowIcon, setShowArrowIcon] = useState(true);
+  const handleScroll = () =>
+    setShowArrowIcon(containerRef.current.scrollTop <= 0);
   const scrollSongMoreDetails = () => {
     const container = document.querySelector(".container-scroll");
     const targetTop = targetRowRef.current.offsetTop - 48;
@@ -331,6 +362,8 @@ function SongInfo({
   };
   return (
     <Container
+      ref={containerRef}
+      onScroll={handleScroll}
       className="text-white py-2 container-scroll"
       style={{ height: "77vh", overflowY: "auto" }}
     >
@@ -344,10 +377,15 @@ function SongInfo({
                 isSmallScreen ? "center" : "start"
               }`}
             >
-              <Image height={isMedScreen ? 200 : 280} src={song_art} />
+              <Image
+                width="100%"
+                height="auto"
+                src={song_art}
+                style={{ objectFit: "contain" }}
+              />
             </Col>
             <Col
-              className={`d-flex justify-content-between flex-column pt-3`}
+              className={`d-flex justify-content-between flex-column pt-3 ps-3`}
               xs={12}
               md={6}
             >
@@ -369,14 +407,14 @@ function SongInfo({
                 <Col>
                   <Row>
                     <Col className="p-0 d-flex justify-content-start ps-1">
-                      <span
-                        className="text-muted"
+                      <small
+                        className="text-muted "
                         style={{
                           fontWeight: "bold",
                         }}
                       >
                         Producers
-                      </span>
+                      </small>
                     </Col>
                   </Row>
                   <Row>
@@ -399,7 +437,7 @@ function SongInfo({
                 <Col>
                   <Row>
                     <Col className="p-0 d-flex justify-content-start ps-1">
-                      <span
+                      <small
                         className="text-muted"
                         style={{
                           fontWeight: "bold",
@@ -407,7 +445,7 @@ function SongInfo({
                         }}
                       >
                         Writers
-                      </span>
+                      </small>
                     </Col>
                   </Row>
                   <Row>
@@ -424,19 +462,25 @@ function SongInfo({
                 </Col>
               </Row>
               <Row>
-                <Col className={`p-0 d-flex justifyc-content-start`}>
-                  <span
-                    className="text-muted pe-2 ps-1"
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                    }}
-                  >
-                    Release Date:
-                  </span>
-                  <div className={`d-flex justify-content-center`}>
-                    <span>{song_release_date}</span>
-                  </div>
+                <Col>
+                  <Row>
+                    <Col className="p-0 d-flex justify-content-start ps-1">
+                      <small
+                        className="text-muted pe-2"
+                        style={{
+                          fontWeight: "bold",
+                          color: "white",
+                        }}
+                      >
+                        Release Date
+                      </small>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="d-flex justify-content-start ps-1">
+                      <span>{song_release_date}</span>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Col>
@@ -455,12 +499,14 @@ function SongInfo({
           </Row>
           <Row>
             <Col>
-              <Button
-                className="bg-transparent border-0"
-                onClick={scrollSongMoreDetails}
-              >
-                <KeyboardDoubleArrowDownIcon />
-              </Button>
+              {showArrowIcon && (
+                <Button
+                  className="bg-transparent border-0"
+                  onClick={scrollSongMoreDetails}
+                >
+                  <KeyboardDoubleArrowDownIcon />
+                </Button>
+              )}
             </Col>
           </Row>
         </Col>
