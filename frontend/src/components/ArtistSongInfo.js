@@ -378,12 +378,9 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
   const [songProducers, setSongProducers] = useState({});
   const [songWriters, setSongWriters] = useState({});
   const [socialHandles, setSocialHandles] = useState({
-    youtube: null,
     instagram: null,
-    spotify: null,
-    apple_music: null,
-    tiktok: null,
     twitter: null,
+    facebook: null,
   });
 
   useEffect(() => {
@@ -392,6 +389,11 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
       setSongBio(JSON.parse(data.songInfo.song_bio).dom);
       setSongProducers(JSON.parse(data.songInfo.song_producers));
       setSongWriters(JSON.parse(data.songInfo.song_writers));
+      setSocialHandles({
+        instagram: data.songInfo.artist_instagram,
+        twitter: data.songInfo.artist_twitter,
+        facebook: data.songInfo.artist_facebook,
+      });
     }
   }, [data]);
   if (error) {
