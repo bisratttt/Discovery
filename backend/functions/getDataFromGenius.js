@@ -100,7 +100,8 @@ exports = async function() {
           song_album: song.album.name ,
           song_producers: JSON.stringify(song.producer_artists),
           song_writers: JSON.stringify(song.writer_artists),
-          song_release_date: song.release_date_for_display, 
+          song_release_date: song.release_date_for_display,
+          is_song_on_album: song.album.id !== null,
           is_visible: true ,
           });
     await albumInfoColl.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
