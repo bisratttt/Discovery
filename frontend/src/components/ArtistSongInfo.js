@@ -405,12 +405,10 @@ function SongInfo({
                 isSmallScreen ? "center" : "start"
               }`}
             >
-              <Image height={isMedScreen ? 250 : 320} src={song_art} />
+              <Image height={isMedScreen ? 200 : 280} src={song_art} />
             </Col>
             <Col
-              className={`d-flex flex-${
-                isSmallScreen ? "row" : "column"
-              } justify-content-around pt-3`}
+              className={`d-flex justify-content-between flex-column pt-3`}
               xs={12}
               md={6}
             >
@@ -429,75 +427,75 @@ function SongInfo({
                 </Col>
               </Row>
               <Row>
-                <Col
-                  className={`d-flex flex-column`}
-                  style={{ padding: "5px 0" }}
-                >
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Producers:
-                  </span>
-                  <div
-                    className={`d-flex justify-content-center flex-wrap`}
-                    style={{ flexWrap: "wrap" }}
-                  >
-                    {song_producers.map((producer, index) => (
-                      <span key={index} style={{ margin: "0 10px 5px 0" }}>
-                        <ProducerLink producer={producer} />
+                <Col>
+                  <Row>
+                    <Col className="p-0 d-flex justify-content-start ps-1">
+                      <span
+                        className="text-muted"
+                        style={{
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Producers
                       </span>
-                    ))}
-                  </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="p-0">
+                      <div
+                        className={`d-flex justify-content-start flex-wrap`}
+                        style={{ flexWrap: "wrap" }}
+                      >
+                        {song_producers.map((producer, index) => (
+                          <span key={index} className="px-1">
+                            <ProducerLink producer={producer} />
+                          </span>
+                        ))}
+                      </div>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
               <Row>
-                <Col
-                  className={`d-flex flex-column`}
-                  style={{ padding: "5px 0" }}
-                >
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      color: "white",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Writers:
-                  </span>
-                  <div
-                    className={`d-flex justify-content-center flex-wrap`}
-                    style={{ flexWrap: "wrap" }}
-                  >
-                    {song_writers.map((writer, index) => (
-                      <span key={index} style={{ margin: "0 10px 5px 0" }}>
-                        <ProducerLink producer={writer} />
+                <Col>
+                  <Row>
+                    <Col className="p-0 d-flex justify-content-start ps-1">
+                      <span
+                        className="text-muted"
+                        style={{
+                          fontWeight: "bold",
+                          color: "white",
+                        }}
+                      >
+                        Writers
                       </span>
-                    ))}
-                  </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col className="p-0">
+                      <div className={`d-flex justify-content-start flex-wrap`}>
+                        {song_writers.map((writer, index) => (
+                          <span key={index} className="px-1">
+                            <ProducerLink producer={writer} />
+                          </span>
+                        ))}
+                      </div>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
               <Row>
-                <Col
-                  className={`d-flex flex-column`}
-                  style={{ padding: "5px 0" }}
-                >
+                <Col className={`p-0 d-flex justifyc-content-start`}>
                   <span
+                    className="text-muted pe-2 ps-1"
                     style={{
                       fontWeight: "bold",
                       color: "white",
-                      marginBottom: "5px",
                     }}
                   >
                     Release Date:
                   </span>
-                  <div
-                    className={`d-flex justify-content-center`}
-                    style={{ marginBottom: "10px" }}
-                  >
+                  <div className={`d-flex justify-content-center`}>
                     <span>{song_release_date}</span>
                   </div>
                 </Col>
