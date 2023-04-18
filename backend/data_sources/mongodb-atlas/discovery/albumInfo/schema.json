@@ -1,1 +1,50 @@
-{}
+{
+    "bsonType": "object",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "album_bio": {
+            "bsonType": "string"
+        },
+        "album_image_url": {
+            "bsonType": "string"
+        },
+        "album_name": {
+            "bsonType": "string"
+        },
+        "album_release_date": {
+            "bsonType": "string"
+        },
+        "album_track_count": {
+            "bsonType": "string"
+        },
+        "album_tracks": {
+            "bsonType": "string"
+        },
+        "is_visible": {
+            "bsonType": "bool"
+        }
+    },
+    "required": [
+        "album_name",
+        "album_bio",
+        "album_track_count",
+        "album_release_date",
+        "_id",
+        "is_visible"
+    ],
+    "title": "albumInfo"
+}
