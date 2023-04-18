@@ -8,6 +8,7 @@ import { BSON } from "realm-web";
 import { useRealmApp } from "../contexts/RealmApp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { FETCH_SUBMISSIONS } from "../queries/SongSubmissionQuery";
 
 export default function SongSubmissionEditor({ onHide, refetch }) {
   const [artist, setArtist] = useState("");
@@ -19,7 +20,22 @@ export default function SongSubmissionEditor({ onHide, refetch }) {
   const [
     addSongSubmission,
     { loading: mutationLoading, reset, error: mutationError },
-  ] = useMutation(ADD_SUBMISSION);
+  ] = useMutation(ADD_SUBMISSION, {
+    update: (cache, { data: { insertOneUserSongSubmission } }) => {
+      const { userSongSubmissions } = cache.readQuery({
+        query: FETCH_SUBMISSIONS,
+      });
+      cache.writeQuery({
+        query: FETCH_SUBMISSIONS,
+        data: {
+          userSongSubmissions: [
+            { ...insertOneUserSongSubmission },
+            ...userSongSubmissions,
+          ],
+        },
+      });
+    },
+  });
   const ErrorAlert = useErrorAlert({
     error: error,
     clearError: () => setError(""),
@@ -43,7 +59,7 @@ export default function SongSubmissionEditor({ onHide, refetch }) {
           note: note,
         },
         onCompleted: () => {
-          refetch();
+          setTimeout(() => refetch(), 2000);
           onHide(true);
         },
       });

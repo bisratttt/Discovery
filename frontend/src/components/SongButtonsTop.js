@@ -6,8 +6,7 @@ import { Col, Button } from "react-bootstrap";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 
 export default function SongButtonsTop({ setShareModal }) {
-  const { setOpenReview, setOpenSongInfo, setOpenSongSubmissionList } =
-    useToggleComponents();
+  const { setOpenSongInfo, setOnlyOneStateTrue } = useToggleComponents();
   return (
     <>
       <Col className="d-flex justify-content-start">
@@ -16,14 +15,7 @@ export default function SongButtonsTop({ setShareModal }) {
             background: "transparent",
             borderColor: "transparent",
           }}
-          onClick={() => {
-            setOpenReview(false);
-            setOpenSongSubmissionList(false);
-            setOpenSongInfo((openSongInfo) => ({
-              openInfo: !openSongInfo.openInfo,
-              active_tab: openSongInfo.active_tab,
-            }));
-          }}
+          onClick={() => setOnlyOneStateTrue(setOpenSongInfo)}
         >
           <FontAwesomeIcon icon={faCircleInfo} size="lg" />
         </Button>

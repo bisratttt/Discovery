@@ -26,11 +26,12 @@ import {
 import { useMutation, useQuery } from "@apollo/client";
 import { BSON } from "realm-web";
 import { getPlatformIcon } from "../utils/utils";
+import DeleteAccountWarningModal from "./DeleteAccountWarningModal";
 
 export default function ProfileCard() {
   const [editMode, setEditMode] = useState(false);
   const { currentUser } = useRealmApp();
-  const { setOpenProfile } = useToggleComponents();
+  const { setOpenProfile, setOnlyOneStateTrue } = useToggleComponents();
   const [socialHandles, setSocialHandles] = useState({
     youtube: null,
     instagram: null,
@@ -39,6 +40,8 @@ export default function ProfileCard() {
     twitter: null,
   });
   const [bio, setBio] = useState("");
+  const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
+
   const { loading: queryLoading, data: queryData } = useQuery(
     GET_USER_PREFERENCES_ID,
     {
@@ -123,7 +126,6 @@ export default function ProfileCard() {
       onError: (err) => console.error("Error updating preferences: ", err),
     });
   };
-  console.log(socialHandles);
   return (
     <>
       {queryLoading && (
@@ -144,7 +146,7 @@ export default function ProfileCard() {
         <Card.Header>
           <Button
             className="bg-transparent border-0 position-absolute start-0 top-0"
-            onClick={() => setOpenProfile(false)}
+            onClick={() => setOnlyOneStateTrue(setOpenProfile)}
           >
             <FontAwesomeIcon size="lg" icon={faXmark} />
           </Button>
@@ -273,7 +275,22 @@ export default function ProfileCard() {
                 </Form>
               </Col>
             </Row>
+            <Row className="px-0 mx-0 mt-3">
+              <Col xs={12} className="darker-container px-0 mx-0">
+                <Button
+                  className="w-100 bg-transparent"
+                  style={{ borderColor: "maroon" }}
+                  onClick={() => setShowDeleteWarningModal(true)}
+                >
+                  Delete Account
+                </Button>
+              </Col>
+            </Row>
           </Row>
+          <DeleteAccountWarningModal
+            onHide={() => setShowDeleteWarningModal(false)}
+            show={showDeleteWarningModal}
+          />
         </Card.Body>
       </Card>
     </>

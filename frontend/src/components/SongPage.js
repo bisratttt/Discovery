@@ -63,7 +63,6 @@ function YoutubeEmbed({ srcId }) {
 const isFirstVisitToday = () => {
   const today = new Date().toISOString().slice(0, 10);
   const lastVisit = localStorage.getItem("lastVisit");
-  console.log(localStorage);
   if (!lastVisit || lastVisit !== today) {
     localStorage.setItem("lastVisit", today);
     return true;
@@ -80,6 +79,7 @@ function SongPage({ data }) {
     openSongInfo,
     setOpenSongInfo,
     openProfile,
+    setOnlyOneStateTrue,
   } = useToggleComponents();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const isPhoneScreen = useMediaQuery("(max-width:630px)");
@@ -199,9 +199,10 @@ function SongPage({ data }) {
               </Row>
               <Row>
                 <p
-                  onClick={() =>
-                    setOpenSongInfo({ openInfo: true, active_tab: "Song" })
-                  }
+                  onClick={() => {
+                    setOpenSongInfo({ openInfo: false, active_tab: "Song" });
+                    setOnlyOneStateTrue(setOpenSongInfo);
+                  }}
                   className={`${
                     songHover && "text-decoration-underline"
                   } song-title`}
@@ -216,9 +217,10 @@ function SongPage({ data }) {
                 <p
                   onMouseEnter={() => setArtistHover(true)}
                   onMouseLeave={() => setArtistHover(false)}
-                  onClick={() =>
-                    setOpenSongInfo({ openInfo: true, active_tab: "Artist" })
-                  }
+                  onClick={() => {
+                    setOpenSongInfo({ openInfo: false, active_tab: "Artist" });
+                    setOnlyOneStateTrue(setOpenSongInfo);
+                  }}
                   className={`${
                     artistHover && "text-decoration-underline"
                   } artist-name`}
@@ -229,9 +231,9 @@ function SongPage({ data }) {
               </Row>
               <Row className="mt-1">
                 <SongButtonsBottom
-                  spotify_link={data.song.spotify_link}
-                  apple_music_link={data.song.apple_music_link}
-                  song_id={data.song._id}
+                  spotify_link={data?.song?.spotify_link}
+                  apple_music_link={data?.song?.apple_music_link}
+                  song_id={data?.song._id}
                 />
               </Row>
             </motion.div>

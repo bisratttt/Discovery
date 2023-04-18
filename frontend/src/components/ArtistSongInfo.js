@@ -166,13 +166,15 @@ function ArtistInfo({
           </Row>
           <Row>
             <Col>
-              {showArrowIcon && (
+              {showArrowIcon ? (
                 <Button
                   className="bg-transparent border-0"
                   onClick={scrollArtistMoreDetails}
                 >
                   <KeyboardDoubleArrowDownIcon />
                 </Button>
+              ) : (
+                <hr className="border-white" />
               )}
             </Col>
           </Row>
@@ -245,11 +247,11 @@ function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
             <Col
               className={`d-flex flex-${
                 isSmallScreen ? "row" : "column"
-              } justify-content-around pt-3`}
+              } justify-content-end pt-3`}
               xs={12}
               md={6}
             >
-              <Row>
+              {/* <Row>
                 <Col
                   className={`d-flex justify-content-center`}
                   style={{
@@ -262,7 +264,7 @@ function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
                 >
                   Tracks
                 </Col>
-              </Row>
+              </Row> */}
               <Row>
                 <Col>
                   <Row>
@@ -301,13 +303,15 @@ function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
           </Row>
           <Row>
             <Col>
-              {showArrowIcon && (
+              {showArrowIcon ? (
                 <Button
                   className="bg-transparent border-0"
                   onClick={scrollAlbumMoreDetails}
                 >
                   <KeyboardDoubleArrowDownIcon />
                 </Button>
+              ) : (
+                <hr className="border-white" />
               )}
             </Col>
           </Row>
@@ -385,18 +389,19 @@ function SongInfo({
               />
             </Col>
             <Col
-              className={`d-flex justify-content-between flex-column pt-3 ps-3`}
+              className={`d-flex justify-content-between flex-column pt-3 ps-4`}
               xs={12}
               md={6}
             >
               <Row>
                 <Col
-                  className={`d-flex justify-content-center`}
+                  className={`d-flex justify-content-${
+                    isSmallScreen ? "start" : "center"
+                  } ps-1`}
                   style={{
                     fontWeight: "bold",
                     fontSize: "20px",
                     color: "white",
-                    padding: "10px 0",
                     whiteSpace: "nowrap",
                   }}
                 >
@@ -499,13 +504,15 @@ function SongInfo({
           </Row>
           <Row>
             <Col>
-              {showArrowIcon && (
+              {showArrowIcon ? (
                 <Button
                   className="bg-transparent border-0"
                   onClick={scrollSongMoreDetails}
                 >
                   <KeyboardDoubleArrowDownIcon />
                 </Button>
+              ) : (
+                <hr className="border-white" />
               )}
             </Col>
           </Row>
@@ -541,8 +548,6 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
     error: albumDataError,
     data: albumData,
   } = useQuery(QUERY_ALBUMINFO);
-  console.log(albumData);
-  console.log(albumDataError);
   const { setOpenSongInfo } = useToggleComponents();
   const [artistBio, setArtistBio] = useState({});
   const [songBio, setSongBio] = useState({});
@@ -556,7 +561,7 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
   });
 
   useEffect(() => {
-    if (data) {
+    if (data && albumData) {
       setArtistBio(JSON.parse(data.songInfo.artist_bio).dom);
       setSongBio(JSON.parse(data.songInfo.song_bio).dom);
       setSongProducers(JSON.parse(data.songInfo.song_producers));
@@ -582,9 +587,10 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
     Object.keys(albumBio).length === 0 ||
     Object.keys(songProducers).length === 0 ||
     Object.keys(songWriters).length === 0 ? (
-    <Spinner animation="border" role="status" variant="light">
-      <div>Loading...</div>
-    </Spinner>
+    <Container>
+      {" "}
+      <Spinner animation="border" role="status" variant="light" />
+    </Container>
   ) : (
     <div className="tab-content-wrapper p-0 m-0">
       <Button

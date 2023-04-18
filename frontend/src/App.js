@@ -3,10 +3,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import appConfig from "./realm.json";
 import { RealmAppProvider, useRealmApp } from "./contexts/RealmApp";
 import { useEffect } from "react";
-import {
-  ToggleComponentsProvider,
-  useToggleComponents,
-} from "./contexts/ToggleComponents";
+import { ToggleComponentsProvider } from "./contexts/ToggleComponents";
 import Terms from "./components/Terms";
 import Cookies from "./components/Cookies";
 import { FetchDataProvider } from "./contexts/FetchData";
@@ -36,7 +33,6 @@ function App() {
       logGuest();
     }
   }, []);
-  const { openTerms, openCookies } = useToggleComponents();
 
   return (
     <div className="App">

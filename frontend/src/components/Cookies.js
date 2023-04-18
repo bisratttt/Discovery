@@ -2,7 +2,6 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Container, ListGroup, Row, Button, Col } from "react-bootstrap";
-import { useToggleComponents } from "../contexts/ToggleComponents";
 
 const cookies = [
   {
@@ -87,7 +86,6 @@ const cookies = [
 ];
 
 export default function Cookies() {
-  const { setOpenCookies } = useToggleComponents();
   return (
     <Container className="ms-0 terms w-100 theme-bg-color" fluid>
       <Row className="text-start">

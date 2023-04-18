@@ -58,8 +58,8 @@ export async function checkReviewForError({
   hasTitle,
 }) {
   const error =
-    wordCount < 300
-      ? "Please your review needs to be at least 300 words!"
+    wordCount < 5
+      ? "Please your review needs to be at least a few words!"
       : !hasTitle
       ? "You need a title for your review!"
       : serverError
@@ -74,15 +74,14 @@ export async function checkSubmissionForError({
   hasArtist,
   noteShortEnough,
 }) {
-  const error =
-     !hasArtist
-      ? "You need an artist for your submission"
-      : !hasSongName
-      ? "You need a song name for your submission"
-      : !noteShortEnough
-      ? "Your note is too long!"
-      : serverError
-      ? "Something went wrong. Try again in a little bit."
-      : "";
+  const error = !hasArtist
+    ? "You need an artist for your submission"
+    : !hasSongName
+    ? "You need a song name for your submission"
+    : !noteShortEnough
+    ? "Your note is too long!"
+    : serverError
+    ? "Something went wrong. Try again in a little bit."
+    : "";
   return error;
 }

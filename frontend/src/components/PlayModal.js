@@ -1,12 +1,9 @@
 import { Col, Modal, Row } from "react-bootstrap";
 
 function AppleMusic({ srcUrl }) {
-  console.log(srcUrl)
   const url = new URL(srcUrl);
-  console.log(url.pathname)
   const params = new URLSearchParams(url.search);
   const iValue = params.get("i");
-  console.log(iValue)
   return (
     <iframe
       allow="autoplay *; encrypted-media *;"
@@ -60,10 +57,20 @@ function PlayModal(props) {
       >
         <Row>
           <Col xs={12}>
-            <Spotify srcUrl={props.spotify_link} />
+            <Spotify
+              srcUrl={
+                props?.spotify_link ??
+                "https://open.spotify.com/track/2rdzxFb0MGJeZXO0ymVDD7"
+              }
+            />
           </Col>
           <Col xs={12} className="rounded-3">
-            <AppleMusic srcUrl={props.apple_music_link} />
+            <AppleMusic
+              srcUrl={
+                props?.apple_music_link ??
+                "https://music.apple.com/us/album/error-404/1448151448?i=1448151450"
+              }
+            />
           </Col>
         </Row>
       </Modal.Body>
