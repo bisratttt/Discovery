@@ -106,7 +106,7 @@ exports = async function() {
     await albumInfoColl.insertOne({
           album_name: album.name, 
           album_bio: JSON.stringify(album.description_annotation.annotations.body),
-          album_image_url: album.cover_art_url,
+          album_art: album.cover_art_url,
           album_release_date: album.release_date_for_display, 
           is_visible: true ,
           });
