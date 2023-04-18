@@ -59,7 +59,7 @@ exports = async function(changeEvent) {
      // await collection.UpdateOne({ _id: docId },  
      //{ $set: {time: new Date(), youtube_id: youtubeID}});
     
-    await collection.ReplaceOne({ _id: docId },  { replacement});
+    await collection.replaceOne({ _id: docId }, replacement);
   } catch(err) {
     console.error("There was an error adding/updating the time", err)
     
