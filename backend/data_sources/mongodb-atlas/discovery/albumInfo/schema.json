@@ -16,10 +16,10 @@
                 ]
             }
         },
-        "album_bio": {
+        "album_art": {
             "bsonType": "string"
         },
-        "album_image_url": {
+        "album_bio": {
             "bsonType": "string"
         },
         "album_name": {
