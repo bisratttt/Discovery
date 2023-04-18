@@ -41,7 +41,6 @@
     "required": [
         "album_name",
         "album_bio",
-        "album_track_count",
         "album_release_date",
         "_id",
         "is_visible"
