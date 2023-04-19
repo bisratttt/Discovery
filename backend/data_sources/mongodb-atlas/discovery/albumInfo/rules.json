@@ -1,6 +1,15 @@
 {
     "collection": "albumInfo",
     "database": "discovery",
+    "filters": [
+        {
+            "name": "queryVisibleAlbumInfo",
+            "query": {
+                "is_visible": true
+            },
+            "apply_when": {}
+        }
+    ],
     "roles": [
         {
             "name": "readAll",
