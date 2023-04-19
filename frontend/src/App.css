@@ -283,8 +283,9 @@ a:hover {
   filter: blur(1rem);
 }
 
-.submission-post-button {
+#song-submission-wall {
   z-index: 10;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 .overlay {
   position: relative;

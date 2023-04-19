@@ -2,26 +2,19 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Row, Col, ListGroup } from "react-bootstrap";
 import { useMediaQuery } from "@mui/material";
-import {
-  faArrowLeft,
-  faCirclePlus,
-  faPenFancy,
-  faSpinner,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "@apollo/client";
-import SongSubmissionModal from "./SongSubmissionModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import { FETCH_SUBMISSIONS } from "../queries/SongSubmissionQuery";
 import SongSubmission from "./SongSubmission";
 import { useRealmApp } from "../contexts/RealmApp";
+import SubmissionWall from "./SubmissionWall";
 
 // const LIMIT = 100;
 // const LAST_TIME = new Date(0);
 export default function SongSubmissionList() {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   //  const [intervalId, setIntervalId] = useState(null);
-  const [songSubmissionModal, setSongSubmissionModal] = useState(false);
   const { setOpenSongSubmissionList } = useToggleComponents();
   const { loading, error, data, refetch } = useQuery(
     FETCH_SUBMISSIONS
@@ -70,25 +63,7 @@ export default function SongSubmissionList() {
         isSmallScreen && "mb-2"
       } rounded-3 border-0 position-relative`}
     >
-      {isBlurred && (
-        <>
-          <div className="submission-post-button position-absolute rounded-3 w-100 h-100">
-            <Button
-              size="lg"
-              className={`text-white text-center text-decoration-none rounded-3 border-0 w-100 h-100 d-flex align-items-center justify-content-center`}
-              style={{
-                backgroundColor: "rgba(0,0,0,0.5)",
-              }}
-              onClick={() =>
-                setSongSubmissionModal((submissionModal) => !submissionModal)
-              }
-            >
-              <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
-              What is your song of the day?
-            </Button>
-          </div>
-        </>
-      )}
+      {isBlurred && <SubmissionWall refetch={refetch} />}
       {isSmallScreen && (
         <Card.Header>
           <Row>
@@ -123,13 +98,6 @@ export default function SongSubmissionList() {
             })}
           </ListGroup>
         )}
-        <SongSubmissionModal
-          refetch={refetch}
-          show={songSubmissionModal}
-          onHide={() =>
-            setSongSubmissionModal((submissionModal) => !submissionModal)
-          }
-        />
       </Card.Body>
     </Card>
   );
