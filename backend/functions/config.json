@@ -1,23 +1,16 @@
 [
     {
-        "name": "createDateTrigger",
-        "private": true
-    },
-    {
-        "name": "createUserPreferences",
-        "private": false
-    },
-    {
         "name": "searchYoutubeSong",
         "private": false,
         "disable_arg_logs": true
     },
     {
-        "name": "addNewSongOfTheDayTrigger",
-        "private": true
+        "name": "validateEmptyInput",
+        "private": true,
+        "disable_arg_logs": true
     },
     {
-        "name": "deleteUserMetadataTrigger",
+        "name": "createDateTrigger",
         "private": true
     },
     {
@@ -26,17 +19,16 @@
         "disable_arg_logs": true
     },
     {
-        "name": "userSongSubmissionMetadataTrigger",
+        "name": "addNewSongOfTheDayTrigger",
         "private": true
     },
     {
-        "name": "validateEmptyInput",
-        "private": true,
-        "disable_arg_logs": true
+        "name": "createUserPreferences",
+        "private": false
     },
     {
-        "name": "fetchReactionCounts",
-        "private": false
+        "name": "resetPassFunc",
+        "private": true
     },
     {
         "name": "useYoutubeSong",
@@ -44,8 +36,16 @@
         "disable_arg_logs": true
     },
     {
-        "name": "resetPassFunc",
+        "name": "deleteUserMetadataTrigger",
         "private": true
+    },
+    {
+        "name": "userSongSubmissionMetadataTrigger",
+        "private": true
+    },
+    {
+        "name": "fetchReactionCounts",
+        "private": false
     },
     {
         "name": "getDataFromGenius",
