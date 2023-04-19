@@ -63,13 +63,18 @@ export default function SongSubmissionList() {
         isSmallScreen && "mb-2"
       } rounded-3 border-0 position-relative`}
     >
+      {isSmallScreen && (
+        <Card.Header className="text-white mt-3 text-start">
+          <h2>Community</h2>
+        </Card.Header>
+      )}
       {isBlurred && <SubmissionWall refetch={refetch} />}
       <Card.Body
         id="submission-body"
         className={`border-0 justify-content-center align-items-center p-0 ${
           isBlurred && "blur"
         }`}
-        style={{ height: isSmallScreen ? "90vh" : "85vh", overflowY: "scroll" }}
+        style={{ height: isSmallScreen ? "81vh" : "85vh", overflowY: "scroll" }}
       >
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />

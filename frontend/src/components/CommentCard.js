@@ -60,23 +60,26 @@ export default function CommentCard({ songId }) {
       id="comment-card"
       className={`${isSmallScreen && "mb-2"} rounded-3 border-0`}
     >
-      <Card.Header id="comment-footer" className="border-0">
+      <Card.Header
+        id="comment-footer"
+        className={`border-0 ${isSmallScreen && "mt-4"}`}
+      >
         <Row>
           <Col
             xs={4}
             className="d-flex justify-content-start align-items-start"
           >
-            <Button
-              size="lg"
-              className="bg-transparent border-0 p-0"
-              onClick={() => setOpenReview((openReview) => !openReview)}
-            >
-              {!isSmallScreen ? (
+            {!isSmallScreen && (
+              <Button
+                size="lg"
+                className="bg-transparent border-0 p-0"
+                onClick={() => setOpenReview((openReview) => !openReview)}
+              >
                 <FontAwesomeIcon icon={faXmark} size="xl" />
-              ) : (
-                <h2>Reviews</h2>
-              )}
-            </Button>
+              </Button>
+            )}
+
+            {isSmallScreen && <h2 className="text-white">Reviews</h2>}
           </Col>
           {!userHasReviewed && (
             <Col className="d-flex justify-content-end">
@@ -109,7 +112,7 @@ export default function CommentCard({ songId }) {
       <Card.Body
         id="comment-body"
         className="p-0"
-        style={{ height: isSmallScreen ? "85vh" : "77vh" }}
+        style={{ height: isSmallScreen ? "80vh" : "77vh" }}
       >
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
