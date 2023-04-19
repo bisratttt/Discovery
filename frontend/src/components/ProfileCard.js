@@ -69,7 +69,7 @@ export default function ProfileCard() {
   const [updatePreferences, { loading: updateLoading }] = useMutation(
     UPDATE_USER_PREFERENCES
   );
-  //   if user prefernces are not create then create them
+  //   if user prefernces are not created then create them
 
   useEffect(() => {
     const addNewPreferences = async () => {
@@ -82,16 +82,16 @@ export default function ProfileCard() {
             },
             onCompleted: (addData) => {
               setSocialHandles({
-                youtube: addData.userPreference.youtube_handle,
-                instagram: addData.userPreference.instagram_handle,
-                facebook: addData.userPreference.facebook_handle,
-                tiktok: addData.userPreference.tiktok_handle,
-                twitter: addData.userPreference.twitter_handle,
-                apple_music: addData.userPrefrence.applemusic_handle,
-                spotify: addData.userPrefrence.spotify_handle,
-                soundcloud: addData.userPrefrence.soundcloud_handle,
+                youtube: addData.insertOneUserPreference.youtube_handle,
+                instagram: addData.insertOneUserPreference.instagram_handle,
+                facebook: addData.insertOneUserPreference.facebook_handle,
+                tiktok: addData.insertOneUserPreference.tiktok_handle,
+                twitter: addData.insertOneUserPreference.twitter_handle,
+                apple_music: addData.insertOneUserPreference.applemusic_handle,
+                spotify: addData.insertOneUserPreference.spotify_handle,
+                soundcloud: addData.insertOneUserPreference.soundcloud_handle,
               });
-              setBio(addData.userPreference.bio);
+              setBio(addData.insertOneUserPreference.bio);
             },
             onError: (err) =>
               console.error("Error adding new preference: ", err),
@@ -127,16 +127,16 @@ export default function ProfileCard() {
       onCompleted: (updateData) => {
         setEditMode(false);
         setSocialHandles({
-          youtube: updateData.userPreference.youtube_handle,
-          instagram: updateData.userPreference.instagram_handle,
-          facebook: updateData.userPreference.facebook_handle,
-          tiktok: updateData.userPreference.tiktok_handle,
-          twitter: updateData.userPreference.twitter_handle,
-          apple_music: updateData.userPrefrence.applemusic_handle,
-          spotify: updateData.userPrefrence.spotify_handle,
-          soundcloud: updateData.userPrefrence.soundcloud_handle,
+          youtube: updateData.updateOneUserPreference.youtube_handle,
+          instagram: updateData.updateOneUserPreference.instagram_handle,
+          facebook: updateData.updateOneUserPreference.facebook_handle,
+          tiktok: updateData.updateOneUserPreference.tiktok_handle,
+          twitter: updateData.updateOneUserPreference.twitter_handle,
+          apple_music: updateData.updateOneUserPreference.applemusic_handle,
+          spotify: updateData.updateOneUserPreference.spotify_handle,
+          soundcloud: updateData.updateOneUserPreference.soundcloud_handle,
         });
-        setBio(updateData.userPreference.bio);
+        setBio(updateData.updateOneUserPreference.bio);
       },
       onError: (err) => console.error("Error updating preferences: ", err),
     });
