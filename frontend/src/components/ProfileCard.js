@@ -119,7 +119,7 @@ export default function ProfileCard() {
         facebook: socialHandles.facebook,
         twitter: socialHandles.twitter,
         tiktok: socialHandles.tiktok,
-        apple_music: socialHandles.applemusic,
+        apple_music: socialHandles.apple_music,
         spotify: socialHandles.spotify,
         soundcloud: socialHandles.soundcloud,
         bio: bio,
