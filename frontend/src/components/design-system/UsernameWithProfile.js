@@ -13,6 +13,9 @@ export default function UsernameWithProfile({ username }) {
     facebook: null,
     tiktok: null,
     twitter: null,
+    soundcloud: null,
+    apple_music: null,
+    spotify: null,
   });
   const [noSocials, setNoSocials] = useState(true);
   const [isHover, setIsHover] = useState(false);
@@ -25,6 +28,9 @@ export default function UsernameWithProfile({ username }) {
         facebook: queryData.userPreference.facebook_handle,
         tiktok: queryData.userPreference.tiktok_handle,
         twitter: queryData.userPreference.twitter_handle,
+        apple_music: queryData.userPrefrence.applemusic_handle,
+        spotify: queryData.userPrefrence.spotify_handle,
+        soundcloud: queryData.userPrefrence.soundcloud_handle,
       });
     },
   });

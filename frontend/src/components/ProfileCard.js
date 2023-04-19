@@ -38,6 +38,9 @@ export default function ProfileCard() {
     facebook: null,
     tiktok: null,
     twitter: null,
+    soundcloud: null,
+    apple_music: null,
+    spotify: null,
   });
   const [bio, setBio] = useState("");
   const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
@@ -53,6 +56,9 @@ export default function ProfileCard() {
           facebook: queryData.userPreference.facebook_handle,
           tiktok: queryData.userPreference.tiktok_handle,
           twitter: queryData.userPreference.twitter_handle,
+          apple_music: queryData.userPrefrence.applemusic_handle,
+          spotify: queryData.userPrefrence.spotify_handle,
+          soundcloud: queryData.userPrefrence.soundcloud_handle,
         });
         setBio(queryData.userPreference.bio);
       },
@@ -81,6 +87,9 @@ export default function ProfileCard() {
                 facebook: addData.userPreference.facebook_handle,
                 tiktok: addData.userPreference.tiktok_handle,
                 twitter: addData.userPreference.twitter_handle,
+                apple_music: addData.userPrefrence.applemusic_handle,
+                spotify: addData.userPrefrence.spotify_handle,
+                soundcloud: addData.userPrefrence.soundcloud_handle,
               });
               setBio(addData.userPreference.bio);
             },
@@ -110,6 +119,9 @@ export default function ProfileCard() {
         facebook: socialHandles.facebook,
         twitter: socialHandles.twitter,
         tiktok: socialHandles.tiktok,
+        apple_music: socialHandles.applemusic,
+        spotify: socialHandles.spotify,
+        soundcloud: socialHandles.soundcloud,
         bio: bio,
       },
       onCompleted: (updateData) => {
@@ -120,6 +132,9 @@ export default function ProfileCard() {
           facebook: updateData.userPreference.facebook_handle,
           tiktok: updateData.userPreference.tiktok_handle,
           twitter: updateData.userPreference.twitter_handle,
+          apple_music: updateData.userPrefrence.applemusic_handle,
+          spotify: updateData.userPrefrence.spotify_handle,
+          soundcloud: updateData.userPrefrence.soundcloud_handle,
         });
         setBio(updateData.userPreference.bio);
       },
@@ -229,25 +244,51 @@ export default function ProfileCard() {
                         />
                       </InputGroup.Text>
                       {!editMode ? (
-                        <a
-                          href={`https://${platform}.com/${
-                            (platform === "youtube" || platform === "tiktok") &&
-                            socialHandles[platform]
-                              ? "@"
-                              : ""
-                          }${socialHandles[platform] ?? ""}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
-                        >
-                          {socialHandles[platform]
-                            ? `${
-                                platform === "youtube" || platform === "tiktok"
-                                  ? "@"
-                                  : ""
-                              }${socialHandles[platform]}`
-                            : `your-handle`}
-                        </a>
+                        platform === "apple_music" ? (
+                          <a
+                            href={`https://music.apple.com/profile/${socialHandles[platform]}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                          >
+                            {socialHandles[platform]
+                              ? socialHandles[platform]
+                              : "your-handle"}
+                          </a>
+                        ) : platform === "spotify" ? (
+                          <a
+                            href={`https://open.spotify.com/user/${socialHandles[platform]}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                          >
+                            {socialHandles[platform]
+                              ? socialHandles[platform]
+                              : "your-handle"}
+                          </a>
+                        ) : (
+                          <a
+                            href={`https://${platform}.com/${
+                              (platform === "youtube" ||
+                                platform === "tiktok") &&
+                              socialHandles[platform]
+                                ? "@"
+                                : ""
+                            }${socialHandles[platform] ?? ""}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                          >
+                            {socialHandles[platform]
+                              ? `${
+                                  platform === "youtube" ||
+                                  platform === "tiktok"
+                                    ? "@"
+                                    : ""
+                                }${socialHandles[platform]}`
+                              : `your-handle`}
+                          </a>
+                        )
                       ) : (
                         <Form.Control
                           type="text"
