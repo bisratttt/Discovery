@@ -28,10 +28,17 @@ export function ToggleComponentsProvider({ children }) {
           // setOpenSongInfo has a different data structure
           if (setter === setOpenSongInfo) {
             return clickedStateSetter === setter
-              ? { ...prevState, openInfo: !prevState.openInfo }
+              ? {
+                  ...prevState,
+                  openInfo: isSmallScreen ? true : !prevState.openInfo,
+                }
               : { ...prevState, openInfo: false };
           }
-          return clickedStateSetter === setter ? !prevState : false;
+          return clickedStateSetter === setter
+            ? isSmallScreen
+              ? true
+              : !prevState
+            : false;
         });
       }
     },

@@ -64,30 +64,12 @@ export default function SongSubmissionList() {
       } rounded-3 border-0 position-relative`}
     >
       {isBlurred && <SubmissionWall refetch={refetch} />}
-      {isSmallScreen && (
-        <Card.Header>
-          <Row>
-            <Col className="d-flex justify-content-start align-items-center">
-              <Button
-                style={{ zIndex: 11 }}
-                size="lg"
-                className="bg-transparent border-0 p-0"
-                onClick={() =>
-                  setOpenSongSubmissionList((openSubmission) => !openSubmission)
-                }
-              >
-                <FontAwesomeIcon icon={faArrowLeft} />
-              </Button>
-            </Col>
-          </Row>
-        </Card.Header>
-      )}
       <Card.Body
         id="submission-body"
         className={`border-0 justify-content-center align-items-center p-0 ${
           isBlurred && "blur"
         }`}
-        style={{ height: "85vh", overflowY: "scroll" }}
+        style={{ height: isSmallScreen ? "90vh" : "85vh", overflowY: "scroll" }}
       >
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />

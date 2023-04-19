@@ -160,7 +160,7 @@ export default function SongSubmission({
               <YoutubeEmbed srcId={youtube_id} />
             </Row>
             <Row className="justify-content-end mt-2">
-              <Col xs={12} sm={6} md={9} xl={7} className="px-0">
+              <Col xs={12} sm={9} xl={7} className="px-0">
                 <SubmissionReaction submissionId={submission_id} />
               </Col>
             </Row>

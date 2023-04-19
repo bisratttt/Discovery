@@ -71,11 +71,7 @@ export default function CommentCard({ songId }) {
               className="bg-transparent border-0 p-0"
               onClick={() => setOpenReview((openReview) => !openReview)}
             >
-              {isSmallScreen ? (
-                <FontAwesomeIcon icon={faArrowLeft} />
-              ) : (
-                <FontAwesomeIcon icon={faXmark} size="xl" />
-              )}
+              {!isSmallScreen && <FontAwesomeIcon icon={faXmark} size="xl" />}
             </Button>
           </Col>
           {!userHasReviewed && (

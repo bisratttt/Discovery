@@ -116,7 +116,7 @@ a:hover {
 }
 
 .darker-container {
-  background-color: rgba(0, 0, 0, 0.65) !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
   backdrop-filter: blur(1rem);
 }
 
@@ -229,7 +229,7 @@ a:hover {
   background-color: transparent !important;
 }
 #comment-body {
-  height: 77vh;
+  height: 85vh;
   overflow-y: auto;
 }
 .review-truncate {

@@ -27,10 +27,12 @@ import { useMutation, useQuery } from "@apollo/client";
 import { BSON } from "realm-web";
 import { getPlatformIcon } from "../utils/utils";
 import DeleteAccountWarningModal from "./DeleteAccountWarningModal";
+import { useMediaQuery } from "@mui/material";
 
 export default function ProfileCard() {
   const [editMode, setEditMode] = useState(false);
-  const { currentUser } = useRealmApp();
+  const { currentUser, logOut } = useRealmApp();
+  const isSmallScreen = useMediaQuery("(max-width:850px)");
   const { setOpenProfile, setOnlyOneStateTrue } = useToggleComponents();
   const [socialHandles, setSocialHandles] = useState({
     youtube: null,
@@ -159,15 +161,23 @@ export default function ProfileCard() {
       )}
       <Card className="bg-transparent text-white border-0">
         <Card.Header>
-          <Button
-            className="bg-transparent border-0 position-absolute start-0 top-0"
-            onClick={() => setOnlyOneStateTrue(setOpenProfile)}
-          >
-            <FontAwesomeIcon size="lg" icon={faXmark} />
-          </Button>
+          {!isSmallScreen && (
+            <Button
+              className="bg-transparent border-0 position-absolute start-0 top-0"
+              onClick={() => setOnlyOneStateTrue(setOpenProfile)}
+            >
+              <FontAwesomeIcon size="lg" icon={faXmark} />
+            </Button>
+          )}
           <Card.Title>Profile Settings</Card.Title>
         </Card.Header>
-        <Card.Body className="px-2">
+        <Card.Body
+          style={{
+            height: isSmallScreen ? "85vh" : "79vh",
+            overflowY: "scroll",
+          }}
+          className="px-2"
+        >
           <Row>
             <Col
               xs={9}
@@ -317,9 +327,19 @@ export default function ProfileCard() {
               </Col>
             </Row>
             <Row className="px-0 mx-0 mt-3">
-              <Col xs={12} className="darker-container px-0 mx-0">
+              {currentUser.providerType === "local-userpass" && (
+                <Col xs={12} className="px-0 mx-0 mb-3">
+                  <Button
+                    className="w-100 darker-container border-white"
+                    onClick={async () => await logOut()}
+                  >
+                    Log Out
+                  </Button>
+                </Col>
+              )}
+              <Col xs={12} className="px-0 mx-0">
                 <Button
-                  className="w-100 bg-transparent"
+                  className="w-100 darker-container"
                   style={{ borderColor: "maroon" }}
                   onClick={() => setShowDeleteWarningModal(true)}
                 >
