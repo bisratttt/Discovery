@@ -67,7 +67,7 @@ export default function UsernameWithProfile({ username }) {
               >
                 <Col>
                   <p className="mb-0 text-start">
-                    {data.userPreference.bio !== ""
+                    {data.userPreference && data.userPreference.bio !== ""
                       ? data.userPreference.bio
                       : "no-bio"}
                   </p>

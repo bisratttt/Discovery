@@ -10,7 +10,7 @@ export const GET_USER_PREFERENCES_ID = gql`
       youtube_handle
       applemusic_handle
       spotify_handle
-      souncloud_handle
+      soundcloud_handle
       bio
     }
   }
@@ -25,7 +25,7 @@ export const GET_USER_PREFERENCES_NAME = gql`
       youtube_handle
       applemusic_handle
       spotify_handle
-      souncloud_handle
+      soundcloud_handle
       bio
     }
   }
