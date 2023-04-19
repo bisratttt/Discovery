@@ -48,18 +48,18 @@ function TweetButton() {
 function ShareModal(props) {
   const [copied, setCopied] = useState(false);
   const shareLinks = [
-    {
-      link: props.shareLink,
-      buttonIcon: faInstagram,
-      label: "Share on Instagram",
-      onClick: async (event, setCopied = null) => {},
-    },
-    {
-      link: props.shareLink,
-      buttonIcon: faFacebook,
-      label: "Share on Facebook",
-      onClick: async (event, setCopied = null) => {},
-    },
+    // {
+    //   link: props.shareLink,
+    //   buttonIcon: faInstagram,
+    //   label: "Share on Instagram",
+    //   onClick: async (event, setCopied = null) => {},
+    // },
+    // {
+    //   link: props.shareLink,
+    //   buttonIcon: faFacebook,
+    //   label: "Share on Facebook",
+    //   onClick: async (event, setCopied = null) => {},
+    // },
     {
       link: `https://twitter.com/intent/tweet?original_referer=https%3A%2F%2Fpublish.twitter.com%2F&text=Did%20you%20%23DISCover%20today%27s%20song%20of%20the%20day%3F&url=https%3A%2F%2Fdisc-music.com`,
       buttonIcon: faTwitter,

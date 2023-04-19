@@ -8,6 +8,9 @@ export const GET_USER_PREFERENCES_ID = gql`
       tiktok_handle
       twitter_handle
       youtube_handle
+      applemusic_handle
+      spotify_handle
+      soundcloud_handle
       bio
     }
   }
@@ -20,6 +23,9 @@ export const GET_USER_PREFERENCES_NAME = gql`
       tiktok_handle
       twitter_handle
       youtube_handle
+      applemusic_handle
+      spotify_handle
+      soundcloud_handle
       bio
     }
   }
@@ -34,6 +40,9 @@ export const ADD_PREFERENCES = gql`
     $twitter: String
     $tiktok: String
     $bio: String
+    $applemusic: String
+    $spotify: String
+    $soundcloud: String
   ) {
     insertOneUserPreference(
       data: {
@@ -43,6 +52,9 @@ export const ADD_PREFERENCES = gql`
         tiktok_handle: $tiktok
         twitter_handle: $twitter
         youtube_handle: $youtube
+        applemusic_handle: $applemusic
+        spotify_handle: $spotify
+        soundcloud_handle: $soundcloud
         bio: $bio
       }
     ) {
@@ -51,6 +63,9 @@ export const ADD_PREFERENCES = gql`
       tiktok_handle
       twitter_handle
       youtube_handle
+      applemusic_handle
+      spotify_handle
+      soundcloud_handle
       bio
     }
   }
@@ -64,6 +79,9 @@ export const UPDATE_USER_PREFERENCES = gql`
     $twitter: String
     $tiktok: String
     $bio: String
+    $applemusic: String
+    $spotify: String
+    $soundcloud: String
   ) {
     updateOneUserPreference(
       query: { user_id: $user_id }
@@ -73,6 +91,9 @@ export const UPDATE_USER_PREFERENCES = gql`
         tiktok_handle: $tiktok
         twitter_handle: $twitter
         youtube_handle: $youtube
+        applemusic_handle: $applemusic
+        spotify_handle: $spotify
+        soundcloud_handle: $soundcloud
         bio: $bio
       }
     ) {
@@ -81,6 +102,9 @@ export const UPDATE_USER_PREFERENCES = gql`
       tiktok_handle
       twitter_handle
       youtube_handle
+      applemusic_handle
+      spotify_handle
+      soundcloud_handle
       bio
     }
   }

@@ -8,6 +8,7 @@ export const FETCH_SUBMISSIONS = gql`
       song_name
       note
       time
+      youtube_id
     }
   }
 `;
@@ -31,6 +32,26 @@ export const ADD_SUBMISSION = gql`
     ) {
       _id
       username
+      artist
+      song_name
+      note
+    }
+  }
+`;
+
+export const UPDATE_SUBMISSION = gql`
+  mutation UpdateUserSongSubmission(
+    $user_id: ObjectId!
+    $artist: String!
+    $song_name: String!
+    $note: String!
+  ) {
+    updateOneUserSongSubmission(
+      query: { user_id: $user_id }
+      set: { song_name: $song_name
+        artist: $artist
+        note: $note }
+    ) {
       artist
       song_name
       note

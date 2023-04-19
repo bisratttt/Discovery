@@ -19,14 +19,32 @@
         "artist_bio": {
             "bsonType": "string"
         },
+        "artist_facebook": {
+            "bsonType": "string"
+        },
         "artist_image_url": {
+            "bsonType": "string"
+        },
+        "artist_instagram": {
             "bsonType": "string"
         },
         "artist_name": {
             "bsonType": "string"
         },
+        "artist_twitter": {
+            "bsonType": "string"
+        },
+        "is_song_on_album": {
+            "bsonType": "bool"
+        },
         "is_visible": {
             "bsonType": "bool"
+        },
+        "song_album": {
+            "bsonType": "string"
+        },
+        "song_art": {
+            "bsonType": "string"
         },
         "song_bio": {
             "bsonType": "string"
@@ -35,6 +53,15 @@
             "bsonType": "objectId"
         },
         "song_name": {
+            "bsonType": "string"
+        },
+        "song_producers": {
+            "bsonType": "string"
+        },
+        "song_release_date": {
+            "bsonType": "string"
+        },
+        "song_writers": {
             "bsonType": "string"
         }
     },

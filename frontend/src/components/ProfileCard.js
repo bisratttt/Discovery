@@ -26,19 +26,27 @@ import {
 import { useMutation, useQuery } from "@apollo/client";
 import { BSON } from "realm-web";
 import { getPlatformIcon } from "../utils/utils";
+import DeleteAccountWarningModal from "./DeleteAccountWarningModal";
+import { useMediaQuery } from "@mui/material";
 
 export default function ProfileCard() {
   const [editMode, setEditMode] = useState(false);
-  const { currentUser } = useRealmApp();
-  const { setOpenProfile } = useToggleComponents();
+  const { currentUser, logOut } = useRealmApp();
+  const isSmallScreen = useMediaQuery("(max-width:850px)");
+  const { setOpenProfile, setOnlyOneStateTrue } = useToggleComponents();
   const [socialHandles, setSocialHandles] = useState({
     youtube: null,
     instagram: null,
     facebook: null,
     tiktok: null,
     twitter: null,
+    soundcloud: null,
+    apple_music: null,
+    spotify: null,
   });
   const [bio, setBio] = useState("");
+  const [showDeleteWarningModal, setShowDeleteWarningModal] = useState(false);
+
   const { loading: queryLoading, data: queryData } = useQuery(
     GET_USER_PREFERENCES_ID,
     {
@@ -50,6 +58,9 @@ export default function ProfileCard() {
           facebook: queryData.userPreference.facebook_handle,
           tiktok: queryData.userPreference.tiktok_handle,
           twitter: queryData.userPreference.twitter_handle,
+          apple_music: queryData.userPreference.applemusic_handle,
+          spotify: queryData.userPreference.spotify_handle,
+          soundcloud: queryData.userPreference.soundcloud_handle,
         });
         setBio(queryData.userPreference.bio);
       },
@@ -60,7 +71,7 @@ export default function ProfileCard() {
   const [updatePreferences, { loading: updateLoading }] = useMutation(
     UPDATE_USER_PREFERENCES
   );
-  //   if user prefernces are not create then create them
+  //   if user prefernces are not created then create them
 
   useEffect(() => {
     const addNewPreferences = async () => {
@@ -73,13 +84,16 @@ export default function ProfileCard() {
             },
             onCompleted: (addData) => {
               setSocialHandles({
-                youtube: addData.userPreference.youtube_handle,
-                instagram: addData.userPreference.instagram_handle,
-                facebook: addData.userPreference.facebook_handle,
-                tiktok: addData.userPreference.tiktok_handle,
-                twitter: addData.userPreference.twitter_handle,
+                youtube: addData.insertOneUserPreference.youtube_handle,
+                instagram: addData.insertOneUserPreference.instagram_handle,
+                facebook: addData.insertOneUserPreference.facebook_handle,
+                tiktok: addData.insertOneUserPreference.tiktok_handle,
+                twitter: addData.insertOneUserPreference.twitter_handle,
+                apple_music: addData.insertOneUserPreference.applemusic_handle,
+                spotify: addData.insertOneUserPreference.spotify_handle,
+                soundcloud: addData.insertOneUserPreference.soundcloud_handle,
               });
-              setBio(addData.userPreference.bio);
+              setBio(addData.insertOneUserPreference.bio);
             },
             onError: (err) =>
               console.error("Error adding new preference: ", err),
@@ -107,23 +121,28 @@ export default function ProfileCard() {
         facebook: socialHandles.facebook,
         twitter: socialHandles.twitter,
         tiktok: socialHandles.tiktok,
+        apple_music: socialHandles.apple_music,
+        spotify: socialHandles.spotify,
+        soundcloud: socialHandles.soundcloud,
         bio: bio,
       },
       onCompleted: (updateData) => {
         setEditMode(false);
         setSocialHandles({
-          youtube: updateData.userPreference.youtube_handle,
-          instagram: updateData.userPreference.instagram_handle,
-          facebook: updateData.userPreference.facebook_handle,
-          tiktok: updateData.userPreference.tiktok_handle,
-          twitter: updateData.userPreference.twitter_handle,
+          youtube: updateData.updateOneUserPreference.youtube_handle,
+          instagram: updateData.updateOneUserPreference.instagram_handle,
+          facebook: updateData.updateOneUserPreference.facebook_handle,
+          tiktok: updateData.updateOneUserPreference.tiktok_handle,
+          twitter: updateData.updateOneUserPreference.twitter_handle,
+          apple_music: updateData.updateOneUserPreference.applemusic_handle,
+          spotify: updateData.updateOneUserPreference.spotify_handle,
+          soundcloud: updateData.updateOneUserPreference.soundcloud_handle,
         });
-        setBio(updateData.userPreference.bio);
+        setBio(updateData.updateOneUserPreference.bio);
       },
       onError: (err) => console.error("Error updating preferences: ", err),
     });
   };
-  console.log(socialHandles);
   return (
     <>
       {queryLoading && (
@@ -142,16 +161,23 @@ export default function ProfileCard() {
       )}
       <Card className="bg-transparent text-white border-0">
         <Card.Header>
-          <Button
-            className="bg-transparent border-0 position-absolute start-0 top-0"
-            onClick={() => setOpenProfile(false)}
-          >
-            <FontAwesomeIcon size="lg" icon={faXmark} />
-          </Button>
+          {!isSmallScreen && (
+            <Button
+              className="bg-transparent border-0 position-absolute start-0 top-0"
+              onClick={() => setOnlyOneStateTrue(setOpenProfile)}
+            >
+              <FontAwesomeIcon size="lg" icon={faXmark} />
+            </Button>
+          )}
           <Card.Title>Profile Settings</Card.Title>
         </Card.Header>
-        <Card.Body className="px-2">
-          <Row>
+        <Card.Body
+          style={{
+            height: isSmallScreen ? "85vh" : "79vh",
+            overflowY: "scroll",
+          }}
+        >
+          <Row className="mx-1">
             <Col
               xs={9}
               className="d-flex justify-content-start align-items-center"
@@ -173,8 +199,7 @@ export default function ProfileCard() {
                 {currentUser.profile.email}
               </span>
             </Col>
-            <Col xs={3}>
-              {" "}
+            <Col xs={3} className="d-flex justify-content-end">
               <Button
                 className="bg-transparent border-1 border-white"
                 onClick={() => setEditMode((edit) => !edit)}
@@ -184,7 +209,7 @@ export default function ProfileCard() {
             </Col>
           </Row>
           {/* user preferences */}
-          <Row style={{ margin: "0 0.1rem 0" }}>
+          <Row className="mx-1">
             {/* bio */}
             <Row className="mt-2">
               <Col className="d-flex justify-content-start">
@@ -227,25 +252,51 @@ export default function ProfileCard() {
                         />
                       </InputGroup.Text>
                       {!editMode ? (
-                        <a
-                          href={`https://${platform}.com/${
-                            (platform === "youtube" || platform === "tiktok") &&
-                            socialHandles[platform]
-                              ? "@"
-                              : ""
-                          }${socialHandles[platform] ?? ""}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
-                        >
-                          {socialHandles[platform]
-                            ? `${
-                                platform === "youtube" || platform === "tiktok"
-                                  ? "@"
-                                  : ""
-                              }${socialHandles[platform]}`
-                            : `your-handle`}
-                        </a>
+                        platform === "apple_music" ? (
+                          <a
+                            href={`https://music.apple.com/profile/${socialHandles[platform]}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                          >
+                            {socialHandles[platform]
+                              ? socialHandles[platform]
+                              : "your-handle"}
+                          </a>
+                        ) : platform === "spotify" ? (
+                          <a
+                            href={`https://open.spotify.com/user/${socialHandles[platform]}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                          >
+                            {socialHandles[platform]
+                              ? socialHandles[platform]
+                              : "your-handle"}
+                          </a>
+                        ) : (
+                          <a
+                            href={`https://${platform}.com/${
+                              (platform === "youtube" ||
+                                platform === "tiktok") &&
+                              socialHandles[platform]
+                                ? "@"
+                                : ""
+                            }${socialHandles[platform] ?? ""}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                          >
+                            {socialHandles[platform]
+                              ? `${
+                                  platform === "youtube" ||
+                                  platform === "tiktok"
+                                    ? "@"
+                                    : ""
+                                }${socialHandles[platform]}`
+                              : `your-handle`}
+                          </a>
+                        )
                       ) : (
                         <Form.Control
                           type="text"
@@ -273,7 +324,32 @@ export default function ProfileCard() {
                 </Form>
               </Col>
             </Row>
+            <Row className="px-0 mx-0 mt-3">
+              {currentUser.providerType === "local-userpass" && (
+                <Col xs={12} className="px-0 mx-0 mb-3">
+                  <Button
+                    className="w-100 darker-container border-white"
+                    onClick={async () => await logOut()}
+                  >
+                    Log Out
+                  </Button>
+                </Col>
+              )}
+              <Col xs={12} className="px-0 mx-0">
+                <Button
+                  className="w-100 darker-container"
+                  style={{ borderColor: "maroon" }}
+                  onClick={() => setShowDeleteWarningModal(true)}
+                >
+                  Delete Account
+                </Button>
+              </Col>
+            </Row>
           </Row>
+          <DeleteAccountWarningModal
+            onHide={() => setShowDeleteWarningModal(false)}
+            show={showDeleteWarningModal}
+          />
         </Card.Body>
       </Card>
     </>

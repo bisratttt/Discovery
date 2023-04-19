@@ -13,9 +13,12 @@ export default function UsernameWithProfile({ username }) {
     facebook: null,
     tiktok: null,
     twitter: null,
+    soundcloud: null,
+    apple_music: null,
+    spotify: null,
   });
   const [noSocials, setNoSocials] = useState(true);
-
+  const [isHover, setIsHover] = useState(false);
   const { loading, error, data } = useQuery(GET_USER_PREFERENCES_NAME, {
     variables: { username: username },
     onCompleted: (queryData) => {
@@ -25,6 +28,9 @@ export default function UsernameWithProfile({ username }) {
         facebook: queryData.userPreference.facebook_handle,
         tiktok: queryData.userPreference.tiktok_handle,
         twitter: queryData.userPreference.twitter_handle,
+        apple_music: queryData.userPreference.applemusic_handle,
+        spotify: queryData.userPreference.spotify_handle,
+        soundcloud: queryData.userPreference.soundcloud_handle,
       });
     },
   });
@@ -61,7 +67,7 @@ export default function UsernameWithProfile({ username }) {
               >
                 <Col>
                   <p className="mb-0 text-start">
-                    {data.userPreference.bio !== ""
+                    {data.userPreference && data.userPreference.bio !== ""
                       ? data.userPreference.bio
                       : "no-bio"}
                   </p>
@@ -128,7 +134,14 @@ export default function UsernameWithProfile({ username }) {
       overlay={ProfilePopover}
       rootClose={true}
     >
-      <strong style={{ cursor: "pointer" }}>{username}</strong>
+      <strong
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+        className={isHover && "text-decoration-underline"}
+        style={{ cursor: "pointer" }}
+      >
+        {username}
+      </strong>
     </OverlayTrigger>
   );
 }

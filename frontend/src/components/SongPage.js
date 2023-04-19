@@ -16,11 +16,15 @@ import NavBar from "./NavBar";
 import FeedbackPopup from "./FeedbackPopup";
 import ProfileCard from "./ProfileCard";
 import ArtistSongInfo from "./ArtistSongInfo";
+import NavBarBottom from "./NavBarBottom";
+import SongPageSmall from "./SongPageSmall";
 
 // import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
 export default function Page() {
   const { loading, error, data } = useQuery(QUERY_SONG);
+  const isSmallScreen = useMediaQuery("(max-width:850px)");
+
   return (
     <Container
       style={{
@@ -31,7 +35,7 @@ export default function Page() {
         minHeight: "100vh",
       }}
       fluid
-      className={`d-flex flex-column justify-content-start`}
+      className="px-0"
     >
       {loading ? (
         <Row
@@ -40,6 +44,8 @@ export default function Page() {
         >
           <Spinner animation="border" variant="dark" />
         </Row>
+      ) : isSmallScreen ? (
+        <SongPageSmall data={data} />
       ) : (
         <SongPage data={data} />
       )}
@@ -59,6 +65,17 @@ function YoutubeEmbed({ srcId }) {
   );
 }
 
+const isFirstVisitToday = () => {
+  const today = new Date().toISOString().slice(0, 10);
+  const lastVisit = localStorage.getItem("lastVisit");
+  if (!lastVisit || lastVisit !== today) {
+    localStorage.setItem("lastVisit", today);
+    return true;
+  }
+
+  return false;
+};
+
 function SongPage({ data }) {
   const [albumImg, setAlbumImg] = useState("");
   const {
@@ -66,10 +83,8 @@ function SongPage({ data }) {
     openSongSubmissionList,
     openSongInfo,
     setOpenSongInfo,
-    setOpenSongSubmissionList,
-    setOpenReview,
-    setOpenProfile,
     openProfile,
+    setOnlyOneStateTrue,
   } = useToggleComponents();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const isPhoneScreen = useMediaQuery("(max-width:630px)");
@@ -77,6 +92,13 @@ function SongPage({ data }) {
   const isLargeScreen = useMediaQuery("(min-width:1200px)");
   const [aspectRatio, setAspectRatio] = useState(null);
   const [shareModal, setShareModal] = useState(false);
+  const [songHover, setSongHover] = useState(false);
+  const [artistHover, setArtistHover] = useState(false);
+  const [firstVisitToday, setFirstVisitToday] = useState(false);
+
+  useEffect(() => {
+    setFirstVisitToday(isFirstVisitToday());
+  });
 
   const cardStyle = {
     backgroundColor: "rgba(0,0,0,0.7)",
@@ -118,11 +140,11 @@ function SongPage({ data }) {
         <Row
           className="justify-content-evenly align-items-center mx-0"
           style={{
-            minHeight: "90vh",
+            minHeight: "87vh",
           }}
         >
           <AnimatePresence mode="popLayout" initial={false}>
-            {openSongInfo && (
+            {openSongInfo.openInfo && (
               <motion.div
                 key="info-card"
                 className={`col-xs-12 col-sm-9 ${
@@ -139,7 +161,7 @@ function SongPage({ data }) {
                 exit={{ x: "-100%" }}
                 transition={{ duration: 0.3 }} // Animation duration (optional)
               >
-                <ArtistSongInfo />
+                <ArtistSongInfo active_tab={openSongInfo.active_tab} />
               </motion.div>
             )}
             <motion.div
@@ -155,7 +177,7 @@ function SongPage({ data }) {
                   isSmallScreen &&
                   (openReview ||
                     openSongSubmissionList ||
-                    openSongInfo ||
+                    openSongInfo.openInfo ||
                     openProfile) &&
                   "hide-song"
                 }`}
@@ -165,12 +187,7 @@ function SongPage({ data }) {
               }}
             >
               <Row className="justify-content-between">
-                <SongButtonsTop
-                  setOpenReview={setOpenReview}
-                  setOpenSongInfo={setOpenSongInfo}
-                  setOpenSongSubmissionList={setOpenSongSubmissionList}
-                  setShareModal={setShareModal}
-                />
+                <SongButtonsTop setShareModal={setShareModal} />
               </Row>
               <Row
                 className="justify-content-center"
@@ -186,16 +203,42 @@ function SongPage({ data }) {
                 <YoutubeEmbed srcId={data.song.youtube_id} />
               </Row>
               <Row>
-                <p className="song-title">{data.song.song_name ?? ""}</p>
+                <p
+                  onClick={() => {
+                    setOpenSongInfo({ openInfo: false, active_tab: "Song" });
+                    setOnlyOneStateTrue(setOpenSongInfo);
+                  }}
+                  className={`${
+                    songHover && "text-decoration-underline"
+                  } song-title`}
+                  onMouseEnter={() => setSongHover(true)}
+                  onMouseLeave={() => setSongHover(false)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {data.song.song_name ?? ""}
+                </p>
               </Row>
               <Row>
-                <p className="artist-name">{data.song.artist ?? ""}</p>
+                <p
+                  onMouseEnter={() => setArtistHover(true)}
+                  onMouseLeave={() => setArtistHover(false)}
+                  onClick={() => {
+                    setOpenSongInfo({ openInfo: false, active_tab: "Artist" });
+                    setOnlyOneStateTrue(setOpenSongInfo);
+                  }}
+                  className={`${
+                    artistHover && "text-decoration-underline"
+                  } artist-name`}
+                  style={{ cursor: "pointer" }}
+                >
+                  {data.song.artist ?? ""}
+                </p>
               </Row>
               <Row className="mt-1">
                 <SongButtonsBottom
-                  spotify_link={data.song.spotify_link}
-                  apple_music_link={data.song.apple_music_link}
-                  song_id={data.song._id}
+                  spotify_link={data?.song?.spotify_link}
+                  apple_music_link={data?.song?.apple_music_link}
+                  song_id={data?.song._id}
                 />
               </Row>
             </motion.div>
@@ -223,17 +266,15 @@ function SongPage({ data }) {
                 key="submission-card"
                 style={{
                   ...cardStyle,
-                  minHeight: "90vh",
-                  position: !isSmallScreen ? "absolute" : "relative",
-                  left: !isSmallScreen ? "75.5%" : "0%",
+                  minHeight: "85vh",
                 }}
-                className={`col-xs-12 ${isBigScreen && "col-md-5"} col-lg-3 ${
+                className={`col-xs-12 ${isBigScreen && "col-md-6"} col-lg-5 ${
                   !isPhoneScreen && "rounded-3"
                 } p-0`}
                 initial={{ x: "100%" }} // Start from the left side, out of the viewport
                 animate={{ x: "0%" }} // Move to the original position
                 exit={{ x: "100%" }} // Exit to the left side when removed from the DOM
-                transition={{ duration: 0.2 }} // Animation duration (optional)
+                transition={{ duration: 0.3 }} // Animation duration (optional)
               >
                 {/* Your new column content */}
                 <SongSubmissionList />
@@ -241,10 +282,10 @@ function SongPage({ data }) {
             )}
             {openProfile && (
               <motion.div
-                key="submission-card"
+                key="profile-card"
                 style={{
                   ...cardStyle,
-                  minHeight: "90vh",
+                  minHeight: "85vh",
                   position: !isSmallScreen ? "absolute" : "relative",
                   left: !isSmallScreen ? "75.5%" : "0%",
                 }}
@@ -263,6 +304,7 @@ function SongPage({ data }) {
           </AnimatePresence>
         </Row>
       </div>
+      <NavBarBottom />
       <ShareModal
         show={shareModal}
         onHide={() => setShareModal(false)}

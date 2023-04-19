@@ -44,7 +44,7 @@ const SubmissionReactionButton = ({
         >
           {image !== "" ? (
             <Image
-              height={22}
+              height={25}
               width="auto"
               src={!isHover ? staticImage : image}
               onMouseEnter={() => setIsHover(true)}
@@ -156,10 +156,10 @@ export default function SubmissionReaction({ submissionId }) {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   return (
     <Card bg="dark" text="white" id="reaction-card" className="mb-2">
-      <Row>
+      <Row className="mx-0 px-0">
         <Col
           xs={12}
-          className="d-flex align-items-center justify-content-around"
+          className="d-flex align-items-center justify-content-between"
         >
           {Object.entries(reactionOrder).map(([emoji, image]) => (
             <SubmissionReactionButton

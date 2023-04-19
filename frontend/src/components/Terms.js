@@ -186,22 +186,9 @@ parties, except as described in our Privacy Policy.`,
   },
 ];
 export default function Terms() {
-  const { setOpenTerms } = useToggleComponents();
   return (
     <Container className="ms-0 terms w-100 theme-bg-color" fluid>
-      <Row className="align-items-start">
-        <Col>
-          <Button
-            variant="link"
-            size="lg"
-            className="text-black text-decoration-none"
-            onClick={() => setOpenTerms(false)}
-          >
-            <FontAwesomeIcon size="xl" icon={faArrowLeft} />
-          </Button>
-        </Col>
-      </Row>
-      <Row className="ms-5">
+      <Row className="justify-content-start text-start">
         <Col xs={10}>
           <h1 className="ps-0 display-2 theme-text-color">
             Terms and Conditions
@@ -234,7 +221,7 @@ export default function Terms() {
             {terms.map((term, index) => (
               <ListGroup.Item
                 as="li"
-                className="d-flex border-0 theme-bg-color"
+                className="d-flex border-0 theme-bg-color justify-content-start"
               >
                 <span style={{ marginTop: "0.5rem" }}>{index + 1}.</span>
                 <div className="ms-1">

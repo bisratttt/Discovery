@@ -3,15 +3,13 @@ import "bootstrap/dist/css/bootstrap.css";
 import appConfig from "./realm.json";
 import { RealmAppProvider, useRealmApp } from "./contexts/RealmApp";
 import { useEffect } from "react";
-import {
-  ToggleComponentsProvider,
-  useToggleComponents,
-} from "./contexts/ToggleComponents";
+import { ToggleComponentsProvider } from "./contexts/ToggleComponents";
 import Terms from "./components/Terms";
 import Cookies from "./components/Cookies";
 import { FetchDataProvider } from "./contexts/FetchData";
 import LoginModal from "./components/LoginModal";
 import Details from "./components/Details";
+import { Routes, Route } from "react-router-dom";
 const { app_id } = appConfig;
 
 export default function AppWithRealm() {
@@ -35,16 +33,22 @@ function App() {
       logGuest();
     }
   }, []);
-  const { openTerms, openCookies } = useToggleComponents();
 
-  return openTerms ? (
-    <Terms />
-  ) : openCookies ? (
-    <Cookies />
-  ) : (
+  return (
     <div className="App">
-      {currentUser && <Details />}
-      <LoginModal />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              {currentUser && <Details />}
+              <LoginModal />
+            </>
+          }
+        />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/cookies" element={<Cookies />} />
+      </Routes>
     </div>
   );
 }

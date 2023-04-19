@@ -21,17 +21,31 @@ export default function ReviewEditor({ songId, onHide, refetch }) {
   const [addComment, { loading: mutationLoading, error: mutationError }] =
     useMutation(ADD_COMMENT, {
       update: (cache, { data: { insertOneComment } }) => {
-        const { comments } = cache.readQuery({
+        const queryResult = cache.readQuery({
           query: FETCH_COMMENTS,
           variables: { limit: LIMIT, lastTime: LAST_TIME },
         });
-        cache.writeQuery({
-          query: FETCH_COMMENTS,
-          variables: { limit: LIMIT, lastTime: LAST_TIME },
-          data: {
-            comments: [{ ...insertOneComment, time: new Date() }, ...comments],
-          },
-        });
+        if (queryResult) {
+          const { comments } = queryResult;
+          cache.writeQuery({
+            query: FETCH_COMMENTS,
+            variables: { limit: LIMIT, lastTime: LAST_TIME },
+            data: {
+              comments: [
+                { ...insertOneComment, time: new Date() },
+                ...comments,
+              ],
+            },
+          });
+        } else {
+          cache.writeQuery({
+            query: FETCH_COMMENTS,
+            variables: { limit: LIMIT, lastTime: LAST_TIME },
+            data: {
+              comments: [{ ...insertOneComment, time: new Date() }],
+            },
+          });
+        }
       },
     });
   const ErrorAlert = useErrorAlert({

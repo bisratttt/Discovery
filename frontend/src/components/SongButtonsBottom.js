@@ -20,14 +20,8 @@ import { useRealmApp } from "../contexts/RealmApp";
 // buttons underneath the album (Share, Play, Comments)
 function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const [playModal, setPlayModal] = useState(false);
-  const {
-    setOpenReview,
-    setOpenSongSubmissionList,
-    openLoginModal,
-    setOpenLoginModal,
-    setOpenSongInfo,
-    setOpenProfile,
-  } = useToggleComponents();
+  const { setOpenReview, openLoginModal, setOnlyOneStateTrue } =
+    useToggleComponents();
   // fetches the data for the reactions
   const { setReactionCounts } = useFetchData();
   const { currentUser } = useRealmApp();
@@ -80,13 +74,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
           <Button
             className="ps-1"
             style={{ background: "transparent", borderColor: "transparent" }}
-            onClick={() => {
-              setOpenSongInfo(false);
-              setOpenSongSubmissionList(false);
-              setOpenProfile(false);
-              setOpenLoginModal(false);
-              setOpenReview((openReview) => !openReview);
-            }}
+            onClick={() => setOnlyOneStateTrue(setOpenReview)}
           >
             <RateReviewIcon sx={{ fontSize: 40 }} />
           </Button>

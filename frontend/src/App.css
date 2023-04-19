@@ -10,6 +10,27 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 }
+/* transparent scroll */
+/* For Webkit-based browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+/* For Firefox */
+body {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+a:hover {
+  text-decoration: underline !important;
+}
 .App {
   text-align: center;
 }
@@ -57,8 +78,10 @@
 /* song page css */
 
 .hide-song {
-  position: absolute;
-  top: -9999px;
+  visibility: hidden !important;
+  position: fixed;
+  width: 0;
+  height: 0;
 }
 .underline-link:hover {
   text-decoration: underline !important;
@@ -93,7 +116,7 @@
 }
 
 .darker-container {
-  background-color: rgba(0, 0, 0, 0.65) !important;
+  background-color: rgba(0, 0, 0, 0.4) !important;
   backdrop-filter: blur(1rem);
 }
 
@@ -133,11 +156,28 @@
   border: none !important;
   color: rgba(255, 255, 255, 0.6) !important;
   transition: color 0.3s;
+  position: relative;
+}
+
+.custom-tabs .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s;
+}
+
+.custom-tabs .nav-link.active::after {
+  width: 100%;
 }
 
 .custom-tabs .nav-link.active,
 .custom-tabs .nav-link:hover {
   color: white !important;
+  border-bottom: 2px solid white;
 }
 
 .horizontal-collapse-enter {
@@ -189,7 +229,6 @@
   background-color: transparent !important;
 }
 #comment-body {
-  height: 77vh;
   overflow-y: auto;
 }
 .review-truncate {
@@ -225,8 +264,7 @@
   background-color: transparent !important;
 }
 #submission-body {
-  height: 90vh;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 #submission-footer .form-control {
@@ -244,8 +282,9 @@
   filter: blur(1rem);
 }
 
-.submission-post-button {
+#song-submission-wall {
   z-index: 10;
+  background-color: rgba(0, 0, 0, 0.7);
 }
 .overlay {
   position: relative;
