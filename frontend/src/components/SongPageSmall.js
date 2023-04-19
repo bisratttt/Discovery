@@ -27,7 +27,7 @@ function YoutubeEmbed({ srcId }) {
   );
 }
 const cardStyle = {
-  minHeight: "93vh",
+  minHeight: "90vh",
   backgroundColor: "rgba(0,0,0,0.5)",
   boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.4)", // add a box shadow to create an elevated effect
   backdropFilter: "blur(2rem)", // blurs the background when translucent

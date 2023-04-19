@@ -67,8 +67,8 @@ export default function NavBarBottom() {
           </Nav>
         ) : (
           <Nav
-            style={{ backgroundColor: "rgba(0,0,0,0.8)", height: "7vh" }}
-            className="mx-0 w-100 d-flex justify-content-around rounded-top"
+            style={{ backgroundColor: "rgba(20,20,20)", height: "10vh" }}
+            className="mx-0 w-100 d-flex justify-content-around"
           >
             <Nav.Item className="d-flex justify-content-center align-content-center">
               <Nav.Link

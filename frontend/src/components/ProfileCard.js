@@ -160,7 +160,7 @@ export default function ProfileCard() {
         </div>
       )}
       <Card className="bg-transparent text-white border-0">
-        <Card.Header>
+        <Card.Header className="mt-3">
           {!isSmallScreen && (
             <Button
               className="bg-transparent border-0 position-absolute start-0 top-0"
@@ -169,11 +169,13 @@ export default function ProfileCard() {
               <FontAwesomeIcon size="lg" icon={faXmark} />
             </Button>
           )}
-          <Card.Title>Profile Settings</Card.Title>
+          <Card.Title className={`${isSmallScreen && "text-start"}`}>
+            Profile Settings
+          </Card.Title>
         </Card.Header>
         <Card.Body
           style={{
-            height: isSmallScreen ? "85vh" : "79vh",
+            height: isSmallScreen ? "80vh" : "79vh",
             overflowY: "scroll",
           }}
         >

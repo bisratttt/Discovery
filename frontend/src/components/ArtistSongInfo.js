@@ -199,7 +199,7 @@ function ArtistInfo({
           </Row>
           <Row>
             <Col>
-              {showArrowIcon ? (
+              {showArrowIcon && !isSmallScreen ? (
                 <Button
                   className="bg-transparent border-0"
                   onClick={scrollArtistMoreDetails}
@@ -354,7 +354,7 @@ function AlbumInfo({
           </Row>
           <Row>
             <Col>
-              {showArrowIcon ? (
+              {showArrowIcon && !isSmallScreen ? (
                 <Button
                   className="bg-transparent border-0"
                   onClick={scrollAlbumMoreDetails}
@@ -555,7 +555,7 @@ function SongInfo({
           </Row>
           <Row>
             <Col>
-              {showArrowIcon ? (
+              {showArrowIcon && !isSmallScreen ? (
                 <Button
                   className="bg-transparent border-0"
                   onClick={scrollSongMoreDetails}

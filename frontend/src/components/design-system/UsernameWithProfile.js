@@ -97,20 +97,44 @@ export default function UsernameWithProfile({ username }) {
                           />
                         </Col>
                         <Col xs={9}>
-                          <a
-                            href={`https://${platform}.com/${
-                              (platform === "youtube" ||
-                                platform === "tiktok") &&
-                              socialHandles[platform]
-                                ? "@"
-                                : ""
-                            }${socialHandles[platform] ?? ""}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-transparent border-0 text-white"
-                          >
-                            {socialHandles[platform]}
-                          </a>
+                          {platform === "apple_music" ? (
+                            <a
+                              href={`https://music.apple.com/profile/${socialHandles[platform]}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="bg-transparent border-0 text-white"
+                            >
+                              {socialHandles[platform]
+                                ? socialHandles[platform]
+                                : "your-handle"}
+                            </a>
+                          ) : platform === "spotify" ? (
+                            <a
+                              href={`https://open.spotify.com/user/${socialHandles[platform]}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="bg-transparent border-0 text-white"
+                            >
+                              {socialHandles[platform]
+                                ? socialHandles[platform]
+                                : "your-handle"}
+                            </a>
+                          ) : (
+                            <a
+                              href={`https://${platform}.com/${
+                                (platform === "youtube" ||
+                                  platform === "tiktok") &&
+                                socialHandles[platform]
+                                  ? "@"
+                                  : ""
+                              }${socialHandles[platform] ?? ""}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="bg-transparent border-0 text-white"
+                            >
+                              {socialHandles[platform]}
+                            </a>
+                          )}
                         </Col>
                       </Row>
                     );
