@@ -33,6 +33,19 @@ const ProducerLink = ({ producer }) => {
     </a>
   );
 };
+
+function YoutubeEmbed({ srcId }) {
+  const url = `https://www.youtube.com/embed/${srcId}`;
+  return (
+    <iframe
+      src={url}
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowFullScreen
+    ></iframe>
+  );
+}
+
 const RecursiveRenderer = ({ data, parentKey = "" }) => {
   if (!data) return null;
   if (typeof data === "string") {
@@ -51,6 +64,29 @@ const RecursiveRenderer = ({ data, parentKey = "" }) => {
           className: "text-white text-decoration-none fw-bold",
         }
       : attributes;
+
+  // Check if the tag is an anchor element with a YouTube link
+  const isYoutubeLink =
+    tag === "a" &&
+    attributes.href &&
+    (attributes.href.startsWith("https://www.youtube.com/watch?v=") ||
+      attributes.href.startsWith("https://youtu.be/"));
+
+  // Extract the YouTube video ID if it's a YouTube link
+  const youtubeId = isYoutubeLink
+    ? attributes.href.includes("watch?v=")
+      ? attributes.href.split("https://www.youtube.com/watch?v=")[1]
+      : attributes.href.split("https://youtu.be/")[1]
+    : null;
+
+  // Render the YouTube video using the YoutubeEmbed component if it's a YouTube link
+  if (isYoutubeLink) {
+    return (
+      <Row>
+        <YoutubeEmbed srcId={youtubeId} />
+      </Row>
+    );
+  }
 
   return (
     <Tag {...updatedAttributes}>
