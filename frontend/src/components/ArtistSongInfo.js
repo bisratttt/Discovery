@@ -69,14 +69,11 @@ const RecursiveRenderer = ({ data, parentKey = "" }) => {
   const isYoutubeLink =
     tag === "a" &&
     attributes.href &&
-    (attributes.href.startsWith("https://www.youtube.com/watch?v=") ||
-      attributes.href.startsWith("https://youtu.be/"));
+    attributes.href.startsWith("https://youtu.be/");
 
   // Extract the YouTube video ID if it's a YouTube link
   const youtubeId = isYoutubeLink
-    ? attributes.href.includes("watch?v=")
-      ? attributes.href.split("https://www.youtube.com/watch?v=")[1]
-      : attributes.href.split("https://youtu.be/")[1]
+    ? attributes.href.split("https://youtu.be/")[1]
     : null;
 
   // Render the YouTube video using the YoutubeEmbed component if it's a YouTube link
@@ -295,24 +292,33 @@ function AlbumInfo({
             >
               {
                 <Row>
-                  <Col
-                    className={`d-flex flex-column justify-content-center`}
-                  >
+                  <Col className={`d-flex flex-column justify-content-center`}>
                     <Row>
-                  <Col className="d-flex justify-content-center"><h4>Track List</h4></Col>
+                      <Col className="d-flex justify-content-center">
+                        <h4>Track List</h4>
+                      </Col>
                     </Row>
                     <Row>
                       <Col>
-                      {album_tracks.map((track) => (
-                      <Row>
-                        <Col className="d-flex justify-content-end" xs={3}>{track.number}</Col>
-                        <Col className="d-flex justify-content-start"><a            target="_blank"
-            rel="noopener noreferrer"  className="text-decoration-none text-white" href={track.song.url}>{track.song.title_with_featured}</a></Col>
-                      </Row>
-                    ))}
+                        {album_tracks.map((track) => (
+                          <Row>
+                            <Col className="d-flex justify-content-end" xs={3}>
+                              {track.number}
+                            </Col>
+                            <Col className="d-flex justify-content-start">
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-decoration-none text-white"
+                                href={track.song.url}
+                              >
+                                {track.song.title_with_featured}
+                              </a>
+                            </Col>
+                          </Row>
+                        ))}
                       </Col>
                     </Row>
-
                   </Col>
                 </Row>
               }
