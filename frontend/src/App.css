@@ -229,7 +229,6 @@ a:hover {
   background-color: transparent !important;
 }
 #comment-body {
-  height: 85vh;
   overflow-y: auto;
 }
 .review-truncate {

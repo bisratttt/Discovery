@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Container, Image, Nav, Navbar } from "react-bootstrap";
 import { useMediaQuery } from "@mui/material";
@@ -7,16 +7,34 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { useToggleComponents } from "../contexts/ToggleComponents";
+import { useRealmApp } from "../contexts/RealmApp";
+import PeopleIcon from "@mui/icons-material/People";
+import InfoIcon from "@mui/icons-material/Info";
+import StarIcon from "@mui/icons-material/Star";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export default function NavBarBottom() {
-  const isSmallScreen = useMediaQuery("(max-width:765px)");
+  const isSmallScreen = useMediaQuery("(max-width:850px)");
   const {
     setOpenReview,
     setOpenSongSubmissionList,
     setOpenSongInfo,
     setOpenProfile,
+    setOpenLoginModal,
     setOnlyOneStateTrue,
   } = useToggleComponents();
+
+  const [
+    { peopleClicked, infoClicked, starClicked, accountClicked },
+    setNavClicked,
+  ] = useState({
+    peopleClicked: false,
+    infoClicked: false,
+    starClicked: false,
+    accountClicked: false,
+  });
+
+  const { currentUser } = useRealmApp();
   return (
     <Navbar
       bg="transparent"
@@ -49,30 +67,65 @@ export default function NavBarBottom() {
           </Nav>
         ) : (
           <Nav
-            style={{ backgroundColor: "rgba(0,0,0,0.8)" }}
+            style={{ backgroundColor: "rgba(0,0,0,0.8)", height: "7vh" }}
             className="mx-0 w-100 d-flex justify-content-around rounded-top"
           >
             <Nav.Item className="d-flex justify-content-center align-content-center">
               <Nav.Link
-                onClick={() => setOnlyOneStateTrue(setOpenSongSubmissionList)}
+                onClick={() => {
+                  setNavClicked({
+                    peopleClicked: true,
+                    infoClicked: false,
+                    starClicked: false,
+                    accountClicked: false,
+                  });
+                  setOnlyOneStateTrue(setOpenSongSubmissionList);
+                }}
               >
-                <PeopleOutlineIcon
-                  className="pt-2 text-white"
-                  sx={{ fontSize: 35 }}
-                />
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="d-flex justify-content-center align-content-center">
-              <Nav.Link onClick={() => setOnlyOneStateTrue(setOpenSongInfo)}>
-                <InfoOutlinedIcon
-                  className="pt-2 text-white"
-                  sx={{ fontSize: 35 }}
-                />
+                {peopleClicked ? (
+                  <PeopleIcon
+                    className="pt-2 text-white"
+                    sx={{ fontSize: 35 }}
+                  />
+                ) : (
+                  <PeopleOutlineIcon
+                    className="pt-2 text-white"
+                    sx={{ fontSize: 35 }}
+                  />
+                )}
               </Nav.Link>
             </Nav.Item>
             <Nav.Item className="d-flex justify-content-center align-content-center">
               <Nav.Link
                 onClick={() => {
+                  setNavClicked({
+                    peopleClicked: false,
+                    infoClicked: true,
+                    starClicked: false,
+                    accountClicked: false,
+                  });
+                  setOnlyOneStateTrue(setOpenSongInfo);
+                }}
+              >
+                {infoClicked ? (
+                  <InfoIcon className="pt-2 text-white" sx={{ fontSize: 35 }} />
+                ) : (
+                  <InfoOutlinedIcon
+                    className="pt-2 text-white"
+                    sx={{ fontSize: 35 }}
+                  />
+                )}
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item className="d-flex justify-content-center align-content-center">
+              <Nav.Link
+                onClick={() => {
+                  setNavClicked({
+                    peopleClicked: false,
+                    infoClicked: false,
+                    starClicked: false,
+                    accountClicked: false,
+                  });
                   setOpenReview(false);
                   setOpenSongInfo({ openInfo: false });
                   setOpenProfile(false);
@@ -83,19 +136,54 @@ export default function NavBarBottom() {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item className="d-flex justify-content-center align-content-center">
-              <Nav.Link onClick={() => setOnlyOneStateTrue(setOpenReview)}>
-                <StarBorderOutlinedIcon
-                  className="pt-2 text-white"
-                  sx={{ fontSize: 35 }}
-                />
+              <Nav.Link
+                onClick={() => {
+                  setNavClicked({
+                    peopleClicked: false,
+                    infoClicked: false,
+                    starClicked: true,
+                    accountClicked: false,
+                  });
+                  setOnlyOneStateTrue(setOpenReview);
+                }}
+              >
+                {starClicked ? (
+                  <StarIcon className="pt-2 text-white" sx={{ fontSize: 35 }} />
+                ) : (
+                  <StarBorderOutlinedIcon
+                    className="pt-2 text-white"
+                    sx={{ fontSize: 35 }}
+                  />
+                )}
               </Nav.Link>
             </Nav.Item>
             <Nav.Item className="d-flex justify-content-center align-content-center">
-              <Nav.Link onClick={() => setOnlyOneStateTrue(setOpenProfile)}>
-                <AccountCircleOutlinedIcon
-                  className="pt-2 text-white"
-                  sx={{ fontSize: 35 }}
-                />
+              <Nav.Link
+                onClick={() => {
+                  if (currentUser.providerType === "local-userpass") {
+                    setNavClicked({
+                      peopleClicked: false,
+                      infoClicked: false,
+                      starClicked: false,
+                      accountClicked: true,
+                    });
+                    setOnlyOneStateTrue(setOpenProfile);
+                  } else {
+                    setOpenLoginModal(true);
+                  }
+                }}
+              >
+                {accountClicked ? (
+                  <AccountCircleIcon
+                    className="pt-2 text-white"
+                    sx={{ fontSize: 35 }}
+                  />
+                ) : (
+                  <AccountCircleOutlinedIcon
+                    className="pt-2 text-white"
+                    sx={{ fontSize: 35 }}
+                  />
+                )}
               </Nav.Link>
             </Nav.Item>
           </Nav>

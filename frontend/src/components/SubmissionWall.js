@@ -3,10 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import SongSubmissionModal from "./SongSubmissionModal";
+import { useRealmApp } from "../contexts/RealmApp";
+import { useToggleComponents } from "../contexts/ToggleComponents";
 
 export default function SubmissionWall({ refetch }) {
   const [songSubmissionModal, setSongSubmissionModal] = useState(false);
-
+  const { currentUser } = useRealmApp();
+  const { setOpenLoginModal } = useToggleComponents();
   return (
     <>
       <Container
@@ -31,9 +34,13 @@ export default function SubmissionWall({ refetch }) {
             <Button
               size="lg"
               className={`rounded-3 bg-black border-white`}
-              onClick={() =>
-                setSongSubmissionModal((submissionModal) => !submissionModal)
-              }
+              onClick={() => {
+                if (currentUser.providerType === "local-userpass") {
+                  setSongSubmissionModal((submissionModal) => !submissionModal);
+                } else {
+                  setOpenLoginModal(true);
+                }
+              }}
             >
               <FontAwesomeIcon icon={faPenFancy} className="pe-2" />
               Add your song of the day

@@ -268,7 +268,7 @@ function AlbumInfo({
     >
       <Row style={{ minHeight: "79vh" }}>
         <Col className="d-flex flex-column justify-content-between">
-          <Row className="pt-3">
+          <Row className="pt-3 ps-2">
             <Col
               xs={12}
               md={6}
@@ -283,13 +283,7 @@ function AlbumInfo({
                 src={album_art}
               />
             </Col>
-            <Col
-              className={`d-flex flex-${
-                isSmallScreen ? "row" : "column"
-              } justify-content-end pt-3`}
-              xs={12}
-              md={6}
-            >
+            <Col className={`pt-3`} xs={12} md={6}>
               {
                 <Row>
                   <Col className={`d-flex flex-column justify-content-center`}>
@@ -299,10 +293,10 @@ function AlbumInfo({
                       </Col>
                     </Row>
                     <Row>
-                      <Col>
-                        {album_tracks.map((track) => (
+                      {album_tracks.map((track) => (
+                        <Col xs={isSmallScreen ? 6 : 12}>
                           <Row>
-                            <Col className="d-flex justify-content-end" xs={3}>
+                            <Col className="d-flex justify-content-end" xs={1}>
                               {track.number}
                             </Col>
                             <Col className="d-flex justify-content-start">
@@ -316,8 +310,8 @@ function AlbumInfo({
                               </a>
                             </Col>
                           </Row>
-                        ))}
-                      </Col>
+                        </Col>
+                      ))}
                     </Row>
                   </Col>
                 </Row>

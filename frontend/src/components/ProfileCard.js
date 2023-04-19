@@ -176,9 +176,8 @@ export default function ProfileCard() {
             height: isSmallScreen ? "85vh" : "79vh",
             overflowY: "scroll",
           }}
-          className="px-2"
         >
-          <Row>
+          <Row className="mx-1">
             <Col
               xs={9}
               className="d-flex justify-content-start align-items-center"
@@ -200,8 +199,7 @@ export default function ProfileCard() {
                 {currentUser.profile.email}
               </span>
             </Col>
-            <Col xs={3}>
-              {" "}
+            <Col xs={3} className="d-flex justify-content-end">
               <Button
                 className="bg-transparent border-1 border-white"
                 onClick={() => setEditMode((edit) => !edit)}
@@ -211,7 +209,7 @@ export default function ProfileCard() {
             </Col>
           </Row>
           {/* user preferences */}
-          <Row style={{ margin: "0 0.1rem 0" }}>
+          <Row className="mx-1">
             {/* bio */}
             <Row className="mt-2">
               <Col className="d-flex justify-content-start">

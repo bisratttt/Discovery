@@ -71,7 +71,11 @@ export default function CommentCard({ songId }) {
               className="bg-transparent border-0 p-0"
               onClick={() => setOpenReview((openReview) => !openReview)}
             >
-              {!isSmallScreen && <FontAwesomeIcon icon={faXmark} size="xl" />}
+              {!isSmallScreen ? (
+                <FontAwesomeIcon icon={faXmark} size="xl" />
+              ) : (
+                <h2>Reviews</h2>
+              )}
             </Button>
           </Col>
           {!userHasReviewed && (
@@ -102,7 +106,11 @@ export default function CommentCard({ songId }) {
           />
         </Row>
       </Card.Header>
-      <Card.Body id="comment-body" className="p-0">
+      <Card.Body
+        id="comment-body"
+        className="p-0"
+        style={{ height: isSmallScreen ? "85vh" : "77vh" }}
+      >
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (

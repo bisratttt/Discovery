@@ -27,8 +27,7 @@ function YoutubeEmbed({ srcId }) {
   );
 }
 const cardStyle = {
-  minHeight: "90vh",
-  marginTop: "0.5em",
+  minHeight: "93vh",
   backgroundColor: "rgba(0,0,0,0.5)",
   boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.4)", // add a box shadow to create an elevated effect
   backdropFilter: "blur(2rem)", // blurs the background when translucent
@@ -61,7 +60,7 @@ export default function SongPageSmall({ data }) {
       <div className="background-darker" />
       <SongInfoLargeScreen />
       {openSongInfo.openInfo && (
-        <div className="rounded-3" style={{ ...cardStyle }}>
+        <div style={{ ...cardStyle }}>
           <ArtistSongInfo active_tab={openSongInfo.active_tab} />
         </div>
       )}
@@ -71,7 +70,7 @@ export default function SongPageSmall({ data }) {
         !openProfile && (
           <div
             style={{ height: "90vh" }}
-            className="w-100 d-flex flex-column justify-content-center align-items-center mx-0"
+            className="w-100 d-flex flex-column justify-content-center align-items-center mx-0 px-3"
           >
             <div
               className="w-100 rounded-3"
@@ -119,17 +118,17 @@ export default function SongPageSmall({ data }) {
           </div>
         )}
       {openReview && (
-        <div className="rounded-3" style={{ ...cardStyle }}>
+        <div style={{ ...cardStyle }}>
           <CommentCard songId={data.song._id} />
         </div>
       )}
       {openSongSubmissionList && (
-        <div className="rounded-3" style={{ ...cardStyle }}>
+        <div style={{ ...cardStyle }}>
           <SongSubmissionList />
         </div>
       )}
       {openProfile && (
-        <div className="rounded-3" style={{ ...cardStyle }}>
+        <div style={{ ...cardStyle }}>
           <ProfileCard />
         </div>
       )}

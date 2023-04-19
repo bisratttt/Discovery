@@ -35,6 +35,7 @@ export default function Page() {
         minHeight: "100vh",
       }}
       fluid
+      className="px-0"
     >
       {loading ? (
         <Row
