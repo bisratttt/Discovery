@@ -69,20 +69,17 @@ const RecursiveRenderer = ({ data, parentKey = "" }) => {
   const isYoutubeLink =
     tag === "a" &&
     attributes.href &&
-    (attributes.href.startsWith("https://www.youtube.com/watch?v=") ||
-      attributes.href.startsWith("https://youtu.be/"));
+    attributes.href.startsWith("https://youtu.be/");
 
   // Extract the YouTube video ID if it's a YouTube link
   const youtubeId = isYoutubeLink
-    ? attributes.href.includes("watch?v=")
-      ? attributes.href.split("https://www.youtube.com/watch?v=")[1]
-      : attributes.href.split("https://youtu.be/")[1]
+    ? attributes.href.split("https://youtu.be/")[1]
     : null;
 
   // Render the YouTube video using the YoutubeEmbed component if it's a YouTube link
   if (isYoutubeLink) {
     return (
-      <Row>
+      <Row style={{ minHeight: "40vh" }}>
         <YoutubeEmbed srcId={youtubeId} />
       </Row>
     );
@@ -239,7 +236,13 @@ function ArtistInfo({
     </Container>
   );
 }
-function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
+function AlbumInfo({
+  album_bio,
+  album_name,
+  album_art,
+  album_release_date,
+  album_tracks,
+}) {
   const targetRowRef = useRef(null);
   const containerRef = useRef(null);
   const isSmallScreen = useMediaQuery("(max-width:765px)");
@@ -287,20 +290,38 @@ function AlbumInfo({ album_bio, album_name, album_art, album_release_date }) {
               xs={12}
               md={6}
             >
-              {/* <Row>
-                <Col
-                  className={`d-flex justify-content-center`}
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: "20px",
-                    color: "white",
-                    padding: "10px 0",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  Tracks
-                </Col>
-              </Row> */}
+              {
+                <Row>
+                  <Col className={`d-flex flex-column justify-content-center`}>
+                    <Row>
+                      <Col className="d-flex justify-content-center">
+                        <h4>Track List</h4>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col>
+                        {album_tracks.map((track) => (
+                          <Row>
+                            <Col className="d-flex justify-content-end" xs={3}>
+                              {track.number}
+                            </Col>
+                            <Col className="d-flex justify-content-start">
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-decoration-none text-white"
+                                href={track.song.url}
+                              >
+                                {track.song.title_with_featured}
+                              </a>
+                            </Col>
+                          </Row>
+                        ))}
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              }
               <Row>
                 <Col>
                   <Row>
@@ -590,6 +611,7 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
   const [songProducers, setSongProducers] = useState({});
   const [songWriters, setSongWriters] = useState({});
   const [albumBio, setAlbumBio] = useState({});
+  const [albumTracks, setAlbumTracks] = useState([]);
   const [socialHandles, setSocialHandles] = useState({
     instagram: null,
     twitter: null,
@@ -608,6 +630,8 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
         facebook: data.songInfo.artist_facebook,
       });
       setAlbumBio(JSON.parse(albumData.albumInfo.album_bio).dom);
+      setAlbumTracks(JSON.parse(albumData.albumInfo.album_tracks).tracks);
+      console.log(JSON.parse(albumData.albumInfo.album_tracks).tracks);
     }
   }, [data]);
   if (error) {
@@ -621,6 +645,7 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
     Object.keys(artistBio).length === 0 ||
     Object.keys(songBio).length === 0 ||
     Object.keys(albumBio).length === 0 ||
+    albumTracks.length === 0 ||
     Object.keys(songProducers).length === 0 ||
     Object.keys(songWriters).length === 0 ? (
     <Container>
@@ -664,6 +689,7 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
               album_art={albumData.albumInfo.album_art}
               album_release_date={albumData.albumInfo.album_release_date}
               album_name={albumData.albumInfo.album_name}
+              album_tracks={albumTracks}
             />
           </Tab>
         )}
