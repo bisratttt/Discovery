@@ -40,14 +40,27 @@ exports = async function(changeEvent) {
   */
   const docId = changeEvent.documentKey._id;
   const collection = context.services.get("mongodb-atlas").db("discovery").collection("userSongSuggestion");
+  let replacement = null;
   let youtubeID = null;
   try {
       youtubeID = await context.functions.execute('searchYoutubeSong', changeEvent.fullDocument.song_name + " " + changeEvent.fullDocument.artist );
       console.log("SOng submission trigger")
       console.log("Document: ", changeEvent.fullDocument)
+      
+      replacement = {
+        username: changeEvent.fullDocument.username,
+        user_id: changeEvent.fullDocument.user_id,
+        song_name: changeEvent.fullDocument.song_name,
+        artist: changeEvent.fullDocument.artist,
+        note: changeEvent.fullDocument.note,
+        youtube_id: youtubeID,
+        time: new Date()
+      };
+      
+     // await collection.UpdateOne({ _id: docId },  
+     //{ $set: {time: new Date(), youtube_id: youtubeID}});
     
-      await collection.updateOne({ _id: docId },  
-    { $set: {time: new Date(), youtube_id: youtubeID}});
+    await collection.replaceOne({ _id: docId }, replacement);
   } catch(err) {
     console.error("There was an error adding/updating the time", err)
     

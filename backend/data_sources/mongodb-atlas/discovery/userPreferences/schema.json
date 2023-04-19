@@ -16,6 +16,9 @@
                 ]
             }
         },
+        "applemusic_handle": {
+            "bsonType": "string"
+        },
         "bio": {
             "bsonType": "string"
         },
@@ -23,6 +26,12 @@
             "bsonType": "string"
         },
         "instagram_handle": {
+            "bsonType": "string"
+        },
+        "soundcloud_handle": {
+            "bsonType": "string"
+        },
+        "spotify_handle": {
             "bsonType": "string"
         },
         "tiktok_handle": {
