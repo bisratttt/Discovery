@@ -56,9 +56,9 @@ export default function ProfileCard() {
           facebook: queryData.userPreference.facebook_handle,
           tiktok: queryData.userPreference.tiktok_handle,
           twitter: queryData.userPreference.twitter_handle,
-          apple_music: queryData.userPrefrence.applemusic_handle,
-          spotify: queryData.userPrefrence.spotify_handle,
-          soundcloud: queryData.userPrefrence.soundcloud_handle,
+          apple_music: queryData.userPreference.applemusic_handle,
+          spotify: queryData.userPreference.spotify_handle,
+          soundcloud: queryData.userPreference.soundcloud_handle,
         });
         setBio(queryData.userPreference.bio);
       },
