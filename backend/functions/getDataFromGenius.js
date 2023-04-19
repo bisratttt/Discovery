@@ -101,7 +101,7 @@ exports = async function() {
   const song = (await getSong(gSongId)).response.song;
   const artist = (await getArtist(gArtistId)).response.artist;
   const album = (await getAlbum(song.album.id)).response.album;
-  const albumTracks = (await getAlbum(song.album.id));
+  const albumTracks = (await getAlbumTracks(song.album.id)).response;
   try {
     await songInfoColl.updateMany({"is_visible": true}, {$set: {"is_visible": false}});
     await songInfoColl.insertOne({artist_name: song.primary_artist.name, 
@@ -127,11 +127,11 @@ exports = async function() {
           album_bio: JSON.stringify(album.description_annotation.annotations[0].body),
           album_art: album.cover_art_url,
           album_release_date: album.release_date_for_display,
-          album_tracks: JSON.stringify(albumTracks.response),
+          album_tracks: JSON.stringify(albumTracks),
           is_visible: true,
           });
   } catch (err) {
       console.error("There was an error adding the song info: ", err)
   }
-   return {song, artist, album}
+   return {song, artist, album, albumTracks}
 };
