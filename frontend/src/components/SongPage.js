@@ -17,11 +17,14 @@ import FeedbackPopup from "./FeedbackPopup";
 import ProfileCard from "./ProfileCard";
 import ArtistSongInfo from "./ArtistSongInfo";
 import NavBarBottom from "./NavBarBottom";
+import SongPageSmall from "./SongPageSmall";
 
 // import IntroPlaySongModal from "./IntroPlaySongModal";
 // create a loading screen if the song hasn't fetched yet
 export default function Page() {
   const { loading, error, data } = useQuery(QUERY_SONG);
+  const isSmallScreen = useMediaQuery("(max-width:850px)");
+
   return (
     <Container
       style={{
@@ -32,7 +35,7 @@ export default function Page() {
         minHeight: "100vh",
       }}
       fluid
-      className={`d-flex flex-column justify-content-start`}
+      className="px-0"
     >
       {loading ? (
         <Row
@@ -41,6 +44,8 @@ export default function Page() {
         >
           <Spinner animation="border" variant="dark" />
         </Row>
+      ) : isSmallScreen ? (
+        <SongPageSmall data={data} />
       ) : (
         <SongPage data={data} />
       )}

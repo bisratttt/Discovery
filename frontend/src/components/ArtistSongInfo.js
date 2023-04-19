@@ -126,9 +126,9 @@ function ArtistInfo({
       ref={containerRef}
       onScroll={handleScroll}
       className="text-white py-2 container-scroll"
-      style={{ height: "77vh", overflowY: "auto" }}
+      style={{ height: "85vh", overflowY: "auto" }}
     >
-      <Row style={{ minHeight: "77vh" }}>
+      <Row style={{ minHeight: "85vh" }}>
         <Col className="d-flex flex-column justify-content-between">
           <Row className="pt-3">
             <Col
@@ -264,11 +264,11 @@ function AlbumInfo({
       className="text-white py-2 container-scroll"
       ref={containerRef}
       onScroll={handleScroll}
-      style={{ height: "77vh", overflowY: "auto" }}
+      style={{ height: "85vh", overflowY: "auto" }}
     >
-      <Row style={{ minHeight: "77vh" }}>
+      <Row style={{ minHeight: "79vh" }}>
         <Col className="d-flex flex-column justify-content-between">
-          <Row className="pt-3">
+          <Row className="pt-3 ps-2">
             <Col
               xs={12}
               md={6}
@@ -283,13 +283,7 @@ function AlbumInfo({
                 src={album_art}
               />
             </Col>
-            <Col
-              className={`d-flex flex-${
-                isSmallScreen ? "row" : "column"
-              } justify-content-end pt-3`}
-              xs={12}
-              md={6}
-            >
+            <Col className={`pt-3`} xs={12} md={6}>
               {
                 <Row>
                   <Col className={`d-flex flex-column justify-content-center`}>
@@ -299,10 +293,10 @@ function AlbumInfo({
                       </Col>
                     </Row>
                     <Row>
-                      <Col>
-                        {album_tracks.map((track) => (
+                      {album_tracks.map((track) => (
+                        <Col xs={isSmallScreen ? 6 : 12}>
                           <Row>
-                            <Col className="d-flex justify-content-end" xs={3}>
+                            <Col className="d-flex justify-content-end" xs={1}>
                               {track.number}
                             </Col>
                             <Col className="d-flex justify-content-start">
@@ -316,8 +310,8 @@ function AlbumInfo({
                               </a>
                             </Col>
                           </Row>
-                        ))}
-                      </Col>
+                        </Col>
+                      ))}
                     </Row>
                   </Col>
                 </Row>
@@ -426,9 +420,9 @@ function SongInfo({
       ref={containerRef}
       onScroll={handleScroll}
       className="text-white py-2 container-scroll"
-      style={{ height: "77vh", overflowY: "auto" }}
+      style={{ height: "85vh", overflowY: "auto" }}
     >
-      <Row style={{ minHeight: "77vh" }}>
+      <Row style={{ minHeight: "85vh" }}>
         <Col className="d-flex flex-column justify-content-between">
           <Row className="pt-3">
             <Col
@@ -654,18 +648,6 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
     </Container>
   ) : (
     <div className="tab-content-wrapper p-0 m-0">
-      <Button
-        className="position-absolute bg-transparent border-0 start-0 top-0"
-        style={{ zIndex: 888 }}
-        onClick={() =>
-          setOpenSongInfo((openSongInfo) => ({
-            openInfo: false,
-            active_tab: openSongInfo.active_tab,
-          }))
-        }
-      >
-        <FontAwesomeIcon size="xl" icon={faXmark} />
-      </Button>
       <Tabs
         defaultActiveKey={active_tab}
         className="custom-tabs"
