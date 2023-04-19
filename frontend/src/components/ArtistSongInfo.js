@@ -82,7 +82,7 @@ const RecursiveRenderer = ({ data, parentKey = "" }) => {
   // Render the YouTube video using the YoutubeEmbed component if it's a YouTube link
   if (isYoutubeLink) {
     return (
-      <Row>
+      <Row style={{ minHeight: "40vh" }}>
         <YoutubeEmbed srcId={youtubeId} />
       </Row>
     );
