@@ -86,11 +86,9 @@ export default function SongSubmissionList() {
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
           <ListGroup className="m-0 p-0">
-            {data.userSongSubmissions
-              .sort((a, b) => new Date(a.time) - new Date(b.time))
-              .map((sub) => {
-                return <SongSubmission key={sub._id} {...sub} />;
-              })}
+            {data.userSongSubmissions.map((sub) => {
+              return <SongSubmission key={sub._id} {...sub} />;
+            })}
           </ListGroup>
         )}
       </Card.Body>
