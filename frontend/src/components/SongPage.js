@@ -32,14 +32,14 @@ export default function Page() {
         overflow: "hidden",
         margin: 0,
         backgroundColor: "transparent",
-        minHeight: "100vh",
+        minHeight: "100dvh",
       }}
       fluid
       className="px-0"
     >
       {loading ? (
         <Row
-          style={{ minHeight: "100vh" }}
+          style={{ minHeight: "100dvh" }}
           className="justify-content-center align-items-center"
         >
           <Spinner animation="border" variant="dark" />
@@ -140,7 +140,7 @@ function SongPage({ data }) {
         <Row
           className="justify-content-evenly align-items-center mx-0"
           style={{
-            minHeight: "87vh",
+            minHeight: "87dvh",
           }}
         >
           <AnimatePresence mode="popLayout" initial={false}>
@@ -154,7 +154,7 @@ function SongPage({ data }) {
                 }`}
                 style={{
                   ...cardStyle,
-                  height: "85vh",
+                  height: "85dvh",
                 }}
                 initial={{ x: "-100%" }}
                 animate={{ x: "0%" }}
@@ -183,7 +183,7 @@ function SongPage({ data }) {
                 }`}
               style={{
                 ...cardStyle,
-                minHeight: isSmallScreen ? "60vh" : "85vh",
+                minHeight: isSmallScreen ? "60dvh" : "85dvh",
               }}
             >
               <Row className="justify-content-between">
@@ -191,8 +191,8 @@ function SongPage({ data }) {
               </Row>
               <Row
                 className="justify-content-center"
-                style={{ minHeight: "60vh" }}
-                // style={{ minHeight: "60vh" }}
+                style={{ minHeight: "60dvh" }}
+                // style={{ minHeight: "60dvh" }}
               >
                 {/* <Image
                   src={albumImg}
@@ -247,7 +247,7 @@ function SongPage({ data }) {
                 key="comment-card"
                 style={{
                   ...cardStyle,
-                  minHeight: "85vh",
+                  minHeight: "85dvh",
                 }}
                 className={`col-xs-12 ${isBigScreen && "col-md-6"} col-lg-7 ${
                   !isPhoneScreen && "rounded-3"
@@ -266,7 +266,7 @@ function SongPage({ data }) {
                 key="submission-card"
                 style={{
                   ...cardStyle,
-                  minHeight: "85vh",
+                  minHeight: "85dvh",
                 }}
                 className={`col-xs-12 ${isBigScreen && "col-md-6"} col-lg-5 ${
                   !isPhoneScreen && "rounded-3"
@@ -285,7 +285,7 @@ function SongPage({ data }) {
                 key="profile-card"
                 style={{
                   ...cardStyle,
-                  minHeight: "85vh",
+                  minHeight: "85dvh",
                   position: !isSmallScreen ? "absolute" : "relative",
                   left: !isSmallScreen ? "75.5%" : "0%",
                 }}

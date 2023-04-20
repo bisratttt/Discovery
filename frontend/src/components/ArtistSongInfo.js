@@ -79,7 +79,7 @@ const RecursiveRenderer = ({ data, parentKey = "" }) => {
   // Render the YouTube video using the YoutubeEmbed component if it's a YouTube link
   if (isYoutubeLink) {
     return (
-      <Row style={{ minHeight: "40vh" }}>
+      <Row style={{ minHeight: "40dvh" }}>
         <YoutubeEmbed srcId={youtubeId} />
       </Row>
     );
@@ -126,9 +126,9 @@ function ArtistInfo({
       ref={containerRef}
       onScroll={handleScroll}
       className="text-white py-2 container-scroll"
-      style={{ height: "85vh", overflowY: "auto" }}
+      style={{ height: "85dvh", overflowY: "auto" }}
     >
-      <Row style={{ minHeight: "85vh" }}>
+      <Row style={{ minHeight: "85dvh" }}>
         <Col className="d-flex flex-column justify-content-between">
           <Row className="pt-3">
             <Col
@@ -264,9 +264,9 @@ function AlbumInfo({
       className="text-white py-2 container-scroll"
       ref={containerRef}
       onScroll={handleScroll}
-      style={{ height: "85vh", overflowY: "auto" }}
+      style={{ height: "85dvh", overflowY: "auto" }}
     >
-      <Row style={{ minHeight: "79vh" }}>
+      <Row style={{ minHeight: "79dvh" }}>
         <Col className="d-flex flex-column justify-content-between">
           <Row className="pt-3 ps-2">
             <Col
@@ -420,9 +420,9 @@ function SongInfo({
       ref={containerRef}
       onScroll={handleScroll}
       className="text-white py-2 container-scroll"
-      style={{ height: "85vh", overflowY: "auto" }}
+      style={{ height: "85dvh", overflowY: "auto" }}
     >
-      <Row style={{ minHeight: "85vh" }}>
+      <Row style={{ minHeight: "85dvh" }}>
         <Col className="d-flex flex-column justify-content-between">
           <Row className="pt-3">
             <Col

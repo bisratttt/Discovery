@@ -12,6 +12,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import InfoIcon from "@mui/icons-material/Info";
 import StarIcon from "@mui/icons-material/Star";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import Avatar from "react-avatar";
 
 export default function NavBarBottom() {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
@@ -67,7 +68,11 @@ export default function NavBarBottom() {
           </Nav>
         ) : (
           <Nav
-            style={{ backgroundColor: "rgba(20,20,20)", height: "10vh" }}
+            style={{
+              backgroundColor: "rgba(20,20,20)",
+              height: "10dvh",
+              borderTop: "solid rgba(255,255,255,0.5)",
+            }}
             className="mx-0 w-100 d-flex justify-content-around"
           >
             <Nav.Item className="d-flex justify-content-center align-content-center">
@@ -173,17 +178,14 @@ export default function NavBarBottom() {
                   }
                 }}
               >
-                {accountClicked ? (
-                  <AccountCircleIcon
-                    className="pt-2 text-white"
-                    sx={{ fontSize: 35 }}
+                <div className="pt-2 mx-2">
+                  <Avatar
+                    textSizeRatio={2.1}
+                    name={currentUser.profile.email}
+                    size="25"
+                    round
                   />
-                ) : (
-                  <AccountCircleOutlinedIcon
-                    className="pt-2 text-white"
-                    sx={{ fontSize: 35 }}
-                  />
-                )}
+                </div>
               </Nav.Link>
             </Nav.Item>
           </Nav>
