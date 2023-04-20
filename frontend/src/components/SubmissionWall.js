@@ -5,16 +5,21 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import SongSubmissionModal from "./SongSubmissionModal";
 import { useRealmApp } from "../contexts/RealmApp";
 import { useToggleComponents } from "../contexts/ToggleComponents";
+import { useMediaQuery } from "@mui/material";
 
 export default function SubmissionWall({ refetch }) {
   const [songSubmissionModal, setSongSubmissionModal] = useState(false);
   const { currentUser } = useRealmApp();
   const { setOpenLoginModal } = useToggleComponents();
+  const isSmallScreen = useMediaQuery("(max-width:850px)");
+
   return (
     <>
       <Container
         id="song-submission-wall"
-        className="position-absolute rounded-3 h-100 d-flex flex-column justify-content-center text-white"
+        className={`position-absolute ${
+          !isSmallScreen && "rounded-3"
+        } h-100 d-flex flex-column justify-content-center text-white`}
       >
         <Row>
           <Col className="px-0">

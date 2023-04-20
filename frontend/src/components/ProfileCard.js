@@ -175,7 +175,7 @@ export default function ProfileCard() {
         </Card.Header>
         <Card.Body
           style={{
-            height: isSmallScreen ? "80vh" : "79vh",
+            height: isSmallScreen ? "80dvh" : "79dvh",
             overflowY: "scroll",
           }}
         >

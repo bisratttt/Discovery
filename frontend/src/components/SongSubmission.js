@@ -156,7 +156,7 @@ export default function SongSubmission({
                 </Dropdown>
               </Col>
             </Row>
-            <Row style={{ minHeight: "50vh" }}>
+            <Row style={{ minHeight: "50dvh" }}>
               <YoutubeEmbed srcId={youtube_id} />
             </Row>
             <Row className="justify-content-end mt-2">
@@ -166,7 +166,7 @@ export default function SongSubmission({
             </Row>
             <Row
               className={`mt-2 ${isSmallScreen && "ps-3"}`}
-              style={{ fontSize: "0.9rem", maxHeight: "3.5vh" }}
+              style={{ fontSize: "0.9rem", maxHeight: "3.5dvh" }}
             >
               <Col
                 xs={1}

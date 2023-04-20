@@ -8,7 +8,7 @@ function AppleMusic({ srcUrl }) {
     <iframe
       allow="autoplay *; encrypted-media *;"
       frameborder="0"
-      height="250"
+      height="152"
       style={{
         width: "100%",
         maxWidth: "660px",
