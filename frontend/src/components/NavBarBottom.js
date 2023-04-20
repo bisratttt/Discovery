@@ -71,7 +71,7 @@ export default function NavBarBottom() {
             style={{
               backgroundColor: "rgba(20,20,20)",
               height: "10dvh",
-              borderTop: "solid rgba(255,255,255,0.5)",
+              borderTop: "0.5px solid rgba(255,255,255,0.3)",
             }}
             className="mx-0 w-100 d-flex justify-content-around"
           >
@@ -178,14 +178,21 @@ export default function NavBarBottom() {
                   }
                 }}
               >
-                <div className="pt-2 mx-2">
-                  <Avatar
-                    textSizeRatio={2.1}
-                    name={currentUser.profile.email}
-                    size="25"
-                    round
+                {currentUser.providerType === "local-userpass" ? (
+                  <div className="pt-2 mx-2">
+                    <Avatar
+                      textSizeRatio={2.1}
+                      name={currentUser.profile.email}
+                      size="25"
+                      round
+                    />
+                  </div>
+                ) : (
+                  <AccountCircleOutlinedIcon
+                    className="pt-2 text-white"
+                    sx={{ fontSize: 35 }}
                   />
-                </div>
+                )}
               </Nav.Link>
             </Nav.Item>
           </Nav>
