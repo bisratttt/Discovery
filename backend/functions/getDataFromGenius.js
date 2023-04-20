@@ -91,7 +91,7 @@ exports = async function() {
     let songId = ""
     try {
         const song = await songColl.findOne({is_visible: true});
-        songQuery = `${song.song_name} ${song.artist}`
+        songQuery = `${song.song_name} ${song.artist.split(",")[0]}`
         songId = song._id
     } catch(err) {
       console.error("There was an error finding the visible song: ", err)
