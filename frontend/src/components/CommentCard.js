@@ -112,7 +112,7 @@ export default function CommentCard({ songId }) {
       <Card.Body
         id="comment-body"
         className="p-0"
-        style={{ height: isSmallScreen ? "80vh" : "77vh" }}
+        style={{ height: isSmallScreen ? "80dvh" : "77dvh" }}
       >
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />

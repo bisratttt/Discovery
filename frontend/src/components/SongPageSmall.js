@@ -27,8 +27,8 @@ function YoutubeEmbed({ srcId }) {
   );
 }
 const cardStyle = {
-  minHeight: "90vh",
-  backgroundColor: "rgba(0,0,0,0.5)",
+  minHeight: "90dvh",
+  backgroundColor: "rgba(20,20,20)",
   boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.4)", // add a box shadow to create an elevated effect
   backdropFilter: "blur(2rem)", // blurs the background when translucent
   WebkitBackdropFilter: "blur(2rem)",
@@ -52,13 +52,18 @@ export default function SongPageSmall({ data }) {
     }).then((album) => setAlbumImg(album));
   }, []);
   return (
-    <Container style={{ zIndex: "1", height: "100vh" }} className="px-0">
+    <Container style={{ zIndex: "1", height: "100dvh" }} className="px-0">
       <div
         className="background-image"
         style={{ backgroundImage: `url(${albumImg})` }}
       />
       <div className="background-darker" />
       <SongInfoLargeScreen />
+      {openSongSubmissionList && (
+        <div style={{ ...cardStyle }}>
+          <SongSubmissionList />
+        </div>
+      )}
       {openSongInfo.openInfo && (
         <div style={{ ...cardStyle }}>
           <ArtistSongInfo active_tab={openSongInfo.active_tab} />
@@ -69,7 +74,7 @@ export default function SongPageSmall({ data }) {
         !openSongSubmissionList &&
         !openProfile && (
           <div
-            style={{ height: "90vh" }}
+            style={{ height: "90dvh" }}
             className="w-100 d-flex flex-column justify-content-center align-items-center mx-0 px-3"
           >
             <div
@@ -79,7 +84,7 @@ export default function SongPageSmall({ data }) {
               <Row>
                 <SongButtonsTop setShareModal={setShareModal} />
               </Row>
-              <Row style={{ minHeight: "60vh" }}>
+              <Row style={{ minHeight: "60dvh" }}>
                 <YoutubeEmbed srcId={data.song.youtube_id} />
               </Row>
               <Row>
@@ -120,11 +125,6 @@ export default function SongPageSmall({ data }) {
       {openReview && (
         <div style={{ ...cardStyle }}>
           <CommentCard songId={data.song._id} />
-        </div>
-      )}
-      {openSongSubmissionList && (
-        <div style={{ ...cardStyle }}>
-          <SongSubmissionList />
         </div>
       )}
       {openProfile && (

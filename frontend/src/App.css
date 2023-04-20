@@ -62,7 +62,7 @@ a:hover {
 
 /* login page css */
 .fullscreen {
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 .landing {
   border: 0.5rem solid;
@@ -119,7 +119,9 @@ a:hover {
   background-color: rgba(0, 0, 0, 0.4) !important;
   backdrop-filter: blur(1rem);
 }
-
+.dark-container {
+  background-color: rgb(20, 20, 20) !important;
+}
 .relative-container {
   position: relative;
   z-index: 1;
@@ -318,7 +320,7 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100dvh;
   background-color: #000;
   position: absolute;
   left: 0;
@@ -394,7 +396,7 @@ a:hover {
 }
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;

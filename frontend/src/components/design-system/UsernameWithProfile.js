@@ -51,8 +51,8 @@ export default function UsernameWithProfile({ username }) {
             </Spinner>
           </div>
         ) : (
-          <Popover {...props} bsPrefix="popover darker-container min-w-popover">
-            <Popover.Header className="darker-container text-white d-flex justify-content-center align-items-center">
+          <Popover {...props} bsPrefix="popover dark-container min-w-popover">
+            <Popover.Header className="dark-container text-white d-flex justify-content-center align-items-center">
               Profile
             </Popover.Header>
             <Popover.Body className="pb-2">
@@ -63,7 +63,7 @@ export default function UsernameWithProfile({ username }) {
               </Row>
               <Row
                 className="rounded-1 py-1 mx-0 px-0 text-white"
-                style={{ background: "rgba(41,41,41, 0.4)" }}
+                style={{ background: "rgba(31,31,31)" }}
               >
                 <Col>
                   <p className="mb-0 text-start">
@@ -80,7 +80,7 @@ export default function UsernameWithProfile({ username }) {
               </Row>
               <Row
                 className="rounded-1 py-1 mx-0 px-0 "
-                style={{ background: "rgba(41,41,41, 0.4)" }}
+                style={{ background: "rgba(31,31,31)" }}
               >
                 {Object.keys(socialHandles).map((platform) => {
                   if (

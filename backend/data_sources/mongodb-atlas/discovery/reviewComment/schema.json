@@ -1,0 +1,49 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "body": {
+            "%%true": {
+                "%function": {
+                    "arguments": "%%this",
+                    "name": "validateEmptyInput"
+                }
+            },
+            "bsonType": "string",
+            "description": "Body must be at least 300 words!"
+        },
+        "review_id": {
+            "bsonType": "objectId"
+        },
+        "song": {
+            "bsonType": "objectId"
+        },
+        "time": {
+            "bsonType": "date"
+        },
+        "username": {
+            "bsonType": "string"
+        }
+    },
+    "required": [
+        "username",
+        "body",
+        "_id",
+        "review_id"
+    ],
+    "title": "reviewComment"
+}

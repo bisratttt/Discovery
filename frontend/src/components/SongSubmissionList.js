@@ -64,7 +64,10 @@ export default function SongSubmissionList() {
       } rounded-3 border-0 position-relative`}
     >
       {isSmallScreen && (
-        <Card.Header className="text-white mt-3 text-start">
+        <Card.Header
+          className="text-white mt-3 text-start"
+          style={{ zIndex: "11" }}
+        >
           <h2>Community</h2>
         </Card.Header>
       )}
@@ -74,7 +77,10 @@ export default function SongSubmissionList() {
         className={`border-0 justify-content-center align-items-center p-0 ${
           isBlurred && "blur"
         }`}
-        style={{ height: isSmallScreen ? "81vh" : "85vh", overflowY: "scroll" }}
+        style={{
+          height: isSmallScreen ? "81dvh" : "85dvh",
+          overflowY: "scroll",
+        }}
       >
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
