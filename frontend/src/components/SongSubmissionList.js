@@ -32,30 +32,27 @@ export default function SongSubmissionList() {
   //   setIsBlurred(false);
   // }
 
-  useEffect(() => {
-    const madeSubmission = data?.userSongSubmissions?.some(
-      (submission) => submission.username === currentUser.profile.email
-    );
-    setIsBlurred(!madeSubmission);
-  }, [data, currentUser]);
+  // useEffect(() => {
+  //   const madeSubmission = data?.userSongSubmissions?.some(
+  //     (submission) => submission.username === currentUser.profile.email
+  //   );
+  //   setIsBlurred(!madeSubmission);
+  // }, [data, currentUser]);
 
-  // periodically refetch the comments
-  useEffect(() => {
-    // Start polling the server every 5 seconds
-    const id = setInterval(() => {
-      refetch({
-        limit: LIMIT,
-        lastTime: LAST_TIME,
-      });
-    }, 30000);
+  // // periodically refetch the comments
+  // useEffect(() => {
+  //   // Start polling the server every 5 seconds
+  //   const id = setInterval(() => {
+  //     refetch();
+  //   }, 5000);
 
-    setIntervalId(id);
+  //   setIntervalId(id);
 
-    // Clean up the interval when the component unmounts
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+  //   // Clean up the interval when the component unmounts
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [intervalId]);
   return (
     <Card
       id="submission-card"
