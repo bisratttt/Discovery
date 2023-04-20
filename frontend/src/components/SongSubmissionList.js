@@ -10,11 +10,11 @@ import SongSubmission from "./SongSubmission";
 import { useRealmApp } from "../contexts/RealmApp";
 import SubmissionWall from "./SubmissionWall";
 
-// const LIMIT = 100;
-// const LAST_TIME = new Date(0);
+const LIMIT = 100;
+const LAST_TIME = new Date(0);
 export default function SongSubmissionList() {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-  //  const [intervalId, setIntervalId] = useState(null);
+  const [intervalId, setIntervalId] = useState(null);
   const { setOpenSongSubmissionList } = useToggleComponents();
   const { loading, error, data, refetch } = useQuery(
     FETCH_SUBMISSIONS
@@ -39,23 +39,23 @@ export default function SongSubmissionList() {
     setIsBlurred(!madeSubmission);
   }, [data, currentUser]);
 
-  // // periodically refetch the comments
-  // useEffect(() => {
-  //   // Start polling the server every 5 seconds
-  //   const id = setInterval(() => {
-  //     refetch({
-  //       limit: limit,
-  //       lastTime: lastTime,
-  //     });
-  //   }, 30000);
+  // periodically refetch the comments
+  useEffect(() => {
+    // Start polling the server every 5 seconds
+    const id = setInterval(() => {
+      refetch({
+        limit: LIMIT,
+        lastTime: LAST_TIME,
+      });
+    }, 30000);
 
-  //   setIntervalId(id);
+    setIntervalId(id);
 
-  //   // Clean up the interval when the component unmounts
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, []);
+    // Clean up the interval when the component unmounts
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
   return (
     <Card
       id="submission-card"
@@ -86,9 +86,11 @@ export default function SongSubmissionList() {
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
           <ListGroup className="m-0 p-0">
-            {data.userSongSubmissions.map((sub) => {
-              return <SongSubmission key={sub._id} {...sub} />;
-            })}
+            {data.userSongSubmissions
+              .sort((a, b) => new Date(a.time) - new Date(b.time))
+              .map((sub) => {
+                return <SongSubmission key={sub._id} {...sub} />;
+              })}
           </ListGroup>
         )}
       </Card.Body>
