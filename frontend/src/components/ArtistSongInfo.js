@@ -670,10 +670,7 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
     albumDataLoading ||
     Object.keys(artistBio).length === 0 ||
     Object.keys(songBio).length === 0 ||
-    Object.keys(albumBio).length === 0 ||
-    albumTracks.length === 0 ||
-    Object.keys(songProducers).length === 0 ||
-    Object.keys(songWriters).length === 0 ? (
+    Object.keys(albumBio).length === 0 ? (
     <Container>
       {" "}
       <Spinner animation="border" role="status" variant="light" />
