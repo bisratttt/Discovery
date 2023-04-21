@@ -20,6 +20,7 @@ import { useMediaQuery } from "@mui/material";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import { QUERY_ALBUMINFO } from "../queries/albumInfoQuery";
+import Marquee from "react-fast-marquee";
 
 const ProducerLink = ({ producer }) => {
   return (
@@ -34,6 +35,53 @@ const ProducerLink = ({ producer }) => {
   );
 };
 
+const HoveringTracks = ({ track }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const isSmallScreen = useMediaQuery("(max-width:765px)");
+
+  return (
+    <div
+      onMouseOver={() => setIsHovered(true)}
+      onMouseOut={() => setIsHovered(false)}
+    >
+      {isHovered ? (
+        <Marquee gradient={false} pauseOnClick={true}>
+          <Col xs={isSmallScreen ? 6 : 12}>
+            <Row>
+              <Col className="d-flex justify-content-start">
+                {track.number}
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-decoration-none text-white ps-3"
+                  href={track.song.url}
+                >
+                  {track.song.title_with_featured}
+                </a>
+              </Col>
+            </Row>
+          </Col>
+        </Marquee>
+      ) : (
+        <Col xs={isSmallScreen ? 6 : 12}>
+          <Row>
+            <Col className="d-flex justify-content-start">
+              {track.number}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-decoration-none text-white text-truncate ps-3"
+                href={track.song.url}
+              >
+                {track.song.title_with_featured}
+              </a>
+            </Col>
+          </Row>
+        </Col>
+      )}
+    </div>
+  );
+};
 function YoutubeEmbed({ srcId }) {
   const url = `https://www.youtube.com/embed/${srcId}`;
   return (
@@ -294,23 +342,7 @@ function AlbumInfo({
                     </Row>
                     <Row>
                       {album_tracks.map((track) => (
-                        <Col xs={isSmallScreen ? 6 : 12}>
-                          <Row>
-                            <Col className="d-flex justify-content-end" xs={1}>
-                              {track.number}
-                            </Col>
-                            <Col className="d-flex justify-content-start">
-                              <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-decoration-none text-white"
-                                href={track.song.url}
-                              >
-                                {track.song.title_with_featured}
-                              </a>
-                            </Col>
-                          </Row>
-                        </Col>
+                        <HoveringTracks track={track} />
                       ))}
                     </Row>
                   </Col>

@@ -10,11 +10,11 @@ import SongSubmission from "./SongSubmission";
 import { useRealmApp } from "../contexts/RealmApp";
 import SubmissionWall from "./SubmissionWall";
 
-// const LIMIT = 100;
-// const LAST_TIME = new Date(0);
+const LIMIT = 100;
+const LAST_TIME = new Date(0);
 export default function SongSubmissionList() {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-  //  const [intervalId, setIntervalId] = useState(null);
+  const [intervalId, setIntervalId] = useState(null);
   const { setOpenSongSubmissionList } = useToggleComponents();
   const { loading, error, data, refetch } = useQuery(
     FETCH_SUBMISSIONS
@@ -32,22 +32,19 @@ export default function SongSubmissionList() {
   //   setIsBlurred(false);
   // }
 
-  useEffect(() => {
-    const madeSubmission = data?.userSongSubmissions?.some(
-      (submission) => submission.username === currentUser.profile.email
-    );
-    setIsBlurred(!madeSubmission);
-  }, [data, currentUser]);
+  // useEffect(() => {
+  //   const madeSubmission = data?.userSongSubmissions?.some(
+  //     (submission) => submission.username === currentUser.profile.email
+  //   );
+  //   setIsBlurred(!madeSubmission);
+  // }, [data, currentUser]);
 
   // // periodically refetch the comments
   // useEffect(() => {
   //   // Start polling the server every 5 seconds
   //   const id = setInterval(() => {
-  //     refetch({
-  //       limit: limit,
-  //       lastTime: lastTime,
-  //     });
-  //   }, 30000);
+  //     refetch();
+  //   }, 5000);
 
   //   setIntervalId(id);
 
@@ -55,7 +52,7 @@ export default function SongSubmissionList() {
   //   return () => {
   //     clearInterval(intervalId);
   //   };
-  // }, []);
+  // }, [intervalId]);
   return (
     <Card
       id="submission-card"

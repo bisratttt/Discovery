@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 export const FETCH_SUBMISSIONS = gql`
   query FetchUserSongSuggestion {
-    userSongSubmissions(query: {}) {
+    userSongSubmissions(query: {}, sortBy: TIME_DESC) {
       _id
       username
       artist
@@ -48,9 +48,7 @@ export const UPDATE_SUBMISSION = gql`
   ) {
     updateOneUserSongSubmission(
       query: { user_id: $user_id }
-      set: { song_name: $song_name
-        artist: $artist
-        note: $note }
+      set: { song_name: $song_name, artist: $artist, note: $note }
     ) {
       artist
       song_name
