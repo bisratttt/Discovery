@@ -74,15 +74,14 @@ export default function CommentB({ avatar, username, body, title, time }) {
                     className={`${isFocused ? "visible" : "hidden"}`}
                   />
                 </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}
-                  >
+                <Dropdown.Menu id="review-dropdown">
+                  <Dropdown.Item className="review-dropdown-item">
+                    Edit
+                  </Dropdown.Item>
+                  <Dropdown.Item className="review-dropdown-item">
                     Hide
                   </Dropdown.Item>
-                  <Dropdown.Item
-                    style={{ fontSize: "clamp(0.65rem, 7vw, 0.85rem" }}
-                  >
+                  <Dropdown.Item className="review-dropdown-item">
                     Report
                   </Dropdown.Item>
                 </Dropdown.Menu>
