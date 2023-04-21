@@ -8,7 +8,7 @@ import {
   faItunes,
   faSoundcloud,
 } from "@fortawesome/free-brands-svg-icons";
-
+import { useEffect, useState } from "react";
 export function calculateLuminance(rgb) {
   const r = rgb[0] / 255;
   const g = rgb[1] / 255;
@@ -47,7 +47,36 @@ export function getMetaphorialTime(timestamp) {
 
   return formattedTimestamp;
 }
+// Taken from: https://gist.github.com/rikukissa/cb291a4a82caa670d2e0547c520eae53
+export function useAddToHomescreenPrompt() {
+  const [prompt, setState] = useState(null);
 
+  const promptToInstall = () => {
+    if (prompt) {
+      return prompt.prompt();
+    }
+    return Promise.reject(
+      new Error(
+        'Tried installing before browser sent "beforeinstallprompt" event'
+      )
+    );
+  };
+
+  useEffect(() => {
+    const ready = (e) => {
+      e.preventDefault();
+      setState(e);
+    };
+
+    window.addEventListener("beforeinstallprompt", ready);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", ready);
+    };
+  }, []);
+
+  return [prompt, promptToInstall];
+}
 export const getPlatformIcon = (platform) => {
   switch (platform) {
     case "youtube":

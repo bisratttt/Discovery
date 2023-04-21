@@ -7,7 +7,7 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRealmApp } from "../contexts/RealmApp";
 import InfoModal from "./InfoModal";
 import Avatar from "react-avatar";
@@ -20,6 +20,7 @@ import {
   NavDropdownLink,
   NavRightButton,
 } from "./design-system/NavRightButton";
+import InstallAppButton from "./InstallAppButton";
 const PillAvatar = ({ email, isSmallScreen }) => {
   const avatarSize = isSmallScreen ? 30 : 40;
 
@@ -80,7 +81,24 @@ function NavBar({ fixed = false }) {
     setOpenProfile,
     setOnlyOneStateTrue,
   } = useToggleComponents();
-
+  const [isAppInstalled, setIsAppInstalled] = useState(false);
+  const isPWAInstalled = async () => {
+    if ("getInstalledRelatedApps" in window.navigator) {
+      const relatedApps = await navigator.getInstalledRelatedApps();
+      let installed = false;
+      relatedApps.forEach((app) => {
+        //if your PWA exists in the array it is installed
+        console.log(app.platform, app.url);
+        if (app.url === "https://disc-music.com/manifest.json") {
+          installed = true;
+        }
+      });
+      setIsAppInstalled(installed);
+    }
+  };
+  useEffect(() => {
+    isPWAInstalled();
+  }, []);
   return (
     <>
       <Navbar
@@ -117,6 +135,8 @@ function NavBar({ fixed = false }) {
 
           <Navbar.Collapse className={`justify-content-end mt-1 `}>
             <Nav>
+              {!isAppInstalled && <InstallAppButton />}
+
               {currentUser.providerType === "api-key" && (
                 <>
                   <NavRightButton
