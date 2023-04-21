@@ -135,7 +135,7 @@ function NavBar({ fixed = false }) {
 
           <Navbar.Collapse className={`justify-content-end mt-1 `}>
             <Nav>
-              {!isAppInstalled && <InstallAppButton />}
+              {/* {!isAppInstalled && <InstallAppButton />} */}
 
               {currentUser.providerType === "api-key" && (
                 <>
