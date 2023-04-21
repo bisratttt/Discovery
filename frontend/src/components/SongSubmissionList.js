@@ -83,7 +83,7 @@ export default function SongSubmissionList() {
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
           <ListGroup className="m-0 p-0">
-            {data.userSongSubmissions.map((sub) => {
+            {data?.userSongSubmissions.map((sub) => {
               return <SongSubmission key={sub._id} {...sub} />;
             })}
           </ListGroup>

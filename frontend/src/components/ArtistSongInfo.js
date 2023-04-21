@@ -201,14 +201,14 @@ function ArtistInfo({
               md={4}
             >
               {/* render socials */}
-              {Object.keys(socialHandles).map((platform) => (
+              {Object.keys(socialHandles ?? {}).map((platform) => (
                 <a
                   href={`https://${platform}.com/${
                     (platform === "youtube" || platform === "tiktok") &&
-                    socialHandles[platform]
+                    socialHandles?.[platform]
                       ? "@"
                       : ""
-                  }${socialHandles[platform] ?? ""}`}
+                  }${socialHandles?.[platform] ?? ""}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white text-decoration-none m-2"
@@ -242,7 +242,7 @@ function ArtistInfo({
           </Row>
           <Row>
             <Col className="text-start">
-              <RecursiveRenderer data={artist_bio.children[0]} />
+              <RecursiveRenderer data={artist_bio?.children?.[0] ?? null} />
             </Col>
           </Row>
           <Row>
@@ -264,8 +264,8 @@ function ArtistInfo({
 
       <Row className="text-start mb-5" ref={targetRowRef}>
         <Col>
-          {artist_bio.children.slice(1).map((child, index) => (
-            <RecursiveRenderer key={index} data={child} fluid />
+          {artist_bio?.children?.slice(1).map((child, index) => (
+            <RecursiveRenderer key={index} data={child ?? null} fluid />
           ))}
         </Col>
       </Row>
@@ -381,7 +381,7 @@ function AlbumInfo({
           </Row>
           <Row>
             <Col className="text-start">
-              <RecursiveRenderer data={album_bio.children[0]} />
+              <RecursiveRenderer data={album_bio?.children?.[0] ?? null} />
             </Col>
           </Row>
           <Row>
@@ -403,7 +403,7 @@ function AlbumInfo({
 
       <Row className="text-start mb-5" ref={targetRowRef}>
         <Col>
-          {album_bio.children.slice(1).map((child, index) => (
+          {album_bio?.children?.slice(1)?.map((child, index) => (
             <RecursiveRenderer key={index} data={child} fluid />
           ))}
         </Col>
@@ -511,7 +511,7 @@ function SongInfo({
                         className={`d-flex justify-content-start flex-wrap`}
                         style={{ flexWrap: "wrap" }}
                       >
-                        {song_producers.map((producer, index) => (
+                        {song_producers?.map((producer, index) => (
                           <span key={index} className="px-1">
                             <ProducerLink producer={producer} />
                           </span>
@@ -539,7 +539,7 @@ function SongInfo({
                   <Row>
                     <Col className="p-0">
                       <div className={`d-flex justify-content-start flex-wrap`}>
-                        {song_writers.map((writer, index) => (
+                        {song_writers?.map((writer, index) => (
                           <span key={index} className="px-1">
                             <ProducerLink producer={writer} />
                           </span>
@@ -582,7 +582,7 @@ function SongInfo({
           </Row>
           <Row>
             <Col className="text-start">
-              <RecursiveRenderer data={song_bio.children[0]} />
+              <RecursiveRenderer data={song_bio?.children?.[0] ?? null} />
             </Col>
           </Row>
           <Row>
@@ -604,7 +604,7 @@ function SongInfo({
 
       <Row className="text-start mb-5" ref={targetRowRef}>
         <Col>
-          {song_bio.children.slice(1).map((child, index) => (
+          {song_bio?.children?.slice(1)?.map((child, index) => (
             <RecursiveRenderer key={index} data={child} fluid />
           ))}
         </Col>

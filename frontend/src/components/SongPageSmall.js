@@ -46,8 +46,8 @@ export default function SongPageSmall({ data }) {
     setOnlyOneStateTrue,
   } = useToggleComponents();
   useEffect(() => {
-    albumArt(data.song.artist ?? "", {
-      album: data.song.album_name ?? "",
+    albumArt(data?.song?.artist ?? "", {
+      album: data?.song?.album_name ?? "",
       size: "large",
     }).then((album) => setAlbumImg(album));
   }, []);
@@ -85,7 +85,7 @@ export default function SongPageSmall({ data }) {
                 <SongButtonsTop setShareModal={setShareModal} />
               </Row>
               <Row style={{ minHeight: "60dvh" }}>
-                <YoutubeEmbed srcId={data.song.youtube_id} />
+                <YoutubeEmbed srcId={data?.song?.youtube_id} />
               </Row>
               <Row>
                 <a
@@ -95,7 +95,7 @@ export default function SongPageSmall({ data }) {
                   }}
                   className="text-decoration-none text-white song-title"
                 >
-                  {data.song.song_name ?? ""}
+                  {data?.song?.song_name ?? ""}
                 </a>
               </Row>
               <Row>
@@ -109,14 +109,14 @@ export default function SongPageSmall({ data }) {
                   }}
                   className="text-decoration-none text-muted artist-name"
                 >
-                  {data.song.artist ?? ""}
+                  {data?.song?.artist ?? ""}
                 </p>
               </Row>
               <Row className="mt-1">
                 <SongButtonsBottom
                   spotify_link={data?.song?.spotify_link}
                   apple_music_link={data?.song?.apple_music_link}
-                  song_id={data?.song._id}
+                  song_id={data?.song?._id}
                 />
               </Row>
             </div>
@@ -124,7 +124,7 @@ export default function SongPageSmall({ data }) {
         )}
       {openReview && (
         <div style={{ ...cardStyle }}>
-          <CommentCard songId={data.song._id} />
+          <CommentCard songId={data?.song?._id} />
         </div>
       )}
       {openProfile && (

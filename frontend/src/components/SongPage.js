@@ -121,8 +121,8 @@ function SongPage({ data }) {
   }, []);
   // change the height to full screen if the elements aren't fullscreen
   useEffect(() => {
-    albumArt(data.song.artist ?? "", {
-      album: data.song.album_name ?? "",
+    albumArt(data?.song?.artist ?? "", {
+      album: data?.song?.album_name ?? "",
       size: "large",
     }).then((album) => setAlbumImg(album));
   }, []);
@@ -200,7 +200,7 @@ function SongPage({ data }) {
                   style={{ maxWidth: "95%" }}
                   fluid
                 /> */}
-                <YoutubeEmbed srcId={data.song.youtube_id} />
+                <YoutubeEmbed srcId={data?.song?.youtube_id} />
               </Row>
               <Row>
                 <p
@@ -215,7 +215,7 @@ function SongPage({ data }) {
                   onMouseLeave={() => setSongHover(false)}
                   style={{ cursor: "pointer" }}
                 >
-                  {data.song.song_name ?? ""}
+                  {data?.song?.song_name ?? ""}
                 </p>
               </Row>
               <Row>
@@ -231,14 +231,14 @@ function SongPage({ data }) {
                   } artist-name`}
                   style={{ cursor: "pointer" }}
                 >
-                  {data.song.artist ?? ""}
+                  {data?.song?.artist ?? ""}
                 </p>
               </Row>
               <Row className="mt-1">
                 <SongButtonsBottom
                   spotify_link={data?.song?.spotify_link}
                   apple_music_link={data?.song?.apple_music_link}
-                  song_id={data?.song._id}
+                  song_id={data?.song?._id}
                 />
               </Row>
             </motion.div>
@@ -258,7 +258,7 @@ function SongPage({ data }) {
                 transition={{ duration: 0.3 }} // Animation duration (optional)
               >
                 {/* Your new column content */}
-                <CommentCard songId={data.song._id} />
+                <CommentCard songId={data?.song?._id} />
               </motion.div>
             )}
             {openSongSubmissionList && (
@@ -310,7 +310,7 @@ function SongPage({ data }) {
         onHide={() => setShareModal(false)}
         shareLink="#!"
       />
-      {!isSmallScreen && <FeedbackPopup songId={data.song._id} />}
+      {!isSmallScreen && <FeedbackPopup songId={data?.song?._id} />}
     </>
   );
 }

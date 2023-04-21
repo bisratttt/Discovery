@@ -118,10 +118,10 @@ export default function CommentCard({ songId }) {
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
           <ListGroup className="m-0">
-            {data.comments.map((com) => {
+            {data?.comments.map((com) => {
               return <CommentB key={com._id} {...com} />;
             })}
-            {data.comments.length === LIMIT && (
+            {data?.comments?.length === LIMIT && (
               <ListGroup.Item>
                 <FontAwesomeIcon
                   className="white-icon m-1"
@@ -129,7 +129,7 @@ export default function CommentCard({ songId }) {
                     fetchMore({
                       variables: {
                         lastTime: new Date(
-                          data.comments[data.comments.length - 1].time
+                          data?.comments?.[data.comments.length - 1].time
                         ),
                       },
                     })
