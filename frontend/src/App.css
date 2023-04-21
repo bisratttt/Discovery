@@ -261,6 +261,15 @@ a:hover {
   background-color: transparent;
 }
 
+#review-dropdown {
+  background-color: rgb(39, 39, 39);
+}
+
+.review-dropdown-item {
+  font-size: clamp(0.65rem, 7vw, 0.85rem) !important;
+  color:rgb(255, 255, 255) !important;
+}
+
 /* Song Submission */
 #submission-card {
   background-color: transparent !important;
