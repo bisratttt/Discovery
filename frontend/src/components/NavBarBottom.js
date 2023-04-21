@@ -13,6 +13,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import StarIcon from "@mui/icons-material/Star";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Avatar from "react-avatar";
+import InstallAppButton from "./InstallAppButton";
 
 export default function NavBarBottom() {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
@@ -37,167 +38,176 @@ export default function NavBarBottom() {
 
   const { currentUser } = useRealmApp();
   return (
-    <Navbar
-      bg="transparent"
-      style={{ zIndex: 8 }}
-      className="py-0 my-0"
-      fixed={isSmallScreen ? "bottom" : undefined}
-    >
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        {!isSmallScreen ? (
-          <Nav className="py-0 mb-0">
-            <Nav.Link
-              className="py-0"
-              as={NavLink}
-              style={{ color: "rgba(120,120,120,1)" }}
-              to="/terms"
-              activeClassName="active"
+    <>
+      <Navbar
+        bg="transparent"
+        style={{ zIndex: 8 }}
+        className="py-0 my-0"
+        fixed={isSmallScreen ? "bottom" : undefined}
+      >
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          {!isSmallScreen ? (
+            <Nav className="py-0 mb-0">
+              <Nav.Link
+                className="py-0"
+                as={NavLink}
+                style={{ color: "rgba(120,120,120,1)" }}
+                to="/terms"
+                activeClassName="active"
+              >
+                Terms
+              </Nav.Link>
+              <Nav.Link
+                as={NavLink}
+                style={{ color: "rgba(120,120,120,1)" }}
+                className="py-0"
+                to="/cookies"
+                activeClassName="active"
+              >
+                Cookies
+              </Nav.Link>
+            </Nav>
+          ) : (
+            <Nav
+              style={{
+                backgroundColor: "rgba(20,20,20)",
+                height: "10dvh",
+                borderTop: "0.5px solid rgba(255,255,255,0.3)",
+              }}
+              className="mx-0 w-100 d-flex justify-content-around"
             >
-              Terms
-            </Nav.Link>
-            <Nav.Link
-              as={NavLink}
-              style={{ color: "rgba(120,120,120,1)" }}
-              className="py-0"
-              to="/cookies"
-              activeClassName="active"
-            >
-              Cookies
-            </Nav.Link>
-          </Nav>
-        ) : (
-          <Nav
-            style={{
-              backgroundColor: "rgba(20,20,20)",
-              height: "10dvh",
-              borderTop: "0.5px solid rgba(255,255,255,0.3)",
-            }}
-            className="mx-0 w-100 d-flex justify-content-around"
-          >
-            <Nav.Item className="d-flex justify-content-center align-content-center">
-              <Nav.Link
-                onClick={() => {
-                  setNavClicked({
-                    peopleClicked: true,
-                    infoClicked: false,
-                    starClicked: false,
-                    accountClicked: false,
-                  });
-                  setOnlyOneStateTrue(setOpenSongSubmissionList);
-                }}
-              >
-                {peopleClicked ? (
-                  <PeopleIcon
-                    className="pt-2 text-white"
-                    sx={{ fontSize: 35 }}
-                  />
-                ) : (
-                  <PeopleOutlineIcon
-                    className="pt-2 text-white"
-                    sx={{ fontSize: 35 }}
-                  />
-                )}
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="d-flex justify-content-center align-content-center">
-              <Nav.Link
-                onClick={() => {
-                  setNavClicked({
-                    peopleClicked: false,
-                    infoClicked: true,
-                    starClicked: false,
-                    accountClicked: false,
-                  });
-                  setOnlyOneStateTrue(setOpenSongInfo);
-                }}
-              >
-                {infoClicked ? (
-                  <InfoIcon className="pt-2 text-white" sx={{ fontSize: 35 }} />
-                ) : (
-                  <InfoOutlinedIcon
-                    className="pt-2 text-white"
-                    sx={{ fontSize: 35 }}
-                  />
-                )}
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="d-flex justify-content-center align-content-center">
-              <Nav.Link
-                onClick={() => {
-                  setNavClicked({
-                    peopleClicked: false,
-                    infoClicked: false,
-                    starClicked: false,
-                    accountClicked: false,
-                  });
-                  setOpenReview(false);
-                  setOpenSongInfo({ openInfo: false });
-                  setOpenProfile(false);
-                  setOpenSongSubmissionList(false);
-                }}
-              >
-                <Image height={40} src="/Logo.webp" alt="Logo" />
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="d-flex justify-content-center align-content-center">
-              <Nav.Link
-                onClick={() => {
-                  setNavClicked({
-                    peopleClicked: false,
-                    infoClicked: false,
-                    starClicked: true,
-                    accountClicked: false,
-                  });
-                  setOnlyOneStateTrue(setOpenReview);
-                }}
-              >
-                {starClicked ? (
-                  <StarIcon className="pt-2 text-white" sx={{ fontSize: 35 }} />
-                ) : (
-                  <StarBorderOutlinedIcon
-                    className="pt-2 text-white"
-                    sx={{ fontSize: 35 }}
-                  />
-                )}
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item className="d-flex justify-content-center align-content-center">
-              <Nav.Link
-                onClick={() => {
-                  if (currentUser.providerType === "local-userpass") {
+              <Nav.Item className="d-flex justify-content-center align-content-center">
+                <Nav.Link
+                  onClick={() => {
+                    setNavClicked({
+                      peopleClicked: true,
+                      infoClicked: false,
+                      starClicked: false,
+                      accountClicked: false,
+                    });
+                    setOnlyOneStateTrue(setOpenSongSubmissionList);
+                  }}
+                >
+                  {peopleClicked ? (
+                    <PeopleIcon
+                      className="pt-2 text-white"
+                      sx={{ fontSize: 35 }}
+                    />
+                  ) : (
+                    <PeopleOutlineIcon
+                      className="pt-2 text-white"
+                      sx={{ fontSize: 35 }}
+                    />
+                  )}
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item className="d-flex justify-content-center align-content-center">
+                <Nav.Link
+                  onClick={() => {
+                    setNavClicked({
+                      peopleClicked: false,
+                      infoClicked: true,
+                      starClicked: false,
+                      accountClicked: false,
+                    });
+                    setOnlyOneStateTrue(setOpenSongInfo);
+                  }}
+                >
+                  {infoClicked ? (
+                    <InfoIcon
+                      className="pt-2 text-white"
+                      sx={{ fontSize: 35 }}
+                    />
+                  ) : (
+                    <InfoOutlinedIcon
+                      className="pt-2 text-white"
+                      sx={{ fontSize: 35 }}
+                    />
+                  )}
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item className="d-flex justify-content-center align-content-center">
+                <Nav.Link
+                  onClick={() => {
                     setNavClicked({
                       peopleClicked: false,
                       infoClicked: false,
                       starClicked: false,
-                      accountClicked: true,
+                      accountClicked: false,
                     });
-                    setOnlyOneStateTrue(setOpenProfile);
-                  } else {
-                    setOpenLoginModal(true);
-                  }
-                }}
-              >
-                {currentUser.providerType === "local-userpass" ? (
-                  <div className="pt-2 mx-2">
-                    <Avatar
-                      textSizeRatio={2.1}
-                      name={currentUser.profile.email}
-                      size="25"
-                      round
+                    setOpenReview(false);
+                    setOpenSongInfo({ openInfo: false });
+                    setOpenProfile(false);
+                    setOpenSongSubmissionList(false);
+                  }}
+                >
+                  <Image height={40} src="/Logo.webp" alt="Logo" />
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item className="d-flex justify-content-center align-content-center">
+                <Nav.Link
+                  onClick={() => {
+                    setNavClicked({
+                      peopleClicked: false,
+                      infoClicked: false,
+                      starClicked: true,
+                      accountClicked: false,
+                    });
+                    setOnlyOneStateTrue(setOpenReview);
+                  }}
+                >
+                  {starClicked ? (
+                    <StarIcon
+                      className="pt-2 text-white"
+                      sx={{ fontSize: 35 }}
                     />
-                  </div>
-                ) : (
-                  <AccountCircleOutlinedIcon
-                    className="pt-2 text-white"
-                    sx={{ fontSize: 35 }}
-                  />
-                )}
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-        )}
-      </Navbar.Collapse>
-    </Navbar>
+                  ) : (
+                    <StarBorderOutlinedIcon
+                      className="pt-2 text-white"
+                      sx={{ fontSize: 35 }}
+                    />
+                  )}
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item className="d-flex justify-content-center align-content-center">
+                <Nav.Link
+                  onClick={() => {
+                    if (currentUser.providerType === "local-userpass") {
+                      setNavClicked({
+                        peopleClicked: false,
+                        infoClicked: false,
+                        starClicked: false,
+                        accountClicked: true,
+                      });
+                      setOnlyOneStateTrue(setOpenProfile);
+                    } else {
+                      setOpenLoginModal(true);
+                    }
+                  }}
+                >
+                  {currentUser.providerType === "local-userpass" ? (
+                    <div className="pt-2 mx-2">
+                      <Avatar
+                        textSizeRatio={2.1}
+                        name={currentUser.profile.email}
+                        size="25"
+                        round
+                      />
+                    </div>
+                  ) : (
+                    <AccountCircleOutlinedIcon
+                      className="pt-2 text-white"
+                      sx={{ fontSize: 35 }}
+                    />
+                  )}
+                </Nav.Link>
+              </Nav.Item>
+            </Nav>
+          )}
+        </Navbar.Collapse>
+      </Navbar>
+      <InstallAppButton />
+    </>
   );
 }
