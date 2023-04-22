@@ -15,6 +15,7 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
   const { currentUser } = useRealmApp();
+  const owner = username === currentUser.profile.email;
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const [showEditModal, setEditModal] = useState(false);
@@ -95,12 +96,9 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
                   />
                 </Dropdown.Toggle>
                 <Dropdown.Menu id="review-dropdown">
-                  <Dropdown.Item
-                    className="review-dropdown-item"
-                    onClick={() => setEditModal(true)}
-                  >
+                  {owner && (<Dropdown.Item className="review-dropdown-item" onClick={() => setEditModal(true)}>
                     Edit
-                  </Dropdown.Item>
+                  </Dropdown.Item>)}
                   <Dropdown.Item className="review-dropdown-item">
                     Hide
                   </Dropdown.Item>
