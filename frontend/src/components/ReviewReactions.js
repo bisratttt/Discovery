@@ -1,33 +1,31 @@
 import React, { useEffect } from "react";
-import { Card, Col, Row } from "react-bootstrap";
-import { useState } from "react";
-import { useMediaQuery } from "@mui/material";
-import { useMutation } from "@apollo/client";
 import {
-  ADD_SUBMISSION_REACTION,
-  UPDATE_SUBMISSION_REACTION,
-} from "../queries/SubmissionReactionQuery";
+  ADD_REVIEW_REACTION,
+  UPDATE_REVIEW_REACTION,
+} from "../queries/ReviewReactionQuery";
+import { realmFetchReviewReactions } from "../utils/realmDB";
+import { useState } from "react";
+import { useMutation } from "@apollo/client";
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
-import { realmFetchSubmissionReactions } from "../utils/realmDB";
 import ReactionList from "./design-system/ReactionBadge";
 
-export default function SubmissionReaction({ submissionId }) {
+export default function ReviewReactions({ reviewId }) {
   const { currentUser } = useRealmApp();
-  const [submissionReactionCounts, setSubmissionReactionCounts] = useState({});
+  const [reviewReactionCounts, setReviewReactionCounts] = useState({});
   // add reaction
-  const [addReaction] = useMutation(ADD_SUBMISSION_REACTION);
+  const [addReaction] = useMutation(ADD_REVIEW_REACTION);
   // update reaction
   const [updateReaction, { error: updateReactionError }] = useMutation(
-    UPDATE_SUBMISSION_REACTION
+    UPDATE_REVIEW_REACTION
   );
   useEffect(() => {
-    realmFetchSubmissionReactions({
+    realmFetchReviewReactions({
       currentUser,
-      submissionId,
-      setSubmissionReactionCounts,
+      reviewId,
+      setReviewReactionCounts,
     });
-  }, [currentUser, submissionId]);
+  }, [currentUser, reviewId]);
   //  fetch reaction
   // const { data: reactionList, refetch } = useQuery(FETCH_REACTIONS, {
   //   variables: { song_id: new BSON.ObjectId(songId) },
@@ -46,19 +44,19 @@ export default function SubmissionReaction({ submissionId }) {
   //   onError: (error) => console.log(error),
   // });
 
-  const reactToSong = (reactionEmoji) => {
+  const reactToReview = (reactionEmoji) => {
     //  try adding first
     addReaction({
       variables: {
         user_id: new BSON.ObjectId(currentUser.id),
-        submission_id: new BSON.ObjectId(submissionId),
+        review_id: new BSON.ObjectId(reviewId),
         reaction: reactionEmoji,
       },
       onCompleted: async (updateData) => {
-        await realmFetchSubmissionReactions({
+        await realmFetchReviewReactions({
           currentUser,
-          submissionId,
-          setSubmissionReactionCounts,
+          reviewId,
+          setReviewReactionCounts,
         });
       },
       onError: (e) => {
@@ -66,14 +64,14 @@ export default function SubmissionReaction({ submissionId }) {
         updateReaction({
           variables: {
             user_id: new BSON.ObjectId(currentUser.id),
-            submission_id: new BSON.ObjectId(submissionId),
+            review_id: new BSON.ObjectId(reviewId),
             reaction: reactionEmoji,
           },
           onCompleted: async (updateData) => {
-            await realmFetchSubmissionReactions({
+            await realmFetchReviewReactions({
               currentUser,
-              submissionId,
-              setSubmissionReactionCounts,
+              reviewId,
+              setReviewReactionCounts,
             });
           },
           onError: () => console.log(updateReactionError),
@@ -82,11 +80,10 @@ export default function SubmissionReaction({ submissionId }) {
     });
   };
 
-  const isSmallScreen = useMediaQuery("(max-width:850px)");
   return (
     <ReactionList
-      handleReact={reactToSong}
-      reactionCount={submissionReactionCounts}
+      handleReact={reactToReview}
+      reactionCount={reviewReactionCounts}
     />
   );
 }

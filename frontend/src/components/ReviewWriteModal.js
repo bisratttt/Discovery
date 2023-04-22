@@ -22,7 +22,7 @@ export default function ReviewModal(props) {
           WebkitBackdropFilter: "blur(2rem)",
         }}
       >
-        <Modal.Title className="text-white">Review this song</Modal.Title>
+        <Modal.Title className="text-white">{props.title}</Modal.Title>
         <FontAwesomeIcon
           size="xl"
           icon={faXmark}
