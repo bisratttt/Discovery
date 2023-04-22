@@ -9,8 +9,9 @@ import { useRealmApp } from "../contexts/RealmApp";
 import UsernameWithProfile from "./design-system/UsernameWithProfile";
 import ReviewModal from "./ReviewWriteModal";
 import ReactionList from "./design-system/ReactionBadge";
+import ReviewReactions from "./ReviewReactions";
 
-export default function CommentB({ avatar, username, body, title, time }) {
+export default function CommentB({ avatar, username, body, title, time, _id }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
   const { currentUser } = useRealmApp();
@@ -18,6 +19,7 @@ export default function CommentB({ avatar, username, body, title, time }) {
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const [showEditModal, setEditModal] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
   const [commentReaction, setCommentReaction] = useState({
     "❤️": null,
     "🔥": null,
@@ -34,7 +36,7 @@ export default function CommentB({ avatar, username, body, title, time }) {
     minute: "numeric",
     hour12: true,
   });
-  
+
   return (
     <ListGroup.Item
       className={`text-white mx-2 my-1 pt-2 rounded-1`}
@@ -105,7 +107,7 @@ export default function CommentB({ avatar, username, body, title, time }) {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-              
+
               <ReviewModal
                 show={showEditModal}
                 onHide={() => setEditModal((modal) => !modal)}
@@ -138,10 +140,7 @@ export default function CommentB({ avatar, username, body, title, time }) {
           </Row>
           <Row>
             <Col xs={9} className="d-flex justify-content-start ps-0 mt-2">
-              <ReactionList
-                handleReact={(emoji) => {}}
-                reactionCount={commentReaction}
-              />
+              <ReviewReactions reviewId={_id} />
             </Col>
             <Col className="d-flex justify-content-end">
               {isTruncated && truncateComment ? (

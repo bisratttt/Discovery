@@ -2,6 +2,8 @@ import { useMediaQuery } from "@mui/material";
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { Button, Col, Image, Row } from "react-bootstrap";
+import { useRealmApp } from "../../contexts/RealmApp";
+import { BSON } from "realm-web";
 
 function ReactionBadge({
   emoji,
@@ -9,6 +11,7 @@ function ReactionBadge({
   handleClick,
   image = "",
   staticImage = "",
+  whiteBody = false,
 }) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [isHover, setIsHover] = useState(false);
@@ -22,11 +25,11 @@ function ReactionBadge({
   const isPhoneScreen = useMediaQuery("(max-width:630px");
   return (
     <motion.div
-      className="mx-2 p-0 rounded-pill w-auto"
+      className={`mx-2 p-0 rounded-pill w-auto ${whiteBody && "text-white"}`}
       initial={{ scale: 1 }}
       animate={isAnimating ? { scale: 1.1 } : { scale: 1 }}
       style={{
-        backgroundColor: "rgba(30,30,30, 0.7)",
+        backgroundColor: whiteBody ? "white" : "rgba(30,30,30, 0.7)",
         border: "1px solid rgba(255,255,255,0.5)",
       }}
     >
@@ -79,9 +82,9 @@ export default function ReactionList({ handleReact, reactionCount }) {
     "👍": "../emojis/static/thumbs_up.avif",
     "👎": "../emojis/static/thumbs_down.avif",
   };
-
+  const { currentUser } = useRealmApp();
   return (
-    <Row className="text-white p-0 m-0">
+    <Row className="p-0 m-0">
       <Col xs={12} className="d-flex align-items-center justify-content-around">
         {Object.entries(reactionOrder).map(([emoji, image]) => (
           <ReactionBadge
@@ -89,8 +92,11 @@ export default function ReactionList({ handleReact, reactionCount }) {
             emoji={emoji}
             image={image}
             staticImage={reactionStaticOrder[emoji]}
-            count={reactionCount[emoji] || 0}
+            count={reactionCount[emoji]?.count || 0}
             handleClick={() => handleReact(emoji)}
+            whiteBody={reactionCount[emoji]?.user_ids?.has(
+              new BSON.ObjectId(currentUser.id)
+            )}
           />
         ))}
       </Col>
