@@ -1,0 +1,36 @@
+{
+    "bsonType": "object",
+    "properties": {
+        "_id": {
+            "bsonType": "objectId",
+            "validate": {
+                "%or": [
+                    {
+                        "%%prev": {
+                            "%exists": false
+                        }
+                    },
+                    {
+                        "%%prev": "%%this"
+                    }
+                ]
+            }
+        },
+        "reaction_unicode": {
+            "bsonType": "string"
+        },
+        "review_id": {
+            "bsonType": "objectId"
+        },
+        "user_id": {
+            "bsonType": "objectId"
+        }
+    },
+    "required": [
+        "reaction_unicode",
+        "user_id",
+        "review_id",
+        "_id"
+    ],
+    "title": "reviewReaction"
+}
