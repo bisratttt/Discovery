@@ -8,6 +8,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useRealmApp } from "../contexts/RealmApp";
 import UsernameWithProfile from "./design-system/UsernameWithProfile";
 import ReviewModal from "./ReviewWriteModal";
+import ReactionList from "./design-system/ReactionBadge";
 
 export default function CommentB({ avatar, username, body, title, time }) {
   const [truncateComment, setTruncateComment] = useState(true);
@@ -16,7 +17,12 @@ export default function CommentB({ avatar, username, body, title, time }) {
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const [showEditModal, setEditModal] = useState(false);
-
+  const [commentReaction, setCommentReaction] = useState({
+    "❤️": null,
+    "🔥": null,
+    "👍": null,
+    "👎": null,
+  });
   useEffect(() => {
     setIsTruncated(
       commentRef.current.scrollHeight > commentRef.current.clientHeight
@@ -51,16 +57,27 @@ export default function CommentB({ avatar, username, body, title, time }) {
           />
         </Col>
         <Col xs={10} lg={11}>
-          <Row
-            style={{ height: "35px" }}
-            className="d-flex justify-content-center align-items-center"
-          >
-            <Col className="d-flex justify-content-start ps-0">
-              {currentUser.providerType === "api-key" ? (
-                <strong>{username}</strong>
-              ) : (
-                <UsernameWithProfile username={username} />
-              )}
+          <Row className="d-flex justify-content-center align-items-center">
+            <Col>
+              <Row style={{ height: "20px" }}>
+                <Col className="d-flex justify-content-start ps-0 pb-0">
+                  {currentUser.providerType === "api-key" ? (
+                    <strong>{username}</strong>
+                  ) : (
+                    <UsernameWithProfile username={username} />
+                  )}
+                </Col>
+              </Row>
+              <Row>
+                <Col className="d-flex justify-content-start ps-0">
+                  <small
+                    style={{ fontSize: "clamp(0.5rem, 5vw, 0.7rem)" }}
+                    className="text-muted"
+                  >
+                    {dateTime}
+                  </small>
+                </Col>
+              </Row>
             </Col>
             <Col xs={4} lg={2} className="d-flex justify-content-end pe-4">
               <Dropdown>
@@ -119,13 +136,11 @@ export default function CommentB({ avatar, username, body, title, time }) {
             </Col>
           </Row>
           <Row>
-            <Col className="d-flex justify-content-start ps-0 mt-2">
-              <small
-                style={{ fontSize: "clamp(0.5rem, 5vw, 0.8rem)" }}
-                className="text-muted"
-              >
-                {dateTime}
-              </small>
+            <Col xs={9} className="d-flex justify-content-start ps-0 mt-2">
+              <ReactionList
+                handleReact={(emoji) => {}}
+                reactionCount={commentReaction}
+              />
             </Col>
             <Col className="d-flex justify-content-end">
               {isTruncated && truncateComment ? (

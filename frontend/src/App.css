@@ -200,9 +200,6 @@ a:hover {
   transition: transform 300ms;
 }
 /* reactions */
-.reaction-button {
-  text-decoration: none !important;
-}
 .reaction-badge {
   font-size: clamp(0.45rem, 2vw, 0.75rem) !important;
   background-color: rgb(27, 111, 6);
@@ -267,7 +264,7 @@ a:hover {
 
 .review-dropdown-item {
   font-size: clamp(0.65rem, 7vw, 0.85rem) !important;
-  color:rgb(255, 255, 255) !important;
+  color: rgb(255, 255, 255) !important;
 }
 
 /* Song Submission */

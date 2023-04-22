@@ -32,12 +32,12 @@ export default function SongSubmissionList() {
   //   setIsBlurred(false);
   // }
 
-  // useEffect(() => {
-  //   const madeSubmission = data?.userSongSubmissions?.some(
-  //     (submission) => submission.username === currentUser.profile.email
-  //   );
-  //   setIsBlurred(!madeSubmission);
-  // }, [data, currentUser]);
+  useEffect(() => {
+    const madeSubmission = data?.userSongSubmissions?.some(
+      (submission) => submission.username === currentUser.profile.email
+    );
+    setIsBlurred(!madeSubmission);
+  }, [data, currentUser]);
 
   // // periodically refetch the comments
   // useEffect(() => {
