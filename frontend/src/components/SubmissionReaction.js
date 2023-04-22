@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import { Card, Col, Row, Button, Image } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
-import { motion } from "framer-motion";
 import { useMutation } from "@apollo/client";
 import {
   ADD_SUBMISSION_REACTION,
@@ -11,80 +10,10 @@ import {
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
 import { realmFetchS } from "../utils/realmDB";
-
-const SubmissionReactionButton = ({
-  emoji,
-  count,
-  handleClick,
-  image = "",
-  staticImage = "",
-}) => {
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [isHover, setIsHover] = useState(false);
-  const handleButtonClick = () => {
-    setIsAnimating(true);
-    handleClick();
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 200);
-  };
-
-  return (
-    <motion.div
-      className="d-flex flex-row justify-content-center align-items-center position-relative mx-1 py-0 px-1 rounded-3"
-      initial={{ scale: 1 }}
-      animate={isAnimating ? { scale: 1.1 } : { scale: 1 }}
-      style={{ backgroundColor: "rgba(30,30,30, 0.7)" }}
-    >
-      <Col>
-        <Button
-          variant="link"
-          onClick={handleButtonClick}
-          className="p-0 pe-1 reaction-button bg-transparent"
-        >
-          {image !== "" ? (
-            <Image
-              height={25}
-              width="auto"
-              src={!isHover ? staticImage : image}
-              onMouseEnter={() => setIsHover(true)}
-              onMouseLeave={() => setIsHover(false)}
-            />
-          ) : (
-            <span
-              role="img"
-              aria-label={emoji}
-              style={{ fontSize: "clamp(1rem, 5vw, 1.2rem)" }}
-            >
-              {emoji}
-            </span>
-          )}
-        </Button>
-      </Col>
-      <Col>
-        <div>{count}</div>
-      </Col>
-    </motion.div>
-  );
-};
+import ReactionList from "./design-system/ReactionBadge";
 
 export default function SubmissionReaction({ submissionId }) {
   const { currentUser } = useRealmApp();
-  const reactionOrder = {
-    "❤️": "/emojis/heart.webp",
-    "🔥": "/emojis/fire.webp",
-    "👍": "/emojis/thumbs_up.webp",
-    "👎": "/emojis/thumbs_down.webp",
-    "😠": "/emojis/angry.webp",
-  };
-  const reactionStaticOrder = {
-    "❤️": "/emojis/static/heart.avif",
-    "🔥": "/emojis/static/fire.avif",
-    "👍": "/emojis/static/thumbs_up.avif",
-    "👎": "/emojis/static/thumbs_down.avif",
-    "😠": "/emojis/static/angry.avif",
-  };
-  // const reactionOrder = ["❤️", "🔥", "👍", "👎"];
   const [submissionReactionCounts, setSubmissionReactionCounts] = useState({});
   // add reaction
   const [addReaction] = useMutation(ADD_SUBMISSION_REACTION);
@@ -155,24 +84,9 @@ export default function SubmissionReaction({ submissionId }) {
 
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   return (
-    <Card bg="dark" text="white" id="reaction-card" className="mb-2">
-      <Row className="mx-0 px-0">
-        <Col
-          xs={12}
-          className="d-flex align-items-center justify-content-between"
-        >
-          {Object.entries(reactionOrder).map(([emoji, image]) => (
-            <SubmissionReactionButton
-              key={emoji}
-              emoji={emoji}
-              image={image}
-              staticImage={reactionStaticOrder[emoji]}
-              count={submissionReactionCounts[emoji] || 0}
-              handleClick={() => reactToSong(emoji)}
-            />
-          ))}
-        </Col>
-      </Row>
-    </Card>
+    <ReactionList
+      handleReact={reactToSong}
+      reactionCount={submissionReactionCounts}
+    />
   );
 }
