@@ -17,6 +17,7 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
   const { currentUser } = useRealmApp();
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
+  const [showEditModal, setEditModal] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [commentReaction, setCommentReaction] = useState({
     "❤️": null,
