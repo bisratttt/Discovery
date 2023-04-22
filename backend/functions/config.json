@@ -1,15 +1,6 @@
 [
     {
-        "name": "validateEmptyInput",
-        "private": true,
-        "disable_arg_logs": true
-    },
-    {
-        "name": "resetPassFunc",
-        "private": true
-    },
-    {
-        "name": "useYoutubeSong",
+        "name": "fetchSpotifySong",
         "private": true,
         "disable_arg_logs": true
     },
@@ -18,7 +9,20 @@
         "private": true
     },
     {
-        "name": "fetchSpotifySong",
+        "name": "fetchReactionCounts",
+        "private": false
+    },
+    {
+        "name": "addNewSongOfTheDayTrigger",
+        "private": true
+    },
+    {
+        "name": "useYoutubeSong",
+        "private": true,
+        "disable_arg_logs": true
+    },
+    {
+        "name": "validateEmptyInput",
         "private": true,
         "disable_arg_logs": true
     },
@@ -27,7 +31,15 @@
         "private": true
     },
     {
-        "name": "fetchReactionCounts",
+        "name": "resetPassFunc",
+        "private": true
+    },
+    {
+        "name": "createDateTrigger",
+        "private": true
+    },
+    {
+        "name": "createUserPreferences",
         "private": false
     },
     {
@@ -39,17 +51,5 @@
         "name": "searchYoutubeSong",
         "private": false,
         "disable_arg_logs": true
-    },
-    {
-        "name": "addNewSongOfTheDayTrigger",
-        "private": true
-    },
-    {
-        "name": "createDateTrigger",
-        "private": true
-    },
-    {
-        "name": "createUserPreferences",
-        "private": false
     }
 ]
