@@ -106,6 +106,7 @@ export default function CommentCard({ songId }) {
             songId={songId}
             show={reviewWriteModal}
             onHide={() => setReviewWriteModal((reviewModal) => !reviewModal)}
+            title="Review this song"
           />
         </Row>
       </Card.Header>

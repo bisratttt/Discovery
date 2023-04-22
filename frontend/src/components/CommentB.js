@@ -7,6 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useRealmApp } from "../contexts/RealmApp";
 import UsernameWithProfile from "./design-system/UsernameWithProfile";
+import ReviewModal from "./ReviewWriteModal";
 import ReactionList from "./design-system/ReactionBadge";
 import ReviewReactions from "./ReviewReactions";
 
@@ -17,6 +18,12 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+  const [commentReaction, setCommentReaction] = useState({
+    "❤️": null,
+    "🔥": null,
+    "👍": null,
+    "👎": null,
+  });
   useEffect(() => {
     setIsTruncated(
       commentRef.current.scrollHeight > commentRef.current.clientHeight
@@ -27,6 +34,7 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
     minute: "numeric",
     hour12: true,
   });
+
   return (
     <ListGroup.Item
       className={`text-white mx-2 my-1 pt-2 rounded-1`}
@@ -38,7 +46,6 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
       onBlur={() => setIsFocused(false)}
       onMouseEnter={() => setIsFocused(true)}
       onMouseLeave={() => setIsFocused(false)}
-      //   onHide={() => setIsHidden(true)}
     >
       <Row>
         <Col xs={2} lg={1} className="d-flex justify-content-end">
@@ -87,7 +94,10 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
                   />
                 </Dropdown.Toggle>
                 <Dropdown.Menu id="review-dropdown">
-                  <Dropdown.Item className="review-dropdown-item">
+                  <Dropdown.Item
+                    className="review-dropdown-item"
+                    onClick={() => setEditModal(true)}
+                  >
                     Edit
                   </Dropdown.Item>
                   <Dropdown.Item className="review-dropdown-item">
@@ -98,6 +108,12 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
+
+              <ReviewModal
+                show={showEditModal}
+                onHide={() => setEditModal((modal) => !modal)}
+                title="Edit your review"
+              />
             </Col>
           </Row>
           <Row>
