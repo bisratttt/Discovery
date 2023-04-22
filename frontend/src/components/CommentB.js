@@ -130,10 +130,10 @@ export default function CommentB({ avatar, username, body, title, time }) {
           </Row>
           <Row>
             <Col xs={9} className="d-flex justify-content-start ps-0 mt-2">
-              <ReactionList
+              {/* <ReactionList
                 handleReact={(emoji) => {}}
                 reactionCount={commentReaction}
-              />
+              /> */}
             </Col>
             <Col className="d-flex justify-content-end">
               {isTruncated && truncateComment ? (
