@@ -8,20 +8,15 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useRealmApp } from "../contexts/RealmApp";
 import UsernameWithProfile from "./design-system/UsernameWithProfile";
 import ReactionList from "./design-system/ReactionBadge";
+import ReviewReactions from "./ReviewReactions";
 
-export default function CommentB({ avatar, username, body, title, time }) {
+export default function CommentB({ avatar, username, body, title, time, _id }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
   const { currentUser } = useRealmApp();
   const commentRef = useRef(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
-  const [commentReaction, setCommentReaction] = useState({
-    "❤️": null,
-    "🔥": null,
-    "👍": null,
-    "👎": null,
-  });
   useEffect(() => {
     setIsTruncated(
       commentRef.current.scrollHeight > commentRef.current.clientHeight
@@ -130,10 +125,7 @@ export default function CommentB({ avatar, username, body, title, time }) {
           </Row>
           <Row>
             <Col xs={9} className="d-flex justify-content-start ps-0 mt-2">
-              <ReactionList
-                handleReact={(emoji) => {}}
-                reactionCount={commentReaction}
-              />
+              <ReviewReactions reviewId={_id} />
             </Col>
             <Col className="d-flex justify-content-end">
               {isTruncated && truncateComment ? (
