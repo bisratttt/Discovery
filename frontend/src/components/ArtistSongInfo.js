@@ -21,7 +21,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import { QUERY_ALBUMINFO } from "../queries/albumInfoQuery";
 import Marquee from "react-fast-marquee";
-
+import { useSwipeable } from "react-swipeable";
 const ProducerLink = ({ producer }) => {
   return (
     <a
@@ -201,8 +201,9 @@ function ArtistInfo({
               md={4}
             >
               {/* render socials */}
-              {Object.keys(socialHandles ?? {}).map((platform) => (
+              {Object.keys(socialHandles ?? {}).map((platform, index) => (
                 <a
+                  key={index}
                   href={`https://${platform}.com/${
                     (platform === "youtube" || platform === "tiktok") &&
                     socialHandles?.[platform]
@@ -341,8 +342,10 @@ function AlbumInfo({
                       </Col>
                     </Row>
                     <Row>
-                      {album_tracks.map((track) => (
-                        <HoveringTracks track={track} />
+                      {album_tracks.map((track, index) => (
+                        <span key={index}>
+                          <HoveringTracks track={track} />
+                        </span>
                       ))}
                     </Row>
                   </Col>
@@ -624,6 +627,7 @@ function SongInfo({
     </Container>
   );
 }
+
 function ArtistSongInfo({ active_tab = "Artist" }) {
   const { loading, error, data } = useQuery(QUERY_SONGINFO);
   const {
@@ -638,12 +642,18 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
   const [songWriters, setSongWriters] = useState({});
   const [albumBio, setAlbumBio] = useState({});
   const [albumTracks, setAlbumTracks] = useState([]);
+  const [tabIdx, setTabIdx] = useState(0);
   const [socialHandles, setSocialHandles] = useState({
     instagram: null,
     twitter: null,
     facebook: null,
   });
-
+  const swipeHandler = useSwipeable({
+    onSwiped: (eventData) => console.log("User Swiped!", eventData),
+    onSwipedLeft: () => setTabIdx(Math.max(tabIdx - 1, 0)),
+    onSwipedRight: () => setTabIdx((tabIdx + 1) % 3),
+  });
+  console.log(tabIdx);
   useEffect(() => {
     if (data && albumData) {
       setArtistBio(JSON.parse(data.songInfo.artist_bio).dom);
@@ -666,53 +676,60 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
   if (albumDataError) {
     console.log("Error fetching album bio", albumDataError);
   }
+  let idxToName = {
+    Artist: 0,
+    Album: 1,
+    Song: 2,
+  };
+
   return loading ||
     albumDataLoading ||
     Object.keys(artistBio).length === 0 ||
     Object.keys(songBio).length === 0 ||
     Object.keys(albumBio).length === 0 ? (
     <Container>
-      {" "}
       <Spinner animation="border" role="status" variant="light" />
     </Container>
   ) : (
-    <div className="tab-content-wrapper p-0 m-0">
+    <div className="tab-content-wrapper p-0 m-0" {...swipeHandler}>
       <Tabs
-        defaultActiveKey={active_tab}
+        activeKey={tabIdx}
+        defaultActiveKey={idxToName[active_tab]}
         className="custom-tabs"
         justify
         transition={HorizontalCollapse}
         mountOnEnter
         unmountOnExit
+        onSelect={(k) => setTabIdx(parseInt(k))}
       >
-        <Tab eventKey="Artist" title="Artist">
+        <Tab eventKey={0} title="Artist">
           <ArtistInfo
             artist_bio={artistBio}
-            artist_image_url={data.songInfo.artist_image_url}
-            artist_name={data.songInfo.artist_name}
+            artist_image_url={data?.songInfo?.artist_image_url}
+            artist_name={data?.songInfo?.artist_name}
             socialHandles={socialHandles}
           />
         </Tab>
         {data.songInfo.is_song_on_album && (
-          <Tab eventKey="Album" title="Album">
+          <Tab eventKey={1} title="Album">
             <AlbumInfo
               album_bio={albumBio}
-              album_art={albumData.albumInfo.album_art}
-              album_release_date={albumData.albumInfo.album_release_date}
-              album_name={albumData.albumInfo.album_name}
+              album_art={albumData?.albumInfo?.album_art}
+              album_release_date={albumData?.albumInfo?.album_release_date}
+              album_name={albumData?.albumInfo?.album_name}
               album_tracks={albumTracks}
             />
           </Tab>
         )}
-        <Tab eventKey="Song" title="Song">
+        <Tab eventKey={2} title="Song">
           <SongInfo
             song_bio={songBio}
-            song_name={data.songInfo.song_name}
-            song_art={data.songInfo.song_art}
-            song_album={data.songInfo.song_album}
+            song_name={data?.songInfo?.song_name}
+            song_art={data?.songInfo?.song_art}
+            song_album={data?.songInfo?.song_album}
             song_producers={songProducers}
             song_writers={songWriters}
-            song_release_date={data.songInfo.song_release_date}
+            song_release_date={data?.songInfo?.song_release_date}
           />
         </Tab>
       </Tabs>
