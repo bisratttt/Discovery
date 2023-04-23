@@ -36,9 +36,7 @@ function ReactionBadge({
       <Row className="px-0 mx-0">
         <Col
           xs={4}
-          className={`d-flex justify-content-end align-items-center p-0 ${
-            !isPhoneScreen && "ps-2"
-          }`}
+          className={`d-flex justify-content-start align-items-center p-0 ps-2`}
         >
           <span>{count}</span>
         </Col>
@@ -51,7 +49,7 @@ function ReactionBadge({
           >
             {image !== "" ? (
               <Image
-                height={isPhoneScreen ? 17 : 22}
+                height={22}
                 width="auto"
                 src={!isHover ? staticImage : image}
                 onMouseEnter={() => setIsHover(true)}

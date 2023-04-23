@@ -15,11 +15,12 @@ import { useQuery } from "@apollo/client";
 import ReviewWriteModal from "./ReviewWriteModal";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import { useRealmApp } from "../contexts/RealmApp";
+import PullToRefresh from "react-simple-pull-to-refresh";
+
 const LIMIT = 100;
 const LAST_TIME = new Date(0);
 export default function CommentCard({ songId }) {
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-  const [intervalId, setIntervalId] = useState(null);
   const [reviewWriteModal, setReviewWriteModal] = useState(false);
   const [userHasReviewed, setUserHasReviewed] = useState(false);
   const { setOpenReview, setOpenLoginModal } = useToggleComponents();
@@ -37,23 +38,6 @@ export default function CommentCard({ songId }) {
     );
     setUserHasReviewed(reviewed);
   }, [data, currentUser]);
-  // // periodically refetch the comments
-  // useEffect(() => {
-  //   // Start polling the server every 5 seconds
-  //   const id = setInterval(() => {
-  //     refetch({
-  //       limit: limit,
-  //       lastTime: lastTime,
-  //     });
-  //   }, 30000);
-
-  //   setIntervalId(id);
-
-  //   // Clean up the interval when the component unmounts
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, []);
 
   return (
     <Card
@@ -118,29 +102,31 @@ export default function CommentCard({ songId }) {
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
-          <ListGroup className="m-0">
-            {data?.comments.map((com) => {
-              return <CommentB key={com._id} {...com} />;
-            })}
-            {data?.comments?.length === LIMIT && (
-              <ListGroup.Item>
-                <FontAwesomeIcon
-                  className="white-icon m-1"
-                  onClick={() =>
-                    fetchMore({
-                      variables: {
-                        lastTime: new Date(
-                          data?.comments?.[data.comments.length - 1].time
-                        ),
-                      },
-                    })
-                  }
-                  icon={faCirclePlus}
-                  size="lg"
-                />
-              </ListGroup.Item>
-            )}
-          </ListGroup>
+          <PullToRefresh className="text-white" onRefresh={refetch}>
+            <ListGroup className="m-0">
+              {data?.comments.map((com) => {
+                return <CommentB key={com._id} {...com} />;
+              })}
+              {data?.comments?.length === LIMIT && (
+                <ListGroup.Item>
+                  <FontAwesomeIcon
+                    className="white-icon m-1"
+                    onClick={() =>
+                      fetchMore({
+                        variables: {
+                          lastTime: new Date(
+                            data?.comments?.[data.comments.length - 1].time
+                          ),
+                        },
+                      })
+                    }
+                    icon={faCirclePlus}
+                    size="lg"
+                  />
+                </ListGroup.Item>
+              )}
+            </ListGroup>
+          </PullToRefresh>
         )}
       </Card.Body>
     </Card>
