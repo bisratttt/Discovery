@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Card, Row, Col, ListGroup } from "react-bootstrap";
 import { useMediaQuery } from "@mui/material";
-import CommentB from "./CommentB";
+import Comment from "./Comment";
 import {
   faArrowLeft,
   faCirclePlus,
@@ -102,31 +102,31 @@ export default function CommentCard({ songId }) {
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
-          <PullToRefresh className="text-white" onRefresh={refetch}>
-            <ListGroup className="m-0">
+          <ListGroup className="m-0">
+            <PullToRefresh className="text-white" onRefresh={refetch}>
               {data?.comments.map((com) => {
-                return <CommentB key={com._id} {...com} />;
+                return <Comment key={com._id} {...com} />;
               })}
-              {data?.comments?.length === LIMIT && (
-                <ListGroup.Item>
-                  <FontAwesomeIcon
-                    className="white-icon m-1"
-                    onClick={() =>
-                      fetchMore({
-                        variables: {
-                          lastTime: new Date(
-                            data?.comments?.[data.comments.length - 1].time
-                          ),
-                        },
-                      })
-                    }
-                    icon={faCirclePlus}
-                    size="lg"
-                  />
-                </ListGroup.Item>
-              )}
-            </ListGroup>
-          </PullToRefresh>
+            </PullToRefresh>
+            {data?.comments?.length === LIMIT && (
+              <ListGroup.Item>
+                <FontAwesomeIcon
+                  className="white-icon m-1"
+                  onClick={() =>
+                    fetchMore({
+                      variables: {
+                        lastTime: new Date(
+                          data?.comments?.[data.comments.length - 1].time
+                        ),
+                      },
+                    })
+                  }
+                  icon={faCirclePlus}
+                  size="lg"
+                />
+              </ListGroup.Item>
+            )}
+          </ListGroup>
         )}
       </Card.Body>
     </Card>

@@ -69,13 +69,13 @@ export default function SongSubmissionList() {
         {loading ? (
           <FontAwesomeIcon icon={faSpinner} spin />
         ) : (
-          <PullToRefresh className="text-white" onRefresh={refetch}>
-            <ListGroup className="m-0 p-0">
+          <ListGroup className="m-0 p-0">
+            <PullToRefresh className="text-white" onRefresh={refetch}>
               {data?.userSongSubmissions.map((sub) => {
                 return <SongSubmission key={sub._id} {...sub} />;
               })}
-            </ListGroup>
-          </PullToRefresh>
+            </PullToRefresh>
+          </ListGroup>
         )}
       </Card.Body>
     </Card>

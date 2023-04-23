@@ -101,7 +101,10 @@ export async function realmFetchSubmissionReactions({
     const counts = res.reduce(
       (obj, { reaction_unicode, count, user_ids }) => ({
         ...obj,
-        [reaction_unicode]: { count, user_ids: new Set(user_ids) },
+        [reaction_unicode]: {
+          count,
+          user_ids: new Set((user_ids || []).map((id) => id.toString())),
+        },
       }),
       {}
     );
@@ -148,7 +151,10 @@ export async function realmFetchReviewReactions({
     const counts = res.reduce(
       (obj, { reaction_unicode, count, user_ids }) => ({
         ...obj,
-        [reaction_unicode]: { count, user_ids: new Set(user_ids) },
+        [reaction_unicode]: {
+          count,
+          user_ids: new Set((user_ids || []).map((id) => id.toString())),
+        },
       }),
       {}
     );

@@ -10,8 +10,9 @@ import UsernameWithProfile from "./design-system/UsernameWithProfile";
 import ReviewModal from "./ReviewWriteModal";
 import ReactionList from "./design-system/ReactionBadge";
 import ReviewReactions from "./ReviewReactions";
+import { getMetaphorialTime } from "../utils/utils";
 
-export default function CommentB({ avatar, username, body, title, time, _id }) {
+export default function Comment({ avatar, username, body, title, time, _id }) {
   const [truncateComment, setTruncateComment] = useState(true);
   const [isTruncated, setIsTruncated] = useState(false);
   const { currentUser } = useRealmApp();
@@ -31,11 +32,7 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
       commentRef.current.scrollHeight > commentRef.current.clientHeight
     );
   }, [commentRef]);
-  let dateTime = new Date(time).toLocaleString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
+  let dateTime = getMetaphorialTime(time);
 
   return (
     <ListGroup.Item
@@ -96,9 +93,14 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
                   />
                 </Dropdown.Toggle>
                 <Dropdown.Menu id="review-dropdown">
-                  {owner && (<Dropdown.Item className="review-dropdown-item" onClick={() => setEditModal(true)}>
-                    Edit
-                  </Dropdown.Item>)}
+                  {owner && (
+                    <Dropdown.Item
+                      className="review-dropdown-item"
+                      onClick={() => setEditModal(true)}
+                    >
+                      Edit
+                    </Dropdown.Item>
+                  )}
                   <Dropdown.Item className="review-dropdown-item">
                     Hide
                   </Dropdown.Item>
@@ -139,7 +141,7 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
             </Col>
           </Row>
           <Row>
-            <Col xs={9} className="d-flex justify-content-start ps-0 mt-2">
+            <Col xs={9} className="d-flex justify-content-start p-0 mt-2">
               <ReviewReactions reviewId={_id} />
             </Col>
             <Col className="d-flex justify-content-end">

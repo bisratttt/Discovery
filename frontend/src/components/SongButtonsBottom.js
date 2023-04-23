@@ -17,7 +17,7 @@ import { useFetchData } from "../contexts/FetchData";
 import { realmFetch } from "../utils/realmDB";
 import { useRealmApp } from "../contexts/RealmApp";
 import { useMediaQuery } from "@mui/material";
-
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 // buttons underneath the album (Share, Play, Comments)
 function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const [playModal, setPlayModal] = useState(false);
@@ -46,8 +46,19 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
   );
   return (
     <>
-      {isSmallScreen ? (
-        <Col className="d-flex justify-content-start">
+      <>
+        <Col className="d-flex justify-content-center">
+          <Button
+            onClick={() => setPlayModal(true)}
+            style={{
+              background: "transparent",
+              borderColor: "transparent",
+            }}
+          >
+            <LibraryMusicIcon sx={{ fontSize: 40 }} />
+          </Button>
+        </Col>
+        <Col className="d-flex justify-content-end">
           <ButtonGroup>
             <OverlayTrigger
               trigger="click"
@@ -57,73 +68,29 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
               rootClose={true}
             >
               <Button
-                className="d-flex align-items-center justify-content-center text-decoration-none border-0 py-1 pe-1"
+                className="d-flex align-items-center justify-content-center text-decoration-none border-0 py-1 px-1"
                 style={{
                   background: "transparent",
                   borderColor: "transparent",
                 }}
               >
-                <FontAwesomeIcon size="2xl" icon={faSmile} className="me-1" />
+                <FavoriteBorderOutlinedIcon sx={{ fontSize: 40 }} />
               </Button>
             </OverlayTrigger>
+
             <Button
-              onClick={() => setPlayModal(true)}
+              className="ps-1"
               style={{
                 background: "transparent",
                 borderColor: "transparent",
               }}
+              onClick={() => setOnlyOneStateTrue(setOpenReview)}
             >
-              <LibraryMusicIcon sx={{ fontSize: 40 }} />
+              <RateReviewIcon sx={{ fontSize: 40 }} />
             </Button>
           </ButtonGroup>
         </Col>
-      ) : (
-        <>
-          <Col className="d-flex justify-content-center">
-            <Button
-              onClick={() => setPlayModal(true)}
-              style={{
-                background: "transparent",
-                borderColor: "transparent",
-              }}
-            >
-              <LibraryMusicIcon sx={{ fontSize: 40 }} />
-            </Button>
-          </Col>
-          <Col className="d-flex justify-content-end">
-            <ButtonGroup>
-              <OverlayTrigger
-                trigger="click"
-                placement="top"
-                delay={{ show: 250, hide: 0 }}
-                overlay={renderReactionTooltip}
-                rootClose={true}
-              >
-                <Button
-                  className="d-flex align-items-center justify-content-center text-decoration-none border-0 py-1 px-1"
-                  style={{
-                    background: "transparent",
-                    borderColor: "transparent",
-                  }}
-                >
-                  <FontAwesomeIcon size="2xl" icon={faSmile} className="me-1" />
-                </Button>
-              </OverlayTrigger>
-
-              <Button
-                className="ps-1"
-                style={{
-                  background: "transparent",
-                  borderColor: "transparent",
-                }}
-                onClick={() => setOnlyOneStateTrue(setOpenReview)}
-              >
-                <RateReviewIcon sx={{ fontSize: 40 }} />
-              </Button>
-            </ButtonGroup>
-          </Col>
-        </>
-      )}
+      </>
 
       <PlayModal
         show={playModal}

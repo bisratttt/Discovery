@@ -99,3 +99,13 @@ export const getPlatformIcon = (platform) => {
       return null;
   }
 };
+export function formatCount(count) {
+  const suffixes = ["", "k", "m", "b", "t"];
+  const suffixIndex = Math.floor((count.toString().length - 1) / 3);
+  const suffix = suffixes[suffixIndex];
+
+  const shortCount = count / Math.pow(10, suffixIndex * 3);
+  const roundedCount = Math.round(shortCount * 10) / 10;
+
+  return roundedCount.toString() + suffix;
+}

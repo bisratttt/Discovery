@@ -1,19 +1,26 @@
-import { useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import { Container, Row, Spinner } from "react-bootstrap";
-import { QUERY_SONG } from "../queries/SongQuery";
+import {
+  Col,
+  Container,
+  Row,
+  OverlayTrigger,
+  Button,
+  Popover,
+} from "react-bootstrap";
 import albumArt from "album-art";
 import SongInfoLargeScreen from "./SongIntroLargeScreen";
 import { useToggleComponents } from "../contexts/ToggleComponents";
 import ArtistSongInfo from "./ArtistSongInfo";
 import SongButtonsTop from "./SongButtonsTop";
 import ShareModal from "./ShareModal";
-import SongButtonsBottom from "./SongButtonsBottom";
 import CommentCard from "./CommentCard";
 import SongSubmissionList from "./SongSubmissionList";
 import ProfileCard from "./ProfileCard";
 import NavBarBottom from "./NavBarBottom";
-
+import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
+import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import PlayModal from "./PlayModal";
+import ReactionBanner from "./ReactionBanner";
 // responsive embeding of youtube audio/video files
 function YoutubeEmbed({ srcId }) {
   const url = `https://www.youtube.com/embed/${srcId}`;
@@ -36,6 +43,7 @@ const cardStyle = {
 export default function SongPageSmall({ data }) {
   const [albumImg, setAlbumImg] = useState("");
   const [shareModal, setShareModal] = useState(false);
+  const [playModal, setPlayModal] = useState(false);
 
   const {
     openReview,
@@ -44,6 +52,7 @@ export default function SongPageSmall({ data }) {
     setOpenSongInfo,
     openProfile,
     setOnlyOneStateTrue,
+    openLoginModal,
   } = useToggleComponents();
   useEffect(() => {
     albumArt(data?.song?.artist ?? "", {
@@ -51,8 +60,21 @@ export default function SongPageSmall({ data }) {
       size: "large",
     }).then((album) => setAlbumImg(album));
   }, []);
+  const renderReactionTooltip = (props) => (
+    <Popover
+      id="reaction-popover"
+      {...props}
+      className="py-0 "
+      bsPrefix="popover darker-container"
+      show={props.show && !openLoginModal}
+    >
+      <Popover.Body>
+        <ReactionBanner songId={data?.song?.id} />
+      </Popover.Body>
+    </Popover>
+  );
   return (
-    <Container style={{ zIndex: "1", height: "100dvh" }} className="px-0">
+    <Container style={{ zIndex: "1", height: "100dvh" }} fluid className="px-0">
       <div
         className="background-image"
         style={{ backgroundImage: `url(${albumImg})` }}
@@ -88,36 +110,63 @@ export default function SongPageSmall({ data }) {
                 <YoutubeEmbed srcId={data?.song?.youtube_id} />
               </Row>
               <Row>
-                <a
-                  onClick={() => {
-                    setOpenSongInfo({ openInfo: false, active_tab: "Song" });
-                    setOnlyOneStateTrue(setOpenSongInfo);
-                  }}
-                  className="text-decoration-none text-white song-title"
+                <Col
+                  xs={2}
+                  className="d-flex justify-content-center align-items-center ps-4"
                 >
-                  {data?.song?.song_name ?? ""}
-                </a>
-              </Row>
-              <Row>
-                <p
-                  onClick={() => {
-                    setOpenSongInfo({
-                      openInfo: false,
-                      active_tab: "Artist",
-                    });
-                    setOnlyOneStateTrue(setOpenSongInfo);
-                  }}
-                  className="text-decoration-none text-muted artist-name"
+                  <Button
+                    onClick={() => setPlayModal(true)}
+                    className="border-0 bg-transparent px-0"
+                  >
+                    <LibraryMusicIcon sx={{ fontSize: 35 }} />
+                  </Button>
+                </Col>
+                <Col xs={8}>
+                  <Row>
+                    <a
+                      onClick={() => {
+                        setOpenSongInfo({
+                          openInfo: false,
+                          active_tab: "Song",
+                        });
+                        setOnlyOneStateTrue(setOpenSongInfo);
+                      }}
+                      className="text-decoration-none text-white song-title"
+                    >
+                      {data?.song?.song_name ?? ""}
+                    </a>
+                  </Row>
+                  <Row>
+                    <p
+                      onClick={() => {
+                        setOpenSongInfo({
+                          openInfo: false,
+                          active_tab: "Artist",
+                        });
+                        setOnlyOneStateTrue(setOpenSongInfo);
+                      }}
+                      className="text-decoration-none text-muted artist-name"
+                    >
+                      {data?.song?.artist ?? ""}
+                    </p>
+                  </Row>
+                </Col>
+                <Col
+                  xs={2}
+                  className="d-flex justify-content-center align-items-center pe-4"
                 >
-                  {data?.song?.artist ?? ""}
-                </p>
-              </Row>
-              <Row className="mt-1">
-                <SongButtonsBottom
-                  spotify_link={data?.song?.spotify_link}
-                  apple_music_link={data?.song?.apple_music_link}
-                  song_id={data?.song?._id}
-                />
+                  <OverlayTrigger
+                    trigger="click"
+                    placement="top"
+                    delay={{ show: 250, hide: 0 }}
+                    overlay={renderReactionTooltip}
+                    rootClose={true}
+                  >
+                    <Button className="border-0 bg-transparent px-0">
+                      <FavoriteBorderOutlinedIcon sx={{ fontSize: 35 }} />
+                    </Button>
+                  </OverlayTrigger>
+                </Col>
               </Row>
             </div>
           </div>
@@ -137,6 +186,12 @@ export default function SongPageSmall({ data }) {
         show={shareModal}
         onHide={() => setShareModal(false)}
         shareLink="#!"
+      />
+      <PlayModal
+        show={playModal}
+        onHide={() => setPlayModal(false)}
+        spotify_link={data?.song?.spotify_link}
+        apple_music_link={data?.song?.apple_music_link}
       />
     </Container>
   );
