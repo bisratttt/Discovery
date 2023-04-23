@@ -131,7 +131,7 @@ function SongPage({ data }) {
     <>
       <div
         className="background-image"
-        style={{ backgroundImage: `url(${albumImg})` }}
+        style={{ backgroundImage: `url(${albumImg})`, backgroundPosition: "center center" }}
       />
       <div className="background-darker" />
       <SongIntroLargeScreen />
