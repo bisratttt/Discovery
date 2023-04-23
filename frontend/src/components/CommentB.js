@@ -96,9 +96,9 @@ export default function CommentB({ avatar, username, body, title, time, _id }) {
                   />
                 </Dropdown.Toggle>
                 <Dropdown.Menu id="review-dropdown">
-                  {owner && (<Dropdown.Item className="review-dropdown-item" onClick={() => setEditModal(true)}>
+                  {/* {owner && (<Dropdown.Item className="review-dropdown-item" onClick={() => setEditModal(true)}>
                     Edit
-                  </Dropdown.Item>)}
+                  </Dropdown.Item>)} */}
                   <Dropdown.Item className="review-dropdown-item">
                     Hide
                   </Dropdown.Item>
