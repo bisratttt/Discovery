@@ -31,6 +31,9 @@ body {
 a:hover {
   text-decoration: underline !important;
 }
+.link-button:hover {
+  text-decoration: underline !important;
+}
 .App {
   text-align: center;
 }
@@ -127,20 +130,32 @@ a:hover {
   z-index: 1;
 }
 
-.song-title {
+#song-title-small {
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin-bottom: 0;
   color: white;
 }
 
-.artist-name {
+#artist-name-small {
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.2em;
   color: #ccc;
   margin-bottom: 0;
 }
+#song-title {
+  font-weight: bold;
+  font-size: 1.3em;
+  margin-bottom: 0;
+  color: white;
+}
 
+#artist-name {
+  font-weight: bold;
+  font-size: 1.3em;
+  color: #ccc;
+  margin-bottom: 0;
+}
 .form-control:focus {
   border: none !important;
   box-shadow: none !important;

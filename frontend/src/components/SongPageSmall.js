@@ -123,7 +123,7 @@ export default function SongPageSmall({ data }) {
                 </Col>
                 <Col xs={8}>
                   <Row>
-                    <a
+                    <Button
                       onClick={() => {
                         setOpenSongInfo({
                           openInfo: false,
@@ -131,13 +131,14 @@ export default function SongPageSmall({ data }) {
                         });
                         setOnlyOneStateTrue(setOpenSongInfo);
                       }}
-                      className="text-decoration-none text-white song-title"
+                      id="song-title-small"
+                      className="text-white bg-transparent border-0 p-0 link-button"
                     >
                       {data?.song?.song_name ?? ""}
-                    </a>
+                    </Button>
                   </Row>
                   <Row>
-                    <p
+                    <Button
                       onClick={() => {
                         setOpenSongInfo({
                           openInfo: false,
@@ -145,10 +146,11 @@ export default function SongPageSmall({ data }) {
                         });
                         setOnlyOneStateTrue(setOpenSongInfo);
                       }}
-                      className="text-decoration-none text-muted artist-name"
+                      id="artist-name-small"
+                      className="text-decoration-none text-muted bg-transparent border-0 p-0 link-button"
                     >
                       {data?.song?.artist ?? ""}
-                    </p>
+                    </Button>
                   </Row>
                 </Col>
                 <Col
@@ -157,7 +159,7 @@ export default function SongPageSmall({ data }) {
                 >
                   <OverlayTrigger
                     trigger="click"
-                    placement="top"
+                    placement="top-end"
                     delay={{ show: 250, hide: 0 }}
                     overlay={renderReactionTooltip}
                     rootClose={true}

@@ -89,7 +89,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
           <ButtonGroup>
             <OverlayTrigger
               trigger="click"
-              placement="top"
+              placement="top-end"
               delay={{ show: 250, hide: 0 }}
               overlay={renderReactionTooltip}
               rootClose={true}

@@ -9,6 +9,18 @@ import {
   faSoundcloud,
 } from "@fortawesome/free-brands-svg-icons";
 import { useEffect, useState } from "react";
+import {
+  angryStatic,
+  cryingStatic,
+  fireHeartStatic,
+  thumbsDownStatic,
+  thumbsUpStatic,
+  angry,
+  crying,
+  fireHeart,
+  thumbsDown,
+  thumbsUp,
+} from "../assets/imageAssets.js";
 export function calculateLuminance(rgb) {
   const r = rgb[0] / 255;
   const g = rgb[1] / 255;
@@ -100,30 +112,30 @@ export const getPlatformIcon = (platform) => {
   }
 };
 export const reactionSongOrder = {
-  "❤️": "/emojis/fire_heart.png",
-  "👍": "/emojis/thumbs_up.png",
-  "👎": "/emojis/thumbs_down.png",
-  "😠": "/emojis/angry.png",
-  "😭": "/emojis/crying.png",
+  "❤️": fireHeart,
+  "👍": thumbsUp,
+  "👎": thumbsDown,
+  "😠": angry,
+  "😭": crying,
 };
 export const reactionSongStaticOrder = {
-  "❤️": "../emojis/static/heart_on_fire.avif",
-  "👍": "../emojis/static/thumbs_up.avif",
-  "👎": "../emojis/static/thumbs_down.avif",
-  "😠": "/emojis/static/angry.avif",
-  "😭": "../emojis/static/crying.avif",
+  "❤️": fireHeartStatic,
+  "👍": thumbsUpStatic,
+  "👎": thumbsDownStatic,
+  "😠": angryStatic,
+  "😭": cryingStatic,
 };
 export const reactionOrder = {
-  "❤️": "/emojis/fire_heart.png",
-  "👍": "/emojis/thumbs_up.png",
-  "👎": "/emojis/thumbs_down.png",
-  "😭": "/emojis/crying.png",
+  "❤️": fireHeart,
+  "👍": thumbsUp,
+  "👎": thumbsDown,
+  "😭": crying,
 };
 export const reactionStaticOrder = {
-  "❤️": "../emojis/static/heart_on_fire.avif",
-  "👍": "../emojis/static/thumbs_up.avif",
-  "👎": "../emojis/static/thumbs_down.avif",
-  "😭": "../emojis/static/crying.avif",
+  "❤️": fireHeartStatic,
+  "👍": thumbsUpStatic,
+  "👎": thumbsDownStatic,
+  "😭": cryingStatic,
 };
 export function formatCount(count) {
   const suffixes = ["", "k", "m", "b", "t"];

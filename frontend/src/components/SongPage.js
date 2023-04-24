@@ -1,4 +1,4 @@
-import { Container, Row, Spinner } from "react-bootstrap";
+import { Button, Container, Row, Spinner } from "react-bootstrap";
 import albumArt from "album-art";
 import { useEffect, useState } from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -92,8 +92,6 @@ function SongPage({ data }) {
   const isLargeScreen = useMediaQuery("(min-width:1200px)");
   const [aspectRatio, setAspectRatio] = useState(null);
   const [shareModal, setShareModal] = useState(false);
-  const [songHover, setSongHover] = useState(false);
-  const [artistHover, setArtistHover] = useState(false);
   const [firstVisitToday, setFirstVisitToday] = useState(false);
 
   useEffect(() => {
@@ -131,7 +129,10 @@ function SongPage({ data }) {
     <>
       <div
         className="background-image"
-        style={{ backgroundImage: `url(${albumImg})`, backgroundPosition: "center center" }}
+        style={{
+          backgroundImage: `url(${albumImg})`,
+          backgroundPosition: "center center",
+        }}
       />
       <div className="background-darker" />
       <SongIntroLargeScreen />
@@ -203,36 +204,28 @@ function SongPage({ data }) {
                 <YoutubeEmbed srcId={data?.song?.youtube_id} />
               </Row>
               <Row>
-                <p
+                <Button
                   onClick={() => {
                     setOpenSongInfo({ openInfo: false, active_tab: "Song" });
                     setOnlyOneStateTrue(setOpenSongInfo);
                   }}
-                  className={`${
-                    songHover && "text-decoration-underline"
-                  } song-title`}
-                  onMouseEnter={() => setSongHover(true)}
-                  onMouseLeave={() => setSongHover(false)}
-                  style={{ cursor: "pointer" }}
+                  id="song-title"
+                  className="text-decoration-none bg-transparent border-0 p-0 link-button"
                 >
                   {data?.song?.song_name ?? ""}
-                </p>
+                </Button>
               </Row>
               <Row>
-                <p
-                  onMouseEnter={() => setArtistHover(true)}
-                  onMouseLeave={() => setArtistHover(false)}
+                <Button
                   onClick={() => {
                     setOpenSongInfo({ openInfo: false, active_tab: "Artist" });
                     setOnlyOneStateTrue(setOpenSongInfo);
                   }}
-                  className={`${
-                    artistHover && "text-decoration-underline"
-                  } artist-name`}
-                  style={{ cursor: "pointer" }}
+                  id="artist-name"
+                  className="text-decoration-none text-muted bg-transparent border-0 p-0 link-button"
                 >
                   {data?.song?.artist ?? ""}
-                </p>
+                </Button>
               </Row>
               <Row className="mt-1">
                 <SongButtonsBottom

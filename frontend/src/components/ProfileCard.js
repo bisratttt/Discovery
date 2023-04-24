@@ -179,7 +179,10 @@ export default function ProfileCard() {
             overflowY: "scroll",
           }}
         >
-          <Row className="mx-1">
+          <Row
+            className="mx-1 pb-2"
+            style={{ borderBottom: "0.5px solid rgba(255,255,255,0.5)" }}
+          >
             <Col
               xs={9}
               className="d-flex justify-content-start align-items-center"
@@ -211,24 +214,30 @@ export default function ProfileCard() {
             </Col>
           </Row>
           {/* user preferences */}
-          <Row className="mx-1">
+          <Row className="mx-1 px-3 py-2 rounded-bottom darker-container">
             {/* bio */}
             <Row className="mt-2">
               <Col className="d-flex justify-content-start">
                 <span style={{ fontWeight: "bold" }}>BIO</span>
               </Col>
             </Row>
-            <Row className="darker-container rounded-3 mb-3 py-1 mx-0 px-0 text-white">
+            <Row className="rounded-3 mb-3 py-1 mx-0 px-0 text-white">
               <Col>
                 {!editMode ? (
-                  <p className="mb-0 text-start">{bio}</p>
+                  <p
+                    style={{ backgroundColor: "rgba(20,20,20,1)" }}
+                    className="mb-0 text-start p-1 ps-2 rounded-2"
+                  >
+                    {bio}
+                  </p>
                 ) : (
                   <Form.Control
                     value={bio}
                     onChange={(e) => setBio(e.target.value)}
                     as="textarea"
                     placeholder="your bio"
-                    className="bg-transparent border-0 text-white"
+                    style={{ backgroundColor: "rgba(20,20,20,1)" }}
+                    className="mb-0 text-start p-1 ps-2 rounded-2 border-0 text-white"
                   />
                 )}
               </Col>
@@ -238,11 +247,11 @@ export default function ProfileCard() {
                 <span style={{ fontWeight: "bold" }}>SOCIALS</span>
               </Col>
             </Row>
-            <Row className="py-1 mx-0 px-0 darker-container rounded-3">
+            <Row className="py-1 mx-0 px-0 rounded-3">
               <Col>
                 <Form onSubmit={handleSubmit}>
                   {Object.keys(socialHandles).map((platform) => (
-                    <InputGroup key={platform} className="mb-3 ">
+                    <InputGroup key={platform} className="mb-3 pb-2 ">
                       <InputGroup.Text
                         className="bg-transparent d-flex justify-content-center align-items-center border-0"
                         style={{ width: "40px" }}
@@ -259,7 +268,7 @@ export default function ProfileCard() {
                             href={`https://music.apple.com/profile/${socialHandles[platform]}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                            className="text-decoration-none d-flex justify-content-between align-items-center bg-transparent text-white ps-2"
                           >
                             {socialHandles[platform]
                               ? socialHandles[platform]
@@ -270,7 +279,7 @@ export default function ProfileCard() {
                             href={`https://open.spotify.com/user/${socialHandles[platform]}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                            className="d-flex text-decoration-none justify-content-between align-items-center bg-transparent text-white ps-2"
                           >
                             {socialHandles[platform]
                               ? socialHandles[platform]
@@ -287,15 +296,10 @@ export default function ProfileCard() {
                             }${socialHandles[platform] ?? ""}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="form-control d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+                            className="d-flex text-decoration-none justify-content-between align-items-center bg-transparent text-white ps-2"
                           >
                             {socialHandles[platform]
-                              ? `${
-                                  platform === "youtube" ||
-                                  platform === "tiktok"
-                                    ? "@"
-                                    : ""
-                                }${socialHandles[platform]}`
+                              ? socialHandles[platform]
                               : `your-handle`}
                           </a>
                         )
@@ -327,19 +331,20 @@ export default function ProfileCard() {
               </Col>
             </Row>
             <Row className="px-0 mx-0 mt-3">
-              {currentUser.providerType === "local-userpass" && (
-                <Col xs={12} className="px-0 mx-0 mb-3">
-                  <Button
-                    className="w-100 darker-container border-white"
-                    onClick={async () => await logOut()}
-                  >
-                    Log Out
-                  </Button>
-                </Col>
-              )}
-              <Col xs={12} className="px-0 mx-0">
+              {currentUser.providerType === "local-userpass" &&
+                isSmallScreen && (
+                  <Col xs={6} className="px-0 mb-3">
+                    <Button
+                      className=" bg-transparent border-white mx-3"
+                      onClick={async () => await logOut()}
+                    >
+                      Log Out
+                    </Button>
+                  </Col>
+                )}
+              <Col xs={isSmallScreen ? 6 : 12} className="px-0 ">
                 <Button
-                  className="w-100 darker-container"
+                  className="mx-3 bg-transparent"
                   style={{ borderColor: "maroon" }}
                   onClick={() => setShowDeleteWarningModal(true)}
                 >
