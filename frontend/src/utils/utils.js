@@ -99,11 +99,24 @@ export const getPlatformIcon = (platform) => {
       return null;
   }
 };
-export const reactionOrder = {
+export const reactionSongOrder = {
   "❤️": "/emojis/fire_heart.png",
   "👍": "/emojis/thumbs_up.png",
   "👎": "/emojis/thumbs_down.png",
   "😠": "/emojis/angry.png",
+  "😭": "/emojis/crying.png",
+};
+export const reactionSongStaticOrder = {
+  "❤️": "../emojis/static/heart_on_fire.avif",
+  "👍": "../emojis/static/thumbs_up.avif",
+  "👎": "../emojis/static/thumbs_down.avif",
+  "😠": "/emojis/static/angry.avif",
+  "😭": "../emojis/static/crying.avif",
+};
+export const reactionOrder = {
+  "❤️": "/emojis/fire_heart.png",
+  "👍": "/emojis/thumbs_up.png",
+  "👎": "/emojis/thumbs_down.png",
   "😭": "/emojis/crying.png",
 };
 export const reactionStaticOrder = {

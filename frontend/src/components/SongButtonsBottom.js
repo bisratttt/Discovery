@@ -19,7 +19,8 @@ import { realmFetchSongReactions } from "../utils/realmDB";
 import { useRealmApp } from "../contexts/RealmApp";
 import { useMediaQuery } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import { reactionOrder, reactionStaticOrder } from "../utils/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { reactionSongStaticOrder } from "../utils/utils";
 // buttons underneath the album (Share, Play, Comments)
 function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const [playModal, setPlayModal] = useState(false);
@@ -30,6 +31,16 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const { currentUser } = useRealmApp();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const [userReaction, setUserReaction] = useState(undefined);
+  const reactionVariant = {
+    visible: {
+      scale: 1,
+      opacity: 1,
+    },
+    hidden: {
+      scale: 0.8,
+      opacity: 0,
+    },
+  };
   useEffect(() => {
     realmFetchSongReactions({
       currentUser,
@@ -62,15 +73,17 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
     <>
       <>
         <Col className="d-flex justify-content-center">
-          <Button
-            onClick={() => setPlayModal(true)}
-            style={{
-              background: "transparent",
-              borderColor: "transparent",
-            }}
-          >
-            <LibraryMusicIcon sx={{ fontSize: 40 }} />
-          </Button>
+          <motion.div whileHover={{ scale: 1.1 }}>
+            <Button
+              onClick={() => setPlayModal(true)}
+              style={{
+                background: "transparent",
+                borderColor: "transparent",
+              }}
+            >
+              <LibraryMusicIcon sx={{ fontSize: 40 }} />
+            </Button>
+          </motion.div>
         </Col>
         <Col className="d-flex justify-content-end">
           <ButtonGroup>
@@ -88,28 +101,49 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
                   borderColor: "transparent",
                 }}
               >
-                {userReaction === undefined || userReaction === null ? (
-                  <FavoriteBorderOutlinedIcon sx={{ fontSize: 40 }} />
-                ) : (
-                  <Image
-                    height={50}
-                    width="auto"
-                    src={reactionStaticOrder[userReaction]}
-                  />
-                )}
+                <AnimatePresence mode="wait">
+                  {userReaction === undefined || userReaction === null ? (
+                    <motion.div
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      variants={reactionVariant}
+                      whileHover={{ scale: 1.1 }}
+                      key="favorite"
+                    >
+                      <FavoriteBorderOutlinedIcon sx={{ fontSize: 40 }} />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      initial="hidden"
+                      animate="visible"
+                      exit="hidden"
+                      whileHover={{ scale: 1.1 }}
+                      variants={reactionVariant}
+                      key={reactionSongStaticOrder[userReaction]}
+                    >
+                      <Image
+                        height={50}
+                        width="auto"
+                        src={reactionSongStaticOrder[userReaction]}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </Button>
             </OverlayTrigger>
-
-            <Button
-              className="ps-1"
-              style={{
-                background: "transparent",
-                borderColor: "transparent",
-              }}
-              onClick={() => setOnlyOneStateTrue(setOpenReview)}
-            >
-              <RateReviewIcon sx={{ fontSize: 40 }} />
-            </Button>
+            <motion.div whileHover={{ scale: 1.1 }}>
+              <Button
+                className="ps-1"
+                style={{
+                  background: "transparent",
+                  borderColor: "transparent",
+                }}
+                onClick={() => setOnlyOneStateTrue(setOpenReview)}
+              >
+                <RateReviewIcon sx={{ fontSize: 40 }} />
+              </Button>
+            </motion.div>
           </ButtonGroup>
         </Col>
       </>

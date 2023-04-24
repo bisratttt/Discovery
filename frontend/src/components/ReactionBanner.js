@@ -10,38 +10,22 @@ import { BSON } from "realm-web";
 import { realmFetchSongReactions } from "../utils/realmDB";
 import { useFetchData } from "../contexts/FetchData";
 import { useToggleComponents } from "../contexts/ToggleComponents";
-import { reactionOrder } from "../utils/utils";
+import { reactionSongOrder } from "../utils/utils";
 
-const ReactionButton = ({
-  emoji,
-  count,
-  handleClick,
-  image = "",
-  staticImage = "",
-}) => {
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [isHover, setIsHover] = useState(false);
-  const handleButtonClick = () => {
-    setIsAnimating(true);
-    handleClick();
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 200);
-  };
-
+const ReactionButton = ({ emoji, count, handleClick, image = "" }) => {
   return (
     <motion.div
       className="d-flex flex-column position-relative"
       initial={{ scale: 1 }}
-      animate={isAnimating ? { scale: 1.1 } : { scale: 1 }}
+      whileHover={{ scale: 1.2 }}
     >
       <Button
         variant="link"
-        onClick={handleButtonClick}
+        onClick={handleClick}
         className="p-0 reaction-button"
       >
         {image !== "" ? (
-          <Image height={50} width="auto" src={isHover ? staticImage : image} />
+          <Image height={50} width="auto" src={image} />
         ) : (
           <span
             role="img"
@@ -62,7 +46,6 @@ const ReactionButton = ({
 export default function ReactionBanner({ songId }) {
   const { currentUser } = useRealmApp();
 
-  // const reactionOrder = ["❤️", "🔥", "👍", "👎", "😠"];
   const { reactionCounts, setReactionCounts } = useFetchData();
   const { setOpenLoginModal } = useToggleComponents();
   // add reaction
@@ -129,7 +112,7 @@ export default function ReactionBanner({ songId }) {
           xs={12}
           className="d-flex align-items-center justify-content-around"
         >
-          {Object.entries(reactionOrder).map(([emoji, image]) => (
+          {Object.entries(reactionSongOrder).map(([emoji, image]) => (
             <ReactionButton
               key={emoji}
               emoji={emoji}
