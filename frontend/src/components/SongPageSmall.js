@@ -6,6 +6,8 @@ import {
   OverlayTrigger,
   Button,
   Popover,
+  Image,
+  Tooltip,
 } from "react-bootstrap";
 import albumArt from "album-art";
 import SongInfoLargeScreen from "./SongIntroLargeScreen";
@@ -21,6 +23,11 @@ import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import PlayModal from "./PlayModal";
 import ReactionBanner from "./ReactionBanner";
+import { realmFetchSongReactions } from "../utils/realmDB";
+import { useRealmApp } from "../contexts/RealmApp";
+import { useFetchData } from "../contexts/FetchData";
+import { AnimatePresence, motion } from "framer-motion";
+import { reactionSongStaticOrder } from "../utils/utils";
 // responsive embeding of youtube audio/video files
 function YoutubeEmbed({ srcId }) {
   const url = `https://www.youtube.com/embed/${srcId}`;
@@ -40,10 +47,21 @@ const cardStyle = {
   backdropFilter: "blur(2rem)", // blurs the background when translucent
   WebkitBackdropFilter: "blur(2rem)",
 };
+const reactionVariant = {
+  visible: {
+    scale: 1,
+    opacity: 1,
+  },
+  hidden: {
+    scale: 0.8,
+    opacity: 0,
+  },
+};
 export default function SongPageSmall({ data }) {
   const [albumImg, setAlbumImg] = useState("");
   const [shareModal, setShareModal] = useState(false);
   const [playModal, setPlayModal] = useState(false);
+  const [userReaction, setUserReaction] = useState(undefined);
 
   const {
     openReview,
@@ -60,6 +78,23 @@ export default function SongPageSmall({ data }) {
       size: "large",
     }).then((album) => setAlbumImg(album));
   }, []);
+  const { currentUser } = useRealmApp();
+  const { reactionCounts, setReactionCounts } = useFetchData();
+  useEffect(() => {
+    realmFetchSongReactions({
+      currentUser,
+      songId: data?.song?._id,
+      setReactionCounts,
+    });
+  }, [currentUser, data?.song?._id]);
+  useEffect(() => {
+    const foundReactionUnicode = Object.keys(reactionCounts).find(
+      (reactionUnicode) =>
+        reactionCounts[reactionUnicode].user_ids.has(currentUser.id)
+    );
+
+    setUserReaction(foundReactionUnicode);
+  }, [reactionCounts, currentUser]);
   const renderReactionTooltip = (props) => (
     <Popover
       id="reaction-popover"
@@ -69,7 +104,7 @@ export default function SongPageSmall({ data }) {
       show={props.show && !openLoginModal}
     >
       <Popover.Body>
-        <ReactionBanner songId={data?.song?.id} />
+        <ReactionBanner songId={data?.song?._id} />
       </Popover.Body>
     </Popover>
   );
@@ -114,12 +149,21 @@ export default function SongPageSmall({ data }) {
                   xs={2}
                   className="d-flex justify-content-center align-items-center ps-4"
                 >
-                  <Button
-                    onClick={() => setPlayModal(true)}
-                    className="border-0 bg-transparent px-0"
+                  <OverlayTrigger
+                    trigger="hover"
+                    placement="top-start"
+                    delay={{ show: 200, hide: 0 }}
+                    overlay={<Tooltip>Play on streaming service</Tooltip>}
                   >
-                    <LibraryMusicIcon sx={{ fontSize: 35 }} />
-                  </Button>
+                    <motion.div whileHover={{ scale: 1.1 }}>
+                      <Button
+                        onClick={() => setPlayModal(true)}
+                        className="border-0 bg-transparent px-0"
+                      >
+                        <LibraryMusicIcon sx={{ fontSize: 35 }} />
+                      </Button>
+                    </motion.div>
+                  </OverlayTrigger>
                 </Col>
                 <Col xs={8}>
                   <Row>
@@ -165,7 +209,35 @@ export default function SongPageSmall({ data }) {
                     rootClose={true}
                   >
                     <Button className="border-0 bg-transparent px-0">
-                      <FavoriteBorderOutlinedIcon sx={{ fontSize: 35 }} />
+                      <AnimatePresence mode="wait">
+                        {userReaction === undefined || userReaction === null ? (
+                          <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            variants={reactionVariant}
+                            whileHover={{ scale: 1.1 }}
+                            key="favorite"
+                          >
+                            <FavoriteBorderOutlinedIcon sx={{ fontSize: 35 }} />
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            initial="hidden"
+                            animate="visible"
+                            exit="hidden"
+                            whileHover={{ scale: 1.1 }}
+                            variants={reactionVariant}
+                            key={reactionSongStaticOrder[userReaction]}
+                          >
+                            <Image
+                              height={35}
+                              width="auto"
+                              src={reactionSongStaticOrder[userReaction]}
+                            />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </Button>
                   </OverlayTrigger>
                 </Col>

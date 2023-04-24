@@ -1,5 +1,3 @@
-import { faSmile } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -8,6 +6,7 @@ import {
   Image,
   OverlayTrigger,
   Popover,
+  Tooltip,
 } from "react-bootstrap";
 import PlayModal from "./PlayModal";
 import RateReviewIcon from "@mui/icons-material/RateReview";
@@ -55,7 +54,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
     );
 
     setUserReaction(foundReactionUnicode);
-  });
+  }, [reactionCounts, currentUser]);
   const renderReactionTooltip = (props) => (
     <Popover
       id="reaction-popover"
@@ -73,17 +72,24 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
     <>
       <>
         <Col className="d-flex justify-content-center">
-          <motion.div whileHover={{ scale: 1.1 }}>
-            <Button
-              onClick={() => setPlayModal(true)}
-              style={{
-                background: "transparent",
-                borderColor: "transparent",
-              }}
-            >
-              <LibraryMusicIcon sx={{ fontSize: 40 }} />
-            </Button>
-          </motion.div>
+          <OverlayTrigger
+            trigger="hover"
+            placement="top"
+            delay={{ show: 200, hide: 0 }}
+            overlay={<Tooltip>Play on streaming service</Tooltip>}
+          >
+            <motion.div whileHover={{ scale: 1.1 }}>
+              <Button
+                onClick={() => setPlayModal(true)}
+                style={{
+                  background: "transparent",
+                  borderColor: "transparent",
+                }}
+              >
+                <LibraryMusicIcon sx={{ fontSize: 40 }} />
+              </Button>
+            </motion.div>
+          </OverlayTrigger>
         </Col>
         <Col className="d-flex justify-content-end">
           <ButtonGroup>
