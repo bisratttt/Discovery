@@ -7,9 +7,10 @@ import { useMutation } from "@apollo/client";
 import { ADD_REACTION, UPDATE_REACTION } from "../queries/ReactionQuery";
 import { useRealmApp } from "../contexts/RealmApp";
 import { BSON } from "realm-web";
-import { realmFetch } from "../utils/realmDB";
+import { realmFetchSongReactions } from "../utils/realmDB";
 import { useFetchData } from "../contexts/FetchData";
 import { useToggleComponents } from "../contexts/ToggleComponents";
+import { reactionOrder } from "../utils/utils";
 
 const ReactionButton = ({
   emoji,
@@ -60,13 +61,7 @@ const ReactionButton = ({
 
 export default function ReactionBanner({ songId }) {
   const { currentUser } = useRealmApp();
-  const reactionOrder = {
-    "❤️": "/emojis/heart.webp",
-    "🔥": "/emojis/fire.webp",
-    "👍": "/emojis/thumbs_up.webp",
-    "👎": "/emojis/thumbs_down.webp",
-    "😠": "/emojis/angry.webp",
-  };
+
   // const reactionOrder = ["❤️", "🔥", "👍", "👎", "😠"];
   const { reactionCounts, setReactionCounts } = useFetchData();
   const { setOpenLoginModal } = useToggleComponents();
@@ -105,7 +100,7 @@ export default function ReactionBanner({ songId }) {
           reaction: reactionEmoji,
         },
         onCompleted: () =>
-          realmFetch({ currentUser, songId, setReactionCounts }),
+          realmFetchSongReactions({ currentUser, songId, setReactionCounts }),
         onError: () => {
           // if adding doesn't work then try updating the reaction
           updateReaction({
@@ -115,7 +110,11 @@ export default function ReactionBanner({ songId }) {
               reaction: reactionEmoji,
             },
             onCompleted: () =>
-              realmFetch({ currentUser, songId, setReactionCounts }),
+              realmFetchSongReactions({
+                currentUser,
+                songId,
+                setReactionCounts,
+              }),
             onError: () => console.log(updateReactionError),
           });
         },
@@ -135,18 +134,10 @@ export default function ReactionBanner({ songId }) {
               key={emoji}
               emoji={emoji}
               image={image}
-              count={reactionCounts[emoji] || 0}
+              count={reactionCounts[emoji]?.count || 0}
               handleClick={() => reactToSong(emoji)}
             />
           ))}
-          {/* {reactionOrder.map((emoji) => (
-            <ReactionButton
-              key={emoji}
-              emoji={emoji}
-              count={reactionCounts[emoji] || 0}
-              handleClick={() => reactToSong(emoji)}
-            />
-          ))} */}
         </Col>
       </Row>
     </Card>

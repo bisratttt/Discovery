@@ -29,41 +29,55 @@ export async function realmFetch({ currentUser, songId, setReactionCounts }) {
     console.error("Error aggregating reactions:", error);
   }
 }
-
-export async function realmFetchS({
+export async function realmFetchSongReactions({
   currentUser,
-  submissionId,
-  setSubmissionReactionCounts,
+  songId,
+  setReactionCounts,
 }) {
   var serviceName = "mongodb-atlas";
   // Update these to reflect your db/collection
   var dbName = "discovery";
-  var collName = "submissionReaction";
+  var collName = "songReaction";
   const db = currentUser.mongoClient(serviceName).db(dbName);
   const collection = db.collection(collName);
   try {
     const res = await collection.aggregate([
       {
         $match: {
-          submission_id: new BSON.ObjectId(submissionId),
+          song_id: new BSON.ObjectId(songId),
         },
       },
-      { $group: { _id: "$reaction_unicode", count: { $sum: 1 } } },
-      { $project: { reaction_unicode: "$_id", count: 1, _id: 0 } },
+      {
+        $group: {
+          _id: "$reaction_unicode",
+          count: { $sum: 1 },
+          user_ids: { $addToSet: "$user_id" },
+        },
+      },
+      {
+        $project: {
+          reaction_unicode: "$_id",
+          count: 1,
+          user_ids: 1,
+          _id: 0,
+        },
+      },
     ]);
     const counts = res.reduce(
-      (obj, { reaction_unicode, count }) => ({
+      (obj, { reaction_unicode, count, user_ids }) => ({
         ...obj,
-        [reaction_unicode]: count,
+        [reaction_unicode]: {
+          count,
+          user_ids: new Set((user_ids || []).map((id) => id.toString())),
+        },
       }),
       {}
     );
-    setSubmissionReactionCounts(counts);
+    setReactionCounts(counts);
   } catch (error) {
-    console.error("Error aggregating submission reactions:", error);
+    console.error("Error aggregating song reactions:", error);
   }
 }
-
 export async function realmFetchSubmissionReactions({
   currentUser,
   submissionId,

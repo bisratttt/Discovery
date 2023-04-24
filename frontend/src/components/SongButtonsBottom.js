@@ -5,6 +5,7 @@ import {
   Button,
   ButtonGroup,
   Col,
+  Image,
   OverlayTrigger,
   Popover,
 } from "react-bootstrap";
@@ -14,23 +15,36 @@ import { useToggleComponents } from "../contexts/ToggleComponents";
 import LibraryMusicIcon from "@mui/icons-material/LibraryMusic";
 import ReactionBanner from "./ReactionBanner";
 import { useFetchData } from "../contexts/FetchData";
-import { realmFetch } from "../utils/realmDB";
+import { realmFetchSongReactions } from "../utils/realmDB";
 import { useRealmApp } from "../contexts/RealmApp";
 import { useMediaQuery } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
+import { reactionOrder, reactionStaticOrder } from "../utils/utils";
 // buttons underneath the album (Share, Play, Comments)
 function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const [playModal, setPlayModal] = useState(false);
   const { setOpenReview, openLoginModal, setOnlyOneStateTrue } =
     useToggleComponents();
   // fetches the data for the reactions
-  const { setReactionCounts } = useFetchData();
+  const { reactionCounts, setReactionCounts } = useFetchData();
   const { currentUser } = useRealmApp();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
-
+  const [userReaction, setUserReaction] = useState(undefined);
   useEffect(() => {
-    realmFetch({ currentUser, songId: song_id, setReactionCounts });
+    realmFetchSongReactions({
+      currentUser,
+      songId: song_id,
+      setReactionCounts,
+    });
   }, [currentUser, song_id]);
+  useEffect(() => {
+    const foundReactionUnicode = Object.keys(reactionCounts).find(
+      (reactionUnicode) =>
+        reactionCounts[reactionUnicode].user_ids.has(currentUser.id)
+    );
+
+    setUserReaction(foundReactionUnicode);
+  });
   const renderReactionTooltip = (props) => (
     <Popover
       id="reaction-popover"
@@ -74,7 +88,15 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
                   borderColor: "transparent",
                 }}
               >
-                <FavoriteBorderOutlinedIcon sx={{ fontSize: 40 }} />
+                {userReaction === undefined || userReaction === null ? (
+                  <FavoriteBorderOutlinedIcon sx={{ fontSize: 40 }} />
+                ) : (
+                  <Image
+                    height={50}
+                    width="auto"
+                    src={reactionStaticOrder[userReaction]}
+                  />
+                )}
               </Button>
             </OverlayTrigger>
 

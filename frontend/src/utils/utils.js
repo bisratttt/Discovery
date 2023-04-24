@@ -99,6 +99,19 @@ export const getPlatformIcon = (platform) => {
       return null;
   }
 };
+export const reactionOrder = {
+  "❤️": "/emojis/fire_heart.png",
+  "👍": "/emojis/thumbs_up.png",
+  "👎": "/emojis/thumbs_down.png",
+  "😠": "/emojis/angry.png",
+  "😭": "/emojis/crying.png",
+};
+export const reactionStaticOrder = {
+  "❤️": "../emojis/static/heart_on_fire.avif",
+  "👍": "../emojis/static/thumbs_up.avif",
+  "👎": "../emojis/static/thumbs_down.avif",
+  "😭": "../emojis/static/crying.avif",
+};
 export function formatCount(count) {
   const suffixes = ["", "k", "m", "b", "t"];
   const suffixIndex = Math.floor((count.toString().length - 1) / 3);

@@ -158,6 +158,11 @@ function ArtistInfo({
   const isSmallScreen = useMediaQuery("(max-width:765px)");
   const isMedScreen = useMediaQuery("(max-width:1270px)");
   const [showArrowIcon, setShowArrowIcon] = useState(true);
+  const [loading, setLoading] = useState(false);
+  useEffect(
+    () => setLoading(Object.keys(artist_bio).length === 0),
+    [artist_bio]
+  );
   const handleScroll = () =>
     setShowArrowIcon(containerRef.current.scrollTop <= 0);
   const scrollArtistMoreDetails = () => {
@@ -169,7 +174,15 @@ function ArtistInfo({
       behavior: "smooth",
     });
   };
-  return (
+  return loading ? (
+    <Container
+      fluid
+      className="d-flex align-items-center justify-content-center"
+      style={{ height: "85dvh" }}
+    >
+      <Spinner animation="border" role="status" variant="light" />
+    </Container>
+  ) : (
     <Container
       ref={containerRef}
       onScroll={handleScroll}
@@ -297,6 +310,8 @@ function AlbumInfo({
   const isSmallScreen = useMediaQuery("(max-width:765px)");
   const isMedScreen = useMediaQuery("(max-width:1270px)");
   const [showArrowIcon, setShowArrowIcon] = useState(true);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => setLoading(Object.keys(album_bio).length === 0), [album_bio]);
   const handleScroll = () =>
     setShowArrowIcon(containerRef.current.scrollTop <= 0);
   const scrollAlbumMoreDetails = () => {
@@ -308,7 +323,15 @@ function AlbumInfo({
       behavior: "smooth",
     });
   };
-  return (
+  return loading ? (
+    <Container
+      fluid
+      className="d-flex align-items-center justify-content-center"
+      style={{ height: "85dvh" }}
+    >
+      <Spinner animation="border" role="status" variant="light" />
+    </Container>
+  ) : (
     <Container
       className="text-white py-2 container-scroll"
       ref={containerRef}
@@ -439,6 +462,16 @@ function SongInfo({
   const isSmallScreen = useMediaQuery("(max-width:765px)");
   const isMedScreen = useMediaQuery("(max-width:1270px)");
   const [showArrowIcon, setShowArrowIcon] = useState(true);
+  const [loading, setLoading] = useState(false);
+  useEffect(
+    () =>
+      setLoading(
+        Object.keys(song_bio).length === 0 ||
+          song_producers === undefined ||
+          song_writers === undefined
+      ),
+    [song_bio]
+  );
   const handleScroll = () =>
     setShowArrowIcon(containerRef.current.scrollTop <= 0);
   const scrollSongMoreDetails = () => {
@@ -450,7 +483,15 @@ function SongInfo({
       behavior: "smooth",
     });
   };
-  return (
+  return loading ? (
+    <Container
+      fluid
+      className="d-flex align-items-center justify-content-center"
+      style={{ height: "85dvh" }}
+    >
+      <Spinner animation="border" role="status" variant="light" />
+    </Container>
+  ) : (
     <Container
       ref={containerRef}
       onScroll={handleScroll}
@@ -649,11 +690,9 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
     facebook: null,
   });
   const swipeHandler = useSwipeable({
-    onSwiped: (eventData) => console.log("User Swiped!", eventData),
     onSwipedLeft: () => setTabIdx(Math.max(tabIdx - 1, 0)),
     onSwipedRight: () => setTabIdx((tabIdx + 1) % 3),
   });
-  console.log(tabIdx);
   useEffect(() => {
     if (data && albumData) {
       setArtistBio(JSON.parse(data.songInfo.artist_bio).dom);
@@ -667,9 +706,8 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
       });
       setAlbumBio(JSON.parse(albumData.albumInfo.album_bio).dom);
       setAlbumTracks(JSON.parse(albumData.albumInfo.album_tracks).tracks);
-      console.log(JSON.parse(albumData.albumInfo.album_tracks).tracks);
     }
-  }, [data]);
+  }, [data, albumData]);
   if (error) {
     console.log("Error fetching artist bio", error);
   }
@@ -682,12 +720,11 @@ function ArtistSongInfo({ active_tab = "Artist" }) {
     Song: 2,
   };
 
-  return loading ||
-    albumDataLoading ||
-    Object.keys(artistBio).length === 0 ||
-    Object.keys(songBio).length === 0 ||
-    Object.keys(albumBio).length === 0 ? (
-    <Container>
+  return loading || albumDataLoading ? (
+    <Container
+      fluid
+      className="d-flex jusitfy-content-center align-items-center"
+    >
       <Spinner animation="border" role="status" variant="light" />
     </Container>
   ) : (
