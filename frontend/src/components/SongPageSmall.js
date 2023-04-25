@@ -149,21 +149,14 @@ export default function SongPageSmall({ data }) {
                   xs={2}
                   className="d-flex justify-content-center align-items-center ps-4"
                 >
-                  <OverlayTrigger
-                    trigger={["hover", "focus"]}
-                    placement="top-start"
-                    delay={{ show: 200, hide: 0 }}
-                    overlay={<Tooltip>Stream on a platform</Tooltip>}
-                  >
-                    <motion.div whileHover={{ scale: 1.1 }}>
-                      <Button
-                        onClick={() => setPlayModal(true)}
-                        className="border-0 bg-transparent px-0"
-                      >
-                        <LibraryMusicIcon sx={{ fontSize: 35 }} />
-                      </Button>
-                    </motion.div>
-                  </OverlayTrigger>
+                  <motion.div whileHover={{ scale: 1.1 }}>
+                    <Button
+                      onClick={() => setPlayModal(true)}
+                      className="border-0 bg-transparent px-0"
+                    >
+                      <LibraryMusicIcon sx={{ fontSize: 35 }} />
+                    </Button>
+                  </motion.div>
                 </Col>
                 <Col xs={8}>
                   <Row>
