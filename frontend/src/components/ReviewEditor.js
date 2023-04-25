@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
 import { checkReviewForError } from "../hooks/handleError";
 import { useMutation } from "@apollo/client";
-import { ADD_COMMENT, FETCH_COMMENTS } from "../queries/CommentQuery";
+import { UPDATE_COMMENT, FETCH_COMMENTS } from "../queries/CommentQuery";
 import { BSON } from "realm-web";
 import { useRealmApp } from "../contexts/RealmApp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,15 +11,15 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const LIMIT = 100;
 const LAST_TIME = new Date(0);
-export default function ReviewEditor({ songId, onHide, refetch }) {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+export default function ReviewEditor({ onHide, refetch, oldtitle, oldbody }) {
+  const [title, setTitle] = useState(oldtitle);
+  const [body, setBody] = useState(oldbody);
   const [lastUpdated, setLastUpdated] = useState("");
   const wordCount = body.trim() ? body.trim().split(/\s+/).length : 0;
   const { currentUser } = useRealmApp();
   const [error, setError] = useState("");
-  const [addComment, { loading: mutationLoading, error: mutationError }] =
-    useMutation(ADD_COMMENT, {
+  const [updateComment, { loading: mutationLoading, error: mutationError }] =
+    useMutation(UPDATE_COMMENT, {
       update: (cache, { data: { insertOneComment } }) => {
         const queryResult = cache.readQuery({
           query: FETCH_COMMENTS,
@@ -61,12 +61,10 @@ export default function ReviewEditor({ songId, onHide, refetch }) {
     });
     setError(error);
     if (error === "") {
-      addComment({
+      updateComment({
         variables: {
-          username: currentUser.profile.email,
           owner_id: new BSON.ObjectId(currentUser.id),
           body: body,
-          song: new BSON.ObjectId(songId),
           title: title,
         },
         onCompleted: () => {
@@ -77,6 +75,10 @@ export default function ReviewEditor({ songId, onHide, refetch }) {
         },
       });
     }
+    onHide();
+  };
+  const handleCancel = () => {
+    onHide(true);
   };
 
   return (
@@ -85,7 +87,7 @@ export default function ReviewEditor({ songId, onHide, refetch }) {
         <Form.Control
           className="review-title text-white"
           type="text"
-          placeholder="Title of your review"
+          placeholder= {oldtitle}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           style={{ backgroundColor: "transparent" }}
@@ -96,7 +98,7 @@ export default function ReviewEditor({ songId, onHide, refetch }) {
           className="review-body text-white"
           as="textarea"
           rows={15}
-          placeholder="Body of your review"
+          placeholder={oldbody}
           value={body}
           onChange={(e) => setBody(e.target.value)}
           style={{ backgroundColor: "transparent", whiteSpace: "pre-line" }}
@@ -115,7 +117,31 @@ export default function ReviewEditor({ songId, onHide, refetch }) {
             </span>
           )}
         </Col>
-        <Col sm={6} className="d-flex justify-content-end">
+        <Col sm={3} className="d-flex justify-content-end">
+        <Button
+              disabled={mutationLoading}
+              className="border-0 text-black ps-5 pe-5 mt-2 fw-bold "
+              variant="primary"
+              onClick={handleCancel}
+              style={{
+                fontSize: "1rem",
+                boxShadow: "none",
+                backgroundColor: "rgba(255,255,255,0.7)",
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = "white";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = "rgba(255,255,255,0.7)";
+              }}
+            >
+              {mutationLoading && (
+                <FontAwesomeIcon icon={faSpinner} spin className="pe-2" />
+              )}
+              Cancel
+            </Button>
+        </Col>
+        <Col sm={3} className="d-flex justify-content-end">
           <Button
             disabled={mutationLoading}
             className="border-0 text-black ps-5 pe-5 mt-2 fw-bold"

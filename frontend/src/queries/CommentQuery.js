@@ -40,13 +40,12 @@ export const ADD_COMMENT = gql`
 export const UPDATE_COMMENT = gql`
   mutation UpdateComment(
     $body: String!
-    $song: ObjectId!
     $owner_id: ObjectId!
     $title: String!
   ) {
     updateOneComment(
-      body: $body
-      title: $title
+      query: { owner_id: $owner_id }
+      set: { title: $title, body: $body }
     ) {
       body
       title

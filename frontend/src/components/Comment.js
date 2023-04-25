@@ -1,4 +1,4 @@
-import { faEllipsis } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsis, faComment } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useRef, useEffect } from "react";
 import Avatar from "react-avatar";
@@ -8,8 +8,10 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useRealmApp } from "../contexts/RealmApp";
 import UsernameWithProfile from "./design-system/UsernameWithProfile";
 import ReviewModal from "./ReviewWriteModal";
+//import ReviewEditModal from "./ReviewEditModal";
 import ReactionList from "./design-system/ReactionBadge";
 import ReviewReactions from "./ReviewReactions";
+//import ReviewCommentCard from "./reviewCommentCard";
 import { getMetaphorialTime } from "../utils/utils";
 
 export default function Comment({ avatar, username, body, title, time, _id }) {
@@ -21,6 +23,7 @@ export default function Comment({ avatar, username, body, title, time, _id }) {
   const [isFocused, setIsFocused] = useState(false);
   const [showEditModal, setEditModal] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+  const [commentsHidden, setCommentsHidden] = useState(false);
   const [commentReaction, setCommentReaction] = useState({
     "❤️": null,
     "🔥": null,
@@ -93,14 +96,14 @@ export default function Comment({ avatar, username, body, title, time, _id }) {
                   />
                 </Dropdown.Toggle>
                 <Dropdown.Menu id="review-dropdown">
-                  {/* {owner && (
+                  {owner && (
                     <Dropdown.Item
                       className="review-dropdown-item"
                       onClick={() => setEditModal(true)}
                     >
                       Edit
                     </Dropdown.Item>
-                  )} */}
+                  )}
                   <Dropdown.Item className="review-dropdown-item">
                     Hide
                   </Dropdown.Item>
@@ -114,6 +117,9 @@ export default function Comment({ avatar, username, body, title, time, _id }) {
                 show={showEditModal}
                 onHide={() => setEditModal((modal) => !modal)}
                 title="Edit your review"
+                oldtitle={title}
+                oldbody={body}
+
               />
             </Col>
           </Row>

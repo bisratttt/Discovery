@@ -41,6 +41,8 @@ export default function ReviewModal(props) {
           refetch={props.refetch}
           onHide={props.onHide}
           songId={props.songId}
+          oldtitle={props.oldtitle}
+          oldbody={props.oldbody}
         />
       </Modal.Body>
     </Modal>
