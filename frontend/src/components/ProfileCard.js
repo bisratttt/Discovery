@@ -28,6 +28,7 @@ import { BSON } from "realm-web";
 import { getPlatformIcon } from "../utils/utils";
 import DeleteAccountWarningModal from "./DeleteAccountWarningModal";
 import { useMediaQuery } from "@mui/material";
+import { BootstrapTooltip } from "./design-system/CustomMuiStyles";
 
 export default function ProfileCard() {
   const [editMode, setEditMode] = useState(false);
@@ -205,12 +206,17 @@ export default function ProfileCard() {
               </span>
             </Col>
             <Col xs={3} className="d-flex justify-content-end">
-              <Button
-                className="bg-transparent border-1 border-white"
-                onClick={() => setEditMode((edit) => !edit)}
+              <BootstrapTooltip
+                title={editMode ? "Close without saving" : "Edit"}
+                placement="left"
               >
-                <FontAwesomeIcon icon={editMode ? faXmark : faPencilAlt} />
-              </Button>
+                <Button
+                  className="bg-transparent border-1 border-white"
+                  onClick={() => setEditMode((edit) => !edit)}
+                >
+                  <FontAwesomeIcon icon={editMode ? faXmark : faPencilAlt} />
+                </Button>
+              </BootstrapTooltip>
             </Col>
           </Row>
           {/* user preferences */}
@@ -256,11 +262,20 @@ export default function ProfileCard() {
                         className="bg-transparent d-flex justify-content-center align-items-center border-0"
                         style={{ width: "40px" }}
                       >
-                        <FontAwesomeIcon
-                          size="lg"
-                          icon={getPlatformIcon(platform)}
-                          className="text-white"
-                        />
+                        <BootstrapTooltip
+                          title={
+                            platform === "apple_music"
+                              ? "apple music"
+                              : platform
+                          }
+                          placement="top"
+                        >
+                          <FontAwesomeIcon
+                            size="lg"
+                            icon={getPlatformIcon(platform)}
+                            className="text-white"
+                          />
+                        </BootstrapTooltip>
                       </InputGroup.Text>
                       {!editMode ? (
                         platform === "apple_music" ? (

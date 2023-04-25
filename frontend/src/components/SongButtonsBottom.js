@@ -6,7 +6,6 @@ import {
   Image,
   OverlayTrigger,
   Popover,
-  Tooltip,
 } from "react-bootstrap";
 import PlayModal from "./PlayModal";
 import RateReviewIcon from "@mui/icons-material/RateReview";
@@ -20,7 +19,9 @@ import { useMediaQuery } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import { AnimatePresence, motion } from "framer-motion";
 import { reactionSongStaticOrder } from "../utils/utils";
+import { BootstrapTooltip } from "./design-system/CustomMuiStyles";
 // buttons underneath the album (Share, Play, Comments)
+
 function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const [playModal, setPlayModal] = useState(false);
   const { setOpenReview, openLoginModal, setOnlyOneStateTrue } =
@@ -30,6 +31,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
   const { currentUser } = useRealmApp();
   const isSmallScreen = useMediaQuery("(max-width:850px)");
   const [userReaction, setUserReaction] = useState(undefined);
+
   const reactionVariant = {
     visible: {
       scale: 1,
@@ -40,6 +42,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
       opacity: 0,
     },
   };
+
   useEffect(() => {
     realmFetchSongReactions({
       currentUser,
@@ -47,6 +50,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
       setReactionCounts,
     });
   }, [currentUser, song_id]);
+
   useEffect(() => {
     const foundReactionUnicode = Object.keys(reactionCounts).find(
       (reactionUnicode) =>
@@ -55,6 +59,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
 
     setUserReaction(foundReactionUnicode);
   }, [reactionCounts, currentUser]);
+
   const renderReactionTooltip = (props) => (
     <Popover
       id="reaction-popover"
@@ -68,15 +73,15 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
       </Popover.Body>
     </Popover>
   );
+
   return (
     <>
       <>
-        <Col className="d-flex justify-content-center">
-          <OverlayTrigger
-            placement="top"
-            delay={{ show: 200, hide: 0 }}
-            overlay={<Tooltip>Stream on a platform</Tooltip>}
-          >
+        <Col
+          className="d-flex justify-content-center"
+          style={{ zIndex: "999999 !important" }}
+        >
+          <BootstrapTooltip title="Stream on a platform" placement="top">
             <motion.div whileHover={{ scale: 1.1 }}>
               <Button
                 onClick={() => setPlayModal(true)}
@@ -88,7 +93,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
                 <LibraryMusicIcon sx={{ fontSize: 40 }} />
               </Button>
             </motion.div>
-          </OverlayTrigger>
+          </BootstrapTooltip>
         </Col>
         <Col className="d-flex justify-content-end">
           <ButtonGroup>
@@ -128,7 +133,7 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
                       key={reactionSongStaticOrder[userReaction]}
                     >
                       <Image
-                        height={50}
+                        height={40}
                         width="auto"
                         src={reactionSongStaticOrder[userReaction]}
                       />
@@ -137,18 +142,20 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
                 </AnimatePresence>
               </Button>
             </OverlayTrigger>
-            <motion.div whileHover={{ scale: 1.1 }}>
-              <Button
-                className="ps-1"
-                style={{
-                  background: "transparent",
-                  borderColor: "transparent",
-                }}
-                onClick={() => setOnlyOneStateTrue(setOpenReview)}
-              >
-                <RateReviewIcon sx={{ fontSize: 40 }} />
-              </Button>
-            </motion.div>
+            <BootstrapTooltip title="Review" placement="top">
+              <motion.div whileHover={{ scale: 1.1 }}>
+                <Button
+                  className="ps-1"
+                  style={{
+                    background: "transparent",
+                    borderColor: "transparent",
+                  }}
+                  onClick={() => setOnlyOneStateTrue(setOpenReview)}
+                >
+                  <RateReviewIcon sx={{ fontSize: 40 }} />
+                </Button>
+              </motion.div>
+            </BootstrapTooltip>
           </ButtonGroup>
         </Col>
       </>
