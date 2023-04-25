@@ -102,7 +102,7 @@ a:hover {
   z-index: -1;
   filter: blur(2.5rem);
   background-size: cover;
-  transform: scale(1.2);
+  transform: scale(1.5);
 }
 
 .background-darker {

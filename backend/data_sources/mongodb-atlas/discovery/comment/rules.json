@@ -8,18 +8,7 @@
                 "%%user.identities.provider_type": "local-userpass"
             },
             "document_filters": {
-                "write": {
-                    "$or": [
-                        {
-                            "%%prevRoot": {
-                                "$exists": false
-                            }
-                        },
-                        {
-                            "%%prevRoot.owner_id": "%%user.id"
-                        }
-                    ]
-                },
+                "write": true,
                 "read": true
             },
             "read": true,
