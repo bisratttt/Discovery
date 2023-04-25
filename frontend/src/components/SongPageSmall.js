@@ -150,10 +150,10 @@ export default function SongPageSmall({ data }) {
                   className="d-flex justify-content-center align-items-center ps-4"
                 >
                   <OverlayTrigger
-                    trigger="hover"
+                    trigger={["hover", "focus"]}
                     placement="top-start"
                     delay={{ show: 200, hide: 0 }}
-                    overlay={<Tooltip>Play on streaming service</Tooltip>}
+                    overlay={<Tooltip>Stream on a platform</Tooltip>}
                   >
                     <motion.div whileHover={{ scale: 1.1 }}>
                       <Button

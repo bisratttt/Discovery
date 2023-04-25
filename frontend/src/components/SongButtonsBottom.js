@@ -73,10 +73,9 @@ function SongButtons({ spotify_link, apple_music_link, song_id }) {
       <>
         <Col className="d-flex justify-content-center">
           <OverlayTrigger
-            trigger="hover"
             placement="top"
             delay={{ show: 200, hide: 0 }}
-            overlay={<Tooltip>Play on streaming service</Tooltip>}
+            overlay={<Tooltip>Stream on a platform</Tooltip>}
           >
             <motion.div whileHover={{ scale: 1.1 }}>
               <Button
