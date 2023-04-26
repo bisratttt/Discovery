@@ -26,20 +26,13 @@ export default function SongSubmissionList() {
   const { currentUser } = useRealmApp();
   const [isBlurred, setIsBlurred] = useState(true);
 
-  // const usernames = data?.userSongSubmissions?.map((submission) => submission.username) || [];
-  // const madeSubmission = usernames.some((username) => username === currentUser.profile.email);
-
-  // if (madeSubmission){
-  //   setIsBlurred(false);
-  // }
-
   useEffect(() => {
     const madeSubmission = data?.userSongSubmissions?.some(
       (submission) => submission.username === currentUser.profile.email
     );
     setIsBlurred(!madeSubmission);
   }, [data, currentUser]);
-
+  console.log(isBlurred);
   return (
     <Card
       id="submission-card"
@@ -58,12 +51,11 @@ export default function SongSubmissionList() {
       {isBlurred && <SubmissionWall refetch={refetch} />}
       <Card.Body
         id="submission-body"
-        className={`border-0 justify-content-center align-items-center p-0${
+        className={`border-0 justify-content-center align-items-center p-0 ${
           isBlurred && "blur"
         }`}
         style={{
           height: isSmallScreen ? "81dvh" : "85dvh",
-          overflowY: "scroll",
         }}
       >
         {loading ? (

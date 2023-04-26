@@ -302,12 +302,12 @@ a:hover {
 }
 
 .blur {
-  filter: blur(1rem);
+  filter: blur(1.3rem) !important;
 }
 
 #song-submission-wall {
   z-index: 10;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8) !important;
 }
 .overlay {
   position: relative;

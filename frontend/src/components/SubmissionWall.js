@@ -17,7 +17,8 @@ export default function SubmissionWall({ refetch }) {
     <>
       <Container
         id="song-submission-wall"
-        className={`position-absolute ${
+        fluid
+        className={`position-absolute m-0 ${
           !isSmallScreen && "rounded-3"
         } h-100 d-flex flex-column justify-content-center text-white`}
       >

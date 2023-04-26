@@ -141,7 +141,7 @@ function SongPage({ data }) {
         <Row
           className="justify-content-evenly align-items-center mx-0"
           style={{
-            minHeight: "85dvh",
+            minHeight: "87dvh",
           }}
         >
           <AnimatePresence mode="popLayout" initial={false}>

@@ -73,7 +73,6 @@ export default function InstallAppButton() {
       }
     }
   };
-  console.log(showButton);
   return (
     showButton &&
     (!isSmallScreen ? (
