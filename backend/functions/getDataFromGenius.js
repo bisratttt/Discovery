@@ -1,6 +1,7 @@
 exports = async function() {
   const geniusAccessToken = 'VwZ-IyUgiBrf2OMRd5ToKJ1aGWDAHJ9GZe6eBLCE-1bUmPtMawACqkAqN26uR12A';
-  
+  const regex = /\s*(?:\(|\s)(?:feat(?:uring)?|ft)\.?.*$/i;
+
   async function getSongId(query) {
     try {
       const response = await context.http.get({
@@ -91,7 +92,9 @@ exports = async function() {
     let songId = ""
     try {
         const song = await songColl.findOne({is_visible: true});
-        songQuery = `${song.song_name} ${song.artist.split(",")[0]}`
+        const match = song.song_name.match(regex);
+        const songNameWithoutFeat = match ? song.song_name.substring(0, match.index).trim() : song.song_name.trim();
+        songQuery = `${songNameWithoutFeat} ${song.artist.split(",")[0]}`
         songId = song._id
     } catch(err) {
       console.error("There was an error finding the visible song: ", err)
