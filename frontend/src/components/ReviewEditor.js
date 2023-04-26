@@ -3,7 +3,12 @@ import { useState } from "react";
 import { useErrorAlert } from "../hooks/useErrorAlert";
 import { checkReviewForError } from "../hooks/handleError";
 import { useMutation } from "@apollo/client";
-import { UPDATE_COMMENT, FETCH_COMMENTS } from "../queries/CommentQuery";
+import {
+  ADD_COMMENT,
+  UPDATE_COMMENT,
+  FETCH_COMMENTS,
+} from "../queries/CommentQuery";
+
 import { BSON } from "realm-web";
 import { useRealmApp } from "../contexts/RealmApp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,8 +23,9 @@ export default function ReviewEditor({ onHide, refetch, oldtitle, oldbody }) {
   const wordCount = body.trim() ? body.trim().split(/\s+/).length : 0;
   const { currentUser } = useRealmApp();
   const [error, setError] = useState("");
-  const [updateComment, { loading: mutationLoading, error: mutationError }] =
-    useMutation(UPDATE_COMMENT, {
+  const [addComment, { loading: addLoading, error: addError }] = useMutation(
+    ADD_COMMENT,
+    {
       update: (cache, { data: { insertOneComment } }) => {
         const queryResult = cache.readQuery({
           query: FETCH_COMMENTS,
@@ -43,6 +49,37 @@ export default function ReviewEditor({ onHide, refetch, oldtitle, oldbody }) {
             variables: { limit: LIMIT, lastTime: LAST_TIME },
             data: {
               comments: [{ ...insertOneComment, time: new Date() }],
+            },
+          });
+        }
+      },
+    }
+  );
+  const [updateComment, { loading: mutationLoading, error: mutationError }] =
+    useMutation(UPDATE_COMMENT, {
+      update: (cache, { data: { updateOneComment } }) => {
+        const queryResult = cache.readQuery({
+          query: FETCH_COMMENTS,
+          variables: { limit: LIMIT, lastTime: LAST_TIME },
+        });
+        if (queryResult) {
+          const { comments } = queryResult;
+          cache.writeQuery({
+            query: FETCH_COMMENTS,
+            variables: { limit: LIMIT, lastTime: LAST_TIME },
+            data: {
+              comments: [
+                { ...updateOneComment, time: new Date() },
+                ...comments,
+              ],
+            },
+          });
+        } else {
+          cache.writeQuery({
+            query: FETCH_COMMENTS,
+            variables: { limit: LIMIT, lastTime: LAST_TIME },
+            data: {
+              comments: [{ ...updateOneComment, time: new Date() }],
             },
           });
         }
@@ -87,7 +124,7 @@ export default function ReviewEditor({ onHide, refetch, oldtitle, oldbody }) {
         <Form.Control
           className="review-title text-white"
           type="text"
-          placeholder= {oldtitle}
+          placeholder={oldtitle}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           style={{ backgroundColor: "transparent" }}
@@ -118,28 +155,28 @@ export default function ReviewEditor({ onHide, refetch, oldtitle, oldbody }) {
           )}
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
-        <Button
-              disabled={mutationLoading}
-              className="border-0 text-black ps-5 pe-5 mt-2 fw-bold "
-              variant="primary"
-              onClick={handleCancel}
-              style={{
-                fontSize: "1rem",
-                boxShadow: "none",
-                backgroundColor: "rgba(255,255,255,0.7)",
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = "white";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "rgba(255,255,255,0.7)";
-              }}
-            >
-              {mutationLoading && (
-                <FontAwesomeIcon icon={faSpinner} spin className="pe-2" />
-              )}
-              Cancel
-            </Button>
+          <Button
+            disabled={mutationLoading}
+            className="border-0 text-black ps-5 pe-5 mt-2 fw-bold "
+            variant="primary"
+            onClick={handleCancel}
+            style={{
+              fontSize: "1rem",
+              boxShadow: "none",
+              backgroundColor: "rgba(255,255,255,0.7)",
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.backgroundColor = "white";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "rgba(255,255,255,0.7)";
+            }}
+          >
+            {mutationLoading && (
+              <FontAwesomeIcon icon={faSpinner} spin className="pe-2" />
+            )}
+            Cancel
+          </Button>
         </Col>
         <Col sm={3} className="d-flex justify-content-end">
           <Button
