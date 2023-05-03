@@ -5,7 +5,7 @@ exports = async function(){
   const auth_endpoint = 'https://accounts.spotify.com/api/token';
   const auth_string = `${CLIENT_ID}:${CLIENT_SECRET}`;
   
-  const playlist_id = "0rRItcScT8jA6xKMlboNQO";
+  const playlist_id = "0GTk24v6Hx76tCJJ4UhbzO";
   const playlist_endpoint = `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`;
   
   let authorization = Buffer.from(auth_string).toString("base64");
