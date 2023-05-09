@@ -7,7 +7,8 @@ Disc is a music discovery app designed to help you find new music every day, con
 1. [Installation](#installation)
 2. [Running the App](#running-the-app)
 3. [Dependencies](#dependencies)
-4. [Project Submission & Licensing](#project-submission-and-licensing)
+4. [Backend Code](#backend-code)
+5. [Project Submission & Licensing](#project-submission-and-licensing)
 
 ## Installation
 
@@ -42,10 +43,18 @@ This will open the app in your default web browser at `http://localhost:3000`.
 
 This project uses several React libraries, which are listed in the `package.json` file. These libraries are not part of our codebase, and their respective licenses can be found within their documentation.
 
+## Backend Code
+
+Throughout our project, we utilized various APIs such as Spotify, Genius, and YouTube. However, these APIs are used in the backend, which is not included in this repository. The backend is hosted on MongoDB Atlas App Services, which uses a non-SQL, MongoDB database design.
+
+We implemented serverless functions to fetch data from these APIs (Spotify, Genius, YouTube), perform post-processing on user data (adding dates, scheduling triggers like fetching the song of the day at midnight), validate user data to prevent spamming (input validation, rate limiting, etc.).
+
+For more information on MongoDB Atlas and its services, visit their official documentation:
+https://docs.atlas.mongodb.com/
+
 ## Project Submission and Licensing
 
 This is a project submission for the Discover Music App. The `create-react-app` with PWA template generates some boilerplate code which is included in this project. Apart from the boilerplate code and the dependencies listed in the `package.json` file, all other code in this repository is entirely ours.
-
 
 ## Available Scripts
 
