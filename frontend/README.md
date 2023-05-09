@@ -1,6 +1,6 @@
-# Discover Music App - Frontend Readme
+# Disc - Readme
 
-Discover is a music discovery app designed to help you find new music every day, connect with other music enthusiasts, and build communities around your shared musical interests. This repository contains the frontend code for the Discover app, written in React using the `create-react-app` with PWA template.
+Disc is a music discovery app designed to help you find new music every day, connect with other music enthusiasts, and build communities around your shared musical interests. This repository contains the frontend code for the Discover app, written in React using the `create-react-app` with PWA template.
 
 ## Table of Contents
 
@@ -13,7 +13,7 @@ Discover is a music discovery app designed to help you find new music every day,
 
 To set up the project locally, follow these steps:
 
-1. Unzip the `discover-music-frontend.zip` file to a desired location.
+1. Unzip the `disc-frontend.zip` file to a desired location.
 2. Open a terminal or command prompt and navigate to the unzipped project directory:
 
 ```
