@@ -195,13 +195,13 @@ function SongPage({ data }) {
                 style={{ minHeight: "60dvh" }}
                 // style={{ minHeight: "60dvh" }}
               >
-                <Image
+                {/* <Image
                   src={albumImg}
                   className={`mb-2`}
                   style={{ maxWidth: "95%" }}
                   fluid
-                />
-                {/* <YoutubeEmbed srcId={data?.song?.youtube_id} /> */}
+                /> */}
+                <YoutubeEmbed srcId={data?.song?.youtube_id} />
               </Row>
               <Row>
                 <Button
